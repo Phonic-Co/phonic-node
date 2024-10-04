@@ -1,5 +1,5 @@
 {
-  "name": "phonic-node",
+  "name": "phonic",
   "version": "0.0.0",
   "description": "Phonic Node.js SDK",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Phonic-Co/phonic-node.git"
+    "url": "git+https://github.com/Phonic-Co/phonic-node.git"
   },
   "keywords": [],
   "author": "Misha Moroshko <misha@phonic.co>",
