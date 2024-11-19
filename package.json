@@ -1,16 +1,60 @@
 {
   "name": "phonic",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Phonic Node.js SDK",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup",
+    "check": "biome check --write",
+    "ci": "bun tsc && biome ci && bun test"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Phonic-Co/phonic-node.git"
   },
-  "keywords": [],
-  "author": "Misha Moroshko <misha@phonic.co>",
+  "homepage": "https://github.com/Phonic-Co/phonic-node#readme",
+  "bugs": {
+    "url": "https://github.com/Phonic-Co/phonic-node/issues"
+  },
+  "dependencies": {
+    "ws": "8.18.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/bun": "1.1.13",
+    "tsup": "8.3.5",
+    "typescript": "5.6.3",
+    "zod": "3.23.8"
+  },
+  "files": ["dist/**"],
+  "author": {
+    "name": "Phonic",
+    "url": "https://phonic.co"
+  },
+  "keywords": [
+    "phonic",
+    "text-to-speech",
+    "tts",
+    "javascript",
+    "typescript",
+    "ai",
+    "voice",
+    "audio",
+    "sdk"
+  ],
   "license": "MIT"
 }
