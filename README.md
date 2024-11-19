@@ -2,6 +2,13 @@
 
 Node.js library for the Phonic API.
 
+- [Installation](#installation)
+- [Setup](#setup)
+- [Usage](#usage)
+  - [Get voices](#get-voices)
+  - [Get voice by id](#get-voice-by-id)
+  - [Text-to-speech via WebSocket](#text-to-speech-via-websocket)
+
 ## Installation
 
 ```bash
