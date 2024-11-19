@@ -13,9 +13,7 @@ jobs:
         with:
           bun-version: latest
 
-      - run: bun i
-      - run: bun ci
+      - run: bun i && bun ci && bun run build
         env:
           PHONIC_API_KEY: ${{ secrets.PHONIC_API_KEY }}
           PHONIC_API_BASE_URL: ${{ secrets.PHONIC_API_BASE_URL }}
-      - run: bun run build
