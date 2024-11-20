@@ -1,6 +1,6 @@
 {
   "name": "phonic",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Phonic Node.js SDK",
   "scripts": {
     "build": "tsup",
@@ -42,7 +42,9 @@
     "typescript": "5.6.3",
     "zod": "3.23.8"
   },
-  "files": ["dist/**"],
+  "files": [
+    "dist/**"
+  ],
   "author": {
     "name": "Phonic",
     "url": "https://phonic.co"
