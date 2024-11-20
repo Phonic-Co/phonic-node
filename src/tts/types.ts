@@ -10,6 +10,12 @@ export type PhonicWebSocketResponseMessage = {
     message: string;
     code?: string;
   };
+  paramErrors?: {
+    type?: string;
+    script?: string;
+    output_format?: string;
+    model_version?: string;
+  };
 };
 
 export type OnMessageCallback = (

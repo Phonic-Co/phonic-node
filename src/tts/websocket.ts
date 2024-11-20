@@ -48,7 +48,7 @@ export class PhonicWebSocket {
 
     this.ws.send(JSON.stringify(message));
 
-    return new ReadableStream({
+    return new ReadableStream<PhonicWebSocketResponseMessage | Buffer>({
       start(controller) {
         self.streamController = controller;
       },

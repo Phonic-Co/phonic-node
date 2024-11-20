@@ -1,7 +1,5 @@
 name: publish
 on:
-  # run the `publish` workflow only after the `ci` workflow completed
-  # we check for `ci` success below
   workflow_run:
     workflows: [ci]
     types: [completed]
@@ -37,7 +35,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Confirm that a new version was published
-        if: steps.changesets.outputs.published == 'true'
-        run: echo "A new version was published!"
