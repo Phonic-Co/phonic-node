@@ -1,7 +1,5 @@
-export type PhonicConfigBaseUrl = `http://${string}` | `https://${string}`;
-
 export type PhonicConfig = {
-  baseUrl?: PhonicConfigBaseUrl;
+  baseUrl?: string;
 };
 
 export type FetchOptions = {

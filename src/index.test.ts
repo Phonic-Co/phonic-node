@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { z } from "zod";
 import { Phonic } from "./index";
-import type { PhonicConfigBaseUrl } from "./types";
 
 const apiKey = Bun.env.PHONIC_API_KEY;
 
@@ -13,7 +12,7 @@ if (!Bun.env.PHONIC_API_BASE_URL) {
   throw new Error("PHONIC_API_BASE_URL is not set");
 }
 
-const baseUrl = Bun.env.PHONIC_API_BASE_URL as PhonicConfigBaseUrl;
+const baseUrl = Bun.env.PHONIC_API_BASE_URL;
 
 const voiceSchema = z
   .object({
@@ -66,7 +65,7 @@ describe("voices", () => {
 describe("tts.websocket", () => {
   test("can't connect to websocket", async () => {
     const phonic = new Phonic(apiKey, {
-      baseUrl: baseUrl.replace("://", "://invalid") as PhonicConfigBaseUrl,
+      baseUrl: baseUrl.replace("://", "://invalid"),
     });
     const { data, error } = await phonic.tts.websocket();
 
