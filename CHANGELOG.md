@@ -1,5 +1,11 @@
 # phonic
 
+## 0.1.2
+
+### Patch Changes
+
+- b3196d1: Don't require type="generate" in WebSocket message
+
 ## 0.1.1
 
 ### Patch Changes
