@@ -9,7 +9,7 @@ export class TextToSpeech {
   async websocket(): DataOrError<{ phonicWebSocket: PhonicWebSocket }> {
     return new Promise((resolve) => {
       const wsBaseUrl = this.phonic.baseUrl.replace(/^http/, "ws");
-      const ws = new WebSocket(`${wsBaseUrl}/v1/generate/audio/ws`, {
+      const ws = new WebSocket(`${wsBaseUrl}/v1/tts/ws`, {
         headers: {
           Authorization: `Bearer ${this.phonic.apiKey}`,
         },
