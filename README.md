@@ -56,7 +56,6 @@ const { data, error } = await phonic.tts.websocket();
 if (error === null) {
   const { phonicWebSocket } = data;
   const stream = phonicWebSocket.send({
-    type: "generate",
     script: "How can I help you today?", // 600 characters max
     output_format: "mulaw_8000", // or "pcm_44100"
   });
@@ -83,7 +82,6 @@ phonicWebSocket.onMessage((data) => {
 });
 
 phonicWebSocket.send({
-  type: "generate",
   script: "How can I help you today?",
   output_format: "mulaw_8000",
 });

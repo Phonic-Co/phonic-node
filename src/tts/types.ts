@@ -1,5 +1,4 @@
 export type PhonicWebSocketMessage = {
-  type: "generate";
   script: string;
   output_format: "pcm_44100" | "mulaw_8000";
 };
@@ -11,10 +10,8 @@ export type PhonicWebSocketResponseMessage = {
     code?: string;
   };
   paramErrors?: {
-    type?: string;
     script?: string;
     output_format?: string;
-    model_version?: string;
   };
 };
 

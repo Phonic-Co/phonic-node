@@ -116,7 +116,6 @@ describe("tts.websocket", () => {
 
     const { phonicWebSocket } = data;
     const stream = phonicWebSocket.send({
-      type: "generate",
       script: "Hello! You've reached Phonic. How can I help you today?",
       output_format: "pcm_44100",
     });
@@ -148,7 +147,6 @@ describe("tts.websocket", () => {
     });
 
     phonicWebSocket.send({
-      type: "generate",
       script: "Hello! You've reached Phonic. How can I help you today?",
       output_format: "mulaw_8000",
     });
