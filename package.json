@@ -5,7 +5,8 @@
   "scripts": {
     "build": "tsup",
     "check": "biome check --write",
-    "ci": "bun tsc && biome ci && bun test"
+    "ci": "bun tsc && biome ci && bun test",
+    "release": "bun run build && changeset publish"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
