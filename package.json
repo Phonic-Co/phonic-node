@@ -42,9 +42,7 @@
     "typescript": "5.6.3",
     "zod": "3.23.8"
   },
-  "files": [
-    "dist/**"
-  ],
+  "files": ["dist/**"],
   "author": {
     "name": "Phonic",
     "url": "https://phonic.co"
