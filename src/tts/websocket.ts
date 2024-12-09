@@ -44,7 +44,15 @@ export class PhonicWebSocket {
   send(message: PhonicWebSocketMessage) {
     const self = this;
 
-    self.streamController?.close();
+    try {
+      self.streamController?.close();
+    } catch (error) {
+      // In case send() was called before the stream ended, we want to close the stream
+      // before creating a new one.
+      // However, if the stream was closed naturally after all the messages were sent,
+      // and then send() was called again, trying to closed the stream would throw an error.
+      // Therefore, we want to ignore the error here.
+    }
 
     this.ws.send(JSON.stringify(message));
 
