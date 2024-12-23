@@ -1,15 +1,19 @@
 import WebSocket from "ws";
 import type { Phonic } from "../phonic";
 import type { DataOrError } from "../types";
+import type { PhonicWebSocketParams } from "./types";
 import { PhonicWebSocket } from "./websocket";
 
 export class TextToSpeech {
   constructor(private readonly phonic: Phonic) {}
 
-  async websocket(): DataOrError<{ phonicWebSocket: PhonicWebSocket }> {
+  async websocket(
+    params?: PhonicWebSocketParams,
+  ): DataOrError<{ phonicWebSocket: PhonicWebSocket }> {
     return new Promise((resolve) => {
       const wsBaseUrl = this.phonic.baseUrl.replace(/^http/, "ws");
-      const ws = new WebSocket(`${wsBaseUrl}/v1/tts/ws`, {
+      const queryString = new URLSearchParams(params).toString();
+      const ws = new WebSocket(`${wsBaseUrl}/v1/tts/ws?${queryString}`, {
         headers: {
           Authorization: `Bearer ${this.phonic.apiKey}`,
         },

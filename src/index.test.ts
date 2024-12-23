@@ -88,24 +88,23 @@ describe("tts.websocket", () => {
 
     const { phonicWebSocket } = data;
 
-    phonicWebSocket.onMessage((data) => {
-      if (data instanceof Buffer) {
-        expect(data instanceof Buffer).toBe(false);
-      } else {
-        if (data.type !== "stream-ended") {
-          throw new Error(`Expected to get a "stream-ended" message`);
-        }
-
-        expect(data.error?.code).toBe("invalid_api_key");
-      }
+    await new Promise<void>((resolve) => {
+      phonicWebSocket.onMessage((message) => {
+        expect(message).toEqual({
+          type: "error",
+          error: {
+            message: expect.any(String),
+            code: "invalid_api_key",
+          },
+        });
+        resolve();
+      });
     });
-
-    await phonicWebSocket.streamEnded;
 
     phonicWebSocket.close();
   });
 
-  test("blocking using stream", async () => {
+  test("receive config message", async () => {
     const phonic = new Phonic(apiKey, { baseUrl });
     const { data, error } = await phonic.tts.websocket();
 
@@ -115,21 +114,28 @@ describe("tts.websocket", () => {
     }
 
     const { phonicWebSocket } = data;
-    const stream = phonicWebSocket.send({
-      script: "Hello! You've reached Phonic. How can I help you today?",
-      output_format: "pcm_44100",
-    });
 
-    for await (const data of stream) {
-      if (!(data instanceof Buffer)) {
-        expect(data.type).toBe("stream-ended");
-      }
-    }
+    await new Promise<void>((resolve, reject) => {
+      phonicWebSocket.onMessage((message) => {
+        switch (message.type) {
+          case "config": {
+            expect(message).toEqual({
+              type: "config",
+              model: expect.any(String),
+              output_format: expect.any(String),
+              voice_id: expect.any(String),
+            });
+            resolve();
+            break;
+          }
+        }
+      });
+    });
 
     phonicWebSocket.close();
-  }, 30000);
+  });
 
-  test("non-blocking using onMessage", async () => {
+  test("send text and receive all audio chunks", async () => {
     const phonic = new Phonic(apiKey, { baseUrl });
     const { data, error } = await phonic.tts.websocket();
 
@@ -139,20 +145,136 @@ describe("tts.websocket", () => {
     }
 
     const { phonicWebSocket } = data;
+    const text =
+      "Good morning This is Lisa from Bright Smile Orthodontics I trust youre having a pleasant day Im reaching out because its time for your next adjustment appointment We want to ensure your treatment is progressing as planned and make any necessary tweaks to your braces We have openings available next Monday at 2 PM or Wednesday at 11 AM If those times dont suit you we can certainly find an alternative that works better for your schedule Also if youve been experiencing any discomfort or have concerns about your treatment please let us know so we can address them during your visit You can reach us at 555 456 7890 to confirm your appointment or ask any questions Thank you for choosing Bright Smile Orthodontics for your care";
+    let receivedText = "";
 
-    phonicWebSocket.onMessage((data) => {
-      if (!(data instanceof Buffer)) {
-        expect(data.type).toBe("stream-ended");
-      }
+    await new Promise<void>((resolve, reject) => {
+      phonicWebSocket.onMessage((message) => {
+        switch (message.type) {
+          case "audio_chunk": {
+            receivedText += message.text;
+            break;
+          }
+
+          case "flushed": {
+            if (receivedText === text) {
+              resolve();
+            } else {
+              console.log({
+                text,
+                receivedText,
+              });
+              reject(new Error("Received text doesn't match sent text"));
+            }
+            break;
+          }
+
+          case "error": {
+            console.error(message);
+            reject(message.error.message);
+            break;
+          }
+        }
+      });
+
+      phonicWebSocket.generate({ text });
+      phonicWebSocket.flush();
     });
 
-    phonicWebSocket.send({
-      script: "Hello! You've reached Phonic. How can I help you today?",
+    phonicWebSocket.close();
+  }, 30_000);
+
+  test("send flush to force the audio generation", async () => {
+    const phonic = new Phonic(apiKey, { baseUrl });
+    const { data, error } = await phonic.tts.websocket();
+
+    if (error !== null) {
+      expect(error).toBeNull();
+      return;
+    }
+
+    const { phonicWebSocket } = data;
+    let isFlushSent = false;
+
+    await new Promise<void>((resolve, reject) => {
+      // Wait long enough to see that we don't receive any audio chunks. Then, send a flash.
+      setTimeout(() => {
+        phonicWebSocket.flush();
+        isFlushSent = true;
+      }, 10_000);
+
+      phonicWebSocket.onMessage((message) => {
+        switch (message.type) {
+          case "audio_chunk": {
+            if (isFlushSent) {
+              expect(message.text).toBe("Hello");
+              resolve();
+            } else {
+              reject("Received audio chunk before flush");
+            }
+            break;
+          }
+
+          case "error": {
+            console.error(message);
+            reject(message.error.message);
+            break;
+          }
+        }
+      });
+
+      phonicWebSocket.generate({ text: "Hello" });
+    });
+
+    phonicWebSocket.close();
+  }, 30_000);
+
+  test("no more audio chunks received after stop", async () => {
+    const phonic = new Phonic(apiKey, { baseUrl });
+    const { data, error } = await phonic.tts.websocket({
       output_format: "mulaw_8000",
     });
 
-    await phonicWebSocket.streamEnded;
+    if (error !== null) {
+      expect(error).toBeNull();
+      return;
+    }
+
+    const { phonicWebSocket } = data;
+    const text =
+      "Hello This is Alex from Evergreen Lawn Care Services I hope youre enjoying the nice weather Were getting in touch because its almost time for your seasonal lawn treatment Our records show that your last fertilization and weed control application was about three months ago and wed like to schedule your next service to keep your lawn looking its best We have availability this Friday afternoon or next Tuesday morning If those times dont work for you we can find a more convenient slot Our technicians will also check for any signs of pests or disease during the visit to ensure the overall health of your lawn Please call us back at 555 234 5678 to set up your appointment or if you have any questions about our services Thank you for trusting Evergreen with your lawn care needs";
+    let audioChunksReceived = 0;
+
+    await new Promise<void>((resolve, reject) => {
+      // Wait long enough to ensure that no more audio chunks arrive before finishing the test.
+      setTimeout(resolve, 10_000);
+
+      phonicWebSocket.onMessage((message) => {
+        switch (message.type) {
+          case "audio_chunk": {
+            audioChunksReceived += 1;
+
+            if (audioChunksReceived === 1) {
+              phonicWebSocket.stop();
+            } else {
+              reject("Received more than 1 audio chunk");
+            }
+            break;
+          }
+
+          case "error": {
+            console.error(message);
+            reject(message.error.message);
+            break;
+          }
+        }
+      });
+
+      phonicWebSocket.generate({ text });
+      phonicWebSocket.flush();
+    });
 
     phonicWebSocket.close();
-  }, 30000);
+  }, 30_000);
 });

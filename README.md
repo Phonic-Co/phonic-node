@@ -50,47 +50,96 @@ if (error === null) {
 
 ### Text-to-speech via WebSocket
 
+Open a WebSocket connection:
+
 ```js
-const { data, error } = await phonic.tts.websocket();
+const { data, error } = await phonic.tts.websocket({
+  model: "shasta",
+  output_format: "mulaw_8000",
+  voice_id: "australian-man",
+});
 
-if (error === null) {
-  const { phonicWebSocket } = data;
-  const stream = phonicWebSocket.send({
-    script: "How can I help you today?", // 600 characters max
-    output_format: "mulaw_8000", // or "pcm_44100"
-  });
+if (error !== null) {
+  throw new Error(error.message);
+}
 
-  for await (const data of stream) {
-    if (data instanceof Buffer) {
-      // Do something with the audio chunk,
-      // e.g. send `data.toString("base64")` to Twilio.
-    }
+// Here we know that the WebSocket connection is open.
+const { phonicWebSocket } = data;
+```
+
+Process audio chunks that Phonic sends back to you, by sending them to Twilio, for example:
+
+```js
+phonicWebSocket.onMessage((message) => {
+  if (message.type === "audio_chunk") {
+    ws.send(
+      JSON.stringify({
+        event: "media",
+        streamSid: "...",
+        media: {
+          payload: message.audio,
+        },
+      }),
+    );
   }
+});
+```
 
-  phonicWebSocket.close();
+Send text chunks to Phonic for audio generation as you receive them from LLM:
+
+```js
+const stream = await openai.chat.completions.create(...);
+
+for await (const chunk of stream) {
+  const text = chunk.choices[0]?.delta?.content || "";
+
+  if (text) {
+    phonicWebSocket.generate({ text });
+  }
 }
 ```
 
-To perform other work while receiving chunks, use:
+Tell Phonic to finish generating audio for all text chunks you've sent:
 
 ```js
-phonicWebSocket.onMessage((data) => {
-  if (data instanceof Buffer) {
-    // Do something with the audio chunk,
-    // e.g. send `data.toString("base64")` to Twilio.
-  }
-});
-
-phonicWebSocket.send({
-  script: "How can I help you today?",
-  output_format: "mulaw_8000",
-});
-
-// Perform other work here
-
-await phonicWebSocket.streamEnded; // This Promise will be resolved once the last chunk is received
+phonicWebSocket.flush();
 ```
 
+You can also tell Phonic to stop sending audio chunks back, e.g. if the user interrupts the conversation:
+
+```js
+phonicWebSocket.stop();
+```
+
+To close the WebSocket connection:
+
+```js
+phonicWebSocket.close();
+```
+
+To know when the last audio chunk has been received:
+
+```js
+phonicWebSocket.onMessage((message) => {
+  if (message.type === "flushed") {
+    console.log("Last audio chunk received");
+  }
+});
+```
+
+You can also listen for close and error events:
+
+```js
+phonicWebSocket.onClose((event) => {
+  console.log(
+    `Phonic WebSocket closed with code ${event.code} and reason "${event.reason}"`,
+  );
+});
+
+phonicWebSocket.onError((event) => {
+  console.log(`Error from Phonic WebSocket: ${event.message}`);
+});
+```
 
 ## License
 
