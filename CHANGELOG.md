@@ -1,5 +1,13 @@
 # phonic
 
+## 0.2.0
+
+### Minor Changes
+
+- [`8bcf818`](https://github.com/Phonic-Co/phonic-node/commit/8bcf8187daa92f59c5b5984bc583fd927f8efd4e) Thanks [@moroshko](https://github.com/moroshko)! - Update to use new buffering API (`generate`, `flush`, and `stop` messages).
+  Add `onClose` and `onError` handlers.
+  Upgrade dependencies.
+
 ## 0.1.3
 
 ### Patch Changes
