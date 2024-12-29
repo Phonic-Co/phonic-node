@@ -45,7 +45,7 @@ describe("voices", () => {
       expect(voiceSchema.safeParse(voice).success).toBe(true);
     }
 
-    const voiceId = voicesData.voices[0]?.id;
+    const voiceId = voicesData.voices[0].id;
 
     if (!voiceId) {
       throw new Error("No voices found");
@@ -195,9 +195,9 @@ describe("tts.websocket", () => {
 
     const messages = await waitForMessages(3);
 
-    expect(messages[0]?.type).toBe("config");
-    expect(messages[1]?.type).toBe("audio_chunk");
-    expect(messages[2]?.type).toBe("flush_confirm");
+    expect(messages[0].type).toBe("config");
+    expect(messages[1].type).toBe("audio_chunk");
+    expect(messages[2].type).toBe("flush_confirm");
   }, 20_000);
 
   test("generate(medium)-flush", async () => {
@@ -210,10 +210,10 @@ describe("tts.websocket", () => {
 
     const messages = await waitForMessages(4);
 
-    expect(messages[0]?.type).toBe("config");
-    expect(messages[1]?.type).toBe("audio_chunk");
-    expect(messages[2]?.type).toBe("audio_chunk");
-    expect(messages[3]?.type).toBe("flush_confirm");
+    expect(messages[0].type).toBe("config");
+    expect(messages[1].type).toBe("audio_chunk");
+    expect(messages[2].type).toBe("audio_chunk");
+    expect(messages[3].type).toBe("flush_confirm");
   }, 20_000);
 
   test("flush with no input", async () => {
@@ -221,8 +221,8 @@ describe("tts.websocket", () => {
 
     const messages = await waitForMessages(2);
 
-    expect(messages[0]?.type).toBe("config");
-    expect(messages[1]?.type).toBe("flush_confirm");
+    expect(messages[0].type).toBe("config");
+    expect(messages[1].type).toBe("flush_confirm");
   }, 20_000);
 
   test("stop with no input", async () => {
@@ -230,8 +230,8 @@ describe("tts.websocket", () => {
 
     const messages = await waitForMessages(2);
 
-    expect(messages[0]?.type).toBe("config");
-    expect(messages[1]?.type).toBe("stop_confirm");
+    expect(messages[0].type).toBe("config");
+    expect(messages[1].type).toBe("stop_confirm");
   }, 20_000);
 
   test("generate-stop", async () => {
@@ -244,8 +244,8 @@ describe("tts.websocket", () => {
 
     const messages = await waitForMessages(2);
 
-    expect(messages[0]?.type).toBe("config");
-    expect(messages[1]?.type).toBe("stop_confirm");
+    expect(messages[0].type).toBe("config");
+    expect(messages[1].type).toBe("stop_confirm");
   }, 20_000);
 
   test("generate-flush-stop", async () => {
@@ -261,8 +261,8 @@ describe("tts.websocket", () => {
 
     // We don't expect a flush_confirm message because that is only sent after all audio chunks have been sent to the
     // user, which won't happen in this case because we sent the stop request.
-    expect(messages[0]?.type).toBe("config");
-    expect(messages[1]?.type).toBe("stop_confirm");
+    expect(messages[0].type).toBe("config");
+    expect(messages[1].type).toBe("stop_confirm");
   }, 20_000);
 
   test("flush while another flush is in progress", async () => {
@@ -274,11 +274,11 @@ describe("tts.websocket", () => {
 
     const messages = await waitForMessages(4);
 
-    expect(messages[0]?.type).toBe("config");
-    expect(messages[1]?.type).toBe("error");
-    expect(messages[1]?.error.code).toBe("flush_in_progress");
-    expect(messages[2]?.type).toBe("audio_chunk");
-    expect(messages[3]?.type).toBe("flush_confirm");
+    expect(messages[0].type).toBe("config");
+    expect(messages[1].type).toBe("error");
+    expect(messages[1].error.code).toBe("flush_in_progress");
+    expect(messages[2].type).toBe("audio_chunk");
+    expect(messages[3].type).toBe("flush_confirm");
   }, 20_000);
 
   test("generate-flush and then generate-flush", async () => {
@@ -289,20 +289,20 @@ describe("tts.websocket", () => {
     phonicWebSocket.flush();
 
     const messages1 = await waitForMessages(3);
-    expect(messages1[0]?.type).toBe("config");
-    expect(messages1[1]?.type).toBe("audio_chunk");
+    expect(messages1[0].type).toBe("config");
+    expect(messages1[1].type).toBe("audio_chunk");
     // NOTE: Currently the text returned by the API is the normalized version of the input text which makes it hard to
     // do string comparison. This is why we use a substring match here.
-    expect(messages1[1]?.text).toContain("first");
-    expect(messages1[2]?.type).toBe("flush_confirm");
+    expect(messages1[1].text).toContain("first");
+    expect(messages1[2].type).toBe("flush_confirm");
 
     phonicWebSocket.generate({ text: text2 });
     phonicWebSocket.flush();
 
     const messages2 = await waitForMessages(2);
-    expect(messages2[0]?.type).toBe("audio_chunk");
-    expect(messages2[0]?.text).toContain("second");
-    expect(messages2[1]?.type).toBe("flush_confirm");
+    expect(messages2[0].type).toBe("audio_chunk");
+    expect(messages2[0].text).toContain("second");
+    expect(messages2[1].type).toBe("flush_confirm");
   }, 20_000);
 
   test("generate-flush-stop and then generate-flush", async () => {
@@ -318,17 +318,17 @@ describe("tts.websocket", () => {
 
     const messages1 = await waitForMessages(2);
 
-    expect(messages1[0]?.type).toBe("config");
-    expect(messages1[1]?.type).toBe("stop_confirm");
+    expect(messages1[0].type).toBe("config");
+    expect(messages1[1].type).toBe("stop_confirm");
 
     phonicWebSocket.generate({ text: text2 });
     phonicWebSocket.flush();
 
     const messages2 = await waitForMessages(2);
 
-    expect(messages2[0]?.type).toBe("audio_chunk");
-    expect(messages2[0]?.text).toContain("second");
-    expect(messages2[1]?.type).toBe("flush_confirm");
+    expect(messages2[0].type).toBe("audio_chunk");
+    expect(messages2[0].text).toContain("second");
+    expect(messages2[1].type).toBe("flush_confirm");
   }, 20_000);
 
   test("generate(long)-flush", async () => {
@@ -343,11 +343,11 @@ describe("tts.websocket", () => {
 
     const messages = await waitForMessages(6);
 
-    expect(messages[0]?.type).toBe("config");
-    expect(messages[1]?.type).toBe("audio_chunk");
-    expect(messages[2]?.type).toBe("audio_chunk");
-    expect(messages[3]?.type).toBe("audio_chunk");
-    expect(messages[4]?.type).toBe("audio_chunk");
-    expect(messages[5]?.type).toBe("flush_confirm");
+    expect(messages[0].type).toBe("config");
+    expect(messages[1].type).toBe("audio_chunk");
+    expect(messages[2].type).toBe("audio_chunk");
+    expect(messages[3].type).toBe("audio_chunk");
+    expect(messages[4].type).toBe("audio_chunk");
+    expect(messages[5].type).toBe("flush_confirm");
   }, 20_000);
 });
