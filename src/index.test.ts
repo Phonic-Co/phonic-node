@@ -45,7 +45,7 @@ describe("voices", () => {
       expect(voiceSchema.safeParse(voice).success).toBe(true);
     }
 
-    const voiceId = voicesData.voices[0].id;
+    const voiceId = voicesData.voices[0]?.id;
 
     if (!voiceId) {
       throw new Error("No voices found");
