@@ -66,6 +66,10 @@ describe("voices", () => {
 describe("tts.websocket", () => {
   let phonicWebSocket: PhonicWebSocket;
 
+  /**
+   * Promise that resolves with all messages received from the websocket after a period of no messages. Can be awaited
+   * multiple times.
+   */
   let allMessagesReceived: Promise<PhonicWebSocketResponseMessage[]> | null =
     null;
   const maxIdleTime = 5000; // If we don't receive messages for 5 seconds, we consider that we received all of them.
@@ -99,9 +103,14 @@ describe("tts.websocket", () => {
       | ((messages: PhonicWebSocketResponseMessage[]) => void)
       | null = null;
 
-    allMessagesReceived = new Promise((resolve) => {
-      allMessagesReceivedResolve = resolve;
-    });
+    const createNewPromise = () => {
+      messages.length = 0; // Clear previous messages
+      return new Promise<PhonicWebSocketResponseMessage[]>((resolve) => {
+        allMessagesReceivedResolve = resolve;
+      });
+    };
+
+    allMessagesReceived = createNewPromise();
 
     phonicWebSocket.onMessage((message) => {
       messages.push(message);
@@ -114,7 +123,10 @@ describe("tts.websocket", () => {
         if (allMessagesReceivedResolve === null) {
           throw new Error("allMessagesReceivedResolve should not be null");
         }
-        allMessagesReceivedResolve(messages);
+        // Pass a copy of messages to the resolver because createNewPromise() will clear it.
+        allMessagesReceivedResolve([...messages]);
+        // Create a new promise for next use
+        allMessagesReceived = createNewPromise();
       }, maxIdleTime);
     });
   });
@@ -195,110 +207,110 @@ describe("tts.websocket", () => {
     phonicWebSocket.close();
   });
 
-  // test("generate(short)-flush", async () => {
-  //   const text = "Hello, world!";
-  //   phonicWebSocket.generate({ text });
-  //   phonicWebSocket.flush();
+  test("generate(short)-flush", async () => {
+    const text = "Hello, world!";
+    phonicWebSocket.generate({ text });
+    phonicWebSocket.flush();
 
-  //   const messages = await allMessagesReceived;
+    const messages = await allMessagesReceived;
 
-  //   expect(messages).toHaveLength(3);
-  //   expect(safeGet(messages, 0).type).toBe("config");
-  //   expect(safeGet(messages, 1).type).toBe("audio_chunk");
-  //   expect(safeGet(messages, 2).type).toBe("flush_confirm");
-  // }, 20_000);
+    expect(messages).toHaveLength(3);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("audio_chunk");
+    expect(safeGet(messages, 2).type).toBe("flush_confirm");
+  }, 20_000);
 
-  // test("generate(medium)-flush", async () => {
-  //   const text =
-  //     "In the quiet mountain town of Silverpine, Emma discovered an old wooden box " +
-  //     "hidden beneath her grandmother's floorboards. Inside lay a tarnished locket " +
-  //     "with a faded photograph of a young soldier and a cryptic note.";
-  //   phonicWebSocket.generate({ text });
-  //   phonicWebSocket.flush();
+  test("generate(medium)-flush", async () => {
+    const text =
+      "In the quiet mountain town of Silverpine, Emma discovered an old wooden box " +
+      "hidden beneath her grandmother's floorboards. Inside lay a tarnished locket " +
+      "with a faded photograph of a young soldier and a cryptic note.";
+    phonicWebSocket.generate({ text });
+    phonicWebSocket.flush();
 
-  //   const messages = await allMessagesReceived;
+    const messages = await allMessagesReceived;
 
-  //   expect(messages).toHaveLength(4);
-  //   expect(safeGet(messages, 0).type).toBe("config");
-  //   expect(safeGet(messages, 1).type).toBe("audio_chunk");
-  //   expect(safeGet(messages, 2).type).toBe("audio_chunk");
-  //   expect(safeGet(messages, 3).type).toBe("flush_confirm");
-  // }, 20_000);
+    expect(messages).toHaveLength(4);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("audio_chunk");
+    expect(safeGet(messages, 2).type).toBe("audio_chunk");
+    expect(safeGet(messages, 3).type).toBe("flush_confirm");
+  }, 20_000);
 
-  // test("flush with no input", async () => {
-  //   phonicWebSocket.flush();
+  test("flush with no input", async () => {
+    phonicWebSocket.flush();
 
-  //   const messages = await allMessagesReceived;
+    const messages = await allMessagesReceived;
 
-  //   expect(messages).toHaveLength(2);
-  //   expect(safeGet(messages, 0).type).toBe("config");
-  //   expect(safeGet(messages, 1).type).toBe("flush_confirm");
-  // }, 20_000);
+    expect(messages).toHaveLength(2);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("flush_confirm");
+  }, 20_000);
 
-  // test("stop with no input", async () => {
-  //   phonicWebSocket.stop();
+  test("stop with no input", async () => {
+    phonicWebSocket.stop();
 
-  //   const messages = await allMessagesReceived;
+    const messages = await allMessagesReceived;
 
-  //   expect(messages).toHaveLength(2);
-  //   expect(safeGet(messages, 0).type).toBe("config");
-  //   expect(safeGet(messages, 1).type).toBe("stop_confirm");
-  // }, 20_000);
+    expect(messages).toHaveLength(2);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("stop_confirm");
+  }, 20_000);
 
-  // test("generate-stop", async () => {
-  //   const text =
-  //     "This is some text that should be sent to the model server. " +
-  //     "However, we shouldn't get back any audio chunks because " +
-  //     "we send the stop request immediately after.";
-  //   phonicWebSocket.generate({ text });
-  //   phonicWebSocket.stop();
+  test("generate-stop", async () => {
+    const text =
+      "This is some text that should be sent to the model server. " +
+      "However, we shouldn't get back any audio chunks because " +
+      "we send the stop request immediately after.";
+    phonicWebSocket.generate({ text });
+    phonicWebSocket.stop();
 
-  //   const messages = await allMessagesReceived;
+    const messages = await allMessagesReceived;
 
-  //   expect(messages).toHaveLength(2);
-  //   expect(safeGet(messages, 0).type).toBe("config");
-  //   expect(safeGet(messages, 1).type).toBe("stop_confirm");
-  // }, 20_000);
+    expect(messages).toHaveLength(2);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("stop_confirm");
+  }, 20_000);
 
-  // test("generate-flush-stop", async () => {
-  //   const text =
-  //     "This is some text that should be sent to the model server. " +
-  //     "However, we shouldn't get back any audio chunks because " +
-  //     "we send the stop request immediately after.";
-  //   phonicWebSocket.generate({ text });
-  //   phonicWebSocket.flush();
-  //   phonicWebSocket.stop();
+  test("generate-flush-stop", async () => {
+    const text =
+      "This is some text that should be sent to the model server. " +
+      "However, we shouldn't get back any audio chunks because " +
+      "we send the stop request immediately after.";
+    phonicWebSocket.generate({ text });
+    phonicWebSocket.flush();
+    phonicWebSocket.stop();
 
-  //   const messages = await allMessagesReceived;
+    const messages = await allMessagesReceived;
 
-  //   // We don't expect a flush_confirm message because that is only sent after all audio chunks have been sent to the
-  //   // user, which won't happen in this case because we sent the stop request.
-  //   expect(messages).toHaveLength(2);
-  //   expect(safeGet(messages, 0).type).toBe("config");
-  //   expect(safeGet(messages, 1).type).toBe("stop_confirm");
-  // }, 20_000);
+    // We don't expect a flush_confirm message because that is only sent after all audio chunks have been sent to the
+    // user, which won't happen in this case because we sent the stop request.
+    expect(messages).toHaveLength(2);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("stop_confirm");
+  }, 20_000);
 
-  // test("flush while another flush is in progress", async () => {
-  //   const text =
-  //     "This is some longer text and the intention is that it will take the model server a bit to process.";
-  //   phonicWebSocket.generate({ text });
-  //   phonicWebSocket.flush();
-  //   phonicWebSocket.flush();
+  test("flush while another flush is in progress", async () => {
+    const text =
+      "This is some longer text and the intention is that it will take the model server a bit to process.";
+    phonicWebSocket.generate({ text });
+    phonicWebSocket.flush();
+    phonicWebSocket.flush();
 
-  //   const messages = await allMessagesReceived;
+    const messages = await allMessagesReceived;
 
-  //   expect(messages).toHaveLength(4);
-  //   expect(safeGet(messages, 0).type).toBe("config");
-  //   expect(safeGet(messages, 1)).toEqual({
-  //     type: "error",
-  //     error: {
-  //       message: expect.any(String),
-  //       code: "flush_in_progress",
-  //     },
-  //   });
-  //   expect(safeGet(messages, 2).type).toBe("audio_chunk");
-  //   expect(safeGet(messages, 3).type).toBe("flush_confirm");
-  // }, 20_000);
+    expect(messages).toHaveLength(4);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1)).toEqual({
+      type: "error",
+      error: {
+        message: expect.any(String),
+        code: "flush_in_progress",
+      },
+    });
+    expect(safeGet(messages, 2).type).toBe("audio_chunk");
+    expect(safeGet(messages, 3).type).toBe("flush_confirm");
+  }, 20_000);
 
   test("generate-flush and then generate-flush", async () => {
     const text1 = "This is the first generate request.";
@@ -332,55 +344,55 @@ describe("tts.websocket", () => {
     expect(safeGet(messages2, 1).type).toBe("flush_confirm");
   }, 20_000);
 
-  // test("generate-flush-stop and then generate-flush", async () => {
-  //   const text1 =
-  //     "This is the first message that is being sent to the model server " +
-  //     "and I am intentionally making it longer so that the stop request " +
-  //     "will interrupt the generation.";
-  //   const text2 = "This is the second message.";
+  test("generate-flush-stop and then generate-flush", async () => {
+    const text1 =
+      "This is the first message that is being sent to the model server " +
+      "and I am intentionally making it longer so that the stop request " +
+      "will interrupt the generation.";
+    const text2 = "This is the second message.";
 
-  //   phonicWebSocket.generate({ text: text1 });
-  //   phonicWebSocket.flush();
-  //   phonicWebSocket.stop();
+    phonicWebSocket.generate({ text: text1 });
+    phonicWebSocket.flush();
+    phonicWebSocket.stop();
 
-  //   const messages1 = await allMessagesReceived;
+    const messages1 = await allMessagesReceived;
 
-  //   expect(messages1).toHaveLength(2);
-  //   expect(safeGet(messages1, 0).type).toBe("config");
-  //   expect(safeGet(messages1, 1).type).toBe("stop_confirm");
+    expect(messages1).toHaveLength(2);
+    expect(safeGet(messages1, 0).type).toBe("config");
+    expect(safeGet(messages1, 1).type).toBe("stop_confirm");
 
-  //   phonicWebSocket.generate({ text: text2 });
-  //   phonicWebSocket.flush();
+    phonicWebSocket.generate({ text: text2 });
+    phonicWebSocket.flush();
 
-  //   const messages2 = await allMessagesReceived;
+    const messages2 = await allMessagesReceived;
 
-  //   expect(messages2).toHaveLength(2);
-  //   expect(safeGet(messages2, 0)).toMatchObject({
-  //     type: "audio_chunk",
-  //     text: expect.stringContaining("second"),
-  //     audio: expect.any(String),
-  //   });
-  //   expect(safeGet(messages2, 1).type).toBe("flush_confirm");
-  // }, 20_000);
+    expect(messages2).toHaveLength(2);
+    expect(safeGet(messages2, 0)).toMatchObject({
+      type: "audio_chunk",
+      text: expect.stringContaining("second"),
+      audio: expect.any(String),
+    });
+    expect(safeGet(messages2, 1).type).toBe("flush_confirm");
+  }, 20_000);
 
-  // test("generate(long)-flush", async () => {
-  //   const text =
-  //     "This is some really really really really really really really really really " +
-  //     "really really really really really really really really really really really really " +
-  //     "really really really really really really really really really really really really " +
-  //     "really really really really really really really long sentence that doesn't have any " +
-  //     "punctuation so that we can test out our logic with passing the context.";
-  //   phonicWebSocket.generate({ text });
-  //   phonicWebSocket.flush();
+  test("generate(long)-flush", async () => {
+    const text =
+      "This is some really really really really really really really really really " +
+      "really really really really really really really really really really really really " +
+      "really really really really really really really really really really really really " +
+      "really really really really really really really long sentence that doesn't have any " +
+      "punctuation so that we can test out our logic with passing the context.";
+    phonicWebSocket.generate({ text });
+    phonicWebSocket.flush();
 
-  //   const messages = await allMessagesReceived;
+    const messages = await allMessagesReceived;
 
-  //   expect(messages).toHaveLength(6);
-  //   expect(safeGet(messages, 0).type).toBe("config");
-  //   expect(safeGet(messages, 1).type).toBe("audio_chunk");
-  //   expect(safeGet(messages, 2).type).toBe("audio_chunk");
-  //   expect(safeGet(messages, 3).type).toBe("audio_chunk");
-  //   expect(safeGet(messages, 4).type).toBe("audio_chunk");
-  //   expect(safeGet(messages, 5).type).toBe("flush_confirm");
-  // }, 20_000);
+    expect(messages).toHaveLength(6);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("audio_chunk");
+    expect(safeGet(messages, 2).type).toBe("audio_chunk");
+    expect(safeGet(messages, 3).type).toBe("audio_chunk");
+    expect(safeGet(messages, 4).type).toBe("audio_chunk");
+    expect(safeGet(messages, 5).type).toBe("flush_confirm");
+  }, 20_000);
 });
