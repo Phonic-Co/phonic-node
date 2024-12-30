@@ -141,15 +141,15 @@ phonicWebSocket.onError((event) => {
 });
 ```
 
-## Release a new version to npm
+## Publish a new version on npm
 
 1. `bunx changeset`
 2. `git add .`
 3. `git commit -m "Add changeset"`
 4. `git push`
 
-Git action will run and create a PR.
-Once this PR is merged, the new version will be released to npm.
+This should trigger the `publish` github workflow that will create a Pull Request named "Version Packages". 
+Once this Pull Request is merged, the new version will be published on npm.
 
 ## License
 
