@@ -1,6 +1,7 @@
-import { describe, expect, test } from "bun:test";
+import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { z } from "zod";
-import { Phonic } from "./index";
+import { Phonic, type PhonicWebSocket } from "./index";
+import type { PhonicWebSocketResponseMessage } from "./tts/types";
 
 const apiKey = Bun.env.PHONIC_API_KEY;
 
@@ -63,6 +64,81 @@ describe("voices", () => {
 });
 
 describe("tts.websocket", () => {
+  let phonicWebSocket: PhonicWebSocket;
+
+  /**
+   * Promise that resolves with all messages received from the websocket after a period of no messages. Can be awaited
+   * multiple times.
+   */
+  let allMessagesReceived: Promise<PhonicWebSocketResponseMessage[]> | null =
+    null;
+  const maxIdleTime = 5000; // If we don't receive messages for 5 seconds, we consider that we received all of them.
+
+  const getMessages = async () => {
+    if (allMessagesReceived === null) {
+      throw new Error("allMessagesReceived should not be null");
+    }
+    return await allMessagesReceived;
+  };
+
+  const safeGet = (messages: PhonicWebSocketResponseMessage[], idx: number) => {
+    if (messages === null) {
+      throw new Error("messages is null");
+    }
+    if (messages[idx] === undefined) {
+      throw new Error(`Expected message at index ${idx} but received less`);
+    }
+    return messages[idx];
+  };
+
+  beforeEach(async () => {
+    const phonic = new Phonic(apiKey, { baseUrl });
+    const { data, error } = await phonic.tts.websocket();
+
+    if (error !== null) {
+      throw new Error("Failed to connect to websocket");
+    }
+
+    phonicWebSocket = data.phonicWebSocket;
+
+    let messages: PhonicWebSocketResponseMessage[] = [];
+    let messagesTimeoutId: NodeJS.Timer | null = null;
+    let allMessagesReceivedResolve:
+      | ((messages: PhonicWebSocketResponseMessage[]) => void)
+      | null = null;
+
+    const createNewPromise = () => {
+      messages = [];
+      return new Promise<PhonicWebSocketResponseMessage[]>((resolve) => {
+        allMessagesReceivedResolve = resolve;
+      });
+    };
+
+    allMessagesReceived = createNewPromise();
+
+    phonicWebSocket.onMessage((message) => {
+      messages.push(message);
+
+      if (messagesTimeoutId !== null) {
+        clearTimeout(messagesTimeoutId);
+      }
+
+      messagesTimeoutId = setTimeout(() => {
+        if (allMessagesReceivedResolve === null) {
+          throw new Error("allMessagesReceivedResolve should not be null");
+        }
+        // Pass a copy of messages to the resolver because createNewPromise() will clear it.
+        allMessagesReceivedResolve([...messages]);
+        // Create a new promise for next use
+        allMessagesReceived = createNewPromise();
+      }, maxIdleTime);
+    });
+  });
+
+  afterEach(async () => {
+    phonicWebSocket.close();
+  });
+
   test("can't connect to websocket", async () => {
     const phonic = new Phonic(apiKey, {
       baseUrl: baseUrl.replace("://", "://invalid"),
@@ -135,146 +211,192 @@ describe("tts.websocket", () => {
     phonicWebSocket.close();
   });
 
-  test("send text and receive all audio chunks", async () => {
-    const phonic = new Phonic(apiKey, { baseUrl });
-    const { data, error } = await phonic.tts.websocket();
+  test("generate(short)-flush", async () => {
+    const text = "Hello, world!";
+    phonicWebSocket.generate({ text });
+    phonicWebSocket.flush();
 
-    if (error !== null) {
-      expect(error).toBeNull();
-      return;
-    }
+    const messages = await getMessages();
 
-    const { phonicWebSocket } = data;
+    expect(messages).toHaveLength(3);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("audio_chunk");
+    expect(safeGet(messages, 2).type).toBe("flush_confirm");
+  }, 20_000);
+
+  test("generate(medium)-flush", async () => {
     const text =
-      "Good morning This is Lisa from Bright Smile Orthodontics I trust youre having a pleasant day Im reaching out because its time for your next adjustment appointment We want to ensure your treatment is progressing as planned and make any necessary tweaks to your braces We have openings available next Monday at 2 PM or Wednesday at 11 AM If those times dont suit you we can certainly find an alternative that works better for your schedule Also if youve been experiencing any discomfort or have concerns about your treatment please let us know so we can address them during your visit You can reach us at 555 456 7890 to confirm your appointment or ask any questions Thank you for choosing Bright Smile Orthodontics for your care";
-    let receivedText = "";
+      "In the quiet mountain town of Silverpine, Emma discovered an old wooden box " +
+      "hidden beneath her grandmother's floorboards. Inside lay a tarnished locket " +
+      "with a faded photograph of a young soldier and a cryptic note.";
+    phonicWebSocket.generate({ text });
+    phonicWebSocket.flush();
 
-    await new Promise<void>((resolve, reject) => {
-      phonicWebSocket.onMessage((message) => {
-        switch (message.type) {
-          case "audio_chunk": {
-            receivedText += message.text;
-            break;
-          }
+    const messages = await getMessages();
 
-          case "flushed": {
-            if (receivedText === text) {
-              resolve();
-            } else {
-              console.log({
-                text,
-                receivedText,
-              });
-              reject(new Error("Received text doesn't match sent text"));
-            }
-            break;
-          }
+    expect(messages).toHaveLength(4);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("audio_chunk");
+    expect(safeGet(messages, 2).type).toBe("audio_chunk");
+    expect(safeGet(messages, 3).type).toBe("flush_confirm");
+  }, 20_000);
 
-          case "error": {
-            console.error(message);
-            reject(message.error.message);
-            break;
-          }
-        }
-      });
+  test("flush with no input", async () => {
+    phonicWebSocket.flush();
 
-      phonicWebSocket.generate({ text });
-      phonicWebSocket.flush();
-    });
+    const messages = await getMessages();
 
-    phonicWebSocket.close();
-  }, 30_000);
+    expect(messages).toHaveLength(2);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("flush_confirm");
+  }, 20_000);
 
-  test("send flush to force the audio generation", async () => {
-    const phonic = new Phonic(apiKey, { baseUrl });
-    const { data, error } = await phonic.tts.websocket();
+  test("stop with no input", async () => {
+    phonicWebSocket.stop();
 
-    if (error !== null) {
-      expect(error).toBeNull();
-      return;
-    }
+    const messages = await getMessages();
 
-    const { phonicWebSocket } = data;
-    let isFlushSent = false;
+    expect(messages).toHaveLength(2);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("stop_confirm");
+  }, 20_000);
 
-    await new Promise<void>((resolve, reject) => {
-      // Wait long enough to see that we don't receive any audio chunks. Then, send a flash.
-      setTimeout(() => {
-        phonicWebSocket.flush();
-        isFlushSent = true;
-      }, 10_000);
-
-      phonicWebSocket.onMessage((message) => {
-        switch (message.type) {
-          case "audio_chunk": {
-            if (isFlushSent) {
-              expect(message.text).toBe("Hello");
-              resolve();
-            } else {
-              reject("Received audio chunk before flush");
-            }
-            break;
-          }
-
-          case "error": {
-            console.error(message);
-            reject(message.error.message);
-            break;
-          }
-        }
-      });
-
-      phonicWebSocket.generate({ text: "Hello" });
-    });
-
-    phonicWebSocket.close();
-  }, 30_000);
-
-  test("no more audio chunks received after stop", async () => {
-    const phonic = new Phonic(apiKey, { baseUrl });
-    const { data, error } = await phonic.tts.websocket({
-      output_format: "mulaw_8000",
-    });
-
-    if (error !== null) {
-      expect(error).toBeNull();
-      return;
-    }
-
-    const { phonicWebSocket } = data;
+  test("generate-stop", async () => {
     const text =
-      "Hello This is Alex from Evergreen Lawn Care Services I hope youre enjoying the nice weather Were getting in touch because its almost time for your seasonal lawn treatment Our records show that your last fertilization and weed control application was about three months ago and wed like to schedule your next service to keep your lawn looking its best We have availability this Friday afternoon or next Tuesday morning If those times dont work for you we can find a more convenient slot Our technicians will also check for any signs of pests or disease during the visit to ensure the overall health of your lawn Please call us back at 555 234 5678 to set up your appointment or if you have any questions about our services Thank you for trusting Evergreen with your lawn care needs";
-    let audioChunksReceived = 0;
+      "This is some text that should be sent to the model server. " +
+      "However, we shouldn't get back any audio chunks because " +
+      "we send the stop request immediately after.";
+    phonicWebSocket.generate({ text });
+    phonicWebSocket.stop();
 
-    await new Promise<void>((resolve, reject) => {
-      // Wait long enough to ensure that no more audio chunks arrive before finishing the test.
-      setTimeout(resolve, 10_000);
+    const messages = await getMessages();
 
-      phonicWebSocket.onMessage((message) => {
-        switch (message.type) {
-          case "audio_chunk": {
-            audioChunksReceived += 1;
+    expect(messages).toHaveLength(2);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("stop_confirm");
+  }, 20_000);
 
-            if (audioChunksReceived === 1) {
-              phonicWebSocket.stop();
-            } else {
-              reject("Received more than 1 audio chunk");
-            }
-            break;
-          }
+  test("generate-flush-stop", async () => {
+    const text =
+      "This is some text that should be sent to the model server. " +
+      "However, we shouldn't get back any audio chunks because " +
+      "we send the stop request immediately after.";
+    phonicWebSocket.generate({ text });
+    phonicWebSocket.flush();
+    phonicWebSocket.stop();
 
-          case "error": {
-            console.error(message);
-            reject(message.error.message);
-            break;
-          }
-        }
-      });
+    const messages = await getMessages();
 
-      phonicWebSocket.generate({ text });
-      phonicWebSocket.flush();
+    // We don't expect a flush_confirm message because that is only sent after all audio chunks have been sent to the
+    // user, which won't happen in this case because we sent the stop request.
+    expect(messages).toHaveLength(2);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("stop_confirm");
+  }, 20_000);
+
+  test("flush while another flush is in progress", async () => {
+    const text =
+      "This is some longer text and the intention is that it will take the model server a bit to process.";
+    phonicWebSocket.generate({ text });
+    phonicWebSocket.flush();
+    phonicWebSocket.flush();
+
+    const messages = await getMessages();
+
+    expect(messages).toHaveLength(4);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1)).toEqual({
+      type: "error",
+      error: {
+        message: expect.any(String),
+        code: "flush_in_progress",
+      },
     });
+    expect(safeGet(messages, 2).type).toBe("audio_chunk");
+    expect(safeGet(messages, 3).type).toBe("flush_confirm");
+  }, 20_000);
 
-    phonicWebSocket.close();
-  }, 30_000);
+  test("generate-flush and then generate-flush", async () => {
+    const text1 = "This is the first generate request.";
+    const text2 = "This is the second generate request.";
+
+    phonicWebSocket.generate({ text: text1 });
+    phonicWebSocket.flush();
+
+    const messages1 = await getMessages();
+    expect(messages1).toHaveLength(3);
+    expect(safeGet(messages1, 0).type).toBe("config");
+    // NOTE: Currently the text returned by the API is the normalized version of the input text which makes it hard to
+    // do string comparison. This is why we use a substring match here.
+    expect(safeGet(messages1, 1)).toMatchObject({
+      type: "audio_chunk",
+      text: expect.stringContaining("first"),
+      audio: expect.any(String),
+    });
+    expect(safeGet(messages1, 2).type).toBe("flush_confirm");
+
+    phonicWebSocket.generate({ text: text2 });
+    phonicWebSocket.flush();
+
+    const messages2 = await getMessages();
+    expect(messages2).toHaveLength(2);
+    expect(safeGet(messages2, 0)).toMatchObject({
+      type: "audio_chunk",
+      text: expect.stringContaining("second"),
+      audio: expect.any(String),
+    });
+    expect(safeGet(messages2, 1).type).toBe("flush_confirm");
+  }, 20_000);
+
+  test("generate-flush-stop and then generate-flush", async () => {
+    const text1 =
+      "This is the first message that is being sent to the model server " +
+      "and I am intentionally making it longer so that the stop request " +
+      "will interrupt the generation.";
+    const text2 = "This is the second message.";
+
+    phonicWebSocket.generate({ text: text1 });
+    phonicWebSocket.flush();
+    phonicWebSocket.stop();
+
+    const messages1 = await getMessages();
+
+    expect(messages1).toHaveLength(2);
+    expect(safeGet(messages1, 0).type).toBe("config");
+    expect(safeGet(messages1, 1).type).toBe("stop_confirm");
+
+    phonicWebSocket.generate({ text: text2 });
+    phonicWebSocket.flush();
+
+    const messages2 = await getMessages();
+
+    expect(messages2).toHaveLength(2);
+    expect(safeGet(messages2, 0)).toMatchObject({
+      type: "audio_chunk",
+      text: expect.stringContaining("second"),
+      audio: expect.any(String),
+    });
+    expect(safeGet(messages2, 1).type).toBe("flush_confirm");
+  }, 20_000);
+
+  test("generate(long)-flush", async () => {
+    const text =
+      "This is some really really really really really really really really really " +
+      "really really really really really really really really really really really really " +
+      "really really really really really really really really really really really really " +
+      "really really really really really really really long sentence that doesn't have any " +
+      "punctuation so that we can test out our logic with passing the context.";
+    phonicWebSocket.generate({ text });
+    phonicWebSocket.flush();
+
+    const messages = await getMessages();
+
+    expect(messages).toHaveLength(6);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("audio_chunk");
+    expect(safeGet(messages, 2).type).toBe("audio_chunk");
+    expect(safeGet(messages, 3).type).toBe("audio_chunk");
+    expect(safeGet(messages, 4).type).toBe("audio_chunk");
+    expect(safeGet(messages, 5).type).toBe("flush_confirm");
+  }, 20_000);
 });

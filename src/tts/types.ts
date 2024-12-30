@@ -18,7 +18,8 @@ export type PhonicWebSocketResponseMessage =
       audio: string;
       text: string;
     }
-  | { type: "flushed" }
+  | { type: "flush_confirm" }
+  | { type: "stop_confirm" }
   | {
       type: "error";
       error: {
