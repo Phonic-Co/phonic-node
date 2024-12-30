@@ -1,5 +1,11 @@
 # phonic
 
+## 0.3.0
+
+### Minor Changes
+
+- [`76e5114`](https://github.com/Phonic-Co/phonic-node/commit/76e51143cdede963254ddfc723f40753e8fd0bd3) Thanks [@moroshko](https://github.com/moroshko)! - Use the new "flush_confirm" and "stop_confirm" messages.
+
 ## 0.2.0
 
 ### Minor Changes
