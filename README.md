@@ -141,6 +141,16 @@ phonicWebSocket.onError((event) => {
 });
 ```
 
+## Release a new version to npm
+
+1. `bunx changeset`
+2. `git add .`
+3. `git commit -m "Add changeset"`
+4. `git push`
+
+Git action will run and create a PR.
+Once this PR is merged, the new version will be released to npm.
+
 ## License
 
 MIT
