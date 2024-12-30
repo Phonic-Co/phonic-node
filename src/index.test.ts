@@ -74,10 +74,14 @@ describe("tts.websocket", () => {
     null;
   const maxIdleTime = 5000; // If we don't receive messages for 5 seconds, we consider that we received all of them.
 
-  const safeGet = (
-    messages: PhonicWebSocketResponseMessage[] | null,
-    idx: number,
-  ) => {
+  const getMessages = async () => {
+    if (allMessagesReceived === null) {
+      throw new Error("allMessagesReceived should not be null");
+    }
+    return await allMessagesReceived;
+  };
+
+  const safeGet = (messages: PhonicWebSocketResponseMessage[], idx: number) => {
     if (messages === null) {
       throw new Error("messages is null");
     }
@@ -97,14 +101,14 @@ describe("tts.websocket", () => {
 
     phonicWebSocket = data.phonicWebSocket;
 
-    const messages: PhonicWebSocketResponseMessage[] = [];
+    let messages: PhonicWebSocketResponseMessage[] = [];
     let messagesTimeoutId: NodeJS.Timer | null = null;
     let allMessagesReceivedResolve:
       | ((messages: PhonicWebSocketResponseMessage[]) => void)
       | null = null;
 
     const createNewPromise = () => {
-      messages.length = 0; // Clear previous messages
+      messages = [];
       return new Promise<PhonicWebSocketResponseMessage[]>((resolve) => {
         allMessagesReceivedResolve = resolve;
       });
@@ -212,7 +216,7 @@ describe("tts.websocket", () => {
     phonicWebSocket.generate({ text });
     phonicWebSocket.flush();
 
-    const messages = await allMessagesReceived;
+    const messages = await getMessages();
 
     expect(messages).toHaveLength(3);
     expect(safeGet(messages, 0).type).toBe("config");
@@ -228,7 +232,7 @@ describe("tts.websocket", () => {
     phonicWebSocket.generate({ text });
     phonicWebSocket.flush();
 
-    const messages = await allMessagesReceived;
+    const messages = await getMessages();
 
     expect(messages).toHaveLength(4);
     expect(safeGet(messages, 0).type).toBe("config");
@@ -240,7 +244,7 @@ describe("tts.websocket", () => {
   test("flush with no input", async () => {
     phonicWebSocket.flush();
 
-    const messages = await allMessagesReceived;
+    const messages = await getMessages();
 
     expect(messages).toHaveLength(2);
     expect(safeGet(messages, 0).type).toBe("config");
@@ -250,7 +254,7 @@ describe("tts.websocket", () => {
   test("stop with no input", async () => {
     phonicWebSocket.stop();
 
-    const messages = await allMessagesReceived;
+    const messages = await getMessages();
 
     expect(messages).toHaveLength(2);
     expect(safeGet(messages, 0).type).toBe("config");
@@ -265,7 +269,7 @@ describe("tts.websocket", () => {
     phonicWebSocket.generate({ text });
     phonicWebSocket.stop();
 
-    const messages = await allMessagesReceived;
+    const messages = await getMessages();
 
     expect(messages).toHaveLength(2);
     expect(safeGet(messages, 0).type).toBe("config");
@@ -281,7 +285,7 @@ describe("tts.websocket", () => {
     phonicWebSocket.flush();
     phonicWebSocket.stop();
 
-    const messages = await allMessagesReceived;
+    const messages = await getMessages();
 
     // We don't expect a flush_confirm message because that is only sent after all audio chunks have been sent to the
     // user, which won't happen in this case because we sent the stop request.
@@ -297,7 +301,7 @@ describe("tts.websocket", () => {
     phonicWebSocket.flush();
     phonicWebSocket.flush();
 
-    const messages = await allMessagesReceived;
+    const messages = await getMessages();
 
     expect(messages).toHaveLength(4);
     expect(safeGet(messages, 0).type).toBe("config");
@@ -319,7 +323,7 @@ describe("tts.websocket", () => {
     phonicWebSocket.generate({ text: text1 });
     phonicWebSocket.flush();
 
-    const messages1 = await allMessagesReceived;
+    const messages1 = await getMessages();
     expect(messages1).toHaveLength(3);
     expect(safeGet(messages1, 0).type).toBe("config");
     // NOTE: Currently the text returned by the API is the normalized version of the input text which makes it hard to
@@ -334,7 +338,7 @@ describe("tts.websocket", () => {
     phonicWebSocket.generate({ text: text2 });
     phonicWebSocket.flush();
 
-    const messages2 = await allMessagesReceived;
+    const messages2 = await getMessages();
     expect(messages2).toHaveLength(2);
     expect(safeGet(messages2, 0)).toMatchObject({
       type: "audio_chunk",
@@ -355,7 +359,7 @@ describe("tts.websocket", () => {
     phonicWebSocket.flush();
     phonicWebSocket.stop();
 
-    const messages1 = await allMessagesReceived;
+    const messages1 = await getMessages();
 
     expect(messages1).toHaveLength(2);
     expect(safeGet(messages1, 0).type).toBe("config");
@@ -364,7 +368,7 @@ describe("tts.websocket", () => {
     phonicWebSocket.generate({ text: text2 });
     phonicWebSocket.flush();
 
-    const messages2 = await allMessagesReceived;
+    const messages2 = await getMessages();
 
     expect(messages2).toHaveLength(2);
     expect(safeGet(messages2, 0)).toMatchObject({
@@ -385,7 +389,7 @@ describe("tts.websocket", () => {
     phonicWebSocket.generate({ text });
     phonicWebSocket.flush();
 
-    const messages = await allMessagesReceived;
+    const messages = await getMessages();
 
     expect(messages).toHaveLength(6);
     expect(safeGet(messages, 0).type).toBe("config");
