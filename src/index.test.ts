@@ -78,7 +78,10 @@ describe("tts.websocket", () => {
     if (allMessagesReceived === null) {
       throw new Error("allMessagesReceived should not be null");
     }
-    return await allMessagesReceived;
+
+    const messages = await allMessagesReceived;
+
+    return messages;
   };
 
   const safeGet = (messages: PhonicWebSocketResponseMessage[], idx: number) => {
@@ -239,6 +242,45 @@ describe("tts.websocket", () => {
     expect(safeGet(messages, 1).type).toBe("audio_chunk");
     expect(safeGet(messages, 2).type).toBe("audio_chunk");
     expect(safeGet(messages, 3).type).toBe("flush_confirm");
+  }, 20_000);
+
+  test("generation in progress when flush is called and no text to flush (1)", async () => {
+    const text =
+      "You’re very welcome! I’m glad I could assist you. If you think of anything " +
+      "else or need further assistance in the future, please feel free to give us " +
+      "a call. Have a wonderful day, and we look forward to seeing you next week!";
+
+    phonicWebSocket.generate({ text });
+    phonicWebSocket.flush();
+
+    const messages = await getMessages();
+
+    expect(messages).toHaveLength(4);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("audio_chunk");
+    expect(safeGet(messages, 2).type).toBe("audio_chunk");
+    expect(safeGet(messages, 3).type).toBe("flush_confirm");
+  }, 20_000);
+
+  test("generation in progress when flush is called and no text to flush (2)", async () => {
+    const text =
+      "One sunny afternoon, while playing near the edge of the forest, Oliver's curiosity " +
+      "got the better of him. He noticed a narrow, winding path that seemed to beckon him " +
+      "deeper into the woods. Ignoring the warnings of his parents and the tales of the " +
+      "villagers about the enchanted forest, he decided to follow the path, thinking he would " +
+      "only venture a little way in.";
+
+    phonicWebSocket.generate({ text });
+    phonicWebSocket.flush();
+
+    const messages = await getMessages();
+
+    expect(messages).toHaveLength(5);
+    expect(safeGet(messages, 0).type).toBe("config");
+    expect(safeGet(messages, 1).type).toBe("audio_chunk");
+    expect(safeGet(messages, 2).type).toBe("audio_chunk");
+    expect(safeGet(messages, 3).type).toBe("audio_chunk");
+    expect(safeGet(messages, 4).type).toBe("flush_confirm");
   }, 20_000);
 
   test("flush with no input", async () => {
