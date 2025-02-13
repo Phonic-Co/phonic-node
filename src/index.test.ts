@@ -19,6 +19,7 @@ const voiceSchema = z
   .object({
     id: z.string(),
     name: z.string(),
+    description: z.string().nullable(),
   })
   .strict();
 
@@ -34,7 +35,9 @@ describe("Phonic constructor", () => {
 describe("voices", () => {
   test("list voices and get voice by id", async () => {
     const phonic = new Phonic(apiKey, { baseUrl });
-    const { data: voicesData, error: voicesError } = await phonic.voices.list();
+    const { data: voicesData, error: voicesError } = await phonic.voices.list({
+      model: "shasta",
+    });
 
     if (voicesError !== null) {
       expect(voicesError).toBeNull();

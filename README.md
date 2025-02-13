@@ -30,7 +30,7 @@ const phonic = new Phonic("ph_...");
 ### Get voices
 
 ```js
-const { data, error } = await phonic.voices.list();
+const { data, error } = await phonic.voices.list({ model: "shasta" });
 
 if (error === null) {
   console.log(data.voices);
@@ -41,7 +41,7 @@ if (error === null) {
 ### Get voice by id
 
 ```js
-const { data, error } = await phonic.voices.get("australian-man");
+const { data, error } = await phonic.voices.get("meredith");
 
 if (error === null) {
   console.log(data.voice);
@@ -56,7 +56,7 @@ Open a WebSocket connection:
 const { data, error } = await phonic.tts.websocket({
   model: "shasta",
   output_format: "mulaw_8000",
-  voice_id: "australian-man",
+  voice_id: "meredith",
 });
 
 if (error !== null) {

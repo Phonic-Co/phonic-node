@@ -5,8 +5,10 @@ import type { VoiceSuccessResponse, VoicesSuccessResponse } from "./types";
 export class Voices {
   constructor(private readonly phonic: Phonic) {}
 
-  async list(): DataOrError<VoicesSuccessResponse> {
-    const response = await this.phonic.get<VoicesSuccessResponse>("/voices");
+  async list({ model }: { model: string }): DataOrError<VoicesSuccessResponse> {
+    const response = await this.phonic.get<VoicesSuccessResponse>(
+      `/voices?model=${encodeURIComponent(model)}`,
+    );
 
     return response;
   }
