@@ -1,5 +1,11 @@
 # phonic
 
+## 0.4.0
+
+### Minor Changes
+
+- [`129fb9a`](https://github.com/Phonic-Co/phonic-node/commit/129fb9a1e8489a22a1e1cce8a923f3f1fefdc628) Thanks [@moroshko](https://github.com/moroshko)! - Require a `model` in phonic.voices.list().
+
 ## 0.3.0
 
 ### Minor Changes
