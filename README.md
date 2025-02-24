@@ -98,7 +98,7 @@ phonicWebSocket.onMessage((message) => {
 
     case "audio_chunk": {
       // Send the audio chunk to Twilio, for example:
-      ws.send(
+      twilioWebSocket.send(
         JSON.stringify({
           event: "media",
           streamSid: "...",
@@ -157,7 +157,7 @@ Process audio chunks that Phonic sends back to you, by sending them to Twilio, f
 ```ts
 phonicWebSocket.onMessage((message) => {
   if (message.type === "audio_chunk") {
-    ws.send(
+    twilioWebSocket.send(
       JSON.stringify({
         event: "media",
         streamSid: "...",
