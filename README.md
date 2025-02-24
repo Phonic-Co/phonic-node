@@ -67,10 +67,12 @@ Send config params for the conversation:
 
 ```ts
 phonicWebSocket.config({
+  input_format: "mulaw_8000",
+
+  // Optional fields
   system_prompt: "You are a helpful assistant.",
   welcome_message: "Hello, how can I help you?",
   voice_id: "meredith",
-  input_format: "mulaw_8000",
   output_format: "mulaw_8000"
 });
 ```

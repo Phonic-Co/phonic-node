@@ -3,10 +3,10 @@ import type {
   OnCloseCallback,
   OnErrorCallback,
   OnMessageCallback,
-  PhonicTTSWebSocketResponseMessage,
+  PhonicSTSWebSocketResponseMessage,
 } from "./types";
 
-export class PhonicTTSWebSocket {
+export class PhonicSTSWebSocket {
   private onMessageCallback: OnMessageCallback | null = null;
   private onCloseCallback: OnCloseCallback | null = null;
   private onErrorCallback: OnErrorCallback | null = null;
@@ -23,7 +23,7 @@ export class PhonicTTSWebSocket {
 
       const dataObj = JSON.parse(
         event.data,
-      ) as PhonicTTSWebSocketResponseMessage;
+      ) as PhonicSTSWebSocketResponseMessage;
 
       this.onMessageCallback(dataObj);
     };
@@ -49,9 +49,8 @@ export class PhonicTTSWebSocket {
     this.onMessage = this.onMessage.bind(this);
     this.onClose = this.onClose.bind(this);
     this.onError = this.onError.bind(this);
-    this.generate = this.generate.bind(this);
-    this.flush = this.flush.bind(this);
-    this.stop = this.stop.bind(this);
+    this.config = this.config.bind(this);
+    this.audioChunk = this.audioChunk.bind(this);
     this.close = this.close.bind(this);
   }
 
@@ -67,21 +66,28 @@ export class PhonicTTSWebSocket {
     this.onErrorCallback = callback;
   }
 
-  generate(message: { text: string; speed?: number }) {
+  config(message: {
+    system_prompt?: string;
+    welcome_message?: string;
+    voice_id?: string;
+    input_format?: "pcm_44100" | "mulaw_8000";
+    output_format?: "pcm_44100" | "mulaw_8000";
+  }) {
     this.ws.send(
       JSON.stringify({
-        type: "generate",
+        type: "config",
         ...message,
       }),
     );
   }
 
-  flush() {
-    this.ws.send(JSON.stringify({ type: "flush" }));
-  }
-
-  stop() {
-    this.ws.send(JSON.stringify({ type: "stop" }));
+  audioChunk(message: { audio: string }) {
+    this.ws.send(
+      JSON.stringify({
+        type: "audio_chunk",
+        ...message,
+      }),
+    );
   }
 
   close() {

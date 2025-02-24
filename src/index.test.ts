@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { z } from "zod";
 import { Phonic, type PhonicTTSWebSocket } from "./index";
-import type { PhonicWebSocketResponseMessage } from "./tts/types";
+import type { PhonicTTSWebSocketResponseMessage } from "./tts/types";
 
 const apiKey = Bun.env.PHONIC_API_KEY;
 
@@ -73,7 +73,7 @@ describe("tts.websocket", () => {
    * Promise that resolves with all messages received from the websocket after a period of no messages. Can be awaited
    * multiple times.
    */
-  let allMessagesReceived: Promise<PhonicWebSocketResponseMessage[]> | null =
+  let allMessagesReceived: Promise<PhonicTTSWebSocketResponseMessage[]> | null =
     null;
   const maxIdleTime = 5000; // If we don't receive messages for 5 seconds, we consider that we received all of them.
 
@@ -87,7 +87,10 @@ describe("tts.websocket", () => {
     return messages;
   };
 
-  const safeGet = (messages: PhonicWebSocketResponseMessage[], idx: number) => {
+  const safeGet = (
+    messages: PhonicTTSWebSocketResponseMessage[],
+    idx: number,
+  ) => {
     if (messages === null) {
       throw new Error("messages is null");
     }
@@ -107,15 +110,15 @@ describe("tts.websocket", () => {
 
     phonicWebSocket = data.phonicWebSocket;
 
-    let messages: PhonicWebSocketResponseMessage[] = [];
+    let messages: PhonicTTSWebSocketResponseMessage[] = [];
     let messagesTimeoutId: NodeJS.Timer | null = null;
     let allMessagesReceivedResolve:
-      | ((messages: PhonicWebSocketResponseMessage[]) => void)
+      | ((messages: PhonicTTSWebSocketResponseMessage[]) => void)
       | null = null;
 
     const createNewPromise = () => {
       messages = [];
-      return new Promise<PhonicWebSocketResponseMessage[]>((resolve) => {
+      return new Promise<PhonicTTSWebSocketResponseMessage[]>((resolve) => {
         allMessagesReceivedResolve = resolve;
       });
     };
@@ -197,7 +200,7 @@ describe("tts.websocket", () => {
 
     const { phonicWebSocket } = data;
 
-    await new Promise<void>((resolve, reject) => {
+    await new Promise<void>((resolve) => {
       phonicWebSocket.onMessage((message) => {
         switch (message.type) {
           case "config": {

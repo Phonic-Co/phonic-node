@@ -1,12 +1,12 @@
 import type WebSocket from "ws";
 
-export type PhonicWebSocketParams = {
+export type PhonicTTSWebSocketParams = {
   model?: string;
   output_format?: string;
   voice_id?: string;
 };
 
-export type PhonicWebSocketResponseMessage =
+export type PhonicTTSWebSocketResponseMessage =
   | {
       type: "config";
       model: string;
@@ -36,7 +36,7 @@ export type PhonicWebSocketResponseMessage =
     };
 
 export type OnMessageCallback = (
-  message: PhonicWebSocketResponseMessage,
+  message: PhonicTTSWebSocketResponseMessage,
 ) => void;
 
 export type OnCloseCallback = (event: WebSocket.CloseEvent) => void;
