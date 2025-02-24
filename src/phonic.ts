@@ -1,5 +1,5 @@
 import { version } from "../package.json";
-import { TextToSpeech } from "./tts";
+import { SpeechToSpeech } from "./sts";
 import type { DataOrError, FetchOptions, PhonicConfig } from "./types";
 import { Voices } from "./voices";
 
@@ -11,7 +11,7 @@ export class Phonic {
   private readonly headers: Headers;
 
   readonly voices = new Voices(this);
-  readonly tts = new TextToSpeech(this);
+  readonly sts = new SpeechToSpeech(this);
 
   constructor(
     readonly apiKey: string,
