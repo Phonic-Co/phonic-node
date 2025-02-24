@@ -6,7 +6,7 @@ import type {
   PhonicWebSocketResponseMessage,
 } from "./types";
 
-export class PhonicWebSocket {
+export class PhonicTTSWebSocket {
   private onMessageCallback: OnMessageCallback | null = null;
   private onCloseCallback: OnCloseCallback | null = null;
   private onErrorCallback: OnErrorCallback | null = null;
@@ -42,7 +42,7 @@ export class PhonicWebSocket {
       this.onErrorCallback(event);
     };
 
-    // Make sure that `this` in these methods in the class instance,
+    // Make sure that `this` in these methods is the class instance,
     // regardless of how the method is called.
     this.onMessage = this.onMessage.bind(this);
     this.generate = this.generate.bind(this);

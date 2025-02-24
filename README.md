@@ -19,7 +19,7 @@ npm i phonic
 
 Grab an API key from [Phonic settings](https://phonic.co/settings) and pass it to the Phonic constructor.
 
-```js
+```ts
 import { Phonic } from "phonic";
 
 const phonic = new Phonic("ph_...");
@@ -29,7 +29,7 @@ const phonic = new Phonic("ph_...");
 
 ### Get voices
 
-```js
+```ts
 const { data, error } = await phonic.voices.list({ model: "shasta" });
 
 if (error === null) {
@@ -40,7 +40,7 @@ if (error === null) {
 
 ### Get voice by id
 
-```js
+```ts
 const { data, error } = await phonic.voices.get("meredith");
 
 if (error === null) {
@@ -48,11 +48,93 @@ if (error === null) {
 }
 ```
 
+### Speesh-to-speech via WebSocket
+
+Open a WebSocket connection:
+
+```ts
+const { data, error } = await phonic.sts.websocket();
+
+if (error !== null) {
+  throw new Error(error.message);
+}
+
+// Here we know that the WebSocket connection is open.
+const { phonicWebSocket } = data;
+```
+
+Send config params for the conversation:
+
+```ts
+phonicWebSocket.config({
+  system_prompt: "You are a helpful assistant.",
+  welcome_message: "Hello, how can I help you?",
+  voice_id: "meredith",
+  input_format: "mulaw_8000",
+  output_format: "mulaw_8000"
+});
+```
+
+Stream input (user) audio chunks:
+
+```ts
+phonicWebSocket.audioChunk({
+  audio: "...", // base64 encoded audio chunk
+});
+```
+
+Process messages that Phonic sends back to you:
+
+```ts
+phonicWebSocket.onMessage((message) => {
+  switch (message.type) {
+    case "input_text": {
+      console.log(`User: ${message.text}`);
+      break;
+    }
+
+    case "audio_chunk": {
+      // Send the audio chunk to Twilio, for example:
+      ws.send(
+        JSON.stringify({
+          event: "media",
+          streamSid: "...",
+          media: {
+            payload: message.audio,
+          },
+        }),
+      );
+      break;
+    }
+  }
+});
+```
+
+To end the conversation, close the WebSocket:
+
+```ts
+phonicWebSocket.close();
+```
+
+You can also listen for close and error events:
+
+```ts
+phonicWebSocket.onClose((event) => {
+  console.log(
+    `Phonic WebSocket closed with code ${event.code} and reason "${event.reason}"`,
+  );
+});
+
+phonicWebSocket.onError((event) => {
+  console.log(`Error from Phonic WebSocket: ${event.message}`);
+});
+```
+
 ### Text-to-speech via WebSocket
 
 Open a WebSocket connection:
 
-```js
+```ts
 const { data, error } = await phonic.tts.websocket({
   model: "shasta",
   output_format: "mulaw_8000",
@@ -69,7 +151,7 @@ const { phonicWebSocket } = data;
 
 Process audio chunks that Phonic sends back to you, by sending them to Twilio, for example:
 
-```js
+```ts
 phonicWebSocket.onMessage((message) => {
   if (message.type === "audio_chunk") {
     ws.send(
@@ -87,7 +169,7 @@ phonicWebSocket.onMessage((message) => {
 
 Send text chunks to Phonic for audio generation as you receive them from LLM:
 
-```js
+```ts
 const stream = await openai.chat.completions.create(...);
 
 for await (const chunk of stream) {
@@ -101,25 +183,25 @@ for await (const chunk of stream) {
 
 Tell Phonic to finish generating audio for all text chunks you've sent:
 
-```js
+```ts
 phonicWebSocket.flush();
 ```
 
 You can also tell Phonic to stop sending audio chunks back, e.g. if the user interrupts the conversation:
 
-```js
+```ts
 phonicWebSocket.stop();
 ```
 
 To close the WebSocket connection:
 
-```js
+```ts
 phonicWebSocket.close();
 ```
 
 To know when the last audio chunk has been received:
 
-```js
+```ts
 phonicWebSocket.onMessage((message) => {
   if (message.type === "flushed") {
     console.log("Last audio chunk received");
@@ -129,7 +211,7 @@ phonicWebSocket.onMessage((message) => {
 
 You can also listen for close and error events:
 
-```js
+```ts
 phonicWebSocket.onClose((event) => {
   console.log(
     `Phonic WebSocket closed with code ${event.code} and reason "${event.reason}"`,

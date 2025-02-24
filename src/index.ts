@@ -1,2 +1,2 @@
 export { Phonic } from "./phonic";
-export type { PhonicWebSocket } from "./tts/websocket";
+export type { PhonicTTSWebSocket } from "./tts/websocket";

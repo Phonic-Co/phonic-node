@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { z } from "zod";
-import { Phonic, type PhonicWebSocket } from "./index";
+import { Phonic, type PhonicTTSWebSocket } from "./index";
 import type { PhonicWebSocketResponseMessage } from "./tts/types";
 
 const apiKey = Bun.env.PHONIC_API_KEY;
@@ -67,7 +67,7 @@ describe("voices", () => {
 });
 
 describe("tts.websocket", () => {
-  let phonicWebSocket: PhonicWebSocket;
+  let phonicWebSocket: PhonicTTSWebSocket;
 
   /**
    * Promise that resolves with all messages received from the websocket after a period of no messages. Can be awaited
