@@ -1,5 +1,11 @@
 # phonic
 
+## 0.6.0
+
+### Minor Changes
+
+- [`ac7ddbb`](https://github.com/Phonic-Co/phonic-node/commit/ac7ddbbe854db082108962c986bf08ec7811bb26) Thanks [@moroshko](https://github.com/moroshko)! - Remove support for Text-to-speech via WebSocket
+
 ## 0.5.0
 
 ### Minor Changes
