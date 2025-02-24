@@ -49,7 +49,7 @@ if (error === null) {
 }
 ```
 
-### Speesh-to-speech via WebSocket
+### Speech-to-speech via WebSocket
 
 Open a WebSocket connection:
 
