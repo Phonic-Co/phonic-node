@@ -1,5 +1,12 @@
 # phonic
 
+## 0.5.0
+
+### Minor Changes
+
+- [`a8a6617`](https://github.com/Phonic-Co/phonic-node/commit/a8a6617b5ced716ba35083e27b0a52366fb7edc8) Thanks [@moroshko](https://github.com/moroshko)! - - Add support for speesh-to-speech via WebSocket.
+  - Rename `PhonicWebSocket` to `PhonicTTSWebSocket`.
+
 ## 0.4.0
 
 ### Minor Changes
