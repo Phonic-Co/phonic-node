@@ -1,5 +1,11 @@
 # phonic
 
+## 0.6.1
+
+### Patch Changes
+
+- [`f37e2ce`](https://github.com/Phonic-Co/phonic-node/commit/f37e2cea1faeee7072b71edb38d03f5ad18cca82) Thanks [@moroshko](https://github.com/moroshko)! - TypeScript improvements
+
 ## 0.6.0
 
 ### Minor Changes
