@@ -1,0 +1,5 @@
+---
+"phonic": patch
+---
+
+TypeScript improvements
