@@ -3,6 +3,7 @@ import type {
   OnCloseCallback,
   OnErrorCallback,
   OnMessageCallback,
+  PhonicSTSConfig,
   PhonicSTSWebSocketResponseMessage,
 } from "./types";
 
@@ -66,13 +67,7 @@ export class PhonicSTSWebSocket {
     this.onErrorCallback = callback;
   }
 
-  config(message: {
-    system_prompt?: string;
-    welcome_message?: string;
-    voice_id?: string;
-    input_format?: "pcm_44100" | "mulaw_8000";
-    output_format?: "pcm_44100" | "mulaw_8000";
-  }) {
+  config(message: PhonicSTSConfig) {
     this.ws.send(
       JSON.stringify({
         type: "config",

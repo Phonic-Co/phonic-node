@@ -1,5 +1,13 @@
 import type WebSocket from "ws";
 
+export type PhonicSTSConfig = {
+  input_format: "pcm_44100" | "mulaw_8000";
+  system_prompt?: string;
+  welcome_message?: string;
+  voice_id?: string;
+  output_format?: "pcm_44100" | "mulaw_8000";
+};
+
 export type PhonicSTSWebSocketResponseMessage =
   | {
       type: "input_text";
@@ -11,16 +19,20 @@ export type PhonicSTSWebSocketResponseMessage =
       audio: string;
     }
   | {
+      type: "is_user_speaking";
+      isUserSpeaking: boolean;
+    }
+  | {
       type: "error";
       error: {
         message: string;
         code?: string;
       };
       paramErrors?: {
+        input_format?: string;
         system_prompt?: string;
         welcome_message?: string;
         voice_id?: string;
-        input_format?: string;
         output_format?: string;
       };
     };
