@@ -1,5 +1,11 @@
 # phonic
 
+## 0.7.0
+
+### Minor Changes
+
+- [`9226c82`](https://github.com/Phonic-Co/phonic-node/commit/9226c821fa4d51b800d2f7239896fa9cfc1d1bbc) Thanks [@moinnadeem](https://github.com/moinnadeem)! - Updating README
+
 ## 0.6.1
 
 ### Patch Changes
