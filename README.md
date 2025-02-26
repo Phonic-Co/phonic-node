@@ -17,7 +17,7 @@ npm i phonic
 
 ## Setup
 
-Grab an API key from [Phonic settings](https://phonic.co/settings) and pass it to the Phonic constructor.
+Grab an API key from the [Phonic API Keys](https://phonic.co/api-keys) section and pass it to the Phonic constructor.
 
 ```ts
 import { Phonic } from "phonic";
@@ -38,7 +38,7 @@ if (error === null) {
 ```
 
 
-### Get voice by id
+### Get voice by ID
 
 ```ts
 const { data, error } = await phonic.voices.get("meredith");
@@ -131,16 +131,6 @@ phonicWebSocket.onError((event) => {
   console.log(`Error from Phonic WebSocket: ${event.message}`);
 });
 ```
-
-## Publish a new version on npm
-
-1. `bunx changeset`
-2. `git add .`
-3. `git commit -m "Add changeset"`
-4. `git push`
-
-This should trigger the `publish` github workflow that will create a Pull Request named "Version Packages". 
-Once this Pull Request is merged, the new version will be published on npm.
 
 ## License
 
