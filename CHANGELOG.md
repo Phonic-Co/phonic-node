@@ -1,5 +1,14 @@
 # phonic
 
+## 0.8.0
+
+### Minor Changes
+
+- [`5ff2df2`](https://github.com/Phonic-Co/phonic-node/commit/5ff2df26bb59a6d3c51fb6027a3ecad341c2acfe) Thanks [@moroshko](https://github.com/moroshko)!
+  - Config should be passed now to `await phonic.sts.websocket()`
+  - Added retry logic to `await phonic.sts.websocket()`
+  - Removed `phonicWebSocket.config()`
+
 ## 0.7.0
 
 ### Minor Changes
