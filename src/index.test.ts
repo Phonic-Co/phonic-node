@@ -64,3 +64,28 @@ describe("voices", () => {
     expect(voiceSchema.safeParse(voiceData.voice).success).toBe(true);
   });
 });
+
+// describe.only("sts websocket", () => {
+//   test(
+//     "connection retries",
+//     async () => {
+//       const phonic = new Phonic(apiKey, { baseUrl });
+//       const { data, error } = await phonic.sts.websocket({
+//         input_format: "mulaw_8000",
+//         system_prompt: "You are a helpful assistant.",
+//         welcome_message: "Hello, how can I help you?",
+//         voice_id: "meredith",
+//         output_format: "mulaw_8000",
+//       });
+
+//       if (error !== null) {
+//         throw new Error(`Failed to start conversation: ${error.message}`);
+//       }
+
+//       const { phonicWebSocket } = data;
+
+//       phonicWebSocket.close();
+//     },
+//     8 * 60_000,
+//   );
+// });

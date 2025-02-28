@@ -3,7 +3,6 @@ import type {
   OnCloseCallback,
   OnErrorCallback,
   OnMessageCallback,
-  PhonicSTSConfig,
   PhonicSTSWebSocketResponseMessage,
 } from "./types";
 
@@ -50,7 +49,6 @@ export class PhonicSTSWebSocket {
     this.onMessage = this.onMessage.bind(this);
     this.onClose = this.onClose.bind(this);
     this.onError = this.onError.bind(this);
-    this.config = this.config.bind(this);
     this.audioChunk = this.audioChunk.bind(this);
     this.close = this.close.bind(this);
   }
@@ -65,15 +63,6 @@ export class PhonicSTSWebSocket {
 
   onError(callback: OnErrorCallback) {
     this.onErrorCallback = callback;
-  }
-
-  config(message: PhonicSTSConfig) {
-    this.ws.send(
-      JSON.stringify({
-        type: "config",
-        ...message,
-      }),
-    );
   }
 
   audioChunk(message: { audio: string }) {

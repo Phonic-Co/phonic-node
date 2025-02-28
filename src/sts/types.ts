@@ -10,6 +10,9 @@ export type PhonicSTSConfig = {
 
 export type PhonicSTSWebSocketResponseMessage =
   | {
+      type: "ready_to_start_conversation";
+    }
+  | {
       type: "input_text";
       text: string;
     }

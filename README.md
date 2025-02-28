@@ -50,23 +50,10 @@ if (error === null) {
 
 ### Speech-to-speech via WebSocket
 
-Open a WebSocket connection:
+To start a conversation, open a WebSocket connection:
 
 ```ts
-const { data, error } = await phonic.sts.websocket();
-
-if (error !== null) {
-  throw new Error(error.message);
-}
-
-// Here we know that the WebSocket connection is open.
-const { phonicWebSocket } = data;
-```
-
-Send config params for the conversation:
-
-```ts
-phonicWebSocket.config({
+const { data, error } = await phonic.sts.websocket({
   input_format: "mulaw_8000",
 
   // Optional fields
@@ -75,6 +62,12 @@ phonicWebSocket.config({
   voice_id: "meredith",
   output_format: "mulaw_8000"
 });
+
+if (error !== null) {
+  throw new Error(`Failed to start conversation: ${error.message}`);
+}
+
+const { phonicWebSocket } = data;
 ```
 
 Stream input (user) audio chunks:
