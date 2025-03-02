@@ -29,7 +29,7 @@ export class Phonic {
       );
     }
 
-    this.baseUrl = config?.baseUrl ?? defaultBaseUrl;
+    this.baseUrl = (config?.baseUrl ?? defaultBaseUrl).replace(/\/$/, ""); // Remove trailing slash, if exists
 
     this.headers = new Headers({
       Authorization: `Bearer ${this.apiKey}`,
