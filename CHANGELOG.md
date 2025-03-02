@@ -1,5 +1,11 @@
 # phonic
 
+## 0.8.1
+
+### Patch Changes
+
+- [`bb2755c`](https://github.com/Phonic-Co/phonic-node/commit/bb2755cd51a6b25df651966fada898dec421b1c1) Thanks [@moroshko](https://github.com/moroshko)! - Trim trailing slash from baseUrl
+
 ## 0.8.0
 
 ### Minor Changes
