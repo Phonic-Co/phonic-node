@@ -26,6 +26,12 @@ export type PhonicSTSWebSocketResponseMessage =
       isUserSpeaking: boolean;
     }
   | {
+      type: "user_started_speaking";
+    }
+  | {
+      type: "user_finished_speaking";
+    }
+  | {
       type: "error";
       error: {
         message: string;
