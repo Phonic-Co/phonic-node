@@ -1,5 +1,6 @@
 export type PhonicConfig = {
   baseUrl?: string;
+  __downstreamWebSocketUrl?: string; // Intented for internal use only
 };
 
 export type FetchOptions = {

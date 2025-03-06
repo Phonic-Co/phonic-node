@@ -8,6 +8,7 @@ const defaultUserAgent = `phonic-node:${version}`;
 
 export class Phonic {
   readonly baseUrl: string;
+  readonly __downstreamWebSocketUrl: string | null;
   private readonly headers: Headers;
 
   readonly voices = new Voices(this);
@@ -30,6 +31,7 @@ export class Phonic {
     }
 
     this.baseUrl = (config?.baseUrl ?? defaultBaseUrl).replace(/\/$/, ""); // Remove trailing slash, if exists
+    this.__downstreamWebSocketUrl = config?.__downstreamWebSocketUrl || null;
 
     this.headers = new Headers({
       Authorization: `Bearer ${this.apiKey}`,

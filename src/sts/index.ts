@@ -80,7 +80,13 @@ export class SpeechToSpeech {
     config: PhonicSTSConfig,
   ): DataOrError<{ phonicWebSocket: PhonicSTSWebSocket }> {
     const wsBaseUrl = this.phonic.baseUrl.replace(/^http/, "ws");
-    const phonicApiWsUrl = `${wsBaseUrl}/v1/sts/ws`;
+    const queryString = new URLSearchParams({
+      ...(this.phonic.__downstreamWebSocketUrl !== null && {
+        downstream_websocket_url: this.phonic.__downstreamWebSocketUrl,
+      }),
+    }).toString();
+    const phonicApiWsUrl = `${wsBaseUrl}/v1/sts/ws?${queryString}`;
+
     /*
       ----+-----15sec-----+-----retryDelay-----+-----15sec-----+-----retryDelay-----+------...----
           |               |                    |               |                    |
