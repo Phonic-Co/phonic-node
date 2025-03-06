@@ -1,5 +1,11 @@
 # phonic
 
+## 0.8.2
+
+### Patch Changes
+
+- [`6fcc1a9`](https://github.com/Phonic-Co/phonic-node/commit/6fcc1a9703e1d6de3c623339cbb4c63377877e2f) Thanks [@moroshko](https://github.com/moroshko)! - Add \_\_downstreamWebSocketUrl for internal use
+
 ## 0.8.1
 
 ### Patch Changes
