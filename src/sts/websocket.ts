@@ -74,6 +74,15 @@ export class PhonicSTSWebSocket {
     );
   }
 
+  updateSystemPrompt(message: { systemPrompt: string }) {
+    this.ws.send(
+      JSON.stringify({
+        type: "update_system_prompt",
+        system_prompt: message.systemPrompt,
+      }),
+    );
+  }
+
   close() {
     this.ws.close();
   }
