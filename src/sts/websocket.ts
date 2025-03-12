@@ -83,7 +83,7 @@ export class PhonicSTSWebSocket {
     );
   }
 
-  close() {
-    this.ws.close();
+  close(code?: number) {
+    this.ws.close(code ?? 1000);
   }
 }
