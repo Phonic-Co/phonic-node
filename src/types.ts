@@ -1,5 +1,6 @@
 export type PhonicConfig = {
   baseUrl?: string;
+  headers?: Record<string, string>; // Optional request headers for all requests
   __downstreamWebSocketUrl?: string; // Intented for internal use only
 };
 

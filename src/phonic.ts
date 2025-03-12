@@ -9,7 +9,7 @@ const defaultUserAgent = `phonic-node:${version}`;
 export class Phonic {
   readonly baseUrl: string;
   readonly __downstreamWebSocketUrl: string | null;
-  private readonly headers: Headers;
+  readonly headers: Record<string, string>;
 
   readonly voices = new Voices(this);
   readonly sts = new SpeechToSpeech(this);
@@ -33,11 +33,12 @@ export class Phonic {
     this.baseUrl = (config?.baseUrl ?? defaultBaseUrl).replace(/\/$/, ""); // Remove trailing slash, if exists
     this.__downstreamWebSocketUrl = config?.__downstreamWebSocketUrl || null;
 
-    this.headers = new Headers({
+    this.headers = {
       Authorization: `Bearer ${this.apiKey}`,
       "User-Agent": process.env.PHONIC_USER_AGENT || defaultUserAgent,
       "Content-Type": "application/json",
-    });
+      ...config?.headers,
+    };
   }
 
   async fetchRequest<T>(path: string, options: FetchOptions): DataOrError<T> {

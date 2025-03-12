@@ -20,9 +20,7 @@ export class SpeechToSpeech {
   ): DataOrError<{ phonicWebSocket: PhonicSTSWebSocket }> {
     return new Promise((resolve) => {
       const ws = new WebSocket(phonicApiWsUrl, {
-        headers: {
-          Authorization: `Bearer ${this.phonic.apiKey}`,
-        },
+        headers: this.phonic.headers,
       });
 
       ws.onopen = () => {
