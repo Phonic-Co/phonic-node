@@ -1,5 +1,11 @@
 # phonic
 
+## 0.10.0
+
+### Minor Changes
+
+- [`890faaa`](https://github.com/Phonic-Co/phonic-node/commit/890faaa974f8f1fe311e4f4f1af436a378619038) Thanks [@moroshko](https://github.com/moroshko)! - Add ability to pass headers to all requests
+
 ## 0.9.0
 
 ### Minor Changes
