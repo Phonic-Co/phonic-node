@@ -1,5 +1,11 @@
 # phonic
 
+## 0.9.0
+
+### Minor Changes
+
+- [`8a3a336`](https://github.com/Phonic-Co/phonic-node/commit/8a3a336ce24a92eab7dbc638e587ae5d547c3904) Thanks [@moroshko](https://github.com/moroshko)! - Allow passing a code to close()
+
 ## 0.8.2
 
 ### Patch Changes
