@@ -106,9 +106,9 @@ phonicWebSocket.onMessage((message) => {
 ```
 Update the system prompt mid-conversation:
 ```ts
-phonicWebSocket.updateSystemPrompt(
+phonicWebSocket.updateSystemPrompt({
   systemPrompt = "..."
-)
+})
 ```
 
 To end the conversation, close the WebSocket:
