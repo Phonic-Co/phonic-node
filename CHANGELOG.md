@@ -1,5 +1,11 @@
 # phonic
 
+## 0.11.0
+
+### Minor Changes
+
+- [`df30388`](https://github.com/Phonic-Co/phonic-node/commit/df30388fc642f753419a192c63e4f15de341f659) Thanks [@moroshko](https://github.com/moroshko)! - Allow setting an external ID for the conversation by calling setExternalId()
+
 ## 0.10.0
 
 ### Minor Changes
