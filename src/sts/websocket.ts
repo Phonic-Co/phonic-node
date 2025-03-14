@@ -65,20 +65,29 @@ export class PhonicSTSWebSocket {
     this.onErrorCallback = callback;
   }
 
-  audioChunk(message: { audio: string }) {
+  audioChunk({ audio }: { audio: string }) {
     this.ws.send(
       JSON.stringify({
         type: "audio_chunk",
-        ...message,
+        audio,
       }),
     );
   }
 
-  updateSystemPrompt(message: { systemPrompt: string }) {
+  updateSystemPrompt({ systemPrompt }: { systemPrompt: string }) {
     this.ws.send(
       JSON.stringify({
         type: "update_system_prompt",
-        system_prompt: message.systemPrompt,
+        system_prompt: systemPrompt,
+      }),
+    );
+  }
+
+  setExternalId({ externalId }: { externalId: string }) {
+    this.ws.send(
+      JSON.stringify({
+        type: "set_external_id",
+        external_id: externalId,
       }),
     );
   }

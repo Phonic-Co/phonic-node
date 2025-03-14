@@ -104,10 +104,20 @@ phonicWebSocket.onMessage((message) => {
   }
 });
 ```
+
 Update the system prompt mid-conversation:
+
 ```ts
 phonicWebSocket.updateSystemPrompt({
-  systemPrompt = "..."
+  systemPrompt: "..."
+})
+```
+
+Set an external ID for the conversation (can be the Twilio Call SID, for example):
+
+```ts
+phonicWebSocket.setExternalId({
+  externalId: "..."
 })
 ```
 
