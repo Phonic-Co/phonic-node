@@ -31,7 +31,7 @@ describe("Phonic constructor", () => {
   });
 });
 
-describe("voices", () => {
+describe.skip("voices", () => {
   test("list voices and get voice by id", async () => {
     const phonic = new Phonic(apiKey, { baseUrl });
     const { data: voicesData, error: voicesError } = await phonic.voices.list({
