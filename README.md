@@ -7,6 +7,8 @@ Node.js library for the Phonic API.
 - [Usage](#usage)
   - [Get voices](#get-voices)
   - [Get voice by id](#get-voice-by-id)
+  - [Get conversation by id](#get-conversation-by-id)
+  - [Get conversation by external id](#get-conversation-by-external-id)
   - [Speech-to-speech via WebSocket](#speech-to-speech-via-websocket)
 
 ## Installation
@@ -38,13 +40,33 @@ if (error === null) {
 ```
 
 
-### Get voice by ID
+### Get voice by id
 
 ```ts
 const { data, error } = await phonic.voices.get("meredith");
 
 if (error === null) {
   console.log(data.voice);
+}
+```
+
+### Get conversation by id
+
+```ts
+const { data, error } = await phonic.conversations.get("conv_b1804883-5be4-42fe-b1cf-aa84450d5c84");
+
+if (error === null) {
+  console.log(data.conversation);
+}
+```
+
+### Get conversation by external id
+
+```ts
+const { data, error } = await phonic.conversations.getByExternalId("CAdb9c032c809fec7feb932ea4c96d71e1");
+
+if (error === null) {
+  console.log(data.conversation);
 }
 ```
 
@@ -113,7 +135,7 @@ phonicWebSocket.updateSystemPrompt({
 })
 ```
 
-Set an external ID for the conversation (can be the Twilio Call SID, for example):
+Set an external id for the conversation (can be the Twilio Call SID, for example):
 
 ```ts
 phonicWebSocket.setExternalId({

@@ -1,4 +1,5 @@
 import { version } from "../package.json";
+import { Conversations } from "./conversations";
 import { SpeechToSpeech } from "./sts";
 import type { DataOrError, FetchOptions, PhonicConfig } from "./types";
 import { Voices } from "./voices";
@@ -11,6 +12,7 @@ export class Phonic {
   readonly __downstreamWebSocketUrl: string | null;
   readonly headers: Record<string, string>;
 
+  readonly conversations = new Conversations(this);
   readonly voices = new Voices(this);
   readonly sts = new SpeechToSpeech(this);
 
