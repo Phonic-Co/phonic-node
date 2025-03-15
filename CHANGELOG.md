@@ -1,5 +1,11 @@
 # phonic
 
+## 0.12.0
+
+### Minor Changes
+
+- [`f83230f`](https://github.com/Phonic-Co/phonic-node/commit/f83230f689e3a6f07f023fdcb87c18c42cc0d75c) Thanks [@moroshko](https://github.com/moroshko)! - Add ability to fetch a conversation by id or external id
+
 ## 0.11.0
 
 ### Minor Changes
