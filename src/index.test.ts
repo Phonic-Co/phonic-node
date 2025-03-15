@@ -21,9 +21,9 @@ if (!Bun.env.PHONIC_API_CONVERSATION_ID) {
 const conversationExternalId = Bun.env
   .PHONIC_API_CONVERSATION_EXTERNAL_ID as string;
 
-// if (!Bun.env.PHONIC_API_CONVERSATION_EXTERNAL_ID) {
-//   throw new Error("PHONIC_API_CONVERSATION_EXTERNAL_ID is not set");
-// }
+if (!Bun.env.PHONIC_API_CONVERSATION_EXTERNAL_ID) {
+  throw new Error("PHONIC_API_CONVERSATION_EXTERNAL_ID is not set");
+}
 
 const baseUrl = Bun.env.PHONIC_API_BASE_URL;
 
@@ -94,8 +94,7 @@ describe("conversations", () => {
     expect(conversation.id).toBe(conversationId);
   });
 
-  // TODO: Enable this test once we have the data in the db
-  test.skip("get conversation by external id", async () => {
+  test("get conversation by external id", async () => {
     const phonic = new Phonic(apiKey, { baseUrl });
     const { data: conversationData, error: conversationError } =
       await phonic.conversations.getByExternalId(conversationExternalId);
