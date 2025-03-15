@@ -12,6 +12,19 @@ if (!Bun.env.PHONIC_API_BASE_URL) {
   throw new Error("PHONIC_API_BASE_URL is not set");
 }
 
+const conversationId = Bun.env.PHONIC_API_CONVERSATION_ID as string;
+
+if (!Bun.env.PHONIC_API_CONVERSATION_ID) {
+  throw new Error("PHONIC_API_CONVERSATION_ID is not set");
+}
+
+const conversationExternalId = Bun.env
+  .PHONIC_API_CONVERSATION_EXTERNAL_ID as string;
+
+// if (!Bun.env.PHONIC_API_CONVERSATION_EXTERNAL_ID) {
+//   throw new Error("PHONIC_API_CONVERSATION_EXTERNAL_ID is not set");
+// }
+
 const baseUrl = Bun.env.PHONIC_API_BASE_URL;
 
 const voiceSchema = z
@@ -31,7 +44,7 @@ describe("Phonic constructor", () => {
   });
 });
 
-describe.skip("voices", () => {
+describe("voices", () => {
   test("list voices and get voice by id", async () => {
     const phonic = new Phonic(apiKey, { baseUrl });
     const { data: voicesData, error: voicesError } = await phonic.voices.list({
@@ -62,6 +75,39 @@ describe.skip("voices", () => {
     }
 
     expect(voiceSchema.safeParse(voiceData.voice).success).toBe(true);
+  });
+});
+
+describe("conversations", () => {
+  test("get conversation by id", async () => {
+    const phonic = new Phonic(apiKey, { baseUrl });
+    const { data: conversationData, error: conversationError } =
+      await phonic.conversations.get(conversationId);
+
+    if (conversationError !== null) {
+      expect(conversationError).toBeNull();
+      return;
+    }
+
+    const { conversation } = conversationData;
+
+    expect(conversation.id).toBe(conversationId);
+  });
+
+  // TODO: Enable this test once we have the data in the db
+  test.skip("get conversation by external id", async () => {
+    const phonic = new Phonic(apiKey, { baseUrl });
+    const { data: conversationData, error: conversationError } =
+      await phonic.conversations.getByExternalId(conversationExternalId);
+
+    if (conversationError !== null) {
+      expect(conversationError).toBeNull();
+      return;
+    }
+
+    const { conversation } = conversationData;
+
+    expect(conversation.external_id).toBe(conversationExternalId);
   });
 });
 
