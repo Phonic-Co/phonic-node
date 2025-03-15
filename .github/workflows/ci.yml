@@ -21,6 +21,8 @@ jobs:
         env:
           PHONIC_API_KEY: ${{ secrets.PHONIC_API_KEY }}
           PHONIC_API_BASE_URL: ${{ secrets.PHONIC_API_BASE_URL }}
+          PHONIC_API_CONVERSATION_ID: ${{ secrets.PHONIC_API_CONVERSATION_ID }}
+          PHONIC_API_CONVERSATION_EXTERNAL_ID: ${{ secrets.PHONIC_API_CONVERSATION_EXTERNAL_ID }}
 
       - name: Build
         run: bun run build
