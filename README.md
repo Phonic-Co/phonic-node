@@ -75,8 +75,8 @@ if (error === null) {
 
 ```ts
 const { data, error } = await phonic.conversations.list({
-  durationMin: 10000, // ms
-  durationMax: 20000, // ms
+  durationMin: 10, // sec
+  durationMax: 20, // sec
   startedAtMin: "2025-04-17", // 00:00:00 UTC time is assumed
   startedAtMax: "2025-09-05T10:30:00.000Z",
 });
