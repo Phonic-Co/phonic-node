@@ -1,5 +1,11 @@
 # phonic
 
+## 0.13.0
+
+### Minor Changes
+
+- [`29eb9c8`](https://github.com/Phonic-Co/phonic-node/commit/29eb9c8370e65280d8c77685887d074b3ba9e86c) Thanks [@moroshko](https://github.com/moroshko)! - Add phonic.conversations.list()
+
 ## 0.12.0
 
 ### Minor Changes
