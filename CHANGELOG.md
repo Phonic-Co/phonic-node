@@ -1,5 +1,11 @@
 # phonic
 
+## 0.13.1
+
+### Patch Changes
+
+- [`3b9f9c1`](https://github.com/Phonic-Co/phonic-node/commit/3b9f9c1f3df8c6349af97e184fc70bc752554d8e) Thanks [@moroshko](https://github.com/moroshko)! - Fix durationMin and durationMax in README
+
 ## 0.13.0
 
 ### Minor Changes
