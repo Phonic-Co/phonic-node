@@ -1,6 +1,9 @@
 import type { Phonic } from "../phonic";
-import type { DataOrError } from "../types";
-import type { ConversationSuccessResponse } from "./types";
+import type { DataOrError, ISODate, ISODateTime } from "../types";
+import type {
+  ConversationSuccessResponse,
+  ConversationsSuccessResponse,
+} from "./types";
 
 export class Conversations {
   constructor(private readonly phonic: Phonic) {}
@@ -16,8 +19,35 @@ export class Conversations {
   async getByExternalId(
     externalId: string,
   ): DataOrError<ConversationSuccessResponse> {
+    const queryString = new URLSearchParams({
+      external_id: externalId,
+    }).toString();
     const response = await this.phonic.get<ConversationSuccessResponse>(
-      `/conversations?external_id=${externalId}`,
+      `/conversations?${queryString}`,
+    );
+
+    return response;
+  }
+
+  async list({
+    durationMin,
+    durationMax,
+    startedAtMin,
+    startedAtMax,
+  }: {
+    durationMin?: number;
+    durationMax?: number;
+    startedAtMin?: ISODate | ISODateTime;
+    startedAtMax?: ISODate | ISODateTime;
+  }): DataOrError<ConversationsSuccessResponse> {
+    const queryString = new URLSearchParams({
+      ...(durationMin !== undefined && { duration_min: String(durationMin) }),
+      ...(durationMax !== undefined && { duration_max: String(durationMax) }),
+      ...(startedAtMin !== undefined && { started_at_min: startedAtMin }),
+      ...(startedAtMax !== undefined && { started_at_max: startedAtMax }),
+    }).toString();
+    const response = await this.phonic.get<ConversationsSuccessResponse>(
+      `/conversations?${queryString}`,
     );
 
     return response;

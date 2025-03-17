@@ -16,3 +16,6 @@ export type ErrorResponse = {
 export type DataOrError<T> = Promise<
   { data: T; error: null } | { data: null; error: ErrorResponse }
 >;
+
+export type ISODate = `${string}-${string}-${string}`;
+export type ISODateTime = `${string}Z`;

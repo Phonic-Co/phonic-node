@@ -36,3 +36,7 @@ type Conversation = {
 export type ConversationSuccessResponse = {
   conversation: Conversation;
 };
+
+export type ConversationsSuccessResponse = {
+  conversations: Array<Conversation>;
+};

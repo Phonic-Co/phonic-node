@@ -9,6 +9,7 @@ Node.js library for the Phonic API.
   - [Get voice by id](#get-voice-by-id)
   - [Get conversation by id](#get-conversation-by-id)
   - [Get conversation by external id](#get-conversation-by-external-id)
+  - [List conversations](#list-conversations)
   - [Speech-to-speech via WebSocket](#speech-to-speech-via-websocket)
 
 ## Installation
@@ -67,6 +68,21 @@ const { data, error } = await phonic.conversations.getByExternalId("CAdb9c032c80
 
 if (error === null) {
   console.log(data.conversation);
+}
+```
+
+### List conversations
+
+```ts
+const { data, error } = await phonic.conversations.list({
+  durationMin: 10000, // ms
+  durationMax: 20000, // ms
+  startedAtMin: "2025-04-17",
+  startedAtMax: "2025-09-05",
+});
+
+if (error === null) {
+  console.log(data.conversations);
 }
 ```
 
