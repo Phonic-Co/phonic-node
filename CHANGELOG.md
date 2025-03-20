@@ -1,5 +1,11 @@
 # phonic
 
+## 0.13.2
+
+### Patch Changes
+
+- [`0eff8d7`](https://github.com/Phonic-Co/phonic-node/commit/0eff8d76f516b6dcc1df4557cfba16b6eeb86c7e) Thanks [@moroshko](https://github.com/moroshko)! - Add messages that Phonic sends back to README
+
 ## 0.13.1
 
 ### Patch Changes
