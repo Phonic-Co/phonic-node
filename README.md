@@ -11,6 +11,7 @@ Node.js library for the Phonic API.
   - [Get conversation by external id](#get-conversation-by-external-id)
   - [List conversations](#list-conversations)
   - [Speech-to-speech via WebSocket](#speech-to-speech-via-websocket)
+    - [Messages that Phonic sends back to you](#messages-that-phonic-sends-back-to-you)
 
 ## Installation
 
@@ -178,6 +179,52 @@ phonicWebSocket.onError((event) => {
   console.log(`Error from Phonic WebSocket: ${event.message}`);
 });
 ```
+
+#### Messages that Phonic sends back to you
+
+##### `input_text`
+
+```ts
+{
+  type: "input_text";
+  text: string;
+}
+```
+
+Phonic sends this message once user's audio is transcribed.
+
+##### `audio_chunk`
+
+```ts
+{
+  type: "audio_chunk";
+  audio: string; // base64 encoded array of audio data (each value is in range [-32768..32767] for "pcm_44100" output format, and in range [0..255] for "mulaw_8000" output format)  
+  text: string; // May potentially be "", but will typically be one word.
+}
+```
+
+These are the assistant response audio chunks.
+
+##### `audio_finished`
+
+```ts
+{
+  type: "audio_finished";
+}
+```
+
+Sent after the last "audio_chunk" is sent.
+
+##### `interrupted_response`
+
+```ts
+{
+  type: "interrupted_response",
+  interruptedResponse: string, // partial assistant response that cuts off approximately where the user interrupted
+}
+```
+
+Sent when the user interrupts the assistant, after the user has finished speaking.
 
 ## License
 
