@@ -31,7 +31,7 @@ export type PhonicSTSWebSocketResponseMessage =
         message: string;
         code?: string;
       };
-      paramErrors?: {
+      param_errors?: {
         input_format?: string;
         system_prompt?: string;
         welcome_message?: string;
