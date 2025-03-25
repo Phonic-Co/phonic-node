@@ -1,5 +1,11 @@
 # phonic
 
+## 0.13.3
+
+### Patch Changes
+
+- [`2a14eee`](https://github.com/Phonic-Co/phonic-node/commit/2a14eeeedf708d382e338633ab6944eeefc37c66) Thanks [@moroshko](https://github.com/moroshko)! - Update param_errors casing in README
+
 ## 0.13.2
 
 ### Patch Changes
