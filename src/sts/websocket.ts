@@ -1,3 +1,7 @@
+import { readFileSync } from "node:fs";
+import { mulaw } from "alawmulaw";
+import { config } from "dotenv";
+import { decode } from "node-wav";
 import type WebSocket from "ws";
 import type {
   OnCloseCallback,
@@ -10,8 +14,38 @@ export class PhonicSTSWebSocket {
   private onMessageCallback: OnMessageCallback | null = null;
   private onCloseCallback: OnCloseCallback | null = null;
   private onErrorCallback: OnErrorCallback | null = null;
+  private replayWavFilePath: string | undefined = undefined;
+  private replaySampleRate: number | undefined = undefined;
+  private replayChannelData: Float32Array[] | undefined = undefined;
+  private replayPlaybackTime: number | undefined = undefined;
 
   constructor(private readonly ws: WebSocket) {
+    config({ path: ".env.local" });
+    this.replayWavFilePath = process.env.REPLAY_WAV_FILE_PATH;
+    const buffer =
+      this.replayWavFilePath !== undefined
+        ? readFileSync(this.replayWavFilePath)
+        : undefined;
+    const result = buffer !== undefined ? decode(buffer) : undefined;
+    this.replaySampleRate = result?.sampleRate;
+    this.replayChannelData = result?.channelData.slice();
+    this.replayPlaybackTime =
+      this.replayWavFilePath !== undefined ? 0.0 : undefined;
+    console.log(
+      "\nreading replay wav from:",
+      this.replayWavFilePath,
+      "\nsample rate:",
+      this.replaySampleRate,
+      "\nchannels:",
+      this.replayChannelData?.length,
+    );
+    if (
+      this.replayChannelData !== undefined &&
+      this.replayChannelData[0] !== undefined
+    ) {
+      console.log("\nlength in samples:", this.replayChannelData[0].length);
+    }
+
     this.ws.onmessage = (event) => {
       if (this.onMessageCallback === null) {
         return;
@@ -66,12 +100,43 @@ export class PhonicSTSWebSocket {
   }
 
   audioChunk({ audio }: { audio: string }) {
-    this.ws.send(
-      JSON.stringify({
-        type: "audio_chunk",
-        audio,
-      }),
-    );
+    if (this.replayWavFilePath !== null) {
+      // hijack and send replay instead
+      if (
+        this.replayWavFilePath !== undefined &&
+        this.replayChannelData !== undefined &&
+        this.replayChannelData[0] !== undefined &&
+        this.replayPlaybackTime !== undefined &&
+        this.replaySampleRate !== undefined
+      ) {
+        const audioFloat32 = this.replayChannelData[0].slice(
+          this.replayPlaybackTime * this.replaySampleRate,
+          (this.replayPlaybackTime + 0.02) * this.replaySampleRate,
+        );
+        const audioUint8MuLaw = new Uint8Array(audioFloat32.length);
+        for (let i = 0; i < audioUint8MuLaw.length; i++) {
+          audioUint8MuLaw[i] = mulaw.encodeSample(
+            Math.floor((audioFloat32[i] ?? 0) * 32768),
+          );
+        }
+        const audioBase64 = Buffer.from(audioUint8MuLaw.buffer).toString(
+          "base64",
+        );
+        this.ws.send(
+          JSON.stringify({
+            type: "audio_chunk",
+            audioBase64,
+          }),
+        );
+      }
+    } else {
+      this.ws.send(
+        JSON.stringify({
+          type: "audio_chunk",
+          audio,
+        }),
+      );
+    }
   }
 
   updateSystemPrompt({ systemPrompt }: { systemPrompt: string }) {
