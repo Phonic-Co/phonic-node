@@ -1,6 +1,7 @@
 import { version } from "../package.json";
 import { Conversations } from "./conversations";
 import { SpeechToSpeech } from "./sts";
+import { Projects } from "./projects";
 import type {
   DataOrError,
   FetchOptions,
@@ -20,6 +21,7 @@ export class Phonic {
   readonly conversations = new Conversations(this);
   readonly voices = new Voices(this);
   readonly sts = new SpeechToSpeech(this);
+  readonly projects = new Projects(this);
 
   constructor(
     readonly apiKey: string,
