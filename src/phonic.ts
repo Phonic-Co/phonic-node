@@ -1,7 +1,7 @@
 import { version } from "../package.json";
 import { Conversations } from "./conversations";
-import { SpeechToSpeech } from "./sts";
 import { Projects } from "./projects";
+import { SpeechToSpeech } from "./sts";
 import type {
   DataOrError,
   FetchOptions,
