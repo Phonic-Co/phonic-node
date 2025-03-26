@@ -4,9 +4,18 @@ export type PhonicConfig = {
   __downstreamWebSocketUrl?: string; // Intented for internal use only
 };
 
-export type FetchOptions = {
-  method: "GET";
+type AddEvalPromptBody = {
+  name: string;
+  prompt: string;
 };
+
+type EvaluateConversationBody = {
+  prompt_id: string;
+};
+
+export type PostBody = AddEvalPromptBody | EvaluateConversationBody;
+
+export type FetchOptions = { method: "GET" } | { method: "POST"; body: string };
 
 export type ErrorResponse = {
   message: string;

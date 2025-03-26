@@ -1,7 +1,12 @@
 import { version } from "../package.json";
 import { Conversations } from "./conversations";
 import { SpeechToSpeech } from "./sts";
-import type { DataOrError, FetchOptions, PhonicConfig } from "./types";
+import type {
+  DataOrError,
+  FetchOptions,
+  PhonicConfig,
+  PostBody,
+} from "./types";
 import { Voices } from "./voices";
 
 const defaultBaseUrl = "https://api.phonic.co";
@@ -80,5 +85,12 @@ export class Phonic {
 
   async get<T>(path: string) {
     return this.fetchRequest<T>(path, { method: "GET" });
+  }
+
+  async post<T>(path: string, body: PostBody) {
+    return this.fetchRequest<T>(path, {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
   }
 }

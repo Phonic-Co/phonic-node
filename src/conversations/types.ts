@@ -40,3 +40,11 @@ export type ConversationSuccessResponse = {
 export type ConversationsSuccessResponse = {
   conversations: Array<Conversation>;
 };
+
+type ConversationEvaluation = {
+  result: "successful" | "unsuccessful" | "undecided" | "error";
+};
+
+export type ConversationEvaluationSuccessResponse = {
+  evaluation: ConversationEvaluation;
+};

@@ -1,6 +1,7 @@
 import type { Phonic } from "../phonic";
 import type { DataOrError, ISODate, ISODateTime } from "../types";
 import type {
+  ConversationEvaluationSuccessResponse,
   ConversationSuccessResponse,
   ConversationsSuccessResponse,
 } from "./types";
@@ -49,6 +50,21 @@ export class Conversations {
     const response = await this.phonic.get<ConversationsSuccessResponse>(
       `/conversations?${queryString}`,
     );
+
+    return response;
+  }
+
+  async evaluateConversation(
+    conversation_id: string,
+    prompt_id: string,
+  ): DataOrError<ConversationEvaluationSuccessResponse> {
+    const response =
+      await this.phonic.post<ConversationEvaluationSuccessResponse>(
+        `/conversations/${conversation_id}/evals`,
+        {
+          prompt_id,
+        },
+      );
 
     return response;
   }
