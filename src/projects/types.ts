@@ -1,4 +1,4 @@
-type ConversationEvalPrompt = {
+export type ConversationEvalPrompt = {
   id: string;
   name: string;
   prompt: string;
