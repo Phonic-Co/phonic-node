@@ -51,7 +51,7 @@ export type ConversationEvaluationSuccessResponse = {
 
 type ConversationEvaluation = {
   id: string;
-  prompt: ConversationEvalPrompt;
+  prompt: Pick<ConversationEvalPrompt, "id" | "name">;
   result: "successful" | "unsuccessful" | "undecided" | "error";
   created_at: ISODateTime;
 };
