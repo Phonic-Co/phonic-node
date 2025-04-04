@@ -1,5 +1,11 @@
 # phonic
 
+## 0.14.0
+
+### Minor Changes
+
+- [`21ee57d`](https://github.com/Phonic-Co/phonic-node/commit/21ee57d8654813d804e2ff42500972f170d49e55) Thanks [@moroshko](https://github.com/moroshko)! - Add project_id to PhonicSTSConfig and upgrade deps
+
 ## 0.13.3
 
 ### Patch Changes
