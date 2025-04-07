@@ -41,7 +41,7 @@
     "@changesets/cli": "2.28.1",
     "@types/bun": "1.2.8",
     "tsup": "8.4.0",
-    "typescript": "5.8.2",
+    "typescript": "5.8.3",
     "zod": "3.24.2"
   },
   "files": ["dist/**"],

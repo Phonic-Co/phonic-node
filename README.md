@@ -65,7 +65,10 @@ if (error === null) {
 ### Get conversation by external id
 
 ```ts
-const { data, error } = await phonic.conversations.getByExternalId("CAdb9c032c809fec7feb932ea4c96d71e1");
+const { data, error } = await phonic.conversations.getByExternalId({
+  project: "main",
+  externalId: "CAdb9c032c809fec7feb932ea4c96d71e1"
+});
 
 if (error === null) {
   console.log(data.conversation);
@@ -76,6 +79,7 @@ if (error === null) {
 
 ```ts
 const { data, error } = await phonic.conversations.list({
+  project: "main",
   durationMin: 10, // sec
   durationMax: 20, // sec
   startedAtMin: "2025-04-17", // 00:00:00 UTC time is assumed
@@ -96,6 +100,7 @@ const { data, error } = await phonic.sts.websocket({
   input_format: "mulaw_8000",
 
   // Optional fields
+  project: "main",
   system_prompt: "You are a helpful assistant.",
   welcome_message: "Hello, how can I help you?",
   voice_id: "meredith",

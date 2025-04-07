@@ -16,10 +16,15 @@ export class Conversations {
     return response;
   }
 
-  async getByExternalId(
-    externalId: string,
-  ): DataOrError<ConversationSuccessResponse> {
+  async getByExternalId({
+    project,
+    externalId,
+  }: {
+    project?: string;
+    externalId: string;
+  }): DataOrError<ConversationSuccessResponse> {
     const queryString = new URLSearchParams({
+      ...(project !== undefined && { project }),
       external_id: externalId,
     }).toString();
     const response = await this.phonic.get<ConversationSuccessResponse>(
@@ -30,17 +35,20 @@ export class Conversations {
   }
 
   async list({
+    project,
     durationMin,
     durationMax,
     startedAtMin,
     startedAtMax,
   }: {
+    project?: string;
     durationMin?: number;
     durationMax?: number;
     startedAtMin?: ISODate | ISODateTime;
     startedAtMax?: ISODate | ISODateTime;
   }): DataOrError<ConversationsSuccessResponse> {
     const queryString = new URLSearchParams({
+      ...(project !== undefined && { project }),
       ...(durationMin !== undefined && { duration_min: String(durationMin) }),
       ...(durationMax !== undefined && { duration_max: String(durationMax) }),
       ...(startedAtMin !== undefined && { started_at_min: startedAtMin }),

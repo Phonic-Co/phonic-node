@@ -1,7 +1,7 @@
 import type WebSocket from "ws";
 
 export type PhonicSTSConfig = {
-  project_id: string;
+  project: string;
   input_format: "pcm_44100" | "mulaw_8000";
   system_prompt?: string;
   welcome_message?: string;

@@ -50,22 +50,30 @@ export class Phonic {
         ...options,
       });
 
-      if (!response.ok) {
-        const statusText = await response.text();
+      if (response.ok) {
+        const data = await response.json();
 
-        console.error(response);
+        return { data, error: null };
+      }
+
+      try {
+        const data = await response.json();
+        const errorMessage = data.error.message || response.statusText;
 
         return {
           data: null,
           error: {
-            message: statusText,
+            message: errorMessage,
+          },
+        };
+      } catch (error) {
+        return {
+          data: null,
+          error: {
+            message: response.statusText,
           },
         };
       }
-
-      const data = await response.json();
-
-      return { data, error: null };
     } catch (error) {
       console.error(error);
 

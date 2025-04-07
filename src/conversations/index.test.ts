@@ -45,7 +45,9 @@ describe("conversations", () => {
   test("get conversation by external id", async () => {
     const phonic = new Phonic(apiKey, { baseUrl });
     const { data: conversationData, error: conversationError } =
-      await phonic.conversations.getByExternalId(conversationExternalId);
+      await phonic.conversations.getByExternalId({
+        externalId: conversationExternalId,
+      });
 
     if (conversationError !== null) {
       expect(conversationError).toBeNull();
