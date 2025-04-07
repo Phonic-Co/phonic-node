@@ -1,5 +1,15 @@
 # phonic
 
+## 0.15.0
+
+### Minor Changes
+
+- [`60ada93`](https://github.com/Phonic-Co/phonic-node/commit/60ada933e18ea6a08d6ccf3dac6518fb94446839) Thanks [@moroshko](https://github.com/moroshko)!
+  - Change `project_id` to `project` in `PhonicSTSConfig`
+  - Update `phonic.conversations.getByExternalId()` to accept an object
+  - Improve error handling
+  - Upgrade dependencies
+
 ## 0.14.0
 
 ### Minor Changes
