@@ -27,6 +27,10 @@ export type PhonicSTSWebSocketResponseMessage =
       isUserSpeaking: boolean;
     }
   | {
+      type: "interrupted_response";
+      interruptedResponse: string;
+    }
+  | {
       type: "error";
       error: {
         message: string;
