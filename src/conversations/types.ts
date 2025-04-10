@@ -1,3 +1,5 @@
+import type { ConversationEvalPrompt } from "../projects/types";
+
 type ISODateTime = `${string}Z`;
 
 type ConversationItem =
@@ -39,4 +41,21 @@ export type ConversationSuccessResponse = {
 
 export type ConversationsSuccessResponse = {
   conversations: Array<Conversation>;
+};
+
+export type ConversationEvaluationSuccessResponse = {
+  evaluation: {
+    result: "successful" | "unsuccessful" | "undecided" | "error";
+  };
+};
+
+type ConversationEvaluation = {
+  id: string;
+  prompt: Pick<ConversationEvalPrompt, "id" | "name">;
+  result: "successful" | "unsuccessful" | "undecided" | "error";
+  created_at: ISODateTime;
+};
+
+export type ConversationEvaluationsSuccessResponse = {
+  evaluations: Array<ConversationEvaluation>;
 };
