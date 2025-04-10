@@ -1,5 +1,11 @@
 # phonic
 
+## 0.15.1
+
+### Patch Changes
+
+- [#29](https://github.com/Phonic-Co/phonic-node/pull/29) [`d9df208`](https://github.com/Phonic-Co/phonic-node/commit/d9df208410fb41f854de331abed3a41b07eb02b4) Thanks [@qionghuang6](https://github.com/qionghuang6)! - Add interrupted_response type
+
 ## 0.15.0
 
 ### Minor Changes
