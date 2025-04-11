@@ -3,6 +3,7 @@ import type {
   OnCloseCallback,
   OnErrorCallback,
   OnMessageCallback,
+  PhonicSTSConfig,
   PhonicSTSWebSocketResponseMessage,
 } from "./types";
 
@@ -10,8 +11,28 @@ export class PhonicSTSWebSocket {
   private onMessageCallback: OnMessageCallback | null = null;
   private onCloseCallback: OnCloseCallback | null = null;
   private onErrorCallback: OnErrorCallback | null = null;
+  private buffer: Array<string> = [];
+  private isOpen = false;
 
-  constructor(private readonly ws: WebSocket) {
+  constructor(
+    private readonly ws: WebSocket,
+    private readonly config: PhonicSTSConfig,
+  ) {
+    this.buffer.push(
+      JSON.stringify({
+        type: "config",
+        ...this.config,
+      }),
+    );
+
+    this.ws.onopen = () => {
+      for (const message of this.buffer) {
+        this.ws.send(message);
+      }
+
+      this.isOpen = true;
+    };
+
     this.ws.onmessage = (event) => {
       if (this.onMessageCallback === null) {
         return;
@@ -66,30 +87,42 @@ export class PhonicSTSWebSocket {
   }
 
   audioChunk({ audio }: { audio: string }) {
-    this.ws.send(
-      JSON.stringify({
-        type: "audio_chunk",
-        audio,
-      }),
-    );
+    const audiochunkMessage = JSON.stringify({
+      type: "audio_chunk",
+      audio,
+    });
+
+    if (this.isOpen) {
+      this.ws.send(audiochunkMessage);
+    } else {
+      this.buffer.push(audiochunkMessage);
+    }
   }
 
   updateSystemPrompt({ systemPrompt }: { systemPrompt: string }) {
-    this.ws.send(
-      JSON.stringify({
-        type: "update_system_prompt",
-        system_prompt: systemPrompt,
-      }),
-    );
+    const updateSystemPromptMessage = JSON.stringify({
+      type: "update_system_prompt",
+      system_prompt: systemPrompt,
+    });
+
+    if (this.isOpen) {
+      this.ws.send(updateSystemPromptMessage);
+    } else {
+      this.buffer.push(updateSystemPromptMessage);
+    }
   }
 
   setExternalId({ externalId }: { externalId: string }) {
-    this.ws.send(
-      JSON.stringify({
-        type: "set_external_id",
-        external_id: externalId,
-      }),
-    );
+    const setExternalIdMessage = JSON.stringify({
+      type: "set_external_id",
+      external_id: externalId,
+    });
+
+    if (this.isOpen) {
+      this.ws.send(setExternalIdMessage);
+    } else {
+      this.buffer.push(setExternalIdMessage);
+    }
   }
 
   close(code?: number) {

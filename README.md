@@ -96,7 +96,7 @@ if (error === null) {
 To start a conversation, open a WebSocket connection:
 
 ```ts
-const { data, error } = await phonic.sts.websocket({
+const phonicWebSocket = phonic.sts.websocket({
   input_format: "mulaw_8000",
 
   // Optional fields
@@ -106,12 +106,6 @@ const { data, error } = await phonic.sts.websocket({
   voice_id: "meredith",
   output_format: "mulaw_8000"
 });
-
-if (error !== null) {
-  throw new Error(`Failed to start conversation: ${error.message}`);
-}
-
-const { phonicWebSocket } = data;
 ```
 
 Stream input (user) audio chunks:
