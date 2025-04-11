@@ -1,5 +1,11 @@
 # phonic
 
+## 0.16.0
+
+### Minor Changes
+
+- [`af213d7`](https://github.com/Phonic-Co/phonic-node/commit/af213d73c7bb77429683330e1b6b8888ff4e9885) Thanks [@moroshko](https://github.com/moroshko)! - Update phonic.sts.websocket() API and remove retry logic
+
 ## 0.15.1
 
 ### Patch Changes
