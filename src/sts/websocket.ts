@@ -80,15 +80,15 @@ export class PhonicSTSWebSocket {
     input_format: "pcm_44100" | "mulaw_8000",
     intervalMs = 40,
   ) {
-    this.lastAudioSentTime = Date.now();
+    this.lastAudioSentTime = performance.now();
 
     if (this.silentAudioInterval) {
       clearInterval(this.silentAudioInterval);
     }
 
     this.silentAudioInterval = setInterval(() => {
-      const now = Date.now();
-      if (now - this.lastAudioSentTime >= intervalMs) {
+      const now = performance.now();
+      if (now - this.lastAudioSentTime >= intervalMs && this.isOpen) {
         const silentAudio = generateSilentAudio(input_format, intervalMs);
         this.audioChunk({ audio: silentAudio });
       }
@@ -114,6 +114,7 @@ export class PhonicSTSWebSocket {
     });
 
     if (this.isOpen) {
+      this.lastAudioSentTime = performance.now();
       this.ws.send(audiochunkMessage);
     } else {
       this.buffer.push(audiochunkMessage);

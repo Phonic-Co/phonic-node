@@ -3,12 +3,15 @@ import type { Phonic } from "../phonic";
 import type { PhonicSTSConfig } from "./types";
 import { PhonicSTSWebSocket } from "./websocket";
 
+type PhonicSTSWebSocketOptions = {
+  enableSilentAudioFallback?: boolean;
+} & PhonicSTSConfig;
+
 export class SpeechToSpeech {
   constructor(private readonly phonic: Phonic) {}
 
   websocket(
-    config: PhonicSTSConfig,
-    enableSilentAudioFallback = false,
+    config: PhonicSTSWebSocketOptions,
   ): PhonicSTSWebSocket {
     const wsBaseUrl = this.phonic.baseUrl.replace(/^http/, "ws");
     const queryString = new URLSearchParams({
@@ -23,7 +26,7 @@ export class SpeechToSpeech {
 
     const phonicSTSWebSocket = new PhonicSTSWebSocket(ws, config);
 
-    if (enableSilentAudioFallback) {
+    if (config.enableSilentAudioFallback) {
       phonicSTSWebSocket.enableSilentAudioFallback(config.input_format);
     }
 
