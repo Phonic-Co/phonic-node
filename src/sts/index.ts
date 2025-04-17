@@ -10,9 +10,7 @@ type PhonicSTSWebSocketOptions = {
 export class SpeechToSpeech {
   constructor(private readonly phonic: Phonic) {}
 
-  websocket(
-    config: PhonicSTSWebSocketOptions,
-  ): PhonicSTSWebSocket {
+  websocket(config: PhonicSTSWebSocketOptions): PhonicSTSWebSocket {
     const wsBaseUrl = this.phonic.baseUrl.replace(/^http/, "ws");
     const queryString = new URLSearchParams({
       ...(this.phonic.__downstreamWebSocketUrl !== null && {
