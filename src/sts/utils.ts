@@ -6,21 +6,18 @@ export const generateSilentAudio = (
     pcm_44100: {
       sampleRate: 44100,
       bytesPerSample: 2,
-      channels: 2,
       silentValue: 0,
     },
     mulaw_8000: {
       sampleRate: 8000,
       bytesPerSample: 1,
-      channels: 1,
       silentValue: 127, // 0x7F
     },
   };
 
   const params = format[input_format];
 
-  const bytesPerMs =
-    (params.sampleRate * params.bytesPerSample * params.channels) / 1000;
+  const bytesPerMs = (params.sampleRate * params.bytesPerSample) / 1000;
   const totalBytes = Math.ceil(bytesPerMs * lengthMs);
 
   const buffer = new Uint8Array(totalBytes).fill(params.silentValue);
