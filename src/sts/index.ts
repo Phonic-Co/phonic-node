@@ -6,7 +6,10 @@ import { PhonicSTSWebSocket } from "./websocket";
 export class SpeechToSpeech {
   constructor(private readonly phonic: Phonic) {}
 
-  websocket(config: PhonicSTSConfig): PhonicSTSWebSocket {
+  websocket(
+    config: PhonicSTSConfig,
+    enableSilentAudioFallback = false,
+  ): PhonicSTSWebSocket {
     const wsBaseUrl = this.phonic.baseUrl.replace(/^http/, "ws");
     const queryString = new URLSearchParams({
       ...(this.phonic.__downstreamWebSocketUrl !== null && {
@@ -18,6 +21,12 @@ export class SpeechToSpeech {
       headers: this.phonic.headers,
     });
 
-    return new PhonicSTSWebSocket(ws, config);
+    const phonicSTSWebSocket = new PhonicSTSWebSocket(ws, config);
+
+    if (enableSilentAudioFallback) {
+      phonicSTSWebSocket.enableSilentAudioFallback(config.input_format);
+    }
+
+    return phonicSTSWebSocket;
   }
 }

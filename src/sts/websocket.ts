@@ -6,13 +6,15 @@ import type {
   PhonicSTSConfig,
   PhonicSTSWebSocketResponseMessage,
 } from "./types";
-
+import { generateSilentAudio } from "./utils";
 export class PhonicSTSWebSocket {
   private onMessageCallback: OnMessageCallback | null = null;
   private onCloseCallback: OnCloseCallback | null = null;
   private onErrorCallback: OnErrorCallback | null = null;
   private buffer: Array<string> = [];
   private isOpen = false;
+  private lastAudioSentTime = 0;
+  private silentAudioInterval: NodeJS.Timeout | null = null;
 
   constructor(
     private readonly ws: WebSocket,
@@ -72,6 +74,25 @@ export class PhonicSTSWebSocket {
     this.onError = this.onError.bind(this);
     this.audioChunk = this.audioChunk.bind(this);
     this.close = this.close.bind(this);
+  }
+
+  enableSilentAudioFallback(
+    input_format: "pcm_44100" | "mulaw_8000",
+    intervalMs = 40,
+  ) {
+    this.lastAudioSentTime = Date.now();
+
+    if (this.silentAudioInterval) {
+      clearInterval(this.silentAudioInterval);
+    }
+
+    this.silentAudioInterval = setInterval(() => {
+      const now = Date.now();
+      if (now - this.lastAudioSentTime >= intervalMs) {
+        const silentAudio = generateSilentAudio(input_format, intervalMs);
+        this.audioChunk({ audio: silentAudio });
+      }
+    }, intervalMs);
   }
 
   onMessage(callback: OnMessageCallback) {
