@@ -1,5 +1,0 @@
----
-"phonic": patch
----
-
-Fix tests
