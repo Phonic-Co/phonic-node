@@ -7,6 +7,7 @@ export type PhonicSTSConfig = {
   welcome_message?: string;
   voice_id?: string;
   output_format?: "pcm_44100" | "mulaw_8000";
+  enable_silent_audio_fallback?: boolean;
 };
 
 export type PhonicSTSWebSocketResponseMessage =
