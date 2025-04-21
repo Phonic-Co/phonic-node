@@ -34,7 +34,7 @@ const phonic = new Phonic("ph_...");
 ### Get voices
 
 ```ts
-const { data, error } = await phonic.voices.list({ model: "shasta" });
+const { data, error } = await phonic.voices.list({ model: "tahoe" });
 
 if (error === null) {
   console.log(data.voices);
