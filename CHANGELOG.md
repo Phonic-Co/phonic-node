@@ -1,5 +1,11 @@
 # phonic
 
+## 0.16.1
+
+### Patch Changes
+
+- [`9ac3b63`](https://github.com/Phonic-Co/phonic-node/commit/9ac3b63ba7e3afc8fdac53cd1212a194ed87ed12) Thanks [@moroshko](https://github.com/moroshko)! - Fix tests
+
 ## 0.16.0
 
 ### Minor Changes
