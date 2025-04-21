@@ -2,4 +2,4 @@
 "phonic": patch
 ---
 
-Add enable_silent_audio_fallback to STSConfig on Node
+Add `enable_silent_audio_fallback` to `PhonicSTSConfig`.
