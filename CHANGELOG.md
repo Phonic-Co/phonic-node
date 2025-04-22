@@ -1,5 +1,11 @@
 # phonic
 
+## 0.16.2
+
+### Patch Changes
+
+- [#33](https://github.com/Phonic-Co/phonic-node/pull/33) [`5379f1f`](https://github.com/Phonic-Co/phonic-node/commit/5379f1f0a1a169880c6fa60453960a11a8ee4d3e) Thanks [@qionghuang6](https://github.com/qionghuang6)! - Add `enable_silent_audio_fallback` to `PhonicSTSConfig`.
+
 ## 0.16.1
 
 ### Patch Changes
