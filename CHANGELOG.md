@@ -1,5 +1,11 @@
 # phonic
 
+## 0.16.3
+
+### Patch Changes
+
+- [#38](https://github.com/Phonic-Co/phonic-node/pull/38) [`78798ba`](https://github.com/Phonic-Co/phonic-node/commit/78798ba85e2bd7bcdb3a6d6fa01458ad05254eec) Thanks [@arunwpm-work](https://github.com/arunwpm-work)! - add vad config to PhonicSTSConfig type
+
 ## 0.16.2
 
 ### Patch Changes
