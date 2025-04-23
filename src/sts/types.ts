@@ -8,6 +8,12 @@ export type PhonicSTSConfig = {
   voice_id?: string;
   output_format?: "pcm_44100" | "mulaw_8000";
   enable_silent_audio_fallback?: boolean;
+
+  // VAD configs
+  vad_prebuffer_duration_ms?: number; // API default: 2000
+  vad_min_speech_duration_ms?: number; // API default: 50
+  vad_min_silence_duration_ms?: number; // API default: 500
+  vad_threshold?: number; // API default: 0.5
 };
 
 export type PhonicSTSWebSocketResponseMessage =
