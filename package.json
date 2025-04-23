@@ -40,6 +40,7 @@
     "@changesets/changelog-github": "0.5.1",
     "@changesets/cli": "2.29.2",
     "@types/bun": "1.2.10",
+    "@types/ws": "8.18.1",
     "tsup": "8.4.0",
     "typescript": "5.8.3",
     "zod": "3.24.3"
