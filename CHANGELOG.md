@@ -1,5 +1,11 @@
 # phonic
 
+## 0.17.0
+
+### Minor Changes
+
+- [`c48cde4`](https://github.com/Phonic-Co/phonic-node/commit/c48cde4d4d7650e0a1446788587096ef58ffd031) Thanks [@moroshko](https://github.com/moroshko)! - Add phonic.sts.outboundCall()
+
 ## 0.16.3
 
 ### Patch Changes
