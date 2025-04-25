@@ -89,4 +89,11 @@ export class Phonic {
   async get<T>(path: string) {
     return this.fetchRequest<T>(path, { method: "GET" });
   }
+
+  async post<T>(path: string, body: Record<string, unknown>) {
+    return this.fetchRequest<T>(path, {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+  }
 }

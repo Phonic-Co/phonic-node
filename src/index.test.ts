@@ -19,7 +19,7 @@ describe("Phonic constructor", () => {
 //         input_format: "mulaw_8000",
 //         system_prompt: "You are a helpful assistant.",
 //         welcome_message: "Hello, how can I help you?",
-//         voice_id: "meredith",
+//         voice_id: "greta",
 //         output_format: "mulaw_8000",
 //       });
 

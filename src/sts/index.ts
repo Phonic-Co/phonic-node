@@ -1,6 +1,11 @@
 import WebSocket from "ws";
 import type { Phonic } from "../phonic";
-import type { PhonicSTSConfig } from "./types";
+import type { DataOrError } from "../types";
+import type {
+  OutboundCallSuccessResponse,
+  PhonicSTSConfig,
+  PhonicSTSOutboundCallConfig,
+} from "./types";
 import { PhonicSTSWebSocket } from "./websocket";
 
 export class SpeechToSpeech {
@@ -19,5 +24,20 @@ export class SpeechToSpeech {
     });
 
     return new PhonicSTSWebSocket(ws, config);
+  }
+
+  async outboundCall(
+    toPhoneNumber: string,
+    config: PhonicSTSOutboundCallConfig,
+  ): DataOrError<OutboundCallSuccessResponse> {
+    const response = await this.phonic.post<OutboundCallSuccessResponse>(
+      "/sts/outbound_call",
+      {
+        to_phone_number: toPhoneNumber,
+        config,
+      },
+    );
+
+    return response;
   }
 }

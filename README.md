@@ -10,8 +10,10 @@ Node.js library for the Phonic API.
   - [Get conversation by id](#get-conversation-by-id)
   - [Get conversation by external id](#get-conversation-by-external-id)
   - [List conversations](#list-conversations)
-  - [Speech-to-speech via WebSocket](#speech-to-speech-via-websocket)
+  - [STS outbound call](#sts-outbound-call)
+  - [STS via WebSocket](#sts-via-websocket)
     - [Messages that Phonic sends back to you](#messages-that-phonic-sends-back-to-you)
+  
 
 ## Installation
 
@@ -45,7 +47,7 @@ if (error === null) {
 ### Get voice by id
 
 ```ts
-const { data, error } = await phonic.voices.get("meredith");
+const { data, error } = await phonic.voices.get("greta");
 
 if (error === null) {
   console.log(data.voice);
@@ -91,7 +93,25 @@ if (error === null) {
 }
 ```
 
-### Speech-to-speech via WebSocket
+### STS outbound call
+
+```ts
+const { data, error } = await phonic.sts.outboundCall("+19189396241", {
+  welcome_message: "Hello, how can I help you?",
+
+  // Optional fields
+  project: "main",
+  system_prompt: "You are a helpful assistant.",
+  voice_id: "greta",
+  enable_silent_audio_fallback: true,
+  vad_prebuffer_duration_ms: 1800,
+  vad_min_speech_duration_ms: 40,
+  vad_min_silence_duration_ms: 550,
+  vad_threshold: 0.6,
+})
+```
+
+### STS via WebSocket
 
 To start a conversation, open a WebSocket connection:
 
@@ -103,8 +123,13 @@ const phonicWebSocket = phonic.sts.websocket({
   project: "main",
   system_prompt: "You are a helpful assistant.",
   welcome_message: "Hello, how can I help you?",
-  voice_id: "meredith",
-  output_format: "mulaw_8000"
+  voice_id: "greta",
+  output_format: "mulaw_8000",
+  enable_silent_audio_fallback: true,
+  vad_prebuffer_duration_ms: 1800,
+  vad_min_speech_duration_ms: 40,
+  vad_min_silence_duration_ms: 550,
+  vad_threshold: 0.6,
 });
 ```
 

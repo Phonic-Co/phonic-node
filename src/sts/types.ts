@@ -59,3 +59,14 @@ export type OnMessageCallback = (
 export type OnCloseCallback = (event: WebSocket.CloseEvent) => void;
 
 export type OnErrorCallback = (event: WebSocket.ErrorEvent) => void;
+
+export type PhonicSTSOutboundCallConfig = Omit<
+  PhonicSTSConfig,
+  "input_format" | "output_format"
+> & {
+  welcome_message: string;
+};
+
+export type OutboundCallSuccessResponse = {
+  success: true;
+};
