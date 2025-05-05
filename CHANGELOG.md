@@ -1,5 +1,11 @@
 # phonic
 
+## 0.18.0
+
+### Minor Changes
+
+- [`a6d286b`](https://github.com/Phonic-Co/phonic-node/commit/a6d286bf61aafaf7c211eebacd86295d61e0f5a1) Thanks [@moroshko](https://github.com/moroshko)! - Add `phonic.sts.twilio.outboundCall()`
+
 ## 0.17.0
 
 ### Minor Changes
