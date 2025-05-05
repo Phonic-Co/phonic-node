@@ -1,6 +1,7 @@
 import WebSocket from "ws";
 import type { Phonic } from "../phonic";
 import type { DataOrError } from "../types";
+import { Twilio } from "./twilio";
 import type {
   OutboundCallSuccessResponse,
   PhonicSTSConfig,
@@ -9,7 +10,11 @@ import type {
 import { PhonicSTSWebSocket } from "./websocket";
 
 export class SpeechToSpeech {
-  constructor(private readonly phonic: Phonic) {}
+  readonly twilio: Twilio;
+
+  constructor(private readonly phonic: Phonic) {
+    this.twilio = new Twilio(phonic);
+  }
 
   websocket(config: PhonicSTSConfig): PhonicSTSWebSocket {
     const wsBaseUrl = this.phonic.baseUrl.replace(/^http/, "ws");

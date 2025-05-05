@@ -45,9 +45,13 @@ export class Phonic {
 
   async fetchRequest<T>(path: string, options: FetchOptions): DataOrError<T> {
     try {
+      const { headers, ...restOptions } = options;
       const response = await fetch(`${this.baseUrl}/v1${path}`, {
-        headers: this.headers,
-        ...options,
+        headers: {
+          ...this.headers,
+          ...headers,
+        },
+        ...restOptions,
       });
 
       if (response.ok) {
@@ -90,10 +94,15 @@ export class Phonic {
     return this.fetchRequest<T>(path, { method: "GET" });
   }
 
-  async post<T>(path: string, body: Record<string, unknown>) {
+  async post<T>(
+    path: string,
+    body: Record<string, unknown>,
+    headers?: Record<string, string>,
+  ) {
     return this.fetchRequest<T>(path, {
       method: "POST",
       body: JSON.stringify(body),
+      headers,
     });
   }
 }

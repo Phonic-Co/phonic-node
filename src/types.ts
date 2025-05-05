@@ -7,19 +7,23 @@ export type PhonicConfig = {
 export type FetchOptions =
   | {
       method: "GET";
+      headers?: Record<string, string>;
     }
   | {
       method: "POST";
+      headers?: Record<string, string>;
       body: string;
     };
 
-export type ErrorResponse = {
-  message: string;
-  code?: string;
-};
-
 export type DataOrError<T> = Promise<
-  { data: T; error: null } | { data: null; error: ErrorResponse }
+  | { data: T; error: null }
+  | {
+      data: null;
+      error: {
+        message: string;
+        code?: string;
+      };
+    }
 >;
 
 export type ISODate = `${string}-${string}-${string}`;

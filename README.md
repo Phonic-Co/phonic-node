@@ -11,6 +11,7 @@ Node.js library for the Phonic API.
   - [Get conversation by external id](#get-conversation-by-external-id)
   - [List conversations](#list-conversations)
   - [STS outbound call](#sts-outbound-call)
+  - [STS outbound call using own Twilio account](#sts-outbound-call-using-own-twilio-account)
   - [STS via WebSocket](#sts-via-websocket)
     - [Messages that Phonic sends back to you](#messages-that-phonic-sends-back-to-you)
   
@@ -108,7 +109,34 @@ const { data, error } = await phonic.sts.outboundCall("+19189396241", {
   vad_min_speech_duration_ms: 40,
   vad_min_silence_duration_ms: 550,
   vad_threshold: 0.6,
-})
+});
+```
+
+### STS outbound call using own Twilio account
+
+```ts
+const { data, error } = await phonic.sts.twilio.outboundCall(
+  {
+		account_sid: "AC...",
+		api_key_sid: "SK...",
+		api_key_secret: "...",
+		from_phone_number: "+19189372905",
+		to_phone_number: "+19189396241",
+	}, 
+  {
+    welcome_message: "Hello, how can I help you?",
+
+    // Optional fields
+    project: "main",
+    system_prompt: "You are a helpful assistant.",
+    voice_id: "greta",
+    enable_silent_audio_fallback: true,
+    vad_prebuffer_duration_ms: 1800,
+    vad_min_speech_duration_ms: 40,
+    vad_min_silence_duration_ms: 550,
+    vad_threshold: 0.6,
+  }
+);
 ```
 
 ### STS via WebSocket
