@@ -114,15 +114,17 @@ const { data, error } = await phonic.sts.outboundCall("+19189396241", {
 
 ### STS outbound call using own Twilio account
 
+In Twilio, create a restricted API key with the following permission: voice -> calls -> create
+
 ```ts
 const { data, error } = await phonic.sts.twilio.outboundCall(
   {
-		account_sid: "AC...",
-		api_key_sid: "SK...",
-		api_key_secret: "...",
-		from_phone_number: "+19189372905",
-		to_phone_number: "+19189396241",
-	}, 
+    account_sid: "AC...",
+    api_key_sid: "SK...",
+    api_key_secret: "...",
+    from_phone_number: "+19189372905",
+    to_phone_number: "+19189396241",
+  }, 
   {
     welcome_message: "Hello, how can I help you?",
 
