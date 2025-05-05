@@ -33,17 +33,17 @@
     "url": "https://github.com/Phonic-Co/phonic-node/issues"
   },
   "dependencies": {
-    "ws": "8.18.1"
+    "ws": "8.18.2"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@changesets/changelog-github": "0.5.1",
     "@changesets/cli": "2.29.2",
-    "@types/bun": "1.2.10",
+    "@types/bun": "1.2.12",
     "@types/ws": "8.18.1",
     "tsup": "8.4.0",
     "typescript": "5.8.3",
-    "zod": "3.24.3"
+    "zod": "3.24.4"
   },
   "files": ["dist/**"],
   "author": {
