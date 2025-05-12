@@ -98,9 +98,8 @@ if (error === null) {
 
 ```ts
 const { data, error } = await phonic.sts.outboundCall("+19189396241", {
-  welcome_message: "Hello, how can I help you?",
-
   // Optional fields
+  welcome_message: "Hello, how can I help you?",
   project: "main",
   system_prompt: "You are a helpful assistant.",
   voice_id: "greta",
@@ -126,9 +125,8 @@ const { data, error } = await phonic.sts.twilio.outboundCall(
     to_phone_number: "+19189396241",
   }, 
   {
-    welcome_message: "Hello, how can I help you?",
-
     // Optional fields
+    welcome_message: "Hello, how can I help you?",
     project: "main",
     system_prompt: "You are a helpful assistant.",
     voice_id: "greta",

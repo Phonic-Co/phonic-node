@@ -12,8 +12,8 @@ export type PhonicSTSConfig = {
   // VAD configs
   vad_prebuffer_duration_ms?: number; // API default: 2000
   vad_min_speech_duration_ms?: number; // API default: 50
-  vad_min_silence_duration_ms?: number; // API default: 500
-  vad_threshold?: number; // API default: 0.5
+  vad_min_silence_duration_ms?: number; // API default: 200
+  vad_threshold?: number; // API default: 0.25
 };
 
 export type PhonicSTSWebSocketResponseMessage =
@@ -63,9 +63,7 @@ export type OnErrorCallback = (event: WebSocket.ErrorEvent) => void;
 export type PhonicSTSOutboundCallConfig = Omit<
   PhonicSTSConfig,
   "input_format" | "output_format"
-> & {
-  welcome_message: string;
-};
+>;
 
 export type OutboundCallSuccessResponse = {
   success: true;
