@@ -1,5 +1,11 @@
 # phonic
 
+## 0.18.1
+
+### Patch Changes
+
+- [`90d6c6a`](https://github.com/Phonic-Co/phonic-node/commit/90d6c6a0d47f59c5fe7b5d0250f25e9ea71ec06e) Thanks [@moroshko](https://github.com/moroshko)! - Update README
+
 ## 0.18.0
 
 ### Minor Changes
