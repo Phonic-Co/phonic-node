@@ -1,5 +1,11 @@
 # phonic
 
+## 0.18.2
+
+### Patch Changes
+
+- [`ab29f55`](https://github.com/Phonic-Co/phonic-node/commit/ab29f55e9dab2321b206a2ecc8ed627ba153fb3b) Thanks [@moroshko](https://github.com/moroshko)! - Make welcome_message in PhonicSTSOutboundCallConfig optional
+
 ## 0.18.1
 
 ### Patch Changes
