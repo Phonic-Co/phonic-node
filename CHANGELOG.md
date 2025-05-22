@@ -1,5 +1,11 @@
 # phonic
 
+## 0.18.3
+
+### Patch Changes
+
+- [#44](https://github.com/Phonic-Co/phonic-node/pull/44) [`621387f`](https://github.com/Phonic-Co/phonic-node/commit/621387fd1659da07f1d3a93413cdbd4196938baf) Thanks [@qionghuang6](https://github.com/qionghuang6)! - Add `experimental_params` to `PhonicSTSConfig`
+
 ## 0.18.2
 
 ### Patch Changes
