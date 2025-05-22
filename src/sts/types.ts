@@ -8,6 +8,7 @@ export type PhonicSTSConfig = {
   voice_id?: string;
   output_format?: "pcm_44100" | "mulaw_8000";
   enable_silent_audio_fallback?: boolean;
+  experimental_params?: Record<string, unknown>;
 
   // VAD configs
   vad_prebuffer_duration_ms?: number; // API default: 2000
