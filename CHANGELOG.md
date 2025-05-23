@@ -1,5 +1,11 @@
 # phonic
 
+## 0.18.4
+
+### Patch Changes
+
+- [#46](https://github.com/Phonic-Co/phonic-node/pull/46) [`b5da836`](https://github.com/Phonic-Co/phonic-node/commit/b5da836d847417c2740efd42c4d0b7b0083fc858) Thanks [@arunwpm-work](https://github.com/arunwpm-work)! - Change default model and voice, as well as add tools to `PhonicSTSConfig`.
+
 ## 0.18.3
 
 ### Patch Changes
