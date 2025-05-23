@@ -37,7 +37,7 @@ const phonic = new Phonic("ph_...");
 ### Get voices
 
 ```ts
-const { data, error } = await phonic.voices.list({ model: "tahoe" });
+const { data, error } = await phonic.voices.list({ model: "merritt" });
 
 if (error === null) {
   console.log(data.voices);
@@ -48,7 +48,7 @@ if (error === null) {
 ### Get voice by id
 
 ```ts
-const { data, error } = await phonic.voices.get("greta");
+const { data, error } = await phonic.voices.get("grant");
 
 if (error === null) {
   console.log(data.voice);
@@ -102,7 +102,7 @@ const { data, error } = await phonic.sts.outboundCall("+19189396241", {
   welcome_message: "Hello, how can I help you?",
   project: "main",
   system_prompt: "You are a helpful assistant.",
-  voice_id: "greta",
+  voice_id: "grant",
   enable_silent_audio_fallback: true,
   vad_prebuffer_duration_ms: 1800,
   vad_min_speech_duration_ms: 40,
@@ -129,7 +129,7 @@ const { data, error } = await phonic.sts.twilio.outboundCall(
     welcome_message: "Hello, how can I help you?",
     project: "main",
     system_prompt: "You are a helpful assistant.",
-    voice_id: "greta",
+    voice_id: "grant",
     enable_silent_audio_fallback: true,
     vad_prebuffer_duration_ms: 1800,
     vad_min_speech_duration_ms: 40,
@@ -151,7 +151,7 @@ const phonicWebSocket = phonic.sts.websocket({
   project: "main",
   system_prompt: "You are a helpful assistant.",
   welcome_message: "Hello, how can I help you?",
-  voice_id: "greta",
+  voice_id: "grant",
   output_format: "mulaw_8000",
   enable_silent_audio_fallback: true,
   vad_prebuffer_duration_ms: 1800,

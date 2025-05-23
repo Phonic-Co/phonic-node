@@ -26,7 +26,7 @@ describe("voices", () => {
   test("list voices and get voice by id", async () => {
     const phonic = new Phonic(apiKey, { baseUrl });
     const { data: voicesData, error: voicesError } = await phonic.voices.list({
-      model: "tahoe",
+      model: "merritt",
     });
 
     if (voicesError !== null) {
