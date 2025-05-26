@@ -1,6 +1,6 @@
 import type WebSocket from "ws";
 
-export type PhonicSTSTool = "send_dtmf_tone" | "end_conversation";
+type PhonicSTSTool = "send_dtmf_tone" | "end_conversation";
 
 export type PhonicSTSConfig = {
   project: string;
