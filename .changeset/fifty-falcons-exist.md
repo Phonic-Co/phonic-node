@@ -2,4 +2,5 @@
 "phonic": patch
 ---
 
-Redo Tools type, and add a new message type from phonic-api
+Add `"assistant_ended_conversation"` to `PhonicSTSWebSocketResponseMessage` and update `PhonicSTSConfig["tools"]` type.
+

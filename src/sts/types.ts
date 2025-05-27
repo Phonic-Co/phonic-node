@@ -1,6 +1,6 @@
 import type WebSocket from "ws";
 
-export type Tool = "send_dtmf_tone" | "end_conversation";
+type PhonicSTSTool = "send_dtmf_tone" | "end_conversation";
 
 export type PhonicSTSConfig = {
   project: string;
@@ -11,7 +11,7 @@ export type PhonicSTSConfig = {
   output_format?: "pcm_44100" | "mulaw_8000";
   enable_silent_audio_fallback?: boolean;
   experimental_params?: Record<string, unknown>;
-  tools?: Array<Tool>;
+  tools?: Array<PhonicSTSTool>;
 
   // VAD configs
   vad_prebuffer_duration_ms?: number; // API default: 2000
