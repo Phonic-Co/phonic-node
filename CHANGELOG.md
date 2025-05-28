@@ -1,5 +1,11 @@
 # phonic
 
+## 0.18.5
+
+### Patch Changes
+
+- [#48](https://github.com/Phonic-Co/phonic-node/pull/48) [`c7833fd`](https://github.com/Phonic-Co/phonic-node/commit/c7833fdf534e8675144ee6d15ac2d9a3e8b35036) Thanks [@arunwpm-work](https://github.com/arunwpm-work)! - Add `"assistant_ended_conversation"` to `PhonicSTSWebSocketResponseMessage` and update `PhonicSTSConfig["tools"]` type.
+
 ## 0.18.4
 
 ### Patch Changes

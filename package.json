@@ -1,6 +1,6 @@
 {
   "name": "phonic",
-  "version": "0.18.4",
+  "version": "0.18.5",
   "description": "Phonic Node.js SDK",
   "scripts": {
     "build": "tsup",
