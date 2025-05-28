@@ -108,6 +108,7 @@ const { data, error } = await phonic.sts.outboundCall("+19189396241", {
   vad_min_speech_duration_ms: 40,
   vad_min_silence_duration_ms: 550,
   vad_threshold: 0.6,
+  tools: ["send_dtmf_tone", "end_conversation"], // these are the only available tools so far
 });
 ```
 
@@ -135,6 +136,7 @@ const { data, error } = await phonic.sts.twilio.outboundCall(
     vad_min_speech_duration_ms: 40,
     vad_min_silence_duration_ms: 550,
     vad_threshold: 0.6,
+    tools: ["send_dtmf_tone", "end_conversation"], // these are the only available tools so far
   }
 );
 ```
@@ -158,6 +160,7 @@ const phonicWebSocket = phonic.sts.websocket({
   vad_min_speech_duration_ms: 40,
   vad_min_silence_duration_ms: 550,
   vad_threshold: 0.6,
+  tools: ["send_dtmf_tone", "end_conversation"], // these are the only available tools so far
 });
 ```
 
@@ -277,6 +280,16 @@ Sent after the last "audio_chunk" is sent.
 ```
 
 Sent when the user interrupts the assistant, after the user has finished speaking.
+
+#### `assistant_ended_conversation`
+
+```ts
+{
+  type: "assistant_ended_conversation";
+}
+```
+
+Sent when the assistant decides to end the conversation.
 
 ## License
 
