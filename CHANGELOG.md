@@ -1,5 +1,11 @@
 # phonic
 
+## 0.18.6
+
+### Patch Changes
+
+- [`c1671c5`](https://github.com/Phonic-Co/phonic-node/commit/c1671c54ec9256d72d3927379b14754cfd19dd6d) Thanks [@moroshko](https://github.com/moroshko)! - Update required permissions in README
+
 ## 0.18.5
 
 ### Patch Changes
