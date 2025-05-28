@@ -114,7 +114,7 @@ const { data, error } = await phonic.sts.outboundCall("+19189396241", {
 
 ### STS outbound call using own Twilio account
 
-In Twilio, create a restricted API key with the following permission: voice -> calls -> create
+In Twilio, create a restricted API key with the following permissions: `voice -> calls -> read` and `voice -> calls -> create`.
 
 ```ts
 const { data, error } = await phonic.sts.twilio.outboundCall(
