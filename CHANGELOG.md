@@ -1,5 +1,11 @@
 # phonic
 
+## 0.19.0
+
+### Minor Changes
+
+- [`f129f74`](https://github.com/Phonic-Co/phonic-node/commit/f129f747b2a13b363485eb7296e0fd3670af2f8f) Thanks [@moroshko](https://github.com/moroshko)! - Add PhonicConfigurationEndpointRequestPayload, PhonicConfigurationEndpointResponsePayload, and upgrade deps
+
 ## 0.18.6
 
 ### Patch Changes
