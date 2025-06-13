@@ -75,3 +75,25 @@ export type PhonicSTSOutboundCallConfig = Omit<
 export type OutboundCallSuccessResponse = {
   success: true;
 };
+
+type PhonicTool = "send_dtmf_tone" | "end_conversation";
+
+export type PhonicConfigurationEndpointRequestPayload = {
+  project: {
+    name: string;
+  };
+  agent: {
+    name: string;
+    welcome_message: string;
+    system_prompt: string;
+    tools: Array<PhonicTool>;
+    boosted_keywords: string[];
+  };
+};
+
+export type PhonicConfigurationEndpointResponsePayload = {
+  welcome_message?: string | null;
+  system_prompt?: string;
+  tools?: Array<PhonicTool>;
+  boosted_keywords?: string[];
+};
