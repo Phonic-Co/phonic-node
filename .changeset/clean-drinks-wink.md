@@ -1,0 +1,5 @@
+---
+"phonic": patch
+---
+
+Update PhonicConfigurationEndpointRequestPayload

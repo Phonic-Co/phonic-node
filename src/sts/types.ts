@@ -89,6 +89,8 @@ export type PhonicConfigurationEndpointRequestPayload = {
     tools: Array<PhonicTool>;
     boosted_keywords: string[];
   };
+  from_phone_number?: string;
+  to_phone_number?: string;
 };
 
 export type PhonicConfigurationEndpointResponsePayload = {
