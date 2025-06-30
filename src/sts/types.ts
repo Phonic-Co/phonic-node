@@ -1,9 +1,13 @@
 import type WebSocket from "ws";
 
-type PhonicSTSTool = "send_dtmf_tone" | "end_conversation";
+type PhonicSTSTool =
+  // Built-in tools
+  | "keypad_input"
+  | "natural_conversation_ending"
+  // Custom tools
+  | (string & {}); // See: https://youtu.be/lraHlXpuhKs?si=gf5pO-_mNX4dKaoT&t=482
 
-export type PhonicSTSConfig = {
-  project: string;
+interface PhonicSTSConfigBase {
   input_format: "pcm_44100" | "mulaw_8000";
   system_prompt?: string;
   welcome_message?: string;
@@ -18,7 +22,19 @@ export type PhonicSTSConfig = {
   vad_min_speech_duration_ms?: number; // API default: 50
   vad_min_silence_duration_ms?: number; // API default: 200
   vad_threshold?: number; // API default: 0.25
-};
+}
+
+interface PhonicSTSConfigWithAgent extends PhonicSTSConfigBase {
+  agent: string;
+}
+
+interface PhonicSTSConfigWithProject extends PhonicSTSConfigBase {
+  project: string;
+}
+
+export type PhonicSTSConfig =
+  | PhonicSTSConfigWithAgent
+  | PhonicSTSConfigWithProject;
 
 export type PhonicSTSWebSocketResponseMessage =
   | {
