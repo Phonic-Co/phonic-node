@@ -1,6 +1,6 @@
 import type WebSocket from "ws";
 
-type PhonicSTSTool =
+export type PhonicSTSTool =
   // Built-in tools
   | "keypad_input"
   | "natural_conversation_ending"

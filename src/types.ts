@@ -13,6 +13,15 @@ export type FetchOptions =
       method: "POST";
       headers?: Record<string, string>;
       body: string;
+    }
+  | {
+      method: "PATCH";
+      headers?: Record<string, string>;
+      body: string;
+    }
+  | {
+      method: "DELETE";
+      headers?: Record<string, string>;
     };
 
 export type DataOrError<T> = Promise<
@@ -22,6 +31,7 @@ export type DataOrError<T> = Promise<
       error: {
         message: string;
         code?: string;
+        param_errors?: Record<string, string>;
       };
     }
 >;

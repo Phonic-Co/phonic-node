@@ -1,4 +1,5 @@
 import { version } from "../package.json";
+import { Agents } from "./agents";
 import { Conversations } from "./conversations";
 import { SpeechToSpeech } from "./sts";
 import type { DataOrError, FetchOptions, PhonicConfig } from "./types";
@@ -12,6 +13,7 @@ export class Phonic {
   readonly __downstreamWebSocketUrl: string | null;
   readonly headers: Record<string, string>;
 
+  readonly agents = new Agents(this);
   readonly conversations = new Conversations(this);
   readonly voices = new Voices(this);
   readonly sts = new SpeechToSpeech(this);
@@ -62,12 +64,12 @@ export class Phonic {
 
       try {
         const data = await response.json();
-        const errorMessage = data.error.message || response.statusText;
 
         return {
           data: null,
           error: {
-            message: errorMessage,
+            message: data.error.message || response.statusText,
+            param_errors: data.param_errors,
           },
         };
       } catch (error) {
@@ -102,6 +104,25 @@ export class Phonic {
     return this.fetchRequest<T>(path, {
       method: "POST",
       body: JSON.stringify(body),
+      headers,
+    });
+  }
+
+  async patch<T>(
+    path: string,
+    body: Record<string, unknown>,
+    headers?: Record<string, string>,
+  ) {
+    return this.fetchRequest<T>(path, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+      headers,
+    });
+  }
+
+  async delete<T>(path: string, headers?: Record<string, string>) {
+    return this.fetchRequest<T>(path, {
+      method: "DELETE",
       headers,
     });
   }
