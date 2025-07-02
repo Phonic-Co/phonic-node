@@ -1,5 +1,11 @@
 # phonic
 
+## 0.21.0
+
+### Minor Changes
+
+- [`33e064e`](https://github.com/Phonic-Co/phonic-node/commit/33e064ec7f752dad6954020de2f0bbeeaf3e0d0c) Thanks [@moroshko](https://github.com/moroshko)! - Add agents management
+
 ## 0.20.0
 
 ### Minor Changes
