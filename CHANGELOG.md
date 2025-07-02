@@ -1,5 +1,11 @@
 # phonic
 
+## 0.20.0
+
+### Minor Changes
+
+- [`5c13953`](https://github.com/Phonic-Co/phonic-node/commit/5c13953f730495f1edfdba7a981bbd470fd78560) Thanks [@moroshko](https://github.com/moroshko)! - Update PhonicSTSConfig type
+
 ## 0.19.1
 
 ### Patch Changes
