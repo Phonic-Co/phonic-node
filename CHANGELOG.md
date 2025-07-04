@@ -1,5 +1,11 @@
 # phonic
 
+## 0.21.1
+
+### Patch Changes
+
+- [`b0bbed2`](https://github.com/Phonic-Co/phonic-node/commit/b0bbed2d916770f02c1c3b8a4934de0b983acba3) Thanks [@moroshko](https://github.com/moroshko)! - Add `template_variables` to `PhonicConfigurationEndpointResponsePayload`
+
 ## 0.21.0
 
 ### Minor Changes
