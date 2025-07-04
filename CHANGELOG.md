@@ -1,5 +1,11 @@
 # phonic
 
+## 0.22.0
+
+### Minor Changes
+
+- [`19f9d90`](https://github.com/Phonic-Co/phonic-node/commit/19f9d90eb2d5c6f0b5416ab1aa5629ac920889f1) Thanks [@moroshko](https://github.com/moroshko)! - Add timezone to create and update agent
+
 ## 0.21.1
 
 ### Patch Changes
