@@ -83,6 +83,7 @@ export class Agents {
       {
         name: params.name,
         phone_number: params.phoneNumber,
+        timezone: params.timezone,
         audio_format:
           params.phoneNumber === "assign-automatically"
             ? "mulaw_8000"
@@ -116,6 +117,7 @@ export class Agents {
       {
         name: params.name,
         phone_number: params.phoneNumber,
+        timezone: params.timezone,
         audio_format:
           params.phoneNumber === "assign-automatically"
             ? "mulaw_8000"

@@ -62,6 +62,7 @@ const createAgentResult = await phonic.agents.create({
   // Optional fields
   project: "my-project", // Defaults to "main"
   phoneNumber: "assign-automatically", // Defaults to null
+  timezone: "Australia/Melbourne", // Defaults to "America/Los_Angeles"
   audioFormat: "mulaw_8000", // Defaults to "pcm_44100". Must be "mulaw_8000" when `phoneNumber` is "assign-automatically"
   voiceId: "sarah", // Defaults to "grant"
   welcomeMessage: "Hello, how can I help you?", // Defaults to ""
@@ -98,6 +99,7 @@ const updateAgentResult = await phonic.agents.update("my-agent", {
   // Optional fields
   project: "my-project",
   phoneNumber: "assign-automatically", // or null
+  timezone: "Australia/Melbourne",
   voiceId: "sarah",
   audioFormat: "mulaw_8000", // Must be "mulaw_8000" when `phoneNumber` is "assign-automatically"
   welcomeMessage: "Hello, how can I help you?",

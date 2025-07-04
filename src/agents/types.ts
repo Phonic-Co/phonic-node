@@ -45,6 +45,7 @@ export type GetAgentSuccessResponse = DataOrError<{
 
 interface AgentOptionalParams {
   project?: string;
+  timezone?: string;
   voiceId?: string;
   welcomeMessage?: string;
   systemPrompt?: string;
