@@ -1,5 +1,11 @@
 # phonic
 
+## 0.23.0
+
+### Minor Changes
+
+- [`047101e`](https://github.com/Phonic-Co/phonic-node/commit/047101ec8cb49f12880c30273d415770bbd772b7) Thanks [@moroshko](https://github.com/moroshko)! - Add tools management
+
 ## 0.22.0
 
 ### Minor Changes
