@@ -10,6 +10,12 @@ Node.js library for the Phonic API.
   - [Create agent](#create-agent)
   - [Update agent](#update-agent)
   - [Delete agent](#delete-agent)
+- [Tools](#tools)
+  - [List tools](#list-tools)
+  - [Get tool](#get-tool)
+  - [Create tool](#create-tool)
+  - [Update tool](#update-tool)
+  - [Delete tool](#delete-tool)
 - [Voices](#voices)
   - [List voices](#list-voices)
   - [Get voice](#get-voice)
@@ -138,6 +144,97 @@ const deleteAgentResult = await phonic.agents.delete({
 });
 ```
 
+## Tools
+
+### List tools
+
+```ts
+const toolsResult = await phonic.tools.list();
+```
+
+### Get tool
+
+```ts
+const toolResult = await phonic.tools.get("next_invoice");
+```
+
+### Create tool
+
+```ts
+const createToolResult = await phonic.tools.create({
+  name: "next_invoice",
+  description: "Returns the next invoice of the given user",
+  endpointUrl: "https://myapp.com/webhooks/next-invoice",
+  endpointHeaders: {
+    Authorization: "Bearer 123"
+  },
+  endpointTimeoutMs: 20000, // Optional, defaults to 15000
+  parameters: [
+    {
+      type: "string",
+      name: "user",
+      description: "Full name of the user to get the invoice for",
+      isRequired: true
+    },
+    {
+      type: "array",
+      itemType: "string",
+      name: "invoice_items",
+      description: "List of invoice items",
+      isRequired: false
+    },
+    {
+      type: "number",
+      name: "invoice_total",
+      description: "Total invoice amount in USD",
+      isRequired: true
+    },
+  ]
+});
+```
+
+### Update tool
+
+```ts
+const updateToolResult = await phonic.tools.update("next_invoice", {
+  name: "next_invoice_updated",
+  description: "Updated description.",
+  endpointUrl: "https://myapp.com/webhooks/next-invoice-updated",
+  endpointHeaders: {
+    Authorization: "Bearer 456"
+  },
+  endpointTimeoutMs: 30000,
+  parameters: [
+    {
+      type: "string",
+      name: "user",
+      description: "Full name of the user to get the invoice for",
+      isRequired: true
+    },
+    {
+      type: "array",
+      itemType: "string",
+      name: "invoice_items",
+      description: "List of invoice items",
+      isRequired: true
+    },
+    {
+      type: "number",
+      name: "invoice_total",
+      description: "Total invoice amount in USD",
+      isRequired: true
+    },
+  ]
+});
+```
+
+### Delete tool
+
+```ts
+const deleteToolResult = await phonic.tools.delete("next_invoice");
+```
+
+
 ## Voices
 
 ### List voices
@@ -182,7 +279,6 @@ const conversationResult = await phonic.conversations.getByExternalId({
   externalId: "CAdb9c032c809fec7feb932ea4c96d71e1"
 });
 ```
-
 
 ## STS outbound call
 

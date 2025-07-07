@@ -7,8 +7,8 @@ import type {
   DeleteAgentSuccessResponse,
   GetAgentParams,
   GetAgentSuccessResponse,
-  ListAgentParams,
-  ListAgentSuccessResponse,
+  ListAgentsParams,
+  ListAgentsSuccessResponse,
   UpdateAgentParams,
   UpdateAgentSuccessResponse,
 } from "./types";
@@ -26,7 +26,9 @@ export class Agents {
   }
 
   private getTemplateVariablesForBody(
-    templateVariables: CreateAgentParams["templateVariables"],
+    templateVariables:
+      | Record<string, { defaultValue: string | null }>
+      | undefined,
   ) {
     if (templateVariables === undefined) {
       return undefined;
@@ -43,7 +45,14 @@ export class Agents {
   }
 
   private getConfigurationEndpointForBody(
-    configurationEndpoint: CreateAgentParams["configurationEndpoint"],
+    configurationEndpoint:
+      | {
+          url: string;
+          headers?: Record<string, string>;
+          timeoutMs?: number;
+        }
+      | null
+      | undefined,
   ) {
     if (configurationEndpoint === undefined || configurationEndpoint === null) {
       return configurationEndpoint;
@@ -56,8 +65,10 @@ export class Agents {
     };
   }
 
-  async list(params?: ListAgentParams): DataOrError<ListAgentSuccessResponse> {
-    const response = await this.phonic.get<ListAgentSuccessResponse>(
+  async list(
+    params?: ListAgentsParams,
+  ): DataOrError<ListAgentsSuccessResponse> {
+    const response = await this.phonic.get<ListAgentsSuccessResponse>(
       `/agents?${this.getQueryString(params)}`,
     );
 

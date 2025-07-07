@@ -27,11 +27,11 @@ type Agent = {
   } | null;
 };
 
-export type ListAgentParams = {
+export type ListAgentsParams = {
   project?: string;
 };
 
-export type ListAgentSuccessResponse = DataOrError<{
+export type ListAgentsSuccessResponse = DataOrError<{
   agents: Array<Agent>;
 }>;
 
