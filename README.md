@@ -548,8 +548,10 @@ Sent when the assistant decides to end the conversation.
   error_message: string | null;
 }
 ```
-
 Sent when a tool is called during the conversation. Built-in tools will have null values for endpoint-related fields.
+
+When a custom tool is called, the `request_body` field always includes a `call_info` field.
+If the conversation is not a phone call, `call_info` will be `null`. If it is a phone call, `call_info` will be an object with `from_phone_number` and `to_phone_number` fields, both formatted as E.164 phone numbers (e.g., "+1234567890").
 
 #### `error`
 
