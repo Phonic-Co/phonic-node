@@ -1,8 +1,8 @@
 import type { Phonic } from "../../phonic";
 import type { DataOrError } from "../../types";
 import type {
-  PhonicSTSTwilioOutboundCallConfig,
-  PhonicSTSTwilioOutboundCallParams,
+  TwilioOutboundCallConfig,
+  TwilioOutboundCallParams,
   TwilioOutboundCallSuccessResponse,
 } from "./types";
 
@@ -10,11 +10,11 @@ export class Twilio {
   constructor(private readonly phonic: Phonic) {}
 
   async outboundCall(
-    params: PhonicSTSTwilioOutboundCallParams,
-    config: PhonicSTSTwilioOutboundCallConfig,
+    params: TwilioOutboundCallParams,
+    config: TwilioOutboundCallConfig,
   ): DataOrError<TwilioOutboundCallSuccessResponse> {
     const response = await this.phonic.post<TwilioOutboundCallSuccessResponse>(
-      "/sts/twilio/outbound_call",
+      "/conversations/twilio/outbound_call",
       {
         from_phone_number: params.from_phone_number,
         to_phone_number: params.to_phone_number,

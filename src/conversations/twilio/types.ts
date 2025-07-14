@@ -1,6 +1,6 @@
-import type { PhonicSTSOutboundCallConfig } from "../types";
+import type { OutboundCallConfig } from "../types";
 
-export type PhonicSTSTwilioOutboundCallParams = {
+export type TwilioOutboundCallParams = {
   account_sid: string;
   api_key_sid: string;
   api_key_secret: string;
@@ -8,9 +8,8 @@ export type PhonicSTSTwilioOutboundCallParams = {
   to_phone_number: string;
 };
 
-export type PhonicSTSTwilioOutboundCallConfig = PhonicSTSOutboundCallConfig;
+export type TwilioOutboundCallConfig = OutboundCallConfig;
 
 export type TwilioOutboundCallSuccessResponse = {
-  success: true;
   callSid: string;
 };

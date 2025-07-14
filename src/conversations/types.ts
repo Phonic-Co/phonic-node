@@ -1,3 +1,8 @@
+import type {
+  PhonicSTSConfigWithAgent,
+  PhonicSTSConfigWithProject,
+} from "../sts/types";
+
 type ISODateTime = `${string}Z`;
 
 type ConversationItem =
@@ -39,4 +44,12 @@ export type ConversationSuccessResponse = {
 
 export type ConversationsSuccessResponse = {
   conversations: Array<Conversation>;
+};
+
+export type OutboundCallConfig =
+  | Omit<PhonicSTSConfigWithAgent, "input_format" | "output_format">
+  | Omit<PhonicSTSConfigWithProject, "input_format" | "output_format">;
+
+export type OutboundCallSuccessResponse = {
+  conversation_id: string;
 };

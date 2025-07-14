@@ -23,8 +23,8 @@ Node.js library for the Phonic API.
   - [List conversations](#list-conversations)
   - [Get conversation by id](#get-conversation-by-id)
   - [Get conversation by external id](#get-conversation-by-external-id)
-- [STS outbound call](#sts-outbound-call)
-- [STS outbound call using own Twilio account](#sts-outbound-call-using-own-twilio-account)
+  - [Outbound call](#outbound-call)
+  - [Outbound call using own Twilio account](#outbound-call-using-own-twilio-account)
 - [STS via WebSocket](#sts-via-websocket)
   - [Messages that Phonic sends back to you](#messages-that-phonic-sends-back-to-you)
 - [License](#license)
@@ -280,10 +280,10 @@ const conversationResult = await phonic.conversations.getByExternalId({
 });
 ```
 
-## STS outbound call
+### Outbound call
 
 ```ts
-const { data, error } = await phonic.sts.outboundCall("+19189396241", {
+const outboundCallResult = await phonic.conversations.outboundCall("+19189396241", {
   // Optional fields
   welcome_message: "Hello, how can I help you?",
   project: "main",
@@ -298,12 +298,12 @@ const { data, error } = await phonic.sts.outboundCall("+19189396241", {
 });
 ```
 
-## STS outbound call using own Twilio account
+### Outbound call using own Twilio account
 
 In Twilio, create a restricted API key with the following permissions: `voice -> calls -> read` and `voice -> calls -> create`.
 
 ```ts
-const { data, error } = await phonic.sts.twilio.outboundCall(
+const twilioOutboundCallResult = await phonic.conversations.twilio.outboundCall(
   {
     account_sid: "AC...",
     api_key_sid: "SK...",

@@ -24,11 +24,11 @@ interface PhonicSTSConfigBase {
   vad_threshold?: number; // API default: 0.25
 }
 
-interface PhonicSTSConfigWithAgent extends PhonicSTSConfigBase {
+export interface PhonicSTSConfigWithAgent extends PhonicSTSConfigBase {
   agent: string;
 }
 
-interface PhonicSTSConfigWithProject extends PhonicSTSConfigBase {
+export interface PhonicSTSConfigWithProject extends PhonicSTSConfigBase {
   project: string;
 }
 
@@ -82,15 +82,6 @@ export type OnMessageCallback = (
 export type OnCloseCallback = (event: WebSocket.CloseEvent) => void;
 
 export type OnErrorCallback = (event: WebSocket.ErrorEvent) => void;
-
-export type PhonicSTSOutboundCallConfig = Omit<
-  PhonicSTSConfig,
-  "input_format" | "output_format"
->;
-
-export type OutboundCallSuccessResponse = {
-  success: true;
-};
 
 type PhonicTool = "send_dtmf_tone" | "end_conversation";
 

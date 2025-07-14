@@ -5,6 +5,7 @@
   "scripts": {
     "build": "tsup",
     "check": "biome check --write",
+    "ct": "bun check && bun tsc",
     "ci": "bun tsc && biome ci && bun test",
     "version": "changeset version && bun check",
     "release": "bun run build && changeset publish"
