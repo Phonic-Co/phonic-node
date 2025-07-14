@@ -1,5 +1,11 @@
 # phonic
 
+## 0.24.1
+
+### Patch Changes
+
+- [#60](https://github.com/Phonic-Co/phonic-node/pull/60) [`8c92bf3`](https://github.com/Phonic-Co/phonic-node/commit/8c92bf3bb97785032b89adb3d969d23ad4a3af8c) Thanks [@qionghuang6](https://github.com/qionghuang6)! - Add new STS websocket messages to types and README.md
+
 ## 0.24.0
 
 ### Minor Changes
