@@ -38,6 +38,10 @@ export type PhonicSTSConfig =
 
 export type PhonicSTSWebSocketResponseMessage =
   | {
+      type: "conversation_created";
+      conversation_id: string;
+    }
+  | {
       type: "ready_to_start_conversation";
     }
   | {
@@ -50,15 +54,47 @@ export type PhonicSTSWebSocketResponseMessage =
       audio: string;
     }
   | {
+      type: "audio_finished";
+    }
+  | {
       type: "is_user_speaking";
       isUserSpeaking: boolean;
+    }
+  | {
+      type: "user_started_speaking";
+    }
+  | {
+      type: "user_finished_speaking";
     }
   | {
       type: "interrupted_response";
       interruptedResponse: string;
     }
   | {
+      type: "assistant_chose_not_to_respond";
+    }
+  | {
       type: "assistant_ended_conversation";
+    }
+  | {
+      type: "dtmf";
+      digits: string;
+    }
+  | {
+      type: "tool_call";
+      id: string;
+      tool: {
+        id: string;
+        name: string;
+      };
+      endpoint_url: string | null;
+      endpoint_timeout_ms: number | null;
+      endpoint_called_at: string | null;
+      request_body: object | null;
+      response_body: object | null;
+      response_status_code: number | null;
+      timed_out: boolean | null;
+      error_message: string | null;
     }
   | {
       type: "error";
