@@ -4,7 +4,8 @@
 
 ### Minor Changes
 
-- [`740496a`](https://github.com/Phonic-Co/phonic-node/commit/740496a7250868f8d288e8966b6c52fe3eeee3cb) Thanks [@moroshko](https://github.com/moroshko)! - - Change `phonic.sts.outboundCall()` to `phonic.conversations.outboundCall()`
+- [`740496a`](https://github.com/Phonic-Co/phonic-node/commit/740496a7250868f8d288e8966b6c52fe3eeee3cb) Thanks [@moroshko](https://github.com/moroshko)!
+  - Change `phonic.sts.outboundCall()` to `phonic.conversations.outboundCall()`
   - Change `phonic.sts.twilio.outboundCall` to `phonic.conversations.twilio.outboundCall`
 
 ### Patch Changes
