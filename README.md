@@ -423,6 +423,27 @@ phonicWebSocket.onError((event) => {
 
 ### Messages that Phonic sends back to you
 
+#### `conversation_created`
+
+```ts
+{
+  type: "conversation_created";
+  conversation_id: string;
+}
+```
+
+Sent when the conversation has been successfully created.
+
+#### `ready_to_start_conversation`
+
+```ts
+{
+  type: "ready_to_start_conversation";
+}
+```
+
+Sent when Phonic is ready to begin processing audio. You should start sending audio chunks after receiving this message.
+
 #### `input_text`
 
 ```ts
@@ -456,6 +477,26 @@ These are the assistant response audio chunks.
 
 Sent after the last "audio_chunk" is sent.
 
+#### `user_started_speaking`
+
+```ts
+{
+  type: "user_started_speaking";
+}
+```
+
+Sent when the user begins speaking.
+
+#### `user_finished_speaking`
+
+```ts
+{
+  type: "user_finished_speaking";
+}
+```
+
+Sent when the user stops speaking.
+
 #### `interrupted_response`
 
 ```ts
@@ -467,7 +508,17 @@ Sent after the last "audio_chunk" is sent.
 
 Sent when the user interrupts the assistant, after the user has finished speaking.
 
-### `assistant_ended_conversation`
+#### `assistant_chose_not_to_respond`
+
+```ts
+{
+  type: "assistant_chose_not_to_respond";
+}
+```
+
+Sent when the assistant decides not to respond to the user's input.
+
+#### `assistant_ended_conversation`
 
 ```ts
 {
@@ -476,6 +527,44 @@ Sent when the user interrupts the assistant, after the user has finished speakin
 ```
 
 Sent when the assistant decides to end the conversation.
+
+#### `tool_call`
+
+```ts
+{
+  type: "tool_call";
+  id: string;
+  tool: {
+    id: string;
+    name: string;
+  };
+  endpoint_url: string | null;
+  endpoint_timeout_ms: number | null;
+  endpoint_called_at: string | null;
+  request_body: object | null;
+  response_body: object | null;
+  response_status_code: number | null;
+  timed_out: boolean | null;
+  error_message: string | null;
+}
+```
+
+Sent when a tool is called during the conversation. Built-in tools will have null values for endpoint-related fields.
+
+#### `error`
+
+```ts
+{
+  type: "error";
+  error: {
+    message: string;
+    code?: string;
+  };
+  param_errors?: Record<string, string>;
+}
+```
+
+Sent when an error occurs during the conversation.
 
 ## License
 
