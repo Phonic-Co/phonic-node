@@ -1,5 +1,11 @@
 # phonic
 
+## 0.25.2
+
+### Patch Changes
+
+- [`a1aba9c`](https://github.com/Phonic-Co/phonic-node/commit/a1aba9cf74053517bee7be66aad6c87bc54dfff5) Thanks [@moroshko](https://github.com/moroshko)! - Add `template_variables` to `PhonicSTSConfigBase`
+
 ## 0.25.1
 
 ### Patch Changes
