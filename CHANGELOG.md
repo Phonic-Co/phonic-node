@@ -1,5 +1,11 @@
 # phonic
 
+## 0.24.2
+
+### Patch Changes
+
+- [`107b628`](https://github.com/Phonic-Co/phonic-node/commit/107b62845163628d4258e0445eb7a0d2d3125c8c) Thanks [@moroshko](https://github.com/moroshko)! - Replace "object" types with more type-safe alternatives
+
 ## 0.24.1
 
 ### Patch Changes
