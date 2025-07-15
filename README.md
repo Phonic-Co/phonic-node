@@ -541,8 +541,14 @@ Sent when the assistant decides to end the conversation.
   endpoint_url: string | null;
   endpoint_timeout_ms: number | null;
   endpoint_called_at: string | null;
-  request_body: object | null;
-  response_body: object | null;
+  request_body: {
+    call_info: {
+      from_phone_number: string;
+      to_phone_number: string;
+    } | null;
+    [key: string]: unknown;
+  } | null;
+  response_body: Record<string, unknown> | null;
   response_status_code: number | null;
   timed_out: boolean | null;
   error_message: string | null;
