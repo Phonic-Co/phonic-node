@@ -19,7 +19,7 @@ type ConversationItem =
       text: string;
       voice_id: string;
       system_prompt: string;
-      output_audio_speed: number;
+      audio_speed: number;
       duration_ms: number;
       started_at: string;
     };
