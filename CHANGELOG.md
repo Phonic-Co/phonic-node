@@ -1,5 +1,11 @@
 # phonic
 
+## 0.25.0
+
+### Minor Changes
+
+- [`d59933d`](https://github.com/Phonic-Co/phonic-node/commit/d59933d4836e81489f4729109623366437cf23fc) Thanks [@moroshko](https://github.com/moroshko)! - Update types for "interrupted_response" and "is_user_speaking" messages
+
 ## 0.24.2
 
 ### Patch Changes
