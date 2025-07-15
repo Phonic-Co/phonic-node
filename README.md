@@ -287,10 +287,11 @@ const outboundCallResult = await phonic.conversations.outboundCall("+19189396241
   // Optional fields
   project: "main",
   voice_id: "grant",
-  welcome_message: "Hello {{customer_name}}, how can I help you?",
-  system_prompt: "You are a helpful assistant.",
+  welcome_message: "Hi {{customer_name}}. How can I help you today?",
+  system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
   template_variables: {
-    customer_name: "David"
+    customer_name: "David",
+    subject: "Chess"
   },
   enable_silent_audio_fallback: true,
   vad_prebuffer_duration_ms: 1800,
