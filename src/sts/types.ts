@@ -58,7 +58,7 @@ export type PhonicSTSWebSocketResponseMessage =
     }
   | {
       type: "is_user_speaking";
-      isUserSpeaking: boolean;
+      is_user_speaking: boolean;
     }
   | {
       type: "user_started_speaking";
@@ -68,7 +68,7 @@ export type PhonicSTSWebSocketResponseMessage =
     }
   | {
       type: "interrupted_response";
-      interruptedResponse: string;
+      text: string;
     }
   | {
       type: "assistant_chose_not_to_respond";

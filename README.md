@@ -502,7 +502,7 @@ Sent when the user stops speaking.
 ```ts
 {
   type: "interrupted_response",
-  interruptedResponse: string, // partial assistant response that cuts off approximately where the user interrupted
+  text: string, // partial assistant response that cuts off approximately where the user interrupted
 }
 ```
 
