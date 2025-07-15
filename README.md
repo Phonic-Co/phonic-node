@@ -285,10 +285,13 @@ const conversationResult = await phonic.conversations.getByExternalId({
 ```ts
 const outboundCallResult = await phonic.conversations.outboundCall("+19189396241", {
   // Optional fields
-  welcome_message: "Hello, how can I help you?",
   project: "main",
-  system_prompt: "You are a helpful assistant.",
   voice_id: "grant",
+  welcome_message: "Hello {{customer_name}}, how can I help you?",
+  system_prompt: "You are a helpful assistant.",
+  template_variables: {
+    customer_name: "David"
+  },
   enable_silent_audio_fallback: true,
   vad_prebuffer_duration_ms: 1800,
   vad_min_speech_duration_ms: 40,

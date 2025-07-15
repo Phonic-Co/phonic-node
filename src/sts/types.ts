@@ -9,10 +9,11 @@ export type PhonicSTSTool =
 
 interface PhonicSTSConfigBase {
   input_format: "pcm_44100" | "mulaw_8000";
-  system_prompt?: string;
-  welcome_message?: string;
-  voice_id?: string;
   output_format?: "pcm_44100" | "mulaw_8000";
+  voice_id?: string;
+  welcome_message?: string;
+  system_prompt?: string;
+  template_variables?: Record<string, string>;
   enable_silent_audio_fallback?: boolean;
   experimental_params?: Record<string, unknown>;
   tools?: Array<PhonicSTSTool>;
