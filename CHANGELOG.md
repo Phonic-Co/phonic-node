@@ -1,5 +1,11 @@
 # phonic
 
+## 0.25.1
+
+### Patch Changes
+
+- [`b0e1004`](https://github.com/Phonic-Co/phonic-node/commit/b0e10046c7ae159f905e80abb92ca70398933374) Thanks [@moroshko](https://github.com/moroshko)! - Update `output_audio_speed` to `audio_speed` in conversation items
+
 ## 0.25.0
 
 ### Minor Changes
