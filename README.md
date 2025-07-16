@@ -164,6 +164,7 @@ const toolResult = await phonic.tools.get("next_invoice");
 const createToolResult = await phonic.tools.create({
   name: "next_invoice",
   description: "Returns the next invoice of the given user",
+  endpointMethod: "POST",
   endpointUrl: "https://myapp.com/webhooks/next-invoice",
   endpointHeaders: {
     Authorization: "Bearer 123"
@@ -199,6 +200,7 @@ const createToolResult = await phonic.tools.create({
 const updateToolResult = await phonic.tools.update("next_invoice", {
   name: "next_invoice_updated",
   description: "Updated description.",
+  endpointMethod: "POST",
   endpointUrl: "https://myapp.com/webhooks/next-invoice-updated",
   endpointHeaders: {
     Authorization: "Bearer 456"

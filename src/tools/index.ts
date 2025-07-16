@@ -54,6 +54,7 @@ export class Tools {
       {
         name: params.name,
         description: params.description,
+        endpoint_method: params.endpointMethod,
         endpoint_url: params.endpointUrl,
         endpoint_headers: params.endpointHeaders,
         endpoint_timeout_ms: params.endpointTimeoutMs,
@@ -73,6 +74,7 @@ export class Tools {
       {
         name: params.name,
         description: params.description,
+        endpoint_method: params.endpointMethod,
         endpoint_url: params.endpointUrl,
         endpoint_headers: params.endpointHeaders,
         endpoint_timeout_ms: params.endpointTimeoutMs,

@@ -21,6 +21,7 @@ type Tool = {
   id: string;
   name: string;
   description: string;
+  endpoint_method: "POST";
   endpoint_url: string;
   endpoint_headers: Record<string, string>;
   endpoint_timeout_ms: number;
@@ -38,6 +39,7 @@ export type GetToolSuccessResponse = DataOrError<{
 export type CreateToolParams = {
   name: string;
   description: string;
+  endpointMethod: "POST";
   endpointUrl: string;
   endpointHeaders?: Record<string, string>;
   endpointTimeoutMs?: number;
@@ -52,6 +54,7 @@ export type CreateToolSuccessResponse = {
 export type UpdateToolParams = {
   name?: string;
   description?: string;
+  endpointMethod?: "POST";
   endpointUrl?: string;
   endpointHeaders?: Record<string, string>;
   endpointTimeoutMs?: number;
