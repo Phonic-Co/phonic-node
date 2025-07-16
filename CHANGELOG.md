@@ -1,5 +1,11 @@
 # phonic
 
+## 0.25.3
+
+### Patch Changes
+
+- [`60a42f3`](https://github.com/Phonic-Co/phonic-node/commit/60a42f31de2cce0ccc4e16e0a045a16e163c6a64) Thanks [@moroshko](https://github.com/moroshko)! - Add endpoint method to tools (only POST is supported for now)
+
 ## 0.25.2
 
 ### Patch Changes
