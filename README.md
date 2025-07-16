@@ -285,20 +285,11 @@ const conversationResult = await phonic.conversations.getByExternalId({
 ```ts
 const outboundCallResult = await phonic.conversations.outboundCall("+19189396241", {
   // Optional fields
-  project: "main",
-  voice_id: "grant",
-  welcome_message: "Hi {{customer_name}}. How can I help you today?",
-  system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+  agent: "chris",
   template_variables: {
     customer_name: "David",
     subject: "Chess"
   },
-  enable_silent_audio_fallback: true,
-  vad_prebuffer_duration_ms: 1800,
-  vad_min_speech_duration_ms: 40,
-  vad_min_silence_duration_ms: 550,
-  vad_threshold: 0.6,
-  tools: ["keypad_input", "natural_conversation_ending"]
 });
 ```
 
@@ -317,6 +308,7 @@ const twilioOutboundCallResult = await phonic.conversations.twilio.outboundCall(
   }, 
   {
     // Optional fields
+    agent: "chris",
     welcome_message: "Hello, how can I help you?",
     project: "main",
     system_prompt: "You are a helpful assistant.",
@@ -340,17 +332,14 @@ const phonicWebSocket = phonic.sts.websocket({
   input_format: "mulaw_8000",
 
   // Optional fields
-  project: "main",
-  system_prompt: "You are a helpful assistant.",
+  agent: "chris",
+  template_variables: {
+    customer_name: "David",
+    subject: "Chess"
+  },
   welcome_message: "Hello, how can I help you?",
   voice_id: "grant",
   output_format: "mulaw_8000",
-  enable_silent_audio_fallback: true,
-  vad_prebuffer_duration_ms: 1800,
-  vad_min_speech_duration_ms: 40,
-  vad_min_silence_duration_ms: 550,
-  vad_threshold: 0.6,
-  tools: ["keypad_input", "natural_conversation_ending"]
 });
 ```
 
