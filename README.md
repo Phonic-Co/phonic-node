@@ -50,23 +50,23 @@ const phonic = new Phonic("ph_...");
 ### List agents
 
 ```ts
-const agentsResult = await phonic.agents.list({ project: "my-project" });
+const agentsResult = await phonic.agents.list({ project: "main" });
 ```
 
 ### Get agent
 
 ```ts
-const agentResult = await phonic.agents.get("my-agent", { project: "my-project" });
+const agentResult = await phonic.agents.get("chris", { project: "main" });
 ```
 
 ### Create agent
 
 ```ts
 const createAgentResult = await phonic.agents.create({
-  name: "my-agent",
+  name: "chris",
   
   // Optional fields
-  project: "my-project", // Defaults to "main"
+  project: "main", // Defaults to "main"
   phoneNumber: "assign-automatically", // Defaults to null
   timezone: "Australia/Melbourne", // Defaults to "America/Los_Angeles"
   audioFormat: "mulaw_8000", // Defaults to "pcm_44100". Must be "mulaw_8000" when `phoneNumber` is "assign-automatically"
@@ -99,11 +99,11 @@ const createAgentResult = await phonic.agents.create({
 ### Update agent
 
 ```ts
-const updateAgentResult = await phonic.agents.update("my-agent", {
-  name: "my-updated-agent",
+const updateAgentResult = await phonic.agents.update("chris", {
+  name: "chris",
   
   // Optional fields
-  project: "my-project",
+  project: "main",
   phoneNumber: "assign-automatically", // or null
   timezone: "Australia/Melbourne",
   voiceId: "sarah",
@@ -137,10 +137,9 @@ const updateAgentResult = await phonic.agents.update("my-agent", {
 
 ```ts
 const deleteAgentResult = await phonic.agents.delete({
-  name: "my-agent",
-
+  name: "chris",
   // Optional fields
-  project: "my-project",
+  project: "main",
 });
 ```
 
@@ -285,20 +284,11 @@ const conversationResult = await phonic.conversations.getByExternalId({
 ```ts
 const outboundCallResult = await phonic.conversations.outboundCall("+19189396241", {
   // Optional fields
-  project: "main",
-  voice_id: "grant",
-  welcome_message: "Hi {{customer_name}}. How can I help you today?",
-  system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+  agent: "chris",
   template_variables: {
     customer_name: "David",
     subject: "Chess"
   },
-  enable_silent_audio_fallback: true,
-  vad_prebuffer_duration_ms: 1800,
-  vad_min_speech_duration_ms: 40,
-  vad_min_silence_duration_ms: 550,
-  vad_threshold: 0.6,
-  tools: ["keypad_input", "natural_conversation_ending"]
 });
 ```
 
@@ -317,6 +307,7 @@ const twilioOutboundCallResult = await phonic.conversations.twilio.outboundCall(
   }, 
   {
     // Optional fields
+    agent: "chris",
     welcome_message: "Hello, how can I help you?",
     project: "main",
     system_prompt: "You are a helpful assistant.",
@@ -340,17 +331,14 @@ const phonicWebSocket = phonic.sts.websocket({
   input_format: "mulaw_8000",
 
   // Optional fields
-  project: "main",
-  system_prompt: "You are a helpful assistant.",
+  agent: "chris",
+  template_variables: {
+    customer_name: "David",
+    subject: "Chess"
+  },
   welcome_message: "Hello, how can I help you?",
   voice_id: "grant",
   output_format: "mulaw_8000",
-  enable_silent_audio_fallback: true,
-  vad_prebuffer_duration_ms: 1800,
-  vad_min_speech_duration_ms: 40,
-  vad_min_silence_duration_ms: 550,
-  vad_threshold: 0.6,
-  tools: ["keypad_input", "natural_conversation_ending"]
 });
 ```
 
