@@ -50,23 +50,23 @@ const phonic = new Phonic("ph_...");
 ### List agents
 
 ```ts
-const agentsResult = await phonic.agents.list({ project: "my-project" });
+const agentsResult = await phonic.agents.list({ project: "main" });
 ```
 
 ### Get agent
 
 ```ts
-const agentResult = await phonic.agents.get("my-agent", { project: "my-project" });
+const agentResult = await phonic.agents.get("chris", { project: "main" });
 ```
 
 ### Create agent
 
 ```ts
 const createAgentResult = await phonic.agents.create({
-  name: "my-agent",
+  name: "chris",
   
   // Optional fields
-  project: "my-project", // Defaults to "main"
+  project: "main", // Defaults to "main"
   phoneNumber: "assign-automatically", // Defaults to null
   timezone: "Australia/Melbourne", // Defaults to "America/Los_Angeles"
   audioFormat: "mulaw_8000", // Defaults to "pcm_44100". Must be "mulaw_8000" when `phoneNumber` is "assign-automatically"
@@ -99,11 +99,11 @@ const createAgentResult = await phonic.agents.create({
 ### Update agent
 
 ```ts
-const updateAgentResult = await phonic.agents.update("my-agent", {
-  name: "my-updated-agent",
+const updateAgentResult = await phonic.agents.update("chris", {
+  name: "chris",
   
   // Optional fields
-  project: "my-project",
+  project: "main",
   phoneNumber: "assign-automatically", // or null
   timezone: "Australia/Melbourne",
   voiceId: "sarah",
@@ -137,10 +137,9 @@ const updateAgentResult = await phonic.agents.update("my-agent", {
 
 ```ts
 const deleteAgentResult = await phonic.agents.delete({
-  name: "my-agent",
-
+  name: "chris",
   // Optional fields
-  project: "my-project",
+  project: "main",
 });
 ```
 
