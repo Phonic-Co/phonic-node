@@ -204,6 +204,8 @@ const createWebhookToolResult = await phonic.tools.create({
 
 #### Create WebSocket tool
 
+WebSocket tools allow you to handle tool execution on the client side through the WebSocket connection. When the assistant calls a WebSocket tool, you'll receive a `tool_call` message and must respond with the result.
+
 ```ts
 const createWebSocketToolResult = await phonic.tools.create({
   name: "get_product_recommendations",
@@ -219,6 +221,42 @@ const createWebSocketToolResult = await phonic.tools.create({
       isRequired: true
     }
   ]
+});
+```
+
+To use this tool in a conversation, add it to your agent or config:
+
+```ts
+// When creating an agent
+const agent = await phonic.agents.create({
+  name: "shopping-assistant",
+  tools: ["get_product_recommendations"],
+  // ... other config
+});
+
+// Or when starting a WebSocket conversation
+const phonicWebSocket = phonic.sts.websocket({
+  tools: ["get_product_recommendations"],
+  // ... other config
+});
+
+// Handle the tool call when it's invoked
+phonicWebSocket.onMessage(async (message) => {
+  if (message.type === "tool_call" && message.name === "get_product_recommendations") {
+    const category = message.arguments.category;
+    
+    // Execute your business logic
+    const recommendations = await fetchRecommendations(category);
+    
+    // Send the result back
+    phonicWebSocket.sendToolCallOutput({
+      toolCallId: message.tool_call_id,
+      output: {
+        products: recommendations,
+        total: recommendations.length
+      }
+    });
+  }
 });
 ```
 
@@ -419,6 +457,20 @@ phonicWebSocket.onMessage((message) => {
       );
       break;
     }
+
+    case "tool_call": {
+      // Handle WebSocket tool calls
+      console.log(`Tool ${message.name} called with arguments:`, message.arguments);
+      
+      // Process the tool call and send back the result
+      const result = await processToolCall(message.name, message.arguments);
+      
+      phonicWebSocket.sendToolCallOutput({
+        toolCallId: message.tool_call_id,
+        output: result,
+      });
+      break;
+    }
   }
 });
 ```
@@ -571,7 +623,24 @@ Sent when the assistant decides to end the conversation.
 ```ts
 {
   type: "tool_call";
-  id: string;
+  tool_call_id: string;
+  name: string;
+  arguments: Record<string, unknown>;
+}
+```
+
+Sent when a WebSocket tool is called during the conversation. When you receive this message, you should:
+1. Process the tool call using the provided `name` and `arguments`
+2. Send back the result using `phonicWebSocket.sendToolCallOutput()`
+
+This is only sent for tools created with `type: "custom_websocket"`. Webhook tools are executed server-side and only send `tool_call_completed` messages.
+
+#### `tool_call_completed`
+
+```ts
+{
+  type: "tool_call_completed";
+  tool_call_id: string;
   tool: {
     id: string;
     name: string;

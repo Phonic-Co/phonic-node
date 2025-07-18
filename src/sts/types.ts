@@ -98,6 +98,8 @@ export type PhonicSTSWebSocketResponseMessage =
         } | null;
         [key: string]: unknown;
       } | null;
+      arguments: Record<string, unknown> | null;
+      output: unknown | null;
       response_body: Record<string, unknown> | null;
       response_status_code: number | null;
       timed_out: boolean | null;
@@ -108,11 +110,6 @@ export type PhonicSTSWebSocketResponseMessage =
       tool_call_id: string;
       name: string;
       parameters: Record<string, unknown>;
-    }
-  | {
-      type: "tool_call_output";
-      tool_call_id: string;
-      output: unknown;
     }
   | {
       type: "error";
