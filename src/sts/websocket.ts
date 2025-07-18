@@ -99,6 +99,26 @@ export class PhonicSTSWebSocket {
     }
   }
 
+  sendToolCallOutput({
+    toolCallId,
+    output,
+  }: {
+    toolCallId: string;
+    output: unknown;
+  }) {
+    const toolCallOutputMessage = JSON.stringify({
+      type: "tool_call_output",
+      tool_call_id: toolCallId,
+      output,
+    });
+
+    if (this.isOpen) {
+      this.ws.send(toolCallOutputMessage);
+    } else {
+      this.buffer.push(toolCallOutputMessage);
+    }
+  }
+
   updateSystemPrompt({ systemPrompt }: { systemPrompt: string }) {
     const updateSystemPromptMessage = JSON.stringify({
       type: "update_system_prompt",

@@ -153,16 +153,25 @@ const toolsResult = await phonic.tools.list();
 
 ### Get tool
 
+Gets a tool by its ID or name.
+
 ```ts
 const toolResult = await phonic.tools.get("next_invoice");
+const toolByIdResult = await phonic.tools.get("tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c");
 ```
 
 ### Create tool
 
+Tools can be either webhook-based (HTTP endpoints) or WebSocket-based.
+
+#### Create webhook tool
+
 ```ts
-const createToolResult = await phonic.tools.create({
+const createWebhookToolResult = await phonic.tools.create({
   name: "next_invoice",
   description: "Returns the next invoice of the given user",
+  type: "custom_webhook",
+  executionMode: "sync", // "sync" | "async"
   endpointMethod: "POST",
   endpointUrl: "https://myapp.com/webhooks/next-invoice",
   endpointHeaders: {
@@ -193,12 +202,36 @@ const createToolResult = await phonic.tools.create({
 });
 ```
 
+#### Create WebSocket tool
+
+```ts
+const createWebSocketToolResult = await phonic.tools.create({
+  name: "get_product_recommendations",
+  description: "Gets personalized product recommendations",
+  type: "custom_websocket",
+  executionMode: "async",
+  toolCallOutputTimeoutMs: 5000, // Optional, defaults to 15000
+  parameters: [
+    {
+      type: "string",
+      name: "category",
+      description: "Product category (e.g., 'handbags', 'shoes', 'electronics')",
+      isRequired: true
+    }
+  ]
+});
+```
+
 ### Update tool
+
+Updates a tool by ID or name. All fields are optional - only provided fields will be updated.
 
 ```ts
 const updateToolResult = await phonic.tools.update("next_invoice", {
   name: "next_invoice_updated",
   description: "Updated description.",
+  type: "custom_webhook",
+  executionMode: "sync",
   endpointMethod: "POST",
   endpointUrl: "https://myapp.com/webhooks/next-invoice-updated",
   endpointHeaders: {
@@ -229,7 +262,18 @@ const updateToolResult = await phonic.tools.update("next_invoice", {
 });
 ```
 
+For WebSocket tools, you would use `toolCallOutputTimeoutMs` instead of the endpoint fields:
+
+```ts
+const updateWebSocketToolResult = await phonic.tools.update("get_product_recommendations", {
+  description: "Updated product recommendation tool",
+  toolCallOutputTimeoutMs: 7000
+});
+```
+
 ### Delete tool
+
+Deletes a tool by ID or name.
 
 ```ts
 const deleteToolResult = await phonic.tools.delete("next_invoice");
