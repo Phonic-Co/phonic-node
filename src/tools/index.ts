@@ -49,17 +49,28 @@ export class Tools {
   async create(
     params: CreateToolParams,
   ): DataOrError<CreateToolSuccessResponse> {
+    const body: Record<string, unknown> = {
+      name: params.name,
+      description: params.description,
+      type: params.type,
+      execution_mode: params.executionMode,
+      parameters: this.getParametersForBody(params.parameters),
+    };
+
+    if (params.type === "custom_webhook") {
+      body.endpoint_method = params.endpointMethod;
+      body.endpoint_url = params.endpointUrl;
+      body.endpoint_headers = params.endpointHeaders;
+      body.endpoint_timeout_ms = params.endpointTimeoutMs;
+    }
+
+    if (params.type === "custom_websocket") {
+      body.tool_call_output_timeout_ms = params.toolCallOutputTimeoutMs;
+    }
+
     const response = await this.phonic.post<CreateToolSuccessResponse>(
       "/tools",
-      {
-        name: params.name,
-        description: params.description,
-        endpoint_method: params.endpointMethod,
-        endpoint_url: params.endpointUrl,
-        endpoint_headers: params.endpointHeaders,
-        endpoint_timeout_ms: params.endpointTimeoutMs,
-        parameters: this.getParametersForBody(params.parameters),
-      },
+      body,
     );
 
     return response;
@@ -74,11 +85,14 @@ export class Tools {
       {
         name: params.name,
         description: params.description,
+        type: params.type,
+        execution_mode: params.executionMode,
         endpoint_method: params.endpointMethod,
         endpoint_url: params.endpointUrl,
         endpoint_headers: params.endpointHeaders,
         endpoint_timeout_ms: params.endpointTimeoutMs,
         parameters: this.getParametersForBody(params.parameters),
+        tool_call_output_timeout_ms: params.toolCallOutputTimeoutMs,
       },
     );
 
