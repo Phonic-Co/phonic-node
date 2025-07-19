@@ -460,10 +460,10 @@ phonicWebSocket.onMessage((message) => {
 
     case "tool_call": {
       // Handle WebSocket tool calls
-      console.log(`Tool ${message.name} called with arguments:`, message.arguments);
+      console.log(`Tool ${message.tool_name} called with parameters:`, message.parameters);
       
       // Process the tool call and send back the result
-      const result = await processToolCall(message.name, message.arguments);
+      const result = await processToolCall(message.tool_name, message.parameters);
       
       phonicWebSocket.sendToolCallOutput({
         toolCallId: message.tool_call_id,
@@ -624,13 +624,13 @@ Sent when the assistant decides to end the conversation.
 {
   type: "tool_call";
   tool_call_id: string;
-  name: string;
-  arguments: Record<string, unknown>;
+  tool_name: string;
+  parameters: Record<string, unknown>;
 }
 ```
 
 Sent when a WebSocket tool is called during the conversation. When you receive this message, you should:
-1. Process the tool call using the provided `name` and `arguments`
+1. Process the tool call using the provided `tool_name` and `parameters`
 2. Send back the result using `phonicWebSocket.sendToolCallOutput()`
 
 This is only sent for tools created with `type: "custom_websocket"`. Webhook tools are executed server-side and only send `tool_call_completed` messages.
