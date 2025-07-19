@@ -70,7 +70,9 @@ interface CreateWebSocketToolParams extends CreateToolParamsBase {
   toolCallOutputTimeoutMs?: number;
 }
 
-export type CreateToolParams = CreateWebhookToolParams | CreateWebSocketToolParams;
+export type CreateToolParams =
+  | CreateWebhookToolParams
+  | CreateWebSocketToolParams;
 
 export type CreateToolSuccessResponse = {
   id: string;

@@ -63,7 +63,7 @@ export class Tools {
       body.endpoint_headers = params.endpointHeaders;
       body.endpoint_timeout_ms = params.endpointTimeoutMs;
     }
-    
+
     if (params.type === "custom_websocket") {
       body.tool_call_output_timeout_ms = params.toolCallOutputTimeoutMs;
     }
