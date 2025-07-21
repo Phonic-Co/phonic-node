@@ -71,7 +71,20 @@ export class PhonicSTSWebSocket {
     this.onClose = this.onClose.bind(this);
     this.onError = this.onError.bind(this);
     this.audioChunk = this.audioChunk.bind(this);
+    this.sendToolCallOutput = this.sendToolCallOutput.bind(this);
+    this.updateSystemPrompt = this.updateSystemPrompt.bind(this);
+    this.setExternalId = this.setExternalId.bind(this);
     this.close = this.close.bind(this);
+  }
+
+  private processUserMessage(message: Record<string, unknown>) {
+    const messageStr = JSON.stringify(message);
+
+    if (this.isOpen) {
+      this.ws.send(messageStr);
+    } else {
+      this.buffer.push(messageStr);
+    }
   }
 
   onMessage(callback: OnMessageCallback) {
@@ -87,16 +100,10 @@ export class PhonicSTSWebSocket {
   }
 
   audioChunk({ audio }: { audio: string }) {
-    const audiochunkMessage = JSON.stringify({
+    this.processUserMessage({
       type: "audio_chunk",
       audio,
     });
-
-    if (this.isOpen) {
-      this.ws.send(audiochunkMessage);
-    } else {
-      this.buffer.push(audiochunkMessage);
-    }
   }
 
   sendToolCallOutput({
@@ -106,43 +113,25 @@ export class PhonicSTSWebSocket {
     toolCallId: string;
     output: unknown;
   }) {
-    const toolCallOutputMessage = JSON.stringify({
+    this.processUserMessage({
       type: "tool_call_output",
       tool_call_id: toolCallId,
       output,
     });
-
-    if (this.isOpen) {
-      this.ws.send(toolCallOutputMessage);
-    } else {
-      this.buffer.push(toolCallOutputMessage);
-    }
   }
 
   updateSystemPrompt({ systemPrompt }: { systemPrompt: string }) {
-    const updateSystemPromptMessage = JSON.stringify({
+    this.processUserMessage({
       type: "update_system_prompt",
       system_prompt: systemPrompt,
     });
-
-    if (this.isOpen) {
-      this.ws.send(updateSystemPromptMessage);
-    } else {
-      this.buffer.push(updateSystemPromptMessage);
-    }
   }
 
   setExternalId({ externalId }: { externalId: string }) {
-    const setExternalIdMessage = JSON.stringify({
+    this.processUserMessage({
       type: "set_external_id",
       external_id: externalId,
     });
-
-    if (this.isOpen) {
-      this.ws.send(setExternalIdMessage);
-    } else {
-      this.buffer.push(setExternalIdMessage);
-    }
   }
 
   close(code?: number) {
