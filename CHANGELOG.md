@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- [`e90fc61`](https://github.com/Phonic-Co/phonic-node/commit/e90fc61e82e84adb22739ea3d91f2a81b22f2c77) Thanks [@moroshko](https://github.com/moroshko)! - Fix ListAgentsSuccessResponse and GetAgentSuccessResponse types
+- [`e90fc61`](https://github.com/Phonic-Co/phonic-node/commit/e90fc61e82e84adb22739ea3d91f2a81b22f2c77) Thanks [@moroshko](https://github.com/moroshko)! - Fix `ListAgentsSuccessResponse` and `GetAgentSuccessResponse` types
 
 ## 0.25.3
 
