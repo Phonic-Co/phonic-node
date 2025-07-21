@@ -171,7 +171,7 @@ const createWebhookToolResult = await phonic.tools.create({
   name: "next_invoice",
   description: "Returns the next invoice of the given user",
   type: "custom_webhook",
-  executionMode: "sync", // "sync" | "async"
+  executionMode: "sync",
   endpointMethod: "POST",
   endpointUrl: "https://myapp.com/webhooks/next-invoice",
   endpointHeaders: {
@@ -204,7 +204,7 @@ const createWebhookToolResult = await phonic.tools.create({
 
 #### Create WebSocket tool
 
-WebSocket tools allow you to handle tool execution on the client side through the WebSocket connection. When the assistant calls a WebSocket tool, you'll receive a `tool_call` message and must respond with the result.
+WebSocket tools allow you to handle tool execution through the WebSocket connection. When the agent calls a WebSocket tool, you'll receive a `tool_call` message and must respond with a `tool_call_output` message that contains the tool result.
 
 ```ts
 const createWebSocketToolResult = await phonic.tools.create({
@@ -234,8 +234,9 @@ const agent = await phonic.agents.create({
   // ... other config
 });
 
-// Or when starting a WebSocket conversation
+// Or, override agent settings when starting a WebSocket conversation
 const phonicWebSocket = phonic.sts.websocket({
+  name: "shopping-assistant",
   tools: ["get_product_recommendations"],
   // ... other config
 });
@@ -243,10 +244,10 @@ const phonicWebSocket = phonic.sts.websocket({
 // Handle the tool call when it's invoked
 phonicWebSocket.onMessage(async (message) => {
   if (message.type === "tool_call" && message.name === "get_product_recommendations") {
-    const category = message.arguments.category;
+    const category = message.parameters.category;
     
     // Execute your business logic
-    const recommendations = await fetchRecommendations(category);
+    const recommendations = fetchRecommendations(category);
     
     // Send the result back
     phonicWebSocket.sendToolCallOutput({
@@ -265,7 +266,7 @@ phonicWebSocket.onMessage(async (message) => {
 Updates a tool by ID or name. All fields are optional - only provided fields will be updated.
 
 ```ts
-const updateToolResult = await phonic.tools.update("next_invoice", {
+const updateWebhookToolResult = await phonic.tools.update("next_invoice", {
   name: "next_invoice_updated",
   description: "Updated description.",
   type: "custom_webhook",
@@ -462,13 +463,19 @@ phonicWebSocket.onMessage((message) => {
       // Handle WebSocket tool calls
       console.log(`Tool ${message.tool_name} called with parameters:`, message.parameters);
       
-      // Process the tool call and send back the result
-      const result = await processToolCall(message.tool_name, message.parameters);
-      
-      phonicWebSocket.sendToolCallOutput({
-        toolCallId: message.tool_call_id,
-        output: result,
-      });
+      // Example: Process a product recommendations tool call
+      if (message.tool_name === "get_product_recommendations") {
+        const category = message.parameters.category;
+        const recommendations = fetchRecommendations(category);
+        
+        phonicWebSocket.sendToolCallOutput({
+          toolCallId: message.tool_call_id,
+          output: {
+            products: recommendations,
+            total: recommendations.length
+          }
+        });
+      }
       break;
     }
   }

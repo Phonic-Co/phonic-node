@@ -17,12 +17,13 @@ interface ArrayParameter extends ParameterBase {
 
 export type ToolParameters = Array<PrimitiveParameter | ArrayParameter>;
 
+type ExecutionMode = "sync" | "async";
+
 interface ToolBase {
   id: string;
   name: string;
   description: string;
-  type: "custom_webhook" | "custom_websocket";
-  execution_mode: "sync" | "async";
+  execution_mode: ExecutionMode;
   parameters: ToolParameters;
 }
 
@@ -52,8 +53,7 @@ export type GetToolSuccessResponse = DataOrError<{
 interface CreateToolParamsBase {
   name: string;
   description: string;
-  type: "custom_webhook" | "custom_websocket";
-  executionMode: "sync" | "async";
+  executionMode: ExecutionMode;
   parameters?: ToolParameters;
 }
 

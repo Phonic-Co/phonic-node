@@ -83,7 +83,7 @@ export type PhonicSTSWebSocketResponseMessage =
     }
   | {
       type: "tool_call_completed";
-      id: string;
+      tool_call_id: string;
       tool: {
         id: string;
         name: string;
@@ -100,7 +100,7 @@ export type PhonicSTSWebSocketResponseMessage =
       } | null;
       parameters: Record<string, unknown> | null;
       output: unknown | null;
-      response_body: Record<string, unknown> | null;
+      response_body: unknown | null;
       response_status_code: number | null;
       timed_out: boolean | null;
       error_message: string | null;
