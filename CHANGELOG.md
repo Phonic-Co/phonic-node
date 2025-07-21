@@ -1,5 +1,11 @@
 # phonic
 
+## 0.26.1
+
+### Patch Changes
+
+- [`ba4e2b8`](https://github.com/Phonic-Co/phonic-node/commit/ba4e2b806cc006e6bbb986296e42ddba9c06de12) Thanks [@moroshko](https://github.com/moroshko)! - Fix phonic.agents.delete usage in README
+
 ## 0.26.0
 
 ### Minor Changes
