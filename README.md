@@ -174,8 +174,7 @@ const upsertAgentResult = await phonic.agents.upsert({
 ### Delete agent
 
 ```ts
-const deleteAgentResult = await phonic.agents.delete({
-  name: "chris",
+const deleteAgentResult = await phonic.agents.delete("chris", {
   // Optional fields
   project: "main",
 });
