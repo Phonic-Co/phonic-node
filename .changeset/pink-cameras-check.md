@@ -2,4 +2,4 @@
 "phonic": minor
 ---
 
-Add phonic.agents.upsert()
+Add `phonic.agents.upsert()`
