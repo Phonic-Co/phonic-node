@@ -112,6 +112,42 @@ export type UpdateAgentSuccessResponse = {
   success: true;
 };
 
+interface UpsertAgentBaseParams extends AgentOptionalParams {
+  name: string;
+}
+
+interface UpsertAgentWithPhoneNumberParams
+  extends UpsertAgentBaseParams,
+    AgentPhoneNumberParams {}
+
+interface UpsertAgentWithoutPhoneNumberParams
+  extends UpsertAgentBaseParams,
+    AgentNoPhoneNumberParams {}
+
+export type UpsertAgentParams =
+  | UpsertAgentWithPhoneNumberParams
+  | UpsertAgentWithoutPhoneNumberParams;
+
+interface UpsertAgentSuccessResponseBase {
+  agent: Agent;
+}
+
+interface UpsertAgentInsertedSuccessResponse
+  extends UpsertAgentSuccessResponseBase {
+  inserted: true;
+  updated: false;
+}
+
+interface UpsertAgentUpdatedSuccessResponse
+  extends UpsertAgentSuccessResponseBase {
+  inserted: false;
+  updated: true;
+}
+
+export type UpsertAgentSuccessResponse =
+  | UpsertAgentInsertedSuccessResponse
+  | UpsertAgentUpdatedSuccessResponse;
+
 export type DeleteAgentParams = {
   project?: string;
 };

@@ -11,6 +11,8 @@ import type {
   ListAgentsSuccessResponse,
   UpdateAgentParams,
   UpdateAgentSuccessResponse,
+  UpsertAgentParams,
+  UpsertAgentSuccessResponse,
 } from "./types";
 
 export class Agents {
@@ -125,6 +127,39 @@ export class Agents {
   ): DataOrError<UpdateAgentSuccessResponse> {
     const response = await this.phonic.patch<UpdateAgentSuccessResponse>(
       `/agents/${name}?${this.getQueryString(params)}`,
+      {
+        name: params.name,
+        phone_number: params.phoneNumber,
+        timezone: params.timezone,
+        audio_format:
+          params.phoneNumber === "assign-automatically"
+            ? "mulaw_8000"
+            : params.audioFormat,
+        voice_id: params.voiceId,
+        welcome_message: params.welcomeMessage,
+        system_prompt: params.systemPrompt,
+        template_variables: this.getTemplateVariablesForBody(
+          params.templateVariables,
+        ),
+        tools: params.tools,
+        no_input_poke_sec: params.noInputPokeSec,
+        no_input_poke_text: params.noInputPokeText,
+        no_input_end_conversation_sec: params.noInputEndConversationSec,
+        boosted_keywords: params.boostedKeywords,
+        configuration_endpoint: this.getConfigurationEndpointForBody(
+          params.configurationEndpoint,
+        ),
+      },
+    );
+
+    return response;
+  }
+
+  async upsert(
+    params: UpsertAgentParams,
+  ): DataOrError<UpsertAgentSuccessResponse> {
+    const response = await this.phonic.put<UpsertAgentSuccessResponse>(
+      `/agents/upsert?${this.getQueryString(params)}`,
       {
         name: params.name,
         phone_number: params.phoneNumber,
