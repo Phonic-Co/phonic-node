@@ -1,5 +1,4 @@
 import type { PhonicSTSTool } from "../sts/types";
-import type { DataOrError } from "../types";
 
 type Agent = {
   id: string;
@@ -31,17 +30,17 @@ export type ListAgentsParams = {
   project?: string;
 };
 
-export type ListAgentsSuccessResponse = DataOrError<{
+export type ListAgentsSuccessResponse = {
   agents: Array<Agent>;
-}>;
+};
 
 export type GetAgentParams = {
   project?: string;
 };
 
-export type GetAgentSuccessResponse = DataOrError<{
+export type GetAgentSuccessResponse = {
   agent: Agent;
-}>;
+};
 
 interface AgentOptionalParams {
   project?: string;
