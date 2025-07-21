@@ -1,5 +1,11 @@
 # phonic
 
+## 0.26.0
+
+### Minor Changes
+
+- [`6b7a872`](https://github.com/Phonic-Co/phonic-node/commit/6b7a872436d8de6503329143391d773e575b7661) Thanks [@moroshko](https://github.com/moroshko)! - Add `phonic.agents.upsert()`
+
 ## 0.25.4
 
 ### Patch Changes
