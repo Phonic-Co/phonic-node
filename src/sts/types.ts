@@ -82,7 +82,7 @@ export type PhonicSTSWebSocketResponseMessage =
       digits: string;
     }
   | {
-      type: "tool_call_completed";
+      type: "tool_call_processed_by_phonic";
       tool_call_id: string;
       tool: {
         id: string;
