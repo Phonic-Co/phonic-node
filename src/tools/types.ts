@@ -83,7 +83,7 @@ export type UpdateToolParams = {
   name?: string;
   description?: string;
   type?: "custom_webhook" | "custom_websocket";
-  executionMode?: "sync" | "async";
+  executionMode?: ExecutionMode;
   endpointMethod?: "POST";
   endpointUrl?: string;
   endpointHeaders?: Record<string, string>;
