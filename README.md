@@ -250,7 +250,7 @@ phonicWebSocket.onMessage(async (message) => {
     const recommendations = fetchRecommendations(category);
     
     // Send the result back
-    phonicWebSocket.sendToolCallOutput({
+    phonicWebSocket.[sendToolCallOutput](#send-tool-output-to-phonic)({
       toolCallId: message.tool_call_id,
       output: {
         products: recommendations,
@@ -468,7 +468,7 @@ phonicWebSocket.onMessage((message) => {
         const category = message.parameters.category;
         const recommendations = fetchRecommendations(category);
         
-        phonicWebSocket.sendToolCallOutput({
+        phonicWebSocket.[sendToolCallOutput](#send-tool-output-to-phonic)({
           toolCallId: message.tool_call_id,
           output: {
             products: recommendations,
@@ -497,6 +497,34 @@ phonicWebSocket.setExternalId({
   externalId: "..."
 })
 ```
+
+### Send tool output to Phonic
+
+When you receive a `tool_call` message for a WebSocket tool, you must respond with the tool's output using `sendToolCallOutput()`. This method sends the execution result back to Phonic so the conversation can continue.
+
+```ts
+phonicWebSocket.sendToolCallOutput({
+  toolCallId: "tool_call_123...", // The tool_call_id from the tool_call message
+  output: "Success! Found 2 items" // Can be any JSON-serializable value (string, number, object, array, etc.)
+});
+
+// Or with an object:
+phonicWebSocket.sendToolCallOutput({
+  toolCallId: message.tool_call_id,
+  output: {
+    result: "success",
+    data: {
+      items: ["item1", "item2"],
+      total: 2
+    }
+  }
+});
+```
+
+**Important notes:**
+- You must use the exact `tool_call_id` received in the `tool_call` message
+- The `output` can be any JSON-serializable value (string, number, boolean, object, array, etc.)
+- If you don't send a response within `toolCallOutputTimeoutMs`, the tool call will be marked as failed.
 
 To end the conversation, close the WebSocket:
 
@@ -638,7 +666,7 @@ Sent when the assistant decides to end the conversation.
 
 Sent when a WebSocket tool is called during the conversation. When you receive this message, you should:
 1. Process the tool call using the provided `tool_name` and `parameters`
-2. Send back the result using `phonicWebSocket.sendToolCallOutput()`
+2. Send back the result using `[phonicWebSocket.sendToolCallOutput](#send-tool-output-to-phonic)()`
 
 This is only sent for tools created with `type: "custom_websocket"`. Webhook tools are executed server-side and only send `tool_call_processed_by_phonic` messages.
 
