@@ -20,6 +20,11 @@ export type FetchOptions =
       body: string;
     }
   | {
+      method: "PUT";
+      headers?: Record<string, string>;
+      body: string;
+    }
+  | {
       method: "DELETE";
       headers?: Record<string, string>;
     };

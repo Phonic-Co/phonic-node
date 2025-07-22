@@ -1,5 +1,4 @@
 import type { PhonicSTSTool } from "../sts/types";
-import type { DataOrError } from "../types";
 
 type Agent = {
   id: string;
@@ -31,17 +30,17 @@ export type ListAgentsParams = {
   project?: string;
 };
 
-export type ListAgentsSuccessResponse = DataOrError<{
+export type ListAgentsSuccessResponse = {
   agents: Array<Agent>;
-}>;
+};
 
 export type GetAgentParams = {
   project?: string;
 };
 
-export type GetAgentSuccessResponse = DataOrError<{
+export type GetAgentSuccessResponse = {
   agent: Agent;
-}>;
+};
 
 interface AgentOptionalParams {
   project?: string;
@@ -112,6 +111,42 @@ export type UpdateAgentParams =
 export type UpdateAgentSuccessResponse = {
   success: true;
 };
+
+interface UpsertAgentBaseParams extends AgentOptionalParams {
+  name: string;
+}
+
+interface UpsertAgentWithPhoneNumberParams
+  extends UpsertAgentBaseParams,
+    AgentPhoneNumberParams {}
+
+interface UpsertAgentWithoutPhoneNumberParams
+  extends UpsertAgentBaseParams,
+    AgentNoPhoneNumberParams {}
+
+export type UpsertAgentParams =
+  | UpsertAgentWithPhoneNumberParams
+  | UpsertAgentWithoutPhoneNumberParams;
+
+interface UpsertAgentSuccessResponseBase {
+  agent: Agent;
+}
+
+interface UpsertAgentInsertedSuccessResponse
+  extends UpsertAgentSuccessResponseBase {
+  inserted: true;
+  updated: false;
+}
+
+interface UpsertAgentUpdatedSuccessResponse
+  extends UpsertAgentSuccessResponseBase {
+  inserted: false;
+  updated: true;
+}
+
+export type UpsertAgentSuccessResponse =
+  | UpsertAgentInsertedSuccessResponse
+  | UpsertAgentUpdatedSuccessResponse;
 
 export type DeleteAgentParams = {
   project?: string;

@@ -1,5 +1,23 @@
 # phonic
 
+## 0.26.1
+
+### Patch Changes
+
+- [`ba4e2b8`](https://github.com/Phonic-Co/phonic-node/commit/ba4e2b806cc006e6bbb986296e42ddba9c06de12) Thanks [@moroshko](https://github.com/moroshko)! - Fix phonic.agents.delete usage in README
+
+## 0.26.0
+
+### Minor Changes
+
+- [`6b7a872`](https://github.com/Phonic-Co/phonic-node/commit/6b7a872436d8de6503329143391d773e575b7661) Thanks [@moroshko](https://github.com/moroshko)! - Add `phonic.agents.upsert()`
+
+## 0.25.4
+
+### Patch Changes
+
+- [`e90fc61`](https://github.com/Phonic-Co/phonic-node/commit/e90fc61e82e84adb22739ea3d91f2a81b22f2c77) Thanks [@moroshko](https://github.com/moroshko)! - Fix `ListAgentsSuccessResponse` and `GetAgentSuccessResponse` types
+
 ## 0.25.3
 
 ### Patch Changes

@@ -9,6 +9,7 @@ Node.js library for the Phonic API.
   - [Get agent](#get-agent)
   - [Create agent](#create-agent)
   - [Update agent](#update-agent)
+  - [Upsert agent](#upsert-agent)
   - [Delete agent](#delete-agent)
 - [Tools](#tools)
   - [List tools](#list-tools)
@@ -133,11 +134,47 @@ const updateAgentResult = await phonic.agents.update("chris", {
 });
 ```
 
+### Upsert agent
+
+```ts
+const upsertAgentResult = await phonic.agents.upsert({
+  name: "chris",
+  
+  // Optional fields
+  project: "main",
+  phoneNumber: "assign-automatically", // or null
+  timezone: "Australia/Melbourne",
+  voiceId: "sarah",
+  audioFormat: "mulaw_8000", // Must be "mulaw_8000" when `phoneNumber` is "assign-automatically"
+  welcomeMessage: "Hello, how can I help you?",
+  systemPrompt: "You are an expert in {{subject}}. Be kind to {{user_name}}.",
+  templateVariables: {
+    subject: {
+      defaultValue: "Maths"
+    },
+    user_name: {
+      defaultValue: null
+    }
+  },
+  tools: ["keypad_input", "natural_conversation_ending", "my-custom-tool"],
+  noInputPokeSec: 30,
+  noInputPokeText: "Hey, are you with me?",
+  noInputEndConversationSec: 150,
+  boostedKeywords: ["Salamanca Market", "Bonorong Wildlife Sanctuary"],
+  configurationEndpoint: {
+    url: "https://myapp.com/webhooks/phonic-config",
+    headers: {
+      Authorization: "Bearer 123"
+    },
+    timeoutMs: 7000
+  }
+});
+```
+
 ### Delete agent
 
 ```ts
-const deleteAgentResult = await phonic.agents.delete({
-  name: "chris",
+const deleteAgentResult = await phonic.agents.delete("chris", {
   // Optional fields
   project: "main",
 });

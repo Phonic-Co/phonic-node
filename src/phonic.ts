@@ -122,6 +122,18 @@ export class Phonic {
     });
   }
 
+  async put<T>(
+    path: string,
+    body: Record<string, unknown>,
+    headers?: Record<string, string>,
+  ) {
+    return this.fetchRequest<T>(path, {
+      method: "PUT",
+      body: JSON.stringify(body),
+      headers,
+    });
+  }
+
   async delete<T>(path: string, headers?: Record<string, string>) {
     return this.fetchRequest<T>(path, {
       method: "DELETE",
