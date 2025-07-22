@@ -705,13 +705,13 @@ Sent when a WebSocket tool is called during the conversation. When you receive t
 1. Process the tool call using the provided `tool_name` and `parameters`
 2. Send back the result using [`phonicWebSocket.sendToolCallOutput`](#send-tool-output-to-phonic)
 
-This is only sent for tools created with `type: "custom_websocket"`. Webhook tools are executed server-side and only send `tool_call_processed_by_phonic` messages.
+This is only sent for tools created with `type: "custom_websocket"`. Webhook tools are executed server-side and only send `tool_call_output_processed` messages.
 
-#### `tool_call_processed_by_phonic`
+#### `tool_call_output_processed`
 
 ```ts
 {
-  type: "tool_call_processed_by_phonic";
+  type: "tool_call_output_processed";
   tool_call_id: string;
   tool: {
     id: string;
