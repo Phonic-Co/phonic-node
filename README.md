@@ -666,7 +666,7 @@ Sent when the assistant decides to end the conversation.
 
 Sent when a WebSocket tool is called during the conversation. When you receive this message, you should:
 1. Process the tool call using the provided `tool_name` and `parameters`
-2. Send back the result using `[phonicWebSocket.sendToolCallOutput](#send-tool-output-to-phonic)()`
+2. Send back the result using [`phonicWebSocket.sendToolCallOutput`](#send-tool-output-to-phonic)
 
 This is only sent for tools created with `type: "custom_websocket"`. Webhook tools are executed server-side and only send `tool_call_processed_by_phonic` messages.
 
