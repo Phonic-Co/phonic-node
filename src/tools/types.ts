@@ -17,16 +17,30 @@ interface ArrayParameter extends ParameterBase {
 
 export type ToolParameters = Array<PrimitiveParameter | ArrayParameter>;
 
-type Tool = {
+type ExecutionMode = "sync" | "async";
+
+interface ToolBase {
   id: string;
   name: string;
   description: string;
+  execution_mode: ExecutionMode;
+  parameters: ToolParameters;
+}
+
+interface WebhookTool extends ToolBase {
+  type: "custom_webhook";
   endpoint_method: "POST";
   endpoint_url: string;
   endpoint_headers: Record<string, string>;
   endpoint_timeout_ms: number;
-  parameters: ToolParameters;
-};
+}
+
+interface WebSocketTool extends ToolBase {
+  type: "custom_websocket";
+  tool_call_output_timeout_ms: number;
+}
+
+export type Tool = WebhookTool | WebSocketTool;
 
 export type ListToolsSuccessResponse = DataOrError<{
   tools: Array<Tool>;
@@ -36,15 +50,29 @@ export type GetToolSuccessResponse = DataOrError<{
   tool: Tool;
 }>;
 
-export type CreateToolParams = {
+interface CreateToolParamsBase {
   name: string;
   description: string;
+  executionMode: ExecutionMode;
+  parameters?: ToolParameters;
+}
+
+interface CreateWebhookToolParams extends CreateToolParamsBase {
+  type: "custom_webhook";
   endpointMethod: "POST";
   endpointUrl: string;
   endpointHeaders?: Record<string, string>;
   endpointTimeoutMs?: number;
-  parameters?: ToolParameters;
-};
+}
+
+interface CreateWebSocketToolParams extends CreateToolParamsBase {
+  type: "custom_websocket";
+  toolCallOutputTimeoutMs?: number;
+}
+
+export type CreateToolParams =
+  | CreateWebhookToolParams
+  | CreateWebSocketToolParams;
 
 export type CreateToolSuccessResponse = {
   id: string;
@@ -54,11 +82,14 @@ export type CreateToolSuccessResponse = {
 export type UpdateToolParams = {
   name?: string;
   description?: string;
+  type?: "custom_webhook" | "custom_websocket";
+  executionMode?: ExecutionMode;
   endpointMethod?: "POST";
   endpointUrl?: string;
   endpointHeaders?: Record<string, string>;
   endpointTimeoutMs?: number;
-  parameters?: Array<PrimitiveParameter | ArrayParameter>;
+  toolCallOutputTimeoutMs?: number;
+  parameters?: ToolParameters;
 };
 
 export type UpdateToolSuccessResponse = {

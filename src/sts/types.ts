@@ -82,8 +82,8 @@ export type PhonicSTSWebSocketResponseMessage =
       digits: string;
     }
   | {
-      type: "tool_call";
-      id: string;
+      type: "tool_call_output_processed";
+      tool_call_id: string;
       tool: {
         id: string;
         name: string;
@@ -98,10 +98,18 @@ export type PhonicSTSWebSocketResponseMessage =
         } | null;
         [key: string]: unknown;
       } | null;
-      response_body: Record<string, unknown> | null;
+      parameters: Record<string, unknown> | null;
+      output: unknown | null;
+      response_body: unknown | null;
       response_status_code: number | null;
       timed_out: boolean | null;
       error_message: string | null;
+    }
+  | {
+      type: "tool_call";
+      tool_call_id: string;
+      tool_name: string;
+      parameters: Record<string, unknown>;
     }
   | {
       type: "error";

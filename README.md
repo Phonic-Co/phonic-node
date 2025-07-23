@@ -190,16 +190,25 @@ const toolsResult = await phonic.tools.list();
 
 ### Get tool
 
+Gets a tool by its ID or name.
+
 ```ts
 const toolResult = await phonic.tools.get("next_invoice");
+const toolByIdResult = await phonic.tools.get("tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c");
 ```
 
 ### Create tool
 
+Tools can be either webhook-based (HTTP endpoints) or WebSocket-based.
+
+#### Create webhook tool
+
 ```ts
-const createToolResult = await phonic.tools.create({
+const createWebhookToolResult = await phonic.tools.create({
   name: "next_invoice",
   description: "Returns the next invoice of the given user",
+  type: "custom_webhook",
+  executionMode: "sync",
   endpointMethod: "POST",
   endpointUrl: "https://myapp.com/webhooks/next-invoice",
   endpointHeaders: {
@@ -230,12 +239,75 @@ const createToolResult = await phonic.tools.create({
 });
 ```
 
-### Update tool
+#### Create WebSocket tool
+
+WebSocket tools allow you to handle tool execution through the WebSocket connection. When the agent calls a WebSocket tool, you'll receive a `tool_call` message and must respond with a `tool_call_output` message that contains the tool result.
 
 ```ts
-const updateToolResult = await phonic.tools.update("next_invoice", {
+const createWebSocketToolResult = await phonic.tools.create({
+  name: "get_product_recommendations",
+  description: "Gets personalized product recommendations",
+  type: "custom_websocket",
+  executionMode: "async",
+  toolCallOutputTimeoutMs: 5000, // Optional, defaults to 15000
+  parameters: [
+    {
+      type: "string",
+      name: "category",
+      description: "Product category (e.g., 'handbags', 'shoes', 'electronics')",
+      isRequired: true
+    }
+  ]
+});
+```
+
+To use this tool in a conversation, add it to your agent or config:
+
+```ts
+// When creating an agent
+const agent = await phonic.agents.create({
+  name: "shopping-assistant",
+  tools: ["get_product_recommendations"],
+  // ... other config
+});
+
+// Or, override agent settings when starting a WebSocket conversation
+const phonicWebSocket = phonic.sts.websocket({
+  name: "shopping-assistant",
+  tools: ["get_product_recommendations"],
+  // ... other config
+});
+
+// Handle the tool call when it's invoked
+phonicWebSocket.onMessage(async (message) => {
+  if (message.type === "tool_call" && message.name === "get_product_recommendations") {
+    const category = message.parameters.category;
+    
+    // Execute your business logic
+    const recommendations = fetchRecommendations(category);
+    
+    // Send the result back
+    phonicWebSocket.[sendToolCallOutput](#send-tool-output-to-phonic)({
+      toolCallId: message.tool_call_id,
+      output: {
+        products: recommendations,
+        total: recommendations.length
+      }
+    });
+  }
+});
+```
+
+### Update tool
+
+Updates a tool by ID or name. All fields are optional - only provided fields will be updated.
+
+```ts
+const updateWebhookToolResult = await phonic.tools.update("next_invoice", {
   name: "next_invoice_updated",
   description: "Updated description.",
+  type: "custom_webhook",
+  executionMode: "sync",
   endpointMethod: "POST",
   endpointUrl: "https://myapp.com/webhooks/next-invoice-updated",
   endpointHeaders: {
@@ -266,7 +338,18 @@ const updateToolResult = await phonic.tools.update("next_invoice", {
 });
 ```
 
+For WebSocket tools, you would use `toolCallOutputTimeoutMs` instead of the endpoint fields:
+
+```ts
+const updateWebSocketToolResult = await phonic.tools.update("get_product_recommendations", {
+  description: "Updated product recommendation tool",
+  toolCallOutputTimeoutMs: 7000
+});
+```
+
 ### Delete tool
+
+Deletes a tool by ID or name.
 
 ```ts
 const deleteToolResult = await phonic.tools.delete("next_invoice");
@@ -412,6 +495,26 @@ phonicWebSocket.onMessage((message) => {
       );
       break;
     }
+
+    case "tool_call": {
+      // Handle WebSocket tool calls
+      console.log(`Tool ${message.tool_name} called with parameters:`, message.parameters);
+      
+      // Example: Process a product recommendations tool call
+      if (message.tool_name === "get_product_recommendations") {
+        const category = message.parameters.category;
+        const recommendations = fetchRecommendations(category);
+        
+        phonicWebSocket.[sendToolCallOutput](#send-tool-output-to-phonic)({
+          toolCallId: message.tool_call_id,
+          output: {
+            products: recommendations,
+            total: recommendations.length
+          }
+        });
+      }
+      break;
+    }
   }
 });
 ```
@@ -431,6 +534,34 @@ phonicWebSocket.setExternalId({
   externalId: "..."
 })
 ```
+
+### Send tool output to Phonic
+
+When you receive a `tool_call` message for a WebSocket tool, you must respond with the tool's output using `sendToolCallOutput()`. This method sends the execution result back to Phonic so the conversation can continue.
+
+```ts
+phonicWebSocket.sendToolCallOutput({
+  toolCallId: "tool_call_123...", // The tool_call_id from the tool_call message
+  output: "Success! Found 2 items" // Can be any JSON-serializable value (string, number, object, array, etc.)
+});
+
+// Or with an object:
+phonicWebSocket.sendToolCallOutput({
+  toolCallId: message.tool_call_id,
+  output: {
+    result: "success",
+    data: {
+      items: ["item1", "item2"],
+      total: 2
+    }
+  }
+});
+```
+
+**Important notes:**
+- You must use the exact `tool_call_id` received in the `tool_call` message
+- The `output` can be any JSON-serializable value (string, number, boolean, object, array, etc.)
+- If you don't send a response within `toolCallOutputTimeoutMs`, the tool call will be marked as failed.
 
 To end the conversation, close the WebSocket:
 
@@ -564,7 +695,24 @@ Sent when the assistant decides to end the conversation.
 ```ts
 {
   type: "tool_call";
-  id: string;
+  tool_call_id: string;
+  tool_name: string;
+  parameters: Record<string, unknown>;
+}
+```
+
+Sent when a WebSocket tool is called during the conversation. When you receive this message, you should:
+1. Process the tool call using the provided `tool_name` and `parameters`
+2. Send back the result using [`phonicWebSocket.sendToolCallOutput`](#send-tool-output-to-phonic)
+
+This is only sent for tools created with `type: "custom_websocket"`. Webhook tools are executed server-side and only send `tool_call_output_processed` messages.
+
+#### `tool_call_output_processed`
+
+```ts
+{
+  type: "tool_call_output_processed";
+  tool_call_id: string;
   tool: {
     id: string;
     name: string;
