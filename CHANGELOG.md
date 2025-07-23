@@ -1,5 +1,11 @@
 # phonic
 
+## 0.27.0
+
+### Minor Changes
+
+- [#68](https://github.com/Phonic-Co/phonic-node/pull/68) [`e6bf7b2`](https://github.com/Phonic-Co/phonic-node/commit/e6bf7b26b7a39dabd8d3b68420ff6e62193e2ca9) Thanks [@qionghuang6](https://github.com/qionghuang6)! - Add support for websocket tools
+
 ## 0.26.1
 
 ### Patch Changes
