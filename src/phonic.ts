@@ -1,6 +1,7 @@
 import { version } from "../package.json";
 import { Agents } from "./agents";
 import { Conversations } from "./conversations";
+import { Projects } from "./projects";
 import { SpeechToSpeech } from "./sts";
 import { Tools } from "./tools";
 import type { DataOrError, FetchOptions, PhonicConfig } from "./types";
@@ -16,6 +17,7 @@ export class Phonic {
 
   readonly agents = new Agents(this);
   readonly conversations = new Conversations(this);
+  readonly projects = new Projects(this);
   readonly tools = new Tools(this);
   readonly voices = new Voices(this);
   readonly sts = new SpeechToSpeech(this);
