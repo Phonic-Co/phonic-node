@@ -78,11 +78,11 @@ export class Agents {
   }
 
   async get(
-    name: string,
+    nameOrId: string,
     params?: GetAgentParams,
   ): DataOrError<GetAgentSuccessResponse> {
     const response = await this.phonic.get<GetAgentSuccessResponse>(
-      `/agents/${name}?${this.getQueryString(params)}`,
+      `/agents/${nameOrId}?${this.getQueryString(params)}`,
     );
 
     return response;
@@ -122,11 +122,11 @@ export class Agents {
   }
 
   async update(
-    name: string,
+    nameOrId: string,
     params: UpdateAgentParams,
   ): DataOrError<UpdateAgentSuccessResponse> {
     const response = await this.phonic.patch<UpdateAgentSuccessResponse>(
-      `/agents/${name}?${this.getQueryString(params)}`,
+      `/agents/${nameOrId}?${this.getQueryString(params)}`,
       {
         name: params.name,
         phone_number: params.phoneNumber,
@@ -189,11 +189,11 @@ export class Agents {
   }
 
   async delete(
-    name: string,
+    nameOrId: string,
     params?: DeleteAgentParams,
   ): DataOrError<DeleteAgentSuccessResponse> {
     const response = await this.phonic.delete<DeleteAgentSuccessResponse>(
-      `/agents/${name}?${this.getQueryString(params)}`,
+      `/agents/${nameOrId}?${this.getQueryString(params)}`,
     );
 
     return response;

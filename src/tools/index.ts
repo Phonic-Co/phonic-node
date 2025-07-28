@@ -38,9 +38,9 @@ export class Tools {
     return response;
   }
 
-  async get(name: string): DataOrError<GetToolSuccessResponse> {
+  async get(nameOrId: string): DataOrError<GetToolSuccessResponse> {
     const response = await this.phonic.get<GetToolSuccessResponse>(
-      `/tools/${name}`,
+      `/tools/${nameOrId}`,
     );
 
     return response;
@@ -77,11 +77,11 @@ export class Tools {
   }
 
   async update(
-    name: string,
+    nameOrId: string,
     params: UpdateToolParams,
   ): DataOrError<UpdateToolSuccessResponse> {
     const response = await this.phonic.patch<UpdateToolSuccessResponse>(
-      `/tools/${name}`,
+      `/tools/${nameOrId}`,
       {
         name: params.name,
         description: params.description,
@@ -99,9 +99,9 @@ export class Tools {
     return response;
   }
 
-  async delete(name: string): DataOrError<DeleteToolSuccessResponse> {
+  async delete(nameOrId: string): DataOrError<DeleteToolSuccessResponse> {
     const response = await this.phonic.delete<DeleteToolSuccessResponse>(
-      `/tools/${name}`,
+      `/tools/${nameOrId}`,
     );
 
     return response;
