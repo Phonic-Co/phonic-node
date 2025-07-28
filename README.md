@@ -28,6 +28,12 @@ Node.js library for the Phonic API.
   - [Outbound call using own Twilio account](#outbound-call-using-own-twilio-account)
 - [STS via WebSocket](#sts-via-websocket)
   - [Messages that Phonic sends back to you](#messages-that-phonic-sends-back-to-you)
+- [Projects](#projects)
+  - [List projects](#list-projects)
+  - [Get project](#get-project)
+  - [Create project](#create-project)
+  - [Update project](#update-project)
+  - [Delete project](#delete-project)
 - [License](#license)
 
 ## Installation
@@ -51,19 +57,21 @@ const phonic = new Phonic("ph_...");
 ### List agents
 
 ```ts
-const agentsResult = await phonic.agents.list({ project: "main" });
+const result = await phonic.agents.list({ project: "main" });
 ```
 
 ### Get agent
 
+Returns an agent by name or ID.
+
 ```ts
-const agentResult = await phonic.agents.get("chris", { project: "main" });
+const result = await phonic.agents.get("chris", { project: "main" });
 ```
 
 ### Create agent
 
 ```ts
-const createAgentResult = await phonic.agents.create({
+const result = await phonic.agents.create({
   name: "chris",
   
   // Optional fields
@@ -100,7 +108,7 @@ const createAgentResult = await phonic.agents.create({
 ### Update agent
 
 ```ts
-const updateAgentResult = await phonic.agents.update("chris", {
+const result = await phonic.agents.update("chris", {
   name: "chris",
   
   // Optional fields
@@ -137,7 +145,7 @@ const updateAgentResult = await phonic.agents.update("chris", {
 ### Upsert agent
 
 ```ts
-const upsertAgentResult = await phonic.agents.upsert({
+const result = await phonic.agents.upsert({
   name: "chris",
   
   // Optional fields
@@ -174,7 +182,7 @@ const upsertAgentResult = await phonic.agents.upsert({
 ### Delete agent
 
 ```ts
-const deleteAgentResult = await phonic.agents.delete("chris", {
+const result = await phonic.agents.delete("chris", {
   // Optional fields
   project: "main",
 });
@@ -185,26 +193,23 @@ const deleteAgentResult = await phonic.agents.delete("chris", {
 ### List tools
 
 ```ts
-const toolsResult = await phonic.tools.list();
+const result = await phonic.tools.list();
 ```
 
 ### Get tool
 
-Gets a tool by its ID or name.
+Returns a tool by name or ID.
 
 ```ts
-const toolResult = await phonic.tools.get("next_invoice");
-const toolByIdResult = await phonic.tools.get("tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c");
+const result = await phonic.tools.get("next_invoice");
 ```
 
 ### Create tool
 
-Tools can be either webhook-based (HTTP endpoints) or WebSocket-based.
-
 #### Create webhook tool
 
 ```ts
-const createWebhookToolResult = await phonic.tools.create({
+const result = await phonic.tools.create({
   name: "next_invoice",
   description: "Returns the next invoice of the given user",
   type: "custom_webhook",
@@ -244,7 +249,7 @@ const createWebhookToolResult = await phonic.tools.create({
 WebSocket tools allow you to handle tool execution through the WebSocket connection. When the agent calls a WebSocket tool, you'll receive a `tool_call` message and must respond with a `tool_call_output` message that contains the tool result.
 
 ```ts
-const createWebSocketToolResult = await phonic.tools.create({
+const result = await phonic.tools.create({
   name: "get_product_recommendations",
   description: "Gets personalized product recommendations",
   type: "custom_websocket",
@@ -265,7 +270,7 @@ To use this tool in a conversation, add it to your agent or config:
 
 ```ts
 // When creating an agent
-const agent = await phonic.agents.create({
+const result = await phonic.agents.create({
   name: "shopping-assistant",
   tools: ["get_product_recommendations"],
   // ... other config
@@ -303,7 +308,7 @@ phonicWebSocket.onMessage(async (message) => {
 Updates a tool by ID or name. All fields are optional - only provided fields will be updated.
 
 ```ts
-const updateWebhookToolResult = await phonic.tools.update("next_invoice", {
+const result = await phonic.tools.update("next_invoice", {
   name: "next_invoice_updated",
   description: "Updated description.",
   type: "custom_webhook",
@@ -341,7 +346,7 @@ const updateWebhookToolResult = await phonic.tools.update("next_invoice", {
 For WebSocket tools, you would use `toolCallOutputTimeoutMs` instead of the endpoint fields:
 
 ```ts
-const updateWebSocketToolResult = await phonic.tools.update("get_product_recommendations", {
+const result = await phonic.tools.update("get_product_recommendations", {
   description: "Updated product recommendation tool",
   toolCallOutputTimeoutMs: 7000
 });
@@ -352,7 +357,7 @@ const updateWebSocketToolResult = await phonic.tools.update("get_product_recomme
 Deletes a tool by ID or name.
 
 ```ts
-const deleteToolResult = await phonic.tools.delete("next_invoice");
+const result = await phonic.tools.delete("next_invoice");
 ```
 
 
@@ -361,14 +366,14 @@ const deleteToolResult = await phonic.tools.delete("next_invoice");
 ### List voices
 
 ```ts
-const voicesResult = await phonic.voices.list({ model: "merritt" });
+const result = await phonic.voices.list({ model: "merritt" });
 ```
 
 
 ### Get voice
 
 ```ts
-const voiceResult = await phonic.voices.get("grant");
+const result = await phonic.voices.get("grant");
 ```
 
 ## Conversations
@@ -376,7 +381,7 @@ const voiceResult = await phonic.voices.get("grant");
 ### List conversations
 
 ```ts
-const conversationsResult = await phonic.conversations.list({
+const result = await phonic.conversations.list({
   project: "main",
   durationMin: 10, // sec
   durationMax: 20, // sec
@@ -389,13 +394,13 @@ const conversationsResult = await phonic.conversations.list({
 ### Get conversation by id
 
 ```ts
-const conversationResult = await phonic.conversations.get("conv_b1804883-5be4-42fe-b1cf-aa84450d5c84");
+const result = await phonic.conversations.get("conv_b1804883-5be4-42fe-b1cf-aa84450d5c84");
 ```
 
 ### Get conversation by external id
 
 ```ts
-const conversationResult = await phonic.conversations.getByExternalId({
+const result = await phonic.conversations.getByExternalId({
   project: "main",
   externalId: "CAdb9c032c809fec7feb932ea4c96d71e1"
 });
@@ -404,7 +409,7 @@ const conversationResult = await phonic.conversations.getByExternalId({
 ### Outbound call
 
 ```ts
-const outboundCallResult = await phonic.conversations.outboundCall("+19189396241", {
+const result = await phonic.conversations.outboundCall("+19189396241", {
   // Optional fields
   agent: "chris",
   template_variables: {
@@ -419,7 +424,7 @@ const outboundCallResult = await phonic.conversations.outboundCall("+19189396241
 In Twilio, create a restricted API key with the following permissions: `voice -> calls -> read` and `voice -> calls -> create`.
 
 ```ts
-const twilioOutboundCallResult = await phonic.conversations.twilio.outboundCall(
+const result = await phonic.conversations.twilio.outboundCall(
   {
     account_sid: "AC...",
     api_key_sid: "SK...",
@@ -752,6 +757,45 @@ If the conversation is not a phone call, `call_info` will be `null`. If it is a 
 ```
 
 Sent when an error occurs during the conversation.
+
+## Projects
+
+### List projects
+
+```ts
+const result = await phonic.projects.list();
+```
+
+### Get project
+
+Returns a project by name or ID.
+
+```ts
+const result = await phonic.projects.get("main");
+```
+
+### Create project
+
+```ts
+const result = await phonic.projects.create({
+  name: "customer-support",
+});
+```
+
+### Update project
+
+```ts
+const result = await phonic.projects.update("customer-support", {
+  name: "updated-customer-support",
+  defaultAgent: "another-agent"
+});
+```
+
+### Delete project
+
+```ts
+const result = await phonic.projects.delete("customer-support");
+```
 
 ## License
 
