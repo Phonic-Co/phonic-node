@@ -2,4 +2,4 @@
 "phonic": minor
 ---
 
-Add phonic.projects
+Add `phonic.projects` methods.
