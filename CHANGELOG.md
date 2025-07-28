@@ -1,5 +1,11 @@
 # phonic
 
+## 0.28.0
+
+### Minor Changes
+
+- [#74](https://github.com/Phonic-Co/phonic-node/pull/74) [`154d2b7`](https://github.com/Phonic-Co/phonic-node/commit/154d2b7c03ee968087fffc89fda5a9fecb5ad42e) Thanks [@moroshko](https://github.com/moroshko)! - Add `phonic.projects` methods.
+
 ## 0.27.0
 
 ### Minor Changes
