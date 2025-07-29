@@ -1,5 +1,11 @@
 # phonic
 
+## 0.29.0
+
+### Minor Changes
+
+- [#77](https://github.com/Phonic-Co/phonic-node/pull/77) [`8055f08`](https://github.com/Phonic-Co/phonic-node/commit/8055f08196f77abd34d7d4d3b82cf53829c11b3d) Thanks [@moroshko](https://github.com/moroshko)! - Add project param to tools methods
+
 ## 0.28.1
 
 ### Patch Changes
