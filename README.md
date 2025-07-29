@@ -193,7 +193,9 @@ const result = await phonic.agents.delete("chris", {
 ### List tools
 
 ```ts
-const result = await phonic.tools.list();
+const result = await phonic.tools.list({ 
+  project: "customer-support" // Optional. Defaults to "main".
+});
 ```
 
 ### Get tool
@@ -201,7 +203,9 @@ const result = await phonic.tools.list();
 Returns a tool by name or ID.
 
 ```ts
-const result = await phonic.tools.get("next_invoice");
+const result = await phonic.tools.get("next_invoice", { 
+  project: "customer-support" // Optional. Defaults to "main".
+});
 ```
 
 ### Create tool
@@ -210,6 +214,7 @@ const result = await phonic.tools.get("next_invoice");
 
 ```ts
 const result = await phonic.tools.create({
+  project: "customer-support", // Optional. Defaults to "main".
   name: "next_invoice",
   description: "Returns the next invoice of the given user",
   type: "custom_webhook",
@@ -250,6 +255,7 @@ WebSocket tools allow you to handle tool execution through the WebSocket connect
 
 ```ts
 const result = await phonic.tools.create({
+  project: "customer-support", // Optional. Defaults to "main".
   name: "get_product_recommendations",
   description: "Gets personalized product recommendations",
   type: "custom_websocket",
@@ -309,6 +315,7 @@ Updates a tool by ID or name. All fields are optional - only provided fields wil
 
 ```ts
 const result = await phonic.tools.update("next_invoice", {
+  project: "customer-support", // Optional. Defaults to "main".
   name: "next_invoice_updated",
   description: "Updated description.",
   type: "custom_webhook",
@@ -357,9 +364,10 @@ const result = await phonic.tools.update("get_product_recommendations", {
 Deletes a tool by ID or name.
 
 ```ts
-const result = await phonic.tools.delete("next_invoice");
+const result = await phonic.tools.delete("next_invoice", { 
+  project: "customer-support" // Optional. Defaults to "main".
+});
 ```
-
 
 ## Voices
 

@@ -3,8 +3,11 @@ import type { DataOrError } from "../types";
 import type {
   CreateToolParams,
   CreateToolSuccessResponse,
+  DeleteToolParams,
   DeleteToolSuccessResponse,
+  GetToolParams,
   GetToolSuccessResponse,
+  ListToolsParams,
   ListToolsSuccessResponse,
   ToolParameters,
   UpdateToolParams,
@@ -13,6 +16,15 @@ import type {
 
 export class Tools {
   constructor(private readonly phonic: Phonic) {}
+
+  private getQueryString(params?: { project?: string }) {
+    const project = params?.project;
+    const queryString = new URLSearchParams({
+      ...(project !== undefined && { project }),
+    }).toString();
+
+    return queryString;
+  }
 
   private getParametersForBody(parameters: ToolParameters | undefined) {
     if (parameters === undefined) {
@@ -32,15 +44,20 @@ export class Tools {
     });
   }
 
-  async list(): DataOrError<ListToolsSuccessResponse> {
-    const response = await this.phonic.get<ListToolsSuccessResponse>("/tools");
+  async list(params?: ListToolsParams): DataOrError<ListToolsSuccessResponse> {
+    const response = await this.phonic.get<ListToolsSuccessResponse>(
+      `/tools?${this.getQueryString(params)}`,
+    );
 
     return response;
   }
 
-  async get(nameOrId: string): DataOrError<GetToolSuccessResponse> {
+  async get(
+    nameOrId: string,
+    params?: GetToolParams,
+  ): DataOrError<GetToolSuccessResponse> {
     const response = await this.phonic.get<GetToolSuccessResponse>(
-      `/tools/${nameOrId}`,
+      `/tools/${nameOrId}?${this.getQueryString(params)}`,
     );
 
     return response;
@@ -69,7 +86,7 @@ export class Tools {
     }
 
     const response = await this.phonic.post<CreateToolSuccessResponse>(
-      "/tools",
+      `/tools?${this.getQueryString(params)}`,
       body,
     );
 
@@ -81,7 +98,7 @@ export class Tools {
     params: UpdateToolParams,
   ): DataOrError<UpdateToolSuccessResponse> {
     const response = await this.phonic.patch<UpdateToolSuccessResponse>(
-      `/tools/${nameOrId}`,
+      `/tools/${nameOrId}?${this.getQueryString(params)}`,
       {
         name: params.name,
         description: params.description,
@@ -99,9 +116,12 @@ export class Tools {
     return response;
   }
 
-  async delete(nameOrId: string): DataOrError<DeleteToolSuccessResponse> {
+  async delete(
+    nameOrId: string,
+    params?: DeleteToolParams,
+  ): DataOrError<DeleteToolSuccessResponse> {
     const response = await this.phonic.delete<DeleteToolSuccessResponse>(
-      `/tools/${nameOrId}`,
+      `/tools/${nameOrId}?${this.getQueryString(params)}`,
     );
 
     return response;

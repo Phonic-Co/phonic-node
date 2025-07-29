@@ -42,15 +42,24 @@ interface WebSocketTool extends ToolBase {
 
 export type Tool = WebhookTool | WebSocketTool;
 
+export type ListToolsParams = {
+  project?: string;
+};
+
 export type ListToolsSuccessResponse = DataOrError<{
   tools: Array<Tool>;
 }>;
+
+export type GetToolParams = {
+  project?: string;
+};
 
 export type GetToolSuccessResponse = DataOrError<{
   tool: Tool;
 }>;
 
 interface CreateToolParamsBase {
+  project?: string;
   name: string;
   description: string;
   executionMode: ExecutionMode;
@@ -80,6 +89,7 @@ export type CreateToolSuccessResponse = {
 };
 
 export type UpdateToolParams = {
+  project?: string;
   name?: string;
   description?: string;
   type?: "custom_webhook" | "custom_websocket";
@@ -94,6 +104,10 @@ export type UpdateToolParams = {
 
 export type UpdateToolSuccessResponse = {
   success: true;
+};
+
+export type DeleteToolParams = {
+  project?: string;
 };
 
 export type DeleteToolSuccessResponse = {
