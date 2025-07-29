@@ -94,11 +94,11 @@ export type UpdateToolParams = {
   description?: string;
   type?: "custom_webhook" | "custom_websocket";
   executionMode?: ExecutionMode;
-  endpointMethod?: "POST";
-  endpointUrl?: string;
-  endpointHeaders?: Record<string, string>;
-  endpointTimeoutMs?: number;
-  toolCallOutputTimeoutMs?: number;
+  endpointMethod?: "POST" | null;
+  endpointUrl?: string | null;
+  endpointHeaders?: Record<string, string> | null;
+  endpointTimeoutMs?: number | null;
+  toolCallOutputTimeoutMs?: number | null;
   parameters?: ToolParameters;
 };
 
