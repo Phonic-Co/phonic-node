@@ -36,7 +36,7 @@ following namespace:
 ```typescript
 import { Phonic } from "Phonic";
 
-const request: Phonic.CreateProjectRequest = {
+const request: Phonic.AgentsListRequest = {
     ...
 };
 ```
