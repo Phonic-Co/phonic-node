@@ -6,7 +6,6 @@ import * as environments from "../../../../environments.js";
 import * as core from "../../../../core/index.js";
 import * as Phonic from "../../../index.js";
 import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../core/headers.js";
-import * as errors from "../../../../errors/index.js";
 
 export declare namespace Projects {
     export interface Options {
@@ -14,8 +13,6 @@ export declare namespace Projects {
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
         token: core.Supplier<core.BearerToken>;
-        /** Override the X-Twilio-Account-Sid header */
-        twilioAccountSid: core.Supplier<string>;
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
@@ -28,8 +25,6 @@ export declare namespace Projects {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
-        /** Override the X-Twilio-Account-Sid header */
-        twilioAccountSid?: string;
         /** Additional query string parameters to include in the request. */
         queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
@@ -52,13 +47,15 @@ export class Projects {
      * @example
      *     await client.projects.list()
      */
-    public list(requestOptions?: Projects.RequestOptions): core.HttpResponsePromise<Phonic.ProjectsListResponse> {
+    public list(
+        requestOptions?: Projects.RequestOptions,
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.ProjectsListResponse, Phonic.projects.list.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__list(requestOptions));
     }
 
     private async __list(
         requestOptions?: Projects.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.ProjectsListResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.ProjectsListResponse, Phonic.projects.list.Error>>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -69,10 +66,7 @@ export class Projects {
             method: "GET",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({
-                    Authorization: await this._getAuthorizationHeader(),
-                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
-                }),
+                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
                 requestOptions?.headers,
             ),
             queryParameters: requestOptions?.queryParams,
@@ -81,32 +75,25 @@ export class Projects {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.ProjectsListResponse, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.ProjectsListResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
                 rawResponse: _response.rawResponse,
-            });
+            };
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /projects.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.projects.list.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     /**
@@ -123,14 +110,14 @@ export class Projects {
     public create(
         request: Phonic.CreateProjectRequest,
         requestOptions?: Projects.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.ProjectsCreateResponse> {
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.ProjectsCreateResponse, Phonic.projects.create.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: Phonic.CreateProjectRequest,
         requestOptions?: Projects.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.ProjectsCreateResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.ProjectsCreateResponse, Phonic.projects.create.Error>>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -141,10 +128,7 @@ export class Projects {
             method: "POST",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({
-                    Authorization: await this._getAuthorizationHeader(),
-                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
-                }),
+                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
                 requestOptions?.headers,
             ),
             contentType: "application/json",
@@ -156,32 +140,25 @@ export class Projects {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.ProjectsCreateResponse, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.ProjectsCreateResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
                 rawResponse: _response.rawResponse,
-            });
+            };
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling POST /projects.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.projects.create.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     /**
@@ -196,14 +173,14 @@ export class Projects {
     public get(
         nameOrId: string,
         requestOptions?: Projects.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.ProjectsGetResponse> {
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.ProjectsGetResponse, Phonic.projects.get.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__get(nameOrId, requestOptions));
     }
 
     private async __get(
         nameOrId: string,
         requestOptions?: Projects.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.ProjectsGetResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.ProjectsGetResponse, Phonic.projects.get.Error>>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -214,10 +191,7 @@ export class Projects {
             method: "GET",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({
-                    Authorization: await this._getAuthorizationHeader(),
-                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
-                }),
+                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
                 requestOptions?.headers,
             ),
             queryParameters: requestOptions?.queryParams,
@@ -226,32 +200,25 @@ export class Projects {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.ProjectsGetResponse, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.ProjectsGetResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
                 rawResponse: _response.rawResponse,
-            });
+            };
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /projects/{nameOrId}.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.projects.get.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     /**
@@ -266,14 +233,14 @@ export class Projects {
     public delete(
         nameOrId: string,
         requestOptions?: Projects.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.ProjectsDeleteResponse> {
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.ProjectsDeleteResponse, Phonic.projects.delete.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__delete(nameOrId, requestOptions));
     }
 
     private async __delete(
         nameOrId: string,
         requestOptions?: Projects.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.ProjectsDeleteResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.ProjectsDeleteResponse, Phonic.projects.delete.Error>>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -284,10 +251,7 @@ export class Projects {
             method: "DELETE",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({
-                    Authorization: await this._getAuthorizationHeader(),
-                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
-                }),
+                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
                 requestOptions?.headers,
             ),
             queryParameters: requestOptions?.queryParams,
@@ -296,32 +260,25 @@ export class Projects {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.ProjectsDeleteResponse, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.ProjectsDeleteResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
                 rawResponse: _response.rawResponse,
-            });
+            };
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling DELETE /projects/{nameOrId}.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.projects.delete.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     /**
@@ -341,7 +298,7 @@ export class Projects {
         nameOrId: string,
         request: Phonic.UpdateProjectRequest = {},
         requestOptions?: Projects.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.ProjectsUpdateResponse> {
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.ProjectsUpdateResponse, Phonic.projects.update.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__update(nameOrId, request, requestOptions));
     }
 
@@ -349,7 +306,7 @@ export class Projects {
         nameOrId: string,
         request: Phonic.UpdateProjectRequest = {},
         requestOptions?: Projects.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.ProjectsUpdateResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.ProjectsUpdateResponse, Phonic.projects.update.Error>>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -360,10 +317,7 @@ export class Projects {
             method: "PATCH",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({
-                    Authorization: await this._getAuthorizationHeader(),
-                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
-                }),
+                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
                 requestOptions?.headers,
             ),
             contentType: "application/json",
@@ -375,32 +329,25 @@ export class Projects {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.ProjectsUpdateResponse, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.ProjectsUpdateResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
                 rawResponse: _response.rawResponse,
-            });
+            };
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling PATCH /projects/{nameOrId}.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.projects.update.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     /**
@@ -409,22 +356,26 @@ export class Projects {
      * @param {string} id - The ID of the project.
      * @param {Projects.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link Phonic.NotFoundError}
-     *
      * @example
      *     await client.projects.listEvalPrompts("id")
      */
     public listEvalPrompts(
         id: string,
         requestOptions?: Projects.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.ProjectsListEvalPromptsResponse> {
+    ): core.HttpResponsePromise<
+        core.APIResponse<Phonic.ProjectsListEvalPromptsResponse, Phonic.projects.listEvalPrompts.Error>
+    > {
         return core.HttpResponsePromise.fromPromise(this.__listEvalPrompts(id, requestOptions));
     }
 
     private async __listEvalPrompts(
         id: string,
         requestOptions?: Projects.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.ProjectsListEvalPromptsResponse>> {
+    ): Promise<
+        core.WithRawResponse<
+            core.APIResponse<Phonic.ProjectsListEvalPromptsResponse, Phonic.projects.listEvalPrompts.Error>
+        >
+    > {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -435,10 +386,7 @@ export class Projects {
             method: "GET",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({
-                    Authorization: await this._getAuthorizationHeader(),
-                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
-                }),
+                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
                 requestOptions?.headers,
             ),
             queryParameters: requestOptions?.queryParams,
@@ -448,7 +396,12 @@ export class Projects {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Phonic.ProjectsListEvalPromptsResponse,
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.ProjectsListEvalPromptsResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
                 rawResponse: _response.rawResponse,
             };
         }
@@ -456,33 +409,27 @@ export class Projects {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
-                default:
-                    throw new errors.PhonicError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
+                    return {
+                        data: {
+                            ok: false,
+                            error: Phonic.projects.listEvalPrompts.Error.notFoundError(
+                                _response.error.body as Phonic.Error_,
+                            ),
+                            rawResponse: _response.rawResponse,
+                        },
                         rawResponse: _response.rawResponse,
-                    });
+                    };
             }
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError(
-                    "Timeout exceeded when calling GET /projects/{id}/conversation_eval_prompts.",
-                );
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.projects.listEvalPrompts.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     /**
@@ -491,8 +438,6 @@ export class Projects {
      * @param {string} id - The ID of the project.
      * @param {Phonic.CreateConversationEvalPromptRequest} request
      * @param {Projects.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Phonic.NotFoundError}
      *
      * @example
      *     await client.projects.createEvalPrompt("id", {
@@ -504,7 +449,9 @@ export class Projects {
         id: string,
         request: Phonic.CreateConversationEvalPromptRequest,
         requestOptions?: Projects.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.ProjectsCreateEvalPromptResponse> {
+    ): core.HttpResponsePromise<
+        core.APIResponse<Phonic.ProjectsCreateEvalPromptResponse, Phonic.projects.createEvalPrompt.Error>
+    > {
         return core.HttpResponsePromise.fromPromise(this.__createEvalPrompt(id, request, requestOptions));
     }
 
@@ -512,7 +459,11 @@ export class Projects {
         id: string,
         request: Phonic.CreateConversationEvalPromptRequest,
         requestOptions?: Projects.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.ProjectsCreateEvalPromptResponse>> {
+    ): Promise<
+        core.WithRawResponse<
+            core.APIResponse<Phonic.ProjectsCreateEvalPromptResponse, Phonic.projects.createEvalPrompt.Error>
+        >
+    > {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -523,10 +474,7 @@ export class Projects {
             method: "POST",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({
-                    Authorization: await this._getAuthorizationHeader(),
-                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
-                }),
+                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
                 requestOptions?.headers,
             ),
             contentType: "application/json",
@@ -539,7 +487,12 @@ export class Projects {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Phonic.ProjectsCreateEvalPromptResponse,
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.ProjectsCreateEvalPromptResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
                 rawResponse: _response.rawResponse,
             };
         }
@@ -547,33 +500,27 @@ export class Projects {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
-                default:
-                    throw new errors.PhonicError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
+                    return {
+                        data: {
+                            ok: false,
+                            error: Phonic.projects.createEvalPrompt.Error.notFoundError(
+                                _response.error.body as Phonic.Error_,
+                            ),
+                            rawResponse: _response.rawResponse,
+                        },
                         rawResponse: _response.rawResponse,
-                    });
+                    };
             }
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError(
-                    "Timeout exceeded when calling POST /projects/{id}/conversation_eval_prompts.",
-                );
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.projects.createEvalPrompt.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     protected async _getAuthorizationHeader(): Promise<string> {

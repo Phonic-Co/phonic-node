@@ -11,7 +11,6 @@ import { ExtractionSchemas } from "./api/resources/extractionSchemas/client/Clie
 import { Voices } from "./api/resources/voices/client/Client.js";
 import { Conversations } from "./api/resources/conversations/client/Client.js";
 import { Projects } from "./api/resources/projects/client/Client.js";
-import { Admin } from "./api/resources/admin/client/Client.js";
 import { Sts } from "./api/resources/sts/client/Client.js";
 
 export declare namespace PhonicClient {
@@ -20,8 +19,6 @@ export declare namespace PhonicClient {
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
         token: core.Supplier<core.BearerToken>;
-        /** Override the X-Twilio-Account-Sid header */
-        twilioAccountSid: core.Supplier<string>;
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
@@ -34,8 +31,6 @@ export declare namespace PhonicClient {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
-        /** Override the X-Twilio-Account-Sid header */
-        twilioAccountSid?: string;
         /** Additional query string parameters to include in the request. */
         queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
@@ -51,7 +46,6 @@ export class PhonicClient {
     protected _voices: Voices | undefined;
     protected _conversations: Conversations | undefined;
     protected _projects: Projects | undefined;
-    protected _admin: Admin | undefined;
     protected _sts: Sts | undefined;
 
     constructor(_options: PhonicClient.Options) {
@@ -59,7 +53,6 @@ export class PhonicClient {
             ..._options,
             headers: mergeHeaders(
                 {
-                    "X-Twilio-Account-Sid": _options?.twilioAccountSid,
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "phonic",
                     "X-Fern-SDK-Version": "0.29.1",
@@ -94,10 +87,6 @@ export class PhonicClient {
 
     public get projects(): Projects {
         return (this._projects ??= new Projects(this._options));
-    }
-
-    public get admin(): Admin {
-        return (this._admin ??= new Admin(this._options));
     }
 
     public get sts(): Sts {

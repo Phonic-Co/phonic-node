@@ -12,15 +12,12 @@ export declare namespace Sts {
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
         token: core.Supplier<core.BearerToken>;
-        /** Override the X-Twilio-Account-Sid header */
-        twilioAccountSid: core.Supplier<string>;
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
     }
 
     export interface ConnectArgs {
-        d: string;
         /** Arbitrary headers to send with the websocket connect request. */
         headers?: Record<string, string>;
         /** Enable debug mode on the websocket. Defaults to false. */
@@ -37,10 +34,8 @@ export class Sts {
         this._options = _options;
     }
 
-    public async connect(args: Sts.ConnectArgs): Promise<StsSocket> {
-        const { d, headers, debug, reconnectAttempts } = args;
-        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        _queryParams["d"] = d;
+    public async connect(args: Sts.ConnectArgs = {}): Promise<StsSocket> {
+        const { headers, debug, reconnectAttempts } = args;
         let _headers: Record<string, string> = {
             ...headers,
         };

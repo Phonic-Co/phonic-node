@@ -10,7 +10,6 @@ describe("Tools", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -111,7 +110,6 @@ describe("Tools", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {
@@ -185,7 +183,6 @@ describe("Tools", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -242,7 +239,6 @@ describe("Tools", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -259,7 +255,6 @@ describe("Tools", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {

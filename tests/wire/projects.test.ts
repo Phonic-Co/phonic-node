@@ -10,7 +10,6 @@ describe("Projects", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -36,7 +35,6 @@ describe("Projects", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { name: "customer-support" };
@@ -63,7 +61,6 @@ describe("Projects", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -87,7 +84,6 @@ describe("Projects", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -110,7 +106,6 @@ describe("Projects", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { name: "updated-customer-support", default_agent: "another-agent" };
@@ -137,7 +132,6 @@ describe("Projects", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -166,7 +160,6 @@ describe("Projects", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {

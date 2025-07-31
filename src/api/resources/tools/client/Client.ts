@@ -6,7 +6,6 @@ import * as environments from "../../../../environments.js";
 import * as core from "../../../../core/index.js";
 import * as Phonic from "../../../index.js";
 import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../core/headers.js";
-import * as errors from "../../../../errors/index.js";
 
 export declare namespace Tools {
     export interface Options {
@@ -14,8 +13,6 @@ export declare namespace Tools {
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
         token: core.Supplier<core.BearerToken>;
-        /** Override the X-Twilio-Account-Sid header */
-        twilioAccountSid: core.Supplier<string>;
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
@@ -28,8 +25,6 @@ export declare namespace Tools {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
-        /** Override the X-Twilio-Account-Sid header */
-        twilioAccountSid?: string;
         /** Additional query string parameters to include in the request. */
         queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
@@ -56,14 +51,14 @@ export class Tools {
     public list(
         request: Phonic.ToolsListRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.ToolsListResponse> {
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.ToolsListResponse, Phonic.tools.list.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
         request: Phonic.ToolsListRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.ToolsListResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.ToolsListResponse, Phonic.tools.list.Error>>> {
         const { project } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -80,10 +75,7 @@ export class Tools {
             method: "GET",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({
-                    Authorization: await this._getAuthorizationHeader(),
-                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
-                }),
+                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
                 requestOptions?.headers,
             ),
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
@@ -92,32 +84,25 @@ export class Tools {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.ToolsListResponse, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.ToolsListResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
                 rawResponse: _response.rawResponse,
-            });
+            };
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /tools.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.tools.list.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     /**
@@ -170,14 +155,14 @@ export class Tools {
     public create(
         request: Phonic.CreateToolRequest,
         requestOptions?: Tools.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.ToolsCreateResponse> {
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.ToolsCreateResponse, Phonic.tools.create.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: Phonic.CreateToolRequest,
         requestOptions?: Tools.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.ToolsCreateResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.ToolsCreateResponse, Phonic.tools.create.Error>>> {
         const { project, ..._body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -194,10 +179,7 @@ export class Tools {
             method: "POST",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({
-                    Authorization: await this._getAuthorizationHeader(),
-                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
-                }),
+                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
                 requestOptions?.headers,
             ),
             contentType: "application/json",
@@ -209,32 +191,25 @@ export class Tools {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.ToolsCreateResponse, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.ToolsCreateResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
                 rawResponse: _response.rawResponse,
-            });
+            };
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling POST /tools.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.tools.create.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     /**
@@ -251,7 +226,7 @@ export class Tools {
         nameOrId: string,
         request: Phonic.ToolsGetRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.ToolsGetResponse> {
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.ToolsGetResponse, Phonic.tools.get.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__get(nameOrId, request, requestOptions));
     }
 
@@ -259,7 +234,7 @@ export class Tools {
         nameOrId: string,
         request: Phonic.ToolsGetRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.ToolsGetResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.ToolsGetResponse, Phonic.tools.get.Error>>> {
         const { project } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -276,10 +251,7 @@ export class Tools {
             method: "GET",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({
-                    Authorization: await this._getAuthorizationHeader(),
-                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
-                }),
+                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
                 requestOptions?.headers,
             ),
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
@@ -288,32 +260,25 @@ export class Tools {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.ToolsGetResponse, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.ToolsGetResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
                 rawResponse: _response.rawResponse,
-            });
+            };
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /tools/{nameOrId}.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.tools.get.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     /**
@@ -330,7 +295,7 @@ export class Tools {
         nameOrId: string,
         request: Phonic.ToolsDeleteRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.ToolsDeleteResponse> {
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.ToolsDeleteResponse, Phonic.tools.delete.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__delete(nameOrId, request, requestOptions));
     }
 
@@ -338,7 +303,7 @@ export class Tools {
         nameOrId: string,
         request: Phonic.ToolsDeleteRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.ToolsDeleteResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.ToolsDeleteResponse, Phonic.tools.delete.Error>>> {
         const { project } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -355,10 +320,7 @@ export class Tools {
             method: "DELETE",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({
-                    Authorization: await this._getAuthorizationHeader(),
-                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
-                }),
+                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
                 requestOptions?.headers,
             ),
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
@@ -367,32 +329,25 @@ export class Tools {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.ToolsDeleteResponse, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.ToolsDeleteResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
                 rawResponse: _response.rawResponse,
-            });
+            };
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling DELETE /tools/{nameOrId}.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.tools.delete.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     /**
@@ -415,7 +370,7 @@ export class Tools {
         nameOrId: string,
         request: Phonic.UpdateToolRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.ToolsUpdateResponse> {
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.ToolsUpdateResponse, Phonic.tools.update.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__update(nameOrId, request, requestOptions));
     }
 
@@ -423,7 +378,7 @@ export class Tools {
         nameOrId: string,
         request: Phonic.UpdateToolRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.ToolsUpdateResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.ToolsUpdateResponse, Phonic.tools.update.Error>>> {
         const { project, ..._body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -440,10 +395,7 @@ export class Tools {
             method: "PATCH",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({
-                    Authorization: await this._getAuthorizationHeader(),
-                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
-                }),
+                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
                 requestOptions?.headers,
             ),
             contentType: "application/json",
@@ -455,32 +407,25 @@ export class Tools {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.ToolsUpdateResponse, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.ToolsUpdateResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
                 rawResponse: _response.rawResponse,
-            });
+            };
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling PATCH /tools/{nameOrId}.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.tools.update.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     protected async _getAuthorizationHeader(): Promise<string> {
