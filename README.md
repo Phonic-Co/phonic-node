@@ -22,7 +22,7 @@ Instantiate and use the client with the following:
 ```typescript
 import { PhonicClient } from "phonic";
 
-const client = new PhonicClient({ token: "YOUR_TOKEN", twilioAccountSid: "YOUR_TWILIO_ACCOUNT_SID" });
+const client = new PhonicClient({ token: "YOUR_TOKEN" });
 await client.agents.create({
     body: {
         name: "support-agent",

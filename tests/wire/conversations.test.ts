@@ -10,7 +10,6 @@ describe("Conversations", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -82,7 +81,6 @@ describe("Conversations", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -154,7 +152,6 @@ describe("Conversations", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -177,7 +174,6 @@ describe("Conversations", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -204,7 +200,6 @@ describe("Conversations", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -230,7 +225,6 @@ describe("Conversations", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -278,7 +272,6 @@ describe("Conversations", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { schema_id: "conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c" };
@@ -310,7 +303,6 @@ describe("Conversations", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -340,7 +332,6 @@ describe("Conversations", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { prompt_id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0" };
@@ -368,7 +359,6 @@ describe("Conversations", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
-            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {
