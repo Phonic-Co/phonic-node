@@ -1,14 +1,14 @@
 # Phonic TypeScript Library
 
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Ffern-demo%2Fphonic-ts-sdk)
-[![npm shield](https://img.shields.io/npm/v/)](https://www.npmjs.com/package/)
+[![npm shield](https://img.shields.io/npm/v/phonic)](https://www.npmjs.com/package/phonic)
 
 The Phonic TypeScript library provides convenient access to the Phonic API from TypeScript.
 
 ## Installation
 
 ```sh
-npm i -s
+npm i -s phonic
 ```
 
 ## Reference
@@ -20,7 +20,7 @@ A full reference for this library is available [here](https://github.com/fern-de
 Instantiate and use the client with the following:
 
 ```typescript
-import { PhonicClient } from "";
+import { PhonicClient } from "phonic";
 
 const client = new PhonicClient({ token: "YOUR_TOKEN", twilioAccountSid: "YOUR_TWILIO_ACCOUNT_SID" });
 await client.agents.create({
@@ -58,7 +58,7 @@ The SDK exports all request and response types as TypeScript interfaces. Simply 
 following namespace:
 
 ```typescript
-import { Phonic } from "Phonic";
+import { Phonic } from "phonic";
 
 const request: Phonic.AgentsListRequest = {
     ...
@@ -71,7 +71,7 @@ When the API returns a non-success status code (4xx or 5xx response), a subclass
 will be thrown.
 
 ```typescript
-import { PhonicError } from "Phonic";
+import { PhonicError } from "phonic";
 
 try {
     await client.agents.create(...);
@@ -182,7 +182,7 @@ The SDK provides a way for you to customize the underlying HTTP client / Fetch f
 unsupported environment, this provides a way for you to break glass and ensure the SDK works.
 
 ```typescript
-import { PhonicClient } from "Phonic";
+import { PhonicClient } from "phonic";
 
 const client = new PhonicClient({
     ...
