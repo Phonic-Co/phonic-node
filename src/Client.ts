@@ -4,12 +4,14 @@
 
 import * as environments from "./environments.js";
 import * as core from "./core/index.js";
-import { mergeHeaders, mergeOnlyDefinedHeaders } from "./core/headers.js";
-import * as Phonic from "./api/index.js";
-import * as errors from "./errors/index.js";
+import { mergeHeaders } from "./core/headers.js";
 import { Agents } from "./api/resources/agents/client/Client.js";
+import { Tools } from "./api/resources/tools/client/Client.js";
+import { ExtractionSchemas } from "./api/resources/extractionSchemas/client/Client.js";
+import { Voices } from "./api/resources/voices/client/Client.js";
 import { Conversations } from "./api/resources/conversations/client/Client.js";
 import { Projects } from "./api/resources/projects/client/Client.js";
+import { Admin } from "./api/resources/admin/client/Client.js";
 import { Sts } from "./api/resources/sts/client/Client.js";
 
 export declare namespace PhonicClient {
@@ -18,6 +20,8 @@ export declare namespace PhonicClient {
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
         token: core.Supplier<core.BearerToken>;
+        /** Override the X-Twilio-Account-Sid header */
+        twilioAccountSid: core.Supplier<string>;
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
@@ -30,6 +34,8 @@ export declare namespace PhonicClient {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Override the X-Twilio-Account-Sid header */
+        twilioAccountSid?: string;
         /** Additional query string parameters to include in the request. */
         queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
@@ -40,8 +46,12 @@ export declare namespace PhonicClient {
 export class PhonicClient {
     protected readonly _options: PhonicClient.Options;
     protected _agents: Agents | undefined;
+    protected _tools: Tools | undefined;
+    protected _extractionSchemas: ExtractionSchemas | undefined;
+    protected _voices: Voices | undefined;
     protected _conversations: Conversations | undefined;
     protected _projects: Projects | undefined;
+    protected _admin: Admin | undefined;
     protected _sts: Sts | undefined;
 
     constructor(_options: PhonicClient.Options) {
@@ -49,9 +59,10 @@ export class PhonicClient {
             ..._options,
             headers: mergeHeaders(
                 {
+                    "X-Twilio-Account-Sid": _options?.twilioAccountSid,
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "",
-                    "X-Fern-SDK-Version": "0.0.11",
+                    "X-Fern-SDK-Version": "0.0.15",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },
@@ -64,6 +75,18 @@ export class PhonicClient {
         return (this._agents ??= new Agents(this._options));
     }
 
+    public get tools(): Tools {
+        return (this._tools ??= new Tools(this._options));
+    }
+
+    public get extractionSchemas(): ExtractionSchemas {
+        return (this._extractionSchemas ??= new ExtractionSchemas(this._options));
+    }
+
+    public get voices(): Voices {
+        return (this._voices ??= new Voices(this._options));
+    }
+
     public get conversations(): Conversations {
         return (this._conversations ??= new Conversations(this._options));
     }
@@ -72,83 +95,11 @@ export class PhonicClient {
         return (this._projects ??= new Projects(this._options));
     }
 
+    public get admin(): Admin {
+        return (this._admin ??= new Admin(this._options));
+    }
+
     public get sts(): Sts {
         return (this._sts ??= new Sts(this._options));
-    }
-
-    /**
-     * Creates a new project in a workspace.
-     *
-     * @param {Phonic.CreateProjectRequest} request
-     * @param {PhonicClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.create({
-     *         name: "customer-support"
-     *     })
-     */
-    public create(
-        request: Phonic.CreateProjectRequest,
-        requestOptions?: PhonicClient.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.CreateResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
-    }
-
-    private async __create(
-        request: Phonic.CreateProjectRequest,
-        requestOptions?: PhonicClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.CreateResponse>> {
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                        .base,
-                "projects",
-            ),
-            method: "POST",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
-            contentType: "application/json",
-            queryParameters: requestOptions?.queryParams,
-            requestType: "json",
-            body: request,
-            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
-            maxRetries: requestOptions?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-        });
-        if (_response.ok) {
-            return { data: _response.body as Phonic.CreateResponse, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling POST /projects.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
-    }
-
-    protected async _getAuthorizationHeader(): Promise<string> {
-        return `Bearer ${await core.Supplier.get(this._options.token)}`;
     }
 }

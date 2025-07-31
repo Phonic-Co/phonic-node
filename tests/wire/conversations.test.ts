@@ -6,10 +6,369 @@ import { mockServerPool } from "../mock-server/MockServerPool";
 import { PhonicClient } from "../../src/Client";
 
 describe("Conversations", () => {
+    test("list", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            token: "test",
+            twilioAccountSid: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = {
+            conversation: {
+                id: "id",
+                external_id: "external_id",
+                project: { id: "id", name: "name" },
+                model: "model",
+                welcome_message: "welcome_message",
+                template_variables: { key: "value" },
+                input_format: "input_format",
+                output_format: "output_format",
+                live_transcript: "live_transcript",
+                post_call_transcript: "post_call_transcript",
+                duration_ms: 1,
+                started_at: "2024-01-15T09:30:00Z",
+                ended_at: "2024-01-15T09:30:00Z",
+                audio_url: "audio_url",
+                items: [
+                    {
+                        item_idx: 1,
+                        role: "user",
+                        live_transcript: "live_transcript",
+                        duration_ms: 1.1,
+                        started_at: "2024-01-15T09:30:00Z",
+                    },
+                ],
+            },
+        };
+        server.mockEndpoint().get("/conversations").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
+
+        const response = await client.conversations.list();
+        expect(response).toEqual({
+            conversation: {
+                id: "id",
+                external_id: "external_id",
+                project: {
+                    id: "id",
+                    name: "name",
+                },
+                model: "model",
+                welcome_message: "welcome_message",
+                template_variables: {
+                    key: "value",
+                },
+                input_format: "input_format",
+                output_format: "output_format",
+                live_transcript: "live_transcript",
+                post_call_transcript: "post_call_transcript",
+                duration_ms: 1,
+                started_at: "2024-01-15T09:30:00Z",
+                ended_at: "2024-01-15T09:30:00Z",
+                audio_url: "audio_url",
+                items: [
+                    {
+                        item_idx: 1,
+                        role: "user",
+                        live_transcript: "live_transcript",
+                        duration_ms: 1.1,
+                        started_at: "2024-01-15T09:30:00Z",
+                    },
+                ],
+            },
+        });
+    });
+
+    test("get", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            token: "test",
+            twilioAccountSid: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = {
+            conversation: {
+                id: "id",
+                external_id: "external_id",
+                project: { id: "id", name: "name" },
+                model: "model",
+                welcome_message: "welcome_message",
+                template_variables: { key: "value" },
+                input_format: "input_format",
+                output_format: "output_format",
+                live_transcript: "live_transcript",
+                post_call_transcript: "post_call_transcript",
+                duration_ms: 1,
+                started_at: "2024-01-15T09:30:00Z",
+                ended_at: "2024-01-15T09:30:00Z",
+                audio_url: "audio_url",
+                items: [
+                    {
+                        item_idx: 1,
+                        role: "user",
+                        live_transcript: "live_transcript",
+                        duration_ms: 1.1,
+                        started_at: "2024-01-15T09:30:00Z",
+                    },
+                ],
+            },
+        };
+        server.mockEndpoint().get("/conversations/id").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
+
+        const response = await client.conversations.get("id");
+        expect(response).toEqual({
+            conversation: {
+                id: "id",
+                external_id: "external_id",
+                project: {
+                    id: "id",
+                    name: "name",
+                },
+                model: "model",
+                welcome_message: "welcome_message",
+                template_variables: {
+                    key: "value",
+                },
+                input_format: "input_format",
+                output_format: "output_format",
+                live_transcript: "live_transcript",
+                post_call_transcript: "post_call_transcript",
+                duration_ms: 1,
+                started_at: "2024-01-15T09:30:00Z",
+                ended_at: "2024-01-15T09:30:00Z",
+                audio_url: "audio_url",
+                items: [
+                    {
+                        item_idx: 1,
+                        role: "user",
+                        live_transcript: "live_transcript",
+                        duration_ms: 1.1,
+                        started_at: "2024-01-15T09:30:00Z",
+                    },
+                ],
+            },
+        });
+    });
+
+    test("cancel", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            token: "test",
+            twilioAccountSid: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { success: true };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/cancel")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.conversations.cancel("id");
+        expect(response).toEqual({
+            success: true,
+        });
+    });
+
+    test("summarize", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            token: "test",
+            twilioAccountSid: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = {
+            summary:
+                "The user called to book an appointment. The assistant helped them schedule for Monday at 9 AM under the name David Smith.",
+        };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/summarize")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.conversations.summarize("id");
+        expect(response).toEqual({
+            summary:
+                "The user called to book an appointment. The assistant helped them schedule for Monday at 9 AM under the name David Smith.",
+        });
+    });
+
+    test("get_analysis", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            token: "test",
+            twilioAccountSid: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { analysis: { latencies_ms: [456, 654, 564], interruptions_count: 2 } };
+        server
+            .mockEndpoint()
+            .get("/conversations/id/analysis")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.conversations.getAnalysis("id");
+        expect(response).toEqual({
+            analysis: {
+                latencies_ms: [456, 654, 564],
+                interruptions_count: 2,
+            },
+        });
+    });
+
+    test("list_extractions", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            token: "test",
+            twilioAccountSid: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = {
+            extractions: [
+                {
+                    id: "id",
+                    conversation_id: "conversation_id",
+                    schema: { id: "id", name: "name" },
+                    result: { key: "value" },
+                    error: "error",
+                    created_at: "2024-01-15T09:30:00Z",
+                },
+            ],
+        };
+        server
+            .mockEndpoint()
+            .get("/conversations/id/extractions")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.conversations.listExtractions("id");
+        expect(response).toEqual({
+            extractions: [
+                {
+                    id: "id",
+                    conversation_id: "conversation_id",
+                    schema: {
+                        id: "id",
+                        name: "name",
+                    },
+                    result: {
+                        key: "value",
+                    },
+                    error: "error",
+                    created_at: "2024-01-15T09:30:00Z",
+                },
+            ],
+        });
+    });
+
+    test("extract_data", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            token: "test",
+            twilioAccountSid: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { schema_id: "conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c" };
+        const rawResponseBody = {
+            result: { customer_name: "John Smith", appointment_duration: 45, service_types: ["haircut", "beard trim"] },
+        };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/extractions")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.conversations.extractData("id", {
+            schema_id: "conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c",
+        });
+        expect(response).toEqual({
+            result: {
+                customer_name: "John Smith",
+                appointment_duration: 45,
+                service_types: ["haircut", "beard trim"],
+            },
+        });
+    });
+
+    test("list_evaluations", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            token: "test",
+            twilioAccountSid: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = {
+            evals: [{ result: "successful", prompt: "The assistant used the word chocolate in the conversation" }],
+        };
+        server
+            .mockEndpoint()
+            .get("/conversations/id/evals")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.conversations.listEvaluations("id");
+        expect(response).toEqual({
+            evals: [
+                {
+                    result: "successful",
+                    prompt: "The assistant used the word chocolate in the conversation",
+                },
+            ],
+        });
+    });
+
+    test("evaluate", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            token: "test",
+            twilioAccountSid: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { prompt_id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0" };
+        const rawResponseBody = { evaluation: { result: "successful" } };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/evals")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.conversations.evaluate("id", {
+            prompt_id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
+        });
+        expect(response).toEqual({
+            evaluation: {
+                result: "successful",
+            },
+        });
+    });
+
     test("outbound_call", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
+            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {

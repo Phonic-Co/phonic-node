@@ -10,6 +10,7 @@ describe("Projects", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
+            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -31,10 +32,38 @@ describe("Projects", () => {
         });
     });
 
+    test("create", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            token: "test",
+            twilioAccountSid: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { name: "customer-support" };
+        const rawResponseBody = { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" };
+        server
+            .mockEndpoint()
+            .post("/projects")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.projects.create({
+            name: "customer-support",
+        });
+        expect(response).toEqual({
+            id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
+            name: "customer-support",
+        });
+    });
+
     test("get", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
+            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -58,6 +87,7 @@ describe("Projects", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
+            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -80,6 +110,7 @@ describe("Projects", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
+            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { name: "updated-customer-support", default_agent: "another-agent" };
@@ -99,6 +130,65 @@ describe("Projects", () => {
         });
         expect(response).toEqual({
             success: true,
+        });
+    });
+
+    test("list_eval_prompts", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            token: "test",
+            twilioAccountSid: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { conversation_eval_prompts: [{ id: "id", name: "name", prompt: "prompt" }] };
+        server
+            .mockEndpoint()
+            .get("/projects/id/conversation_eval_prompts")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.projects.listEvalPrompts("id");
+        expect(response).toEqual({
+            conversation_eval_prompts: [
+                {
+                    id: "id",
+                    name: "name",
+                    prompt: "prompt",
+                },
+            ],
+        });
+    });
+
+    test("create_eval_prompt", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            token: "test",
+            twilioAccountSid: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "test_prompt",
+            prompt: "The assistant used the word chocolate in the conversation",
+        };
+        const rawResponseBody = { id: "conv_eval_prompt_c818e617-59f9-4f43-936e-ca8a794f9ccf" };
+        server
+            .mockEndpoint()
+            .post("/projects/id/conversation_eval_prompts")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.projects.createEvalPrompt("id", {
+            name: "test_prompt",
+            prompt: "The assistant used the word chocolate in the conversation",
+        });
+        expect(response).toEqual({
+            id: "conv_eval_prompt_c818e617-59f9-4f43-936e-ca8a794f9ccf",
         });
     });
 });

@@ -14,6 +14,8 @@ export declare namespace Agents {
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
         token: core.Supplier<core.BearerToken>;
+        /** Override the X-Twilio-Account-Sid header */
+        twilioAccountSid: core.Supplier<string>;
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
@@ -26,6 +28,8 @@ export declare namespace Agents {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Override the X-Twilio-Account-Sid header */
+        twilioAccountSid?: string;
         /** Additional query string parameters to include in the request. */
         queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
@@ -76,7 +80,10 @@ export class Agents {
             method: "GET",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
                 requestOptions?.headers,
             ),
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
@@ -116,48 +123,50 @@ export class Agents {
     /**
      * Creates a new agent in a project.
      *
-     * @param {Phonic.CreateAgentRequest} request
+     * @param {Phonic.AgentsCreateRequest} request
      * @param {Agents.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @example
      *     await client.agents.create({
-     *         name: "support-agent",
-     *         phone_number: "assign-automatically",
-     *         timezone: "America/Los_Angeles",
-     *         voice_id: "sarah",
-     *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
-     *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-     *         template_variables: {
-     *             "customer_name": {},
-     *             "subject": {
-     *                 default_value: "Chess"
-     *             }
-     *         },
-     *         tools: ["keypad_input"],
-     *         no_input_poke_sec: 30,
-     *         no_input_poke_text: "Are you still there?",
-     *         boosted_keywords: ["Load ID", "dispatch"],
-     *         configuration_endpoint: {
-     *             url: "https://api.example.com/config",
-     *             headers: {
-     *                 "Authorization": "Bearer token123"
+     *         body: {
+     *             name: "support-agent",
+     *             phone_number: "assign-automatically",
+     *             timezone: "America/Los_Angeles",
+     *             voice_id: "sarah",
+     *             welcome_message: "Hi {{customer_name}}. How can I help you today?",
+     *             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+     *             template_variables: {
+     *                 "customer_name": {},
+     *                 "subject": {
+     *                     default_value: "Chess"
+     *                 }
      *             },
-     *             timeout_ms: 7000
+     *             tools: ["keypad_input"],
+     *             no_input_poke_sec: 30,
+     *             no_input_poke_text: "Are you still there?",
+     *             boosted_keywords: ["Load ID", "dispatch"],
+     *             configuration_endpoint: {
+     *                 url: "https://api.example.com/config",
+     *                 headers: {
+     *                     "Authorization": "Bearer token123"
+     *                 },
+     *                 timeout_ms: 7000
+     *             }
      *         }
      *     })
      */
     public create(
-        request: Phonic.CreateAgentRequest,
+        request: Phonic.AgentsCreateRequest,
         requestOptions?: Agents.RequestOptions,
     ): core.HttpResponsePromise<Phonic.AgentsCreateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: Phonic.CreateAgentRequest,
+        request: Phonic.AgentsCreateRequest,
         requestOptions?: Agents.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.AgentsCreateResponse>> {
-        const { project, ..._body } = request;
+        const { project, body: _body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
             _queryParams["project"] = project;
@@ -173,7 +182,10 @@ export class Agents {
             method: "POST",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
                 requestOptions?.headers,
             ),
             contentType: "application/json",
@@ -247,14 +259,14 @@ export class Agents {
      *     })
      */
     public upsert(
-        request: Phonic.UpsertAgentRequest = {},
+        request: Phonic.UpsertAgentRequest,
         requestOptions?: Agents.RequestOptions,
     ): core.HttpResponsePromise<Phonic.AgentsUpsertResponse> {
         return core.HttpResponsePromise.fromPromise(this.__upsert(request, requestOptions));
     }
 
     private async __upsert(
-        request: Phonic.UpsertAgentRequest = {},
+        request: Phonic.UpsertAgentRequest,
         requestOptions?: Agents.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.AgentsUpsertResponse>> {
         const { project, ..._body } = request;
@@ -273,7 +285,10 @@ export class Agents {
             method: "PUT",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
                 requestOptions?.headers,
             ),
             contentType: "application/json",
@@ -352,7 +367,10 @@ export class Agents {
             method: "GET",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
                 requestOptions?.headers,
             ),
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
@@ -428,7 +446,10 @@ export class Agents {
             method: "DELETE",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
                 requestOptions?.headers,
             ),
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
@@ -528,7 +549,10 @@ export class Agents {
             method: "PATCH",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
                 requestOptions?.headers,
             ),
             contentType: "application/json",
