@@ -14,6 +14,8 @@ export declare namespace Conversations {
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
         token: core.Supplier<core.BearerToken>;
+        /** Override the X-Twilio-Account-Sid header */
+        twilioAccountSid: core.Supplier<string>;
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
@@ -26,6 +28,8 @@ export declare namespace Conversations {
         maxRetries?: number;
         /** A hook to abort the request. */
         abortSignal?: AbortSignal;
+        /** Override the X-Twilio-Account-Sid header */
+        twilioAccountSid?: string;
         /** Additional query string parameters to include in the request. */
         queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
@@ -41,7 +45,787 @@ export class Conversations {
     }
 
     /**
-     * Initiates a call to a given phone number.
+     * Returns conversations with optional filtering.
+     *
+     * @param {Phonic.ConversationsListRequest} request
+     * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.conversations.list()
+     */
+    public list(
+        request: Phonic.ConversationsListRequest = {},
+        requestOptions?: Conversations.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.ConversationsListResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
+    }
+
+    private async __list(
+        request: Phonic.ConversationsListRequest = {},
+        requestOptions?: Conversations.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.ConversationsListResponse>> {
+        const {
+            project,
+            external_id: externalId,
+            duration_min: durationMin,
+            duration_max: durationMax,
+            started_at_min: startedAtMin,
+            started_at_max: startedAtMax,
+            before,
+            after,
+            limit,
+        } = request;
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
+        if (project != null) {
+            _queryParams["project"] = project;
+        }
+
+        if (externalId != null) {
+            _queryParams["external_id"] = externalId;
+        }
+
+        if (durationMin != null) {
+            _queryParams["duration_min"] = durationMin.toString();
+        }
+
+        if (durationMax != null) {
+            _queryParams["duration_max"] = durationMax.toString();
+        }
+
+        if (startedAtMin != null) {
+            _queryParams["started_at_min"] = startedAtMin;
+        }
+
+        if (startedAtMax != null) {
+            _queryParams["started_at_max"] = startedAtMax;
+        }
+
+        if (before != null) {
+            _queryParams["before"] = before;
+        }
+
+        if (after != null) {
+            _queryParams["after"] = after;
+        }
+
+        if (limit != null) {
+            _queryParams["limit"] = limit.toString();
+        }
+
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                "conversations",
+            ),
+            method: "GET",
+            headers: mergeHeaders(
+                this._options?.headers,
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
+                requestOptions?.headers,
+            ),
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Phonic.ConversationsListResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.PhonicError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /conversations.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Returns a conversation by ID.
+     *
+     * @param {string} id - The ID of the conversation to get.
+     * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.NotFoundError}
+     *
+     * @example
+     *     await client.conversations.get("id")
+     */
+    public get(
+        id: string,
+        requestOptions?: Conversations.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.ConversationsGetResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
+    }
+
+    private async __get(
+        id: string,
+        requestOptions?: Conversations.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.ConversationsGetResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                `conversations/${encodeURIComponent(id)}`,
+            ),
+            method: "GET",
+            headers: mergeHeaders(
+                this._options?.headers,
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
+                requestOptions?.headers,
+            ),
+            queryParameters: requestOptions?.queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Phonic.ConversationsGetResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /conversations/{id}.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Cancels an active conversation.
+     *
+     * @param {string} id - The ID of the conversation to cancel.
+     * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
+     * @throws {@link Phonic.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.conversations.cancel("id")
+     */
+    public cancel(
+        id: string,
+        requestOptions?: Conversations.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.ConversationsCancelResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__cancel(id, requestOptions));
+    }
+
+    private async __cancel(
+        id: string,
+        requestOptions?: Conversations.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.ConversationsCancelResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                `conversations/${encodeURIComponent(id)}/cancel`,
+            ),
+            method: "POST",
+            headers: mergeHeaders(
+                this._options?.headers,
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
+                requestOptions?.headers,
+            ),
+            queryParameters: requestOptions?.queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Phonic.ConversationsCancelResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 504:
+                    throw new Phonic.GatewayTimeoutError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling POST /conversations/{id}/cancel.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Generates a summary of the specified conversation.
+     *
+     * @param {string} id - The ID of the conversation to summarize.
+     * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.NotFoundError}
+     *
+     * @example
+     *     await client.conversations.summarize("id")
+     */
+    public summarize(
+        id: string,
+        requestOptions?: Conversations.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.ConversationsSummarizeResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__summarize(id, requestOptions));
+    }
+
+    private async __summarize(
+        id: string,
+        requestOptions?: Conversations.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.ConversationsSummarizeResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                `conversations/${encodeURIComponent(id)}/summarize`,
+            ),
+            method: "POST",
+            headers: mergeHeaders(
+                this._options?.headers,
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
+                requestOptions?.headers,
+            ),
+            queryParameters: requestOptions?.queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as Phonic.ConversationsSummarizeResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError(
+                    "Timeout exceeded when calling POST /conversations/{id}/summarize.",
+                );
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Returns an analysis of the specified conversation.
+     *
+     * @param {string} id - The ID of the conversation to analyze.
+     * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.NotFoundError}
+     *
+     * @example
+     *     await client.conversations.getAnalysis("id")
+     */
+    public getAnalysis(
+        id: string,
+        requestOptions?: Conversations.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.ConversationsGetAnalysisResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__getAnalysis(id, requestOptions));
+    }
+
+    private async __getAnalysis(
+        id: string,
+        requestOptions?: Conversations.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.ConversationsGetAnalysisResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                `conversations/${encodeURIComponent(id)}/analysis`,
+            ),
+            method: "GET",
+            headers: mergeHeaders(
+                this._options?.headers,
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
+                requestOptions?.headers,
+            ),
+            queryParameters: requestOptions?.queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as Phonic.ConversationsGetAnalysisResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /conversations/{id}/analysis.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Returns all extractions for a conversation.
+     *
+     * @param {string} id - The ID of the conversation to get extractions for.
+     * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.NotFoundError}
+     *
+     * @example
+     *     await client.conversations.listExtractions("id")
+     */
+    public listExtractions(
+        id: string,
+        requestOptions?: Conversations.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.ConversationsListExtractionsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__listExtractions(id, requestOptions));
+    }
+
+    private async __listExtractions(
+        id: string,
+        requestOptions?: Conversations.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.ConversationsListExtractionsResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                `conversations/${encodeURIComponent(id)}/extractions`,
+            ),
+            method: "GET",
+            headers: mergeHeaders(
+                this._options?.headers,
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
+                requestOptions?.headers,
+            ),
+            queryParameters: requestOptions?.queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as Phonic.ConversationsListExtractionsResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError(
+                    "Timeout exceeded when calling GET /conversations/{id}/extractions.",
+                );
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Extracts data from a conversation using a schema.
+     *
+     * @param {string} id - The ID of the conversation to extract data from.
+     * @param {Phonic.ExtractDataRequest} request
+     * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.NotFoundError}
+     *
+     * @example
+     *     await client.conversations.extractData("id", {
+     *         schema_id: "conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c"
+     *     })
+     */
+    public extractData(
+        id: string,
+        request: Phonic.ExtractDataRequest,
+        requestOptions?: Conversations.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.ConversationsExtractDataResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__extractData(id, request, requestOptions));
+    }
+
+    private async __extractData(
+        id: string,
+        request: Phonic.ExtractDataRequest,
+        requestOptions?: Conversations.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.ConversationsExtractDataResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                `conversations/${encodeURIComponent(id)}/extractions`,
+            ),
+            method: "POST",
+            headers: mergeHeaders(
+                this._options?.headers,
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
+                requestOptions?.headers,
+            ),
+            contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
+            requestType: "json",
+            body: request,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as Phonic.ConversationsExtractDataResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError(
+                    "Timeout exceeded when calling POST /conversations/{id}/extractions.",
+                );
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Returns all evaluations for a conversation.
+     *
+     * @param {string} id - The ID of the conversation to get evaluations for.
+     * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.NotFoundError}
+     *
+     * @example
+     *     await client.conversations.listEvaluations("id")
+     */
+    public listEvaluations(
+        id: string,
+        requestOptions?: Conversations.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.ConversationsListEvaluationsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__listEvaluations(id, requestOptions));
+    }
+
+    private async __listEvaluations(
+        id: string,
+        requestOptions?: Conversations.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.ConversationsListEvaluationsResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                `conversations/${encodeURIComponent(id)}/evals`,
+            ),
+            method: "GET",
+            headers: mergeHeaders(
+                this._options?.headers,
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
+                requestOptions?.headers,
+            ),
+            queryParameters: requestOptions?.queryParams,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as Phonic.ConversationsListEvaluationsResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /conversations/{id}/evals.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Evaluates a conversation using an evaluation prompt.
+     *
+     * @param {string} id - The ID of the conversation to evaluate.
+     * @param {Phonic.EvaluateConversationRequest} request
+     * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.NotFoundError}
+     *
+     * @example
+     *     await client.conversations.evaluate("id", {
+     *         prompt_id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0"
+     *     })
+     */
+    public evaluate(
+        id: string,
+        request: Phonic.EvaluateConversationRequest,
+        requestOptions?: Conversations.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.ConversationsEvaluateResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__evaluate(id, request, requestOptions));
+    }
+
+    private async __evaluate(
+        id: string,
+        request: Phonic.EvaluateConversationRequest,
+        requestOptions?: Conversations.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.ConversationsEvaluateResponse>> {
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                `conversations/${encodeURIComponent(id)}/evals`,
+            ),
+            method: "POST",
+            headers: mergeHeaders(
+                this._options?.headers,
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
+                requestOptions?.headers,
+            ),
+            contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
+            requestType: "json",
+            body: request,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Phonic.ConversationsEvaluateResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling POST /conversations/{id}/evals.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Initiates a call to a given phone number using Phonic's Twilio account.
      *
      * @param {Phonic.OutboundCallRequest} request
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
@@ -87,7 +871,10 @@ export class Conversations {
             method: "POST",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Twilio-Account-Sid": requestOptions?.twilioAccountSid,
+                }),
                 requestOptions?.headers,
             ),
             contentType: "application/json",

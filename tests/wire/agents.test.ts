@@ -10,6 +10,7 @@ describe("Agents", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
+            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -84,6 +85,7 @@ describe("Agents", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
+            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {
@@ -115,28 +117,30 @@ describe("Agents", () => {
             .build();
 
         const response = await client.agents.create({
-            name: "support-agent",
-            phone_number: "assign-automatically",
-            timezone: "America/Los_Angeles",
-            voice_id: "sarah",
-            welcome_message: "Hi {{customer_name}}. How can I help you today?",
-            system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-            template_variables: {
-                customer_name: {},
-                subject: {
-                    default_value: "Chess",
+            body: {
+                name: "support-agent",
+                phone_number: "assign-automatically",
+                timezone: "America/Los_Angeles",
+                voice_id: "sarah",
+                welcome_message: "Hi {{customer_name}}. How can I help you today?",
+                system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+                template_variables: {
+                    customer_name: {},
+                    subject: {
+                        default_value: "Chess",
+                    },
                 },
-            },
-            tools: ["keypad_input"],
-            no_input_poke_sec: 30,
-            no_input_poke_text: "Are you still there?",
-            boosted_keywords: ["Load ID", "dispatch"],
-            configuration_endpoint: {
-                url: "https://api.example.com/config",
-                headers: {
-                    Authorization: "Bearer token123",
+                tools: ["keypad_input"],
+                no_input_poke_sec: 30,
+                no_input_poke_text: "Are you still there?",
+                boosted_keywords: ["Load ID", "dispatch"],
+                configuration_endpoint: {
+                    url: "https://api.example.com/config",
+                    headers: {
+                        Authorization: "Bearer token123",
+                    },
+                    timeout_ms: 7000,
                 },
-                timeout_ms: 7000,
             },
         });
         expect(response).toEqual({
@@ -149,6 +153,7 @@ describe("Agents", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
+            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {
@@ -271,6 +276,7 @@ describe("Agents", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
+            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -341,6 +347,7 @@ describe("Agents", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
+            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -363,6 +370,7 @@ describe("Agents", () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             token: "test",
+            twilioAccountSid: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {
