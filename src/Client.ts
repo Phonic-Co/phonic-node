@@ -61,8 +61,9 @@ export class PhonicClient {
                 {
                     "X-Twilio-Account-Sid": _options?.twilioAccountSid,
                     "X-Fern-Language": "JavaScript",
-                    "X-Fern-SDK-Name": "",
-                    "X-Fern-SDK-Version": "0.0.15",
+                    "X-Fern-SDK-Name": "phonic",
+                    "X-Fern-SDK-Version": "0.29.1",
+                    "User-Agent": "phonic/0.29.1",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },
