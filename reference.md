@@ -1873,7 +1873,7 @@ await client.conversations.listEvaluations("id");
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">evaluate</a>(id, { ...params }) -> core.APIResponse<Phonic.ConversationsEvaluateResponse, Phonic.conversations.evaluate.Error></code></summary>
+<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">evaluate</a>(id, { ...params }) -> core.APIResponse<Phonic.ConversationEvaluationResult, Phonic.conversations.evaluate.Error></code></summary>
 <dl>
 <dd>
 

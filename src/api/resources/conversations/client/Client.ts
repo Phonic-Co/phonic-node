@@ -773,7 +773,7 @@ export class Conversations {
         request: Phonic.EvaluateConversationRequest,
         requestOptions?: Conversations.RequestOptions,
     ): core.HttpResponsePromise<
-        core.APIResponse<Phonic.ConversationsEvaluateResponse, Phonic.conversations.evaluate.Error>
+        core.APIResponse<Phonic.ConversationEvaluationResult, Phonic.conversations.evaluate.Error>
     > {
         return core.HttpResponsePromise.fromPromise(this.__evaluate(id, request, requestOptions));
     }
@@ -783,9 +783,7 @@ export class Conversations {
         request: Phonic.EvaluateConversationRequest,
         requestOptions?: Conversations.RequestOptions,
     ): Promise<
-        core.WithRawResponse<
-            core.APIResponse<Phonic.ConversationsEvaluateResponse, Phonic.conversations.evaluate.Error>
-        >
+        core.WithRawResponse<core.APIResponse<Phonic.ConversationEvaluationResult, Phonic.conversations.evaluate.Error>>
     > {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
@@ -812,7 +810,7 @@ export class Conversations {
             return {
                 data: {
                     ok: true,
-                    body: _response.body as Phonic.ConversationsEvaluateResponse,
+                    body: _response.body as Phonic.ConversationEvaluationResult,
                     headers: _response.headers,
                     rawResponse: _response.rawResponse,
                 },
