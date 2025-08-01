@@ -5,5 +5,5 @@
 import * as Phonic from "../../../index.js";
 
 export interface ConversationsListEvaluationsResponse {
-    evals: Phonic.ConversationEval[];
+    evals: Phonic.ConversationEvaluationResult[];
 }

@@ -16,19 +16,18 @@ describe("Conversations", () => {
         const rawResponseBody = {
             conversation: {
                 id: "id",
+                workspace: "workspace",
                 external_id: "external_id",
-                project: { id: "id", name: "name" },
                 model: "model",
                 welcome_message: "welcome_message",
-                template_variables: { key: "value" },
                 input_format: "input_format",
                 output_format: "output_format",
                 live_transcript: "live_transcript",
                 post_call_transcript: "post_call_transcript",
-                duration_ms: 1,
+                duration_ms: 1.1,
+                audio_url: "audio_url",
                 started_at: "2024-01-15T09:30:00Z",
                 ended_at: "2024-01-15T09:30:00Z",
-                audio_url: "audio_url",
                 items: [
                     {
                         item_idx: 1,
@@ -38,6 +37,7 @@ describe("Conversations", () => {
                         started_at: "2024-01-15T09:30:00Z",
                     },
                 ],
+                task_results: { key: "value" },
             },
         };
         server.mockEndpoint().get("/conversations").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -46,24 +46,18 @@ describe("Conversations", () => {
         expect(response).toEqual({
             conversation: {
                 id: "id",
+                workspace: "workspace",
                 external_id: "external_id",
-                project: {
-                    id: "id",
-                    name: "name",
-                },
                 model: "model",
                 welcome_message: "welcome_message",
-                template_variables: {
-                    key: "value",
-                },
                 input_format: "input_format",
                 output_format: "output_format",
                 live_transcript: "live_transcript",
                 post_call_transcript: "post_call_transcript",
-                duration_ms: 1,
+                duration_ms: 1.1,
+                audio_url: "audio_url",
                 started_at: "2024-01-15T09:30:00Z",
                 ended_at: "2024-01-15T09:30:00Z",
-                audio_url: "audio_url",
                 items: [
                     {
                         item_idx: 1,
@@ -73,6 +67,9 @@ describe("Conversations", () => {
                         started_at: "2024-01-15T09:30:00Z",
                     },
                 ],
+                task_results: {
+                    key: "value",
+                },
             },
         });
     });
@@ -87,19 +84,18 @@ describe("Conversations", () => {
         const rawResponseBody = {
             conversation: {
                 id: "id",
+                workspace: "workspace",
                 external_id: "external_id",
-                project: { id: "id", name: "name" },
                 model: "model",
                 welcome_message: "welcome_message",
-                template_variables: { key: "value" },
                 input_format: "input_format",
                 output_format: "output_format",
                 live_transcript: "live_transcript",
                 post_call_transcript: "post_call_transcript",
-                duration_ms: 1,
+                duration_ms: 1.1,
+                audio_url: "audio_url",
                 started_at: "2024-01-15T09:30:00Z",
                 ended_at: "2024-01-15T09:30:00Z",
-                audio_url: "audio_url",
                 items: [
                     {
                         item_idx: 1,
@@ -109,6 +105,7 @@ describe("Conversations", () => {
                         started_at: "2024-01-15T09:30:00Z",
                     },
                 ],
+                task_results: { key: "value" },
             },
         };
         server.mockEndpoint().get("/conversations/id").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -117,24 +114,18 @@ describe("Conversations", () => {
         expect(response).toEqual({
             conversation: {
                 id: "id",
+                workspace: "workspace",
                 external_id: "external_id",
-                project: {
-                    id: "id",
-                    name: "name",
-                },
                 model: "model",
                 welcome_message: "welcome_message",
-                template_variables: {
-                    key: "value",
-                },
                 input_format: "input_format",
                 output_format: "output_format",
                 live_transcript: "live_transcript",
                 post_call_transcript: "post_call_transcript",
-                duration_ms: 1,
+                duration_ms: 1.1,
+                audio_url: "audio_url",
                 started_at: "2024-01-15T09:30:00Z",
                 ended_at: "2024-01-15T09:30:00Z",
-                audio_url: "audio_url",
                 items: [
                     {
                         item_idx: 1,
@@ -144,6 +135,9 @@ describe("Conversations", () => {
                         started_at: "2024-01-15T09:30:00Z",
                     },
                 ],
+                task_results: {
+                    key: "value",
+                },
             },
         });
     });
@@ -307,7 +301,14 @@ describe("Conversations", () => {
         });
 
         const rawResponseBody = {
-            evals: [{ result: "successful", prompt: "The assistant used the word chocolate in the conversation" }],
+            evals: [
+                {
+                    id: "conv_eval_12345678-abcd-efgh-ijkl-mnopqrstuvwx",
+                    result: "successful",
+                    prompt: { id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0", name: "chocolate_usage" },
+                    created_at: "2025-07-30T23:49:18Z",
+                },
+            ],
         };
         server
             .mockEndpoint()
@@ -321,8 +322,13 @@ describe("Conversations", () => {
         expect(response).toEqual({
             evals: [
                 {
+                    id: "conv_eval_12345678-abcd-efgh-ijkl-mnopqrstuvwx",
                     result: "successful",
-                    prompt: "The assistant used the word chocolate in the conversation",
+                    prompt: {
+                        id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
+                        name: "chocolate_usage",
+                    },
+                    created_at: "2025-07-30T23:49:18Z",
                 },
             ],
         });
@@ -335,7 +341,12 @@ describe("Conversations", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { prompt_id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0" };
-        const rawResponseBody = { evaluation: { result: "successful" } };
+        const rawResponseBody = {
+            id: "conv_eval_12345678-abcd-efgh-ijkl-mnopqrstuvwx",
+            result: "successful",
+            prompt: { id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0", name: "chocolate_usage" },
+            created_at: "2025-07-30T23:49:18Z",
+        };
         server
             .mockEndpoint()
             .post("/conversations/id/evals")
@@ -349,9 +360,13 @@ describe("Conversations", () => {
             prompt_id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
         });
         expect(response).toEqual({
-            evaluation: {
-                result: "successful",
+            id: "conv_eval_12345678-abcd-efgh-ijkl-mnopqrstuvwx",
+            result: "successful",
+            prompt: {
+                id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
+                name: "chocolate_usage",
             },
+            created_at: "2025-07-30T23:49:18Z",
         });
     });
 

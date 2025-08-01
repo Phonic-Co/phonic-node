@@ -6,7 +6,7 @@ export interface ConversationExtraction {
     /** The extraction ID. */
     id: string;
     /** The conversation ID. */
-    conversation_id: string;
+    conversation_id?: string;
     schema: ConversationExtraction.Schema;
     /** The extracted data. */
     result: Record<string, unknown>;

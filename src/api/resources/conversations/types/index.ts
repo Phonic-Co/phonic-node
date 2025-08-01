@@ -6,5 +6,4 @@ export * from "./ConversationsGetAnalysisResponse.js";
 export * from "./ConversationsListExtractionsResponse.js";
 export * from "./ConversationsExtractDataResponse.js";
 export * from "./ConversationsListEvaluationsResponse.js";
-export * from "./ConversationsEvaluateResponse.js";
 export * from "./ConversationsOutboundCallResponse.js";

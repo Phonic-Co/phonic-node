@@ -7,15 +7,14 @@ import * as Phonic from "../index.js";
 export interface Conversation {
     /** The conversation ID. */
     id: string;
+    /** The organization/workspace name. */
+    workspace: string;
     /** External ID for conversation tracking. */
     external_id?: string;
-    project: Conversation.Project;
     /** The STS model used. */
     model: string;
     /** Welcome message played at start. */
     welcome_message?: string;
-    /** Template variables used in the conversation. */
-    template_variables: Record<string, string>;
     /** Audio input format. */
     input_format: string;
     /** Audio output format. */
@@ -26,19 +25,14 @@ export interface Conversation {
     post_call_transcript?: string;
     /** Duration of the conversation in milliseconds. */
     duration_ms: number;
+    /** Presigned URL to the conversation audio file. */
+    audio_url?: string;
     /** When the conversation started. */
     started_at: string;
     /** When the conversation ended. */
     ended_at?: string;
-    /** URL to the conversation audio file. */
-    audio_url: string;
     /** Array of conversation items (turns). */
     items: Phonic.ConversationItem[];
-}
-
-export namespace Conversation {
-    export interface Project {
-        id: string;
-        name: string;
-    }
+    /** Results from conversation evaluations and extractions. */
+    task_results: Record<string, unknown>;
 }
