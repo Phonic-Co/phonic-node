@@ -15,6 +15,7 @@ export * from "./ConversationExtraction.js";
 export * from "./ConversationEvaluationResult.js";
 export * from "./ConversationEvaluation.js";
 export * from "./ConversationEvalPrompt.js";
+export * from "./Task.js";
 export * from "./ConversationEval.js";
 export * from "./ConfigPayload.js";
 export * from "./AudioChunkPayload.js";

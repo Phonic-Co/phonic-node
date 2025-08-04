@@ -27,6 +27,7 @@ describe("Agents", () => {
                     system_prompt: "system_prompt",
                     template_variables: { customer_name: {}, subject: { default_value: "Chess" } },
                     tools: ["keypad_input"],
+                    tasks: [{ name: "name", description: "description" }],
                     no_input_poke_sec: 1,
                     no_input_poke_text: "no_input_poke_text",
                     no_input_end_conversation_sec: 1,
@@ -64,6 +65,12 @@ describe("Agents", () => {
                         },
                     },
                     tools: ["keypad_input"],
+                    tasks: [
+                        {
+                            name: "name",
+                            description: "description",
+                        },
+                    ],
                     no_input_poke_sec: 1,
                     no_input_poke_text: "no_input_poke_text",
                     no_input_end_conversation_sec: 1,
@@ -184,6 +191,7 @@ describe("Agents", () => {
                 system_prompt: "system_prompt",
                 template_variables: { customer_name: {}, subject: { default_value: "Chess" } },
                 tools: ["keypad_input"],
+                tasks: [{ name: "name", description: "description" }],
                 no_input_poke_sec: 1,
                 no_input_poke_text: "no_input_poke_text",
                 no_input_end_conversation_sec: 1,
@@ -252,6 +260,12 @@ describe("Agents", () => {
                     },
                 },
                 tools: ["keypad_input"],
+                tasks: [
+                    {
+                        name: "name",
+                        description: "description",
+                    },
+                ],
                 no_input_poke_sec: 1,
                 no_input_poke_text: "no_input_poke_text",
                 no_input_end_conversation_sec: 1,
@@ -289,6 +303,7 @@ describe("Agents", () => {
                 system_prompt: "system_prompt",
                 template_variables: { customer_name: {}, subject: { default_value: "Chess" } },
                 tools: ["keypad_input"],
+                tasks: [{ name: "name", description: "description" }],
                 no_input_poke_sec: 1,
                 no_input_poke_text: "no_input_poke_text",
                 no_input_end_conversation_sec: 1,
@@ -324,6 +339,12 @@ describe("Agents", () => {
                     },
                 },
                 tools: ["keypad_input"],
+                tasks: [
+                    {
+                        name: "name",
+                        description: "description",
+                    },
+                ],
                 no_input_poke_sec: 1,
                 no_input_poke_text: "no_input_poke_text",
                 no_input_end_conversation_sec: 1,

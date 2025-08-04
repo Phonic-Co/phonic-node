@@ -18,6 +18,7 @@ export declare namespace Sts {
     }
 
     export interface ConnectArgs {
+        downstream_websocket_url: string;
         /** Arbitrary headers to send with the websocket connect request. */
         headers?: Record<string, string>;
         /** Enable debug mode on the websocket. Defaults to false. */
@@ -34,8 +35,10 @@ export class Sts {
         this._options = _options;
     }
 
-    public async connect(args: Sts.ConnectArgs = {}): Promise<StsSocket> {
-        const { headers, debug, reconnectAttempts } = args;
+    public async connect(args: Sts.ConnectArgs): Promise<StsSocket> {
+        const { downstream_websocket_url, headers, debug, reconnectAttempts } = args;
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
+        _queryParams["downstream_websocket_url"] = downstream_websocket_url;
         let _headers: Record<string, string> = {
             ...headers,
         };
