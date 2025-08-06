@@ -6,6 +6,7 @@ import * as environments from "../../../../environments.js";
 import * as core from "../../../../core/index.js";
 import * as Phonic from "../../../index.js";
 import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../core/headers.js";
+import * as errors from "../../../../errors/index.js";
 
 export declare namespace Agents {
     export interface Options {
@@ -51,14 +52,14 @@ export class Agents {
     public list(
         request: Phonic.AgentsListRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): core.HttpResponsePromise<core.APIResponse<Phonic.AgentsListResponse, Phonic.agents.list.Error>> {
+    ): core.HttpResponsePromise<Phonic.AgentsListResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
         request: Phonic.AgentsListRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.AgentsListResponse, Phonic.agents.list.Error>>> {
+    ): Promise<core.WithRawResponse<Phonic.AgentsListResponse>> {
         const { project } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -84,25 +85,32 @@ export class Agents {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.AgentsListResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.AgentsListResponse, rawResponse: _response.rawResponse };
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.agents.list.Error._unknown(_response.error),
+        if (_response.error.reason === "status-code") {
+            throw new errors.PhonicError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
                 rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /agents.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -143,14 +151,14 @@ export class Agents {
     public create(
         request: Phonic.AgentsCreateRequest,
         requestOptions?: Agents.RequestOptions,
-    ): core.HttpResponsePromise<core.APIResponse<Phonic.AgentsCreateResponse, Phonic.agents.create.Error>> {
+    ): core.HttpResponsePromise<Phonic.AgentsCreateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: Phonic.AgentsCreateRequest,
         requestOptions?: Agents.RequestOptions,
-    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.AgentsCreateResponse, Phonic.agents.create.Error>>> {
+    ): Promise<core.WithRawResponse<Phonic.AgentsCreateResponse>> {
         const { project, body: _body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -179,25 +187,32 @@ export class Agents {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.AgentsCreateResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.AgentsCreateResponse, rawResponse: _response.rawResponse };
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.agents.create.Error._unknown(_response.error),
+        if (_response.error.reason === "status-code") {
+            throw new errors.PhonicError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
                 rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling POST /agents.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -236,14 +251,14 @@ export class Agents {
     public upsert(
         request: Phonic.UpsertAgentRequest,
         requestOptions?: Agents.RequestOptions,
-    ): core.HttpResponsePromise<core.APIResponse<Phonic.AgentsUpsertResponse, Phonic.agents.upsert.Error>> {
+    ): core.HttpResponsePromise<Phonic.AgentsUpsertResponse> {
         return core.HttpResponsePromise.fromPromise(this.__upsert(request, requestOptions));
     }
 
     private async __upsert(
         request: Phonic.UpsertAgentRequest,
         requestOptions?: Agents.RequestOptions,
-    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.AgentsUpsertResponse, Phonic.agents.upsert.Error>>> {
+    ): Promise<core.WithRawResponse<Phonic.AgentsUpsertResponse>> {
         const { project, ..._body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -272,25 +287,32 @@ export class Agents {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.AgentsUpsertResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.AgentsUpsertResponse, rawResponse: _response.rawResponse };
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.agents.upsert.Error._unknown(_response.error),
+        if (_response.error.reason === "status-code") {
+            throw new errors.PhonicError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
                 rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling PUT /agents/upsert.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -307,7 +329,7 @@ export class Agents {
         nameOrId: string,
         request: Phonic.AgentsGetRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): core.HttpResponsePromise<core.APIResponse<Phonic.AgentsGetResponse, Phonic.agents.get.Error>> {
+    ): core.HttpResponsePromise<Phonic.AgentsGetResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(nameOrId, request, requestOptions));
     }
 
@@ -315,7 +337,7 @@ export class Agents {
         nameOrId: string,
         request: Phonic.AgentsGetRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.AgentsGetResponse, Phonic.agents.get.Error>>> {
+    ): Promise<core.WithRawResponse<Phonic.AgentsGetResponse>> {
         const { project } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -341,25 +363,32 @@ export class Agents {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.AgentsGetResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.AgentsGetResponse, rawResponse: _response.rawResponse };
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.agents.get.Error._unknown(_response.error),
+        if (_response.error.reason === "status-code") {
+            throw new errors.PhonicError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
                 rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /agents/{nameOrId}.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -376,7 +405,7 @@ export class Agents {
         nameOrId: string,
         request: Phonic.AgentsDeleteRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): core.HttpResponsePromise<core.APIResponse<Phonic.AgentsDeleteResponse, Phonic.agents.delete.Error>> {
+    ): core.HttpResponsePromise<Phonic.AgentsDeleteResponse> {
         return core.HttpResponsePromise.fromPromise(this.__delete(nameOrId, request, requestOptions));
     }
 
@@ -384,7 +413,7 @@ export class Agents {
         nameOrId: string,
         request: Phonic.AgentsDeleteRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.AgentsDeleteResponse, Phonic.agents.delete.Error>>> {
+    ): Promise<core.WithRawResponse<Phonic.AgentsDeleteResponse>> {
         const { project } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -410,25 +439,32 @@ export class Agents {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.AgentsDeleteResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.AgentsDeleteResponse, rawResponse: _response.rawResponse };
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.agents.delete.Error._unknown(_response.error),
+        if (_response.error.reason === "status-code") {
+            throw new errors.PhonicError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
                 rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling DELETE /agents/{nameOrId}.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -469,7 +505,7 @@ export class Agents {
         nameOrId: string,
         request: Phonic.UpdateAgentRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): core.HttpResponsePromise<core.APIResponse<Phonic.AgentsUpdateResponse, Phonic.agents.update.Error>> {
+    ): core.HttpResponsePromise<Phonic.AgentsUpdateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__update(nameOrId, request, requestOptions));
     }
 
@@ -477,7 +513,7 @@ export class Agents {
         nameOrId: string,
         request: Phonic.UpdateAgentRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.AgentsUpdateResponse, Phonic.agents.update.Error>>> {
+    ): Promise<core.WithRawResponse<Phonic.AgentsUpdateResponse>> {
         const { project, ..._body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -506,25 +542,32 @@ export class Agents {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.AgentsUpdateResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.AgentsUpdateResponse, rawResponse: _response.rawResponse };
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.agents.update.Error._unknown(_response.error),
+        if (_response.error.reason === "status-code") {
+            throw new errors.PhonicError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
                 rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling PATCH /agents/{nameOrId}.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     protected async _getAuthorizationHeader(): Promise<string> {

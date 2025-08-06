@@ -6,6 +6,7 @@ import * as environments from "../../../../environments.js";
 import * as core from "../../../../core/index.js";
 import * as Phonic from "../../../index.js";
 import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../core/headers.js";
+import * as errors from "../../../../errors/index.js";
 
 export declare namespace ExtractionSchemas {
     export interface Options {
@@ -51,20 +52,14 @@ export class ExtractionSchemas {
     public list(
         request: Phonic.ExtractionSchemasListRequest = {},
         requestOptions?: ExtractionSchemas.RequestOptions,
-    ): core.HttpResponsePromise<
-        core.APIResponse<Phonic.ExtractionSchemasListResponse, Phonic.extractionSchemas.list.Error>
-    > {
+    ): core.HttpResponsePromise<Phonic.ExtractionSchemasListResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
         request: Phonic.ExtractionSchemasListRequest = {},
         requestOptions?: ExtractionSchemas.RequestOptions,
-    ): Promise<
-        core.WithRawResponse<
-            core.APIResponse<Phonic.ExtractionSchemasListResponse, Phonic.extractionSchemas.list.Error>
-        >
-    > {
+    ): Promise<core.WithRawResponse<Phonic.ExtractionSchemasListResponse>> {
         const { project } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -90,25 +85,32 @@ export class ExtractionSchemas {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ExtractionSchemasListResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.ExtractionSchemasListResponse, rawResponse: _response.rawResponse };
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.extractionSchemas.list.Error._unknown(_response.error),
+        if (_response.error.reason === "status-code") {
+            throw new errors.PhonicError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
                 rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /extraction_schemas.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -139,20 +141,14 @@ export class ExtractionSchemas {
     public create(
         request: Phonic.CreateExtractionSchemaRequest,
         requestOptions?: ExtractionSchemas.RequestOptions,
-    ): core.HttpResponsePromise<
-        core.APIResponse<Phonic.ExtractionSchemasCreateResponse, Phonic.extractionSchemas.create.Error>
-    > {
+    ): core.HttpResponsePromise<Phonic.ExtractionSchemasCreateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: Phonic.CreateExtractionSchemaRequest,
         requestOptions?: ExtractionSchemas.RequestOptions,
-    ): Promise<
-        core.WithRawResponse<
-            core.APIResponse<Phonic.ExtractionSchemasCreateResponse, Phonic.extractionSchemas.create.Error>
-        >
-    > {
+    ): Promise<core.WithRawResponse<Phonic.ExtractionSchemasCreateResponse>> {
         const { project, ..._body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -182,24 +178,34 @@ export class ExtractionSchemas {
         });
         if (_response.ok) {
             return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ExtractionSchemasCreateResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
+                data: _response.body as Phonic.ExtractionSchemasCreateResponse,
                 rawResponse: _response.rawResponse,
             };
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.extractionSchemas.create.Error._unknown(_response.error),
+        if (_response.error.reason === "status-code") {
+            throw new errors.PhonicError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
                 rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling POST /extraction_schemas.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -216,9 +222,7 @@ export class ExtractionSchemas {
         nameOrId: string,
         request: Phonic.ExtractionSchemasGetRequest = {},
         requestOptions?: ExtractionSchemas.RequestOptions,
-    ): core.HttpResponsePromise<
-        core.APIResponse<Phonic.ExtractionSchemasGetResponse, Phonic.extractionSchemas.get.Error>
-    > {
+    ): core.HttpResponsePromise<Phonic.ExtractionSchemasGetResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(nameOrId, request, requestOptions));
     }
 
@@ -226,9 +230,7 @@ export class ExtractionSchemas {
         nameOrId: string,
         request: Phonic.ExtractionSchemasGetRequest = {},
         requestOptions?: ExtractionSchemas.RequestOptions,
-    ): Promise<
-        core.WithRawResponse<core.APIResponse<Phonic.ExtractionSchemasGetResponse, Phonic.extractionSchemas.get.Error>>
-    > {
+    ): Promise<core.WithRawResponse<Phonic.ExtractionSchemasGetResponse>> {
         const { project } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -254,25 +256,34 @@ export class ExtractionSchemas {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ExtractionSchemasGetResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.ExtractionSchemasGetResponse, rawResponse: _response.rawResponse };
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.extractionSchemas.get.Error._unknown(_response.error),
+        if (_response.error.reason === "status-code") {
+            throw new errors.PhonicError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
                 rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError(
+                    "Timeout exceeded when calling GET /extraction_schemas/{nameOrId}.",
+                );
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -289,9 +300,7 @@ export class ExtractionSchemas {
         nameOrId: string,
         request: Phonic.ExtractionSchemasDeleteRequest = {},
         requestOptions?: ExtractionSchemas.RequestOptions,
-    ): core.HttpResponsePromise<
-        core.APIResponse<Phonic.ExtractionSchemasDeleteResponse, Phonic.extractionSchemas.delete.Error>
-    > {
+    ): core.HttpResponsePromise<Phonic.ExtractionSchemasDeleteResponse> {
         return core.HttpResponsePromise.fromPromise(this.__delete(nameOrId, request, requestOptions));
     }
 
@@ -299,11 +308,7 @@ export class ExtractionSchemas {
         nameOrId: string,
         request: Phonic.ExtractionSchemasDeleteRequest = {},
         requestOptions?: ExtractionSchemas.RequestOptions,
-    ): Promise<
-        core.WithRawResponse<
-            core.APIResponse<Phonic.ExtractionSchemasDeleteResponse, Phonic.extractionSchemas.delete.Error>
-        >
-    > {
+    ): Promise<core.WithRawResponse<Phonic.ExtractionSchemasDeleteResponse>> {
         const { project } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -330,24 +335,36 @@ export class ExtractionSchemas {
         });
         if (_response.ok) {
             return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ExtractionSchemasDeleteResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
+                data: _response.body as Phonic.ExtractionSchemasDeleteResponse,
                 rawResponse: _response.rawResponse,
             };
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.extractionSchemas.delete.Error._unknown(_response.error),
+        if (_response.error.reason === "status-code") {
+            throw new errors.PhonicError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
                 rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError(
+                    "Timeout exceeded when calling DELETE /extraction_schemas/{nameOrId}.",
+                );
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -376,9 +393,7 @@ export class ExtractionSchemas {
         nameOrId: string,
         request: Phonic.UpdateExtractionSchemaRequest = {},
         requestOptions?: ExtractionSchemas.RequestOptions,
-    ): core.HttpResponsePromise<
-        core.APIResponse<Phonic.ExtractionSchemasUpdateResponse, Phonic.extractionSchemas.update.Error>
-    > {
+    ): core.HttpResponsePromise<Phonic.ExtractionSchemasUpdateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__update(nameOrId, request, requestOptions));
     }
 
@@ -386,11 +401,7 @@ export class ExtractionSchemas {
         nameOrId: string,
         request: Phonic.UpdateExtractionSchemaRequest = {},
         requestOptions?: ExtractionSchemas.RequestOptions,
-    ): Promise<
-        core.WithRawResponse<
-            core.APIResponse<Phonic.ExtractionSchemasUpdateResponse, Phonic.extractionSchemas.update.Error>
-        >
-    > {
+    ): Promise<core.WithRawResponse<Phonic.ExtractionSchemasUpdateResponse>> {
         const { project, ..._body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -420,24 +431,36 @@ export class ExtractionSchemas {
         });
         if (_response.ok) {
             return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ExtractionSchemasUpdateResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
+                data: _response.body as Phonic.ExtractionSchemasUpdateResponse,
                 rawResponse: _response.rawResponse,
             };
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.extractionSchemas.update.Error._unknown(_response.error),
+        if (_response.error.reason === "status-code") {
+            throw new errors.PhonicError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
                 rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError(
+                    "Timeout exceeded when calling PATCH /extraction_schemas/{nameOrId}.",
+                );
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     protected async _getAuthorizationHeader(): Promise<string> {
