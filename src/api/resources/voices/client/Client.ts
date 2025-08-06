@@ -6,6 +6,7 @@ import * as environments from "../../../../environments.js";
 import * as core from "../../../../core/index.js";
 import * as Phonic from "../../../index.js";
 import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../core/headers.js";
+import * as errors from "../../../../errors/index.js";
 
 export declare namespace Voices {
     export interface Options {
@@ -53,14 +54,14 @@ export class Voices {
     public list(
         request: Phonic.VoicesListRequest,
         requestOptions?: Voices.RequestOptions,
-    ): core.HttpResponsePromise<core.APIResponse<Phonic.VoicesListResponse, Phonic.voices.list.Error>> {
+    ): core.HttpResponsePromise<Phonic.VoicesListResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
         request: Phonic.VoicesListRequest,
         requestOptions?: Voices.RequestOptions,
-    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.VoicesListResponse, Phonic.voices.list.Error>>> {
+    ): Promise<core.WithRawResponse<Phonic.VoicesListResponse>> {
         const { model } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         _queryParams["model"] = model;
@@ -83,25 +84,32 @@ export class Voices {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.VoicesListResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.VoicesListResponse, rawResponse: _response.rawResponse };
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.voices.list.Error._unknown(_response.error),
+        if (_response.error.reason === "status-code") {
+            throw new errors.PhonicError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
                 rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /voices.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -110,20 +118,19 @@ export class Voices {
      * @param {string} id - The ID of the voice to get.
      * @param {Voices.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.NotFoundError}
+     *
      * @example
      *     await client.voices.get("id")
      */
-    public get(
-        id: string,
-        requestOptions?: Voices.RequestOptions,
-    ): core.HttpResponsePromise<core.APIResponse<Phonic.VoicesGetResponse, Phonic.voices.get.Error>> {
+    public get(id: string, requestOptions?: Voices.RequestOptions): core.HttpResponsePromise<Phonic.VoicesGetResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
     }
 
     private async __get(
         id: string,
         requestOptions?: Voices.RequestOptions,
-    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.VoicesGetResponse, Phonic.voices.get.Error>>> {
+    ): Promise<core.WithRawResponse<Phonic.VoicesGetResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -143,39 +150,37 @@ export class Voices {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.VoicesGetResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.VoicesGetResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.voices.get.Error.notFoundError(_response.error.body as Phonic.Error_),
-                            rawResponse: _response.rawResponse,
-                        },
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
                         rawResponse: _response.rawResponse,
-                    };
+                    });
             }
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.voices.get.Error._unknown(_response.error),
-                rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /voices/{id}.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     protected async _getAuthorizationHeader(): Promise<string> {

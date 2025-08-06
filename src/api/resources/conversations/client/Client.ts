@@ -6,6 +6,7 @@ import * as environments from "../../../../environments.js";
 import * as core from "../../../../core/index.js";
 import * as Phonic from "../../../index.js";
 import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../core/headers.js";
+import * as errors from "../../../../errors/index.js";
 
 export declare namespace Conversations {
     export interface Options {
@@ -51,16 +52,14 @@ export class Conversations {
     public list(
         request: Phonic.ConversationsListRequest = {},
         requestOptions?: Conversations.RequestOptions,
-    ): core.HttpResponsePromise<core.APIResponse<Phonic.ConversationsListResponse, Phonic.conversations.list.Error>> {
+    ): core.HttpResponsePromise<Phonic.ConversationsListResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
         request: Phonic.ConversationsListRequest = {},
         requestOptions?: Conversations.RequestOptions,
-    ): Promise<
-        core.WithRawResponse<core.APIResponse<Phonic.ConversationsListResponse, Phonic.conversations.list.Error>>
-    > {
+    ): Promise<core.WithRawResponse<Phonic.ConversationsListResponse>> {
         const {
             project,
             external_id: externalId,
@@ -128,25 +127,32 @@ export class Conversations {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ConversationsListResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.ConversationsListResponse, rawResponse: _response.rawResponse };
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.conversations.list.Error._unknown(_response.error),
+        if (_response.error.reason === "status-code") {
+            throw new errors.PhonicError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
                 rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /conversations.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -155,22 +161,22 @@ export class Conversations {
      * @param {string} id - The ID of the conversation to get.
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.NotFoundError}
+     *
      * @example
      *     await client.conversations.get("id")
      */
     public get(
         id: string,
         requestOptions?: Conversations.RequestOptions,
-    ): core.HttpResponsePromise<core.APIResponse<Phonic.ConversationsGetResponse, Phonic.conversations.get.Error>> {
+    ): core.HttpResponsePromise<Phonic.ConversationsGetResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
     }
 
     private async __get(
         id: string,
         requestOptions?: Conversations.RequestOptions,
-    ): Promise<
-        core.WithRawResponse<core.APIResponse<Phonic.ConversationsGetResponse, Phonic.conversations.get.Error>>
-    > {
+    ): Promise<core.WithRawResponse<Phonic.ConversationsGetResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -190,39 +196,37 @@ export class Conversations {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ConversationsGetResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.ConversationsGetResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.conversations.get.Error.notFoundError(_response.error.body as Phonic.Error_),
-                            rawResponse: _response.rawResponse,
-                        },
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
                         rawResponse: _response.rawResponse,
-                    };
+                    });
             }
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.conversations.get.Error._unknown(_response.error),
-                rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /conversations/{id}.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -231,24 +235,24 @@ export class Conversations {
      * @param {string} id - The ID of the conversation to cancel.
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
+     * @throws {@link Phonic.GatewayTimeoutError}
+     *
      * @example
      *     await client.conversations.cancel("id")
      */
     public cancel(
         id: string,
         requestOptions?: Conversations.RequestOptions,
-    ): core.HttpResponsePromise<
-        core.APIResponse<Phonic.ConversationsCancelResponse, Phonic.conversations.cancel.Error>
-    > {
+    ): core.HttpResponsePromise<Phonic.ConversationsCancelResponse> {
         return core.HttpResponsePromise.fromPromise(this.__cancel(id, requestOptions));
     }
 
     private async __cancel(
         id: string,
         requestOptions?: Conversations.RequestOptions,
-    ): Promise<
-        core.WithRawResponse<core.APIResponse<Phonic.ConversationsCancelResponse, Phonic.conversations.cancel.Error>>
-    > {
+    ): Promise<core.WithRawResponse<Phonic.ConversationsCancelResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -268,63 +272,41 @@ export class Conversations {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ConversationsCancelResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.ConversationsCancelResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.conversations.cancel.Error.notFoundError(
-                                _response.error.body as Phonic.Error_,
-                            ),
-                            rawResponse: _response.rawResponse,
-                        },
-                        rawResponse: _response.rawResponse,
-                    };
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
                 case 409:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.conversations.cancel.Error.conflictError(
-                                _response.error.body as Phonic.Error_,
-                            ),
-                            rawResponse: _response.rawResponse,
-                        },
-                        rawResponse: _response.rawResponse,
-                    };
+                    throw new Phonic.ConflictError(_response.error.body as Phonic.Error_, _response.rawResponse);
                 case 504:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.conversations.cancel.Error.gatewayTimeoutError(
-                                _response.error.body as Phonic.Error_,
-                            ),
-                            rawResponse: _response.rawResponse,
-                        },
+                    throw new Phonic.GatewayTimeoutError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
                         rawResponse: _response.rawResponse,
-                    };
+                    });
             }
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.conversations.cancel.Error._unknown(_response.error),
-                rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling POST /conversations/{id}/cancel.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -333,26 +315,23 @@ export class Conversations {
      * @param {string} id - The ID of the conversation to summarize.
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.NotFoundError}
+     *
      * @example
      *     await client.conversations.summarize("id")
      */
     public summarize(
         id: string,
         requestOptions?: Conversations.RequestOptions,
-    ): core.HttpResponsePromise<
-        core.APIResponse<Phonic.ConversationsSummarizeResponse, Phonic.conversations.summarize.Error>
-    > {
+    ): core.HttpResponsePromise<Phonic.ConversationsSummarizeResponse> {
         return core.HttpResponsePromise.fromPromise(this.__summarize(id, requestOptions));
     }
 
     private async __summarize(
         id: string,
         requestOptions?: Conversations.RequestOptions,
-    ): Promise<
-        core.WithRawResponse<
-            core.APIResponse<Phonic.ConversationsSummarizeResponse, Phonic.conversations.summarize.Error>
-        >
-    > {
+    ): Promise<core.WithRawResponse<Phonic.ConversationsSummarizeResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -373,12 +352,7 @@ export class Conversations {
         });
         if (_response.ok) {
             return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ConversationsSummarizeResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
+                data: _response.body as Phonic.ConversationsSummarizeResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -386,38 +360,35 @@ export class Conversations {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.conversations.summarize.Error.badRequestError(
-                                _response.error.body as Phonic.Error_,
-                            ),
-                            rawResponse: _response.rawResponse,
-                        },
-                        rawResponse: _response.rawResponse,
-                    };
+                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
                 case 404:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.conversations.summarize.Error.notFoundError(
-                                _response.error.body as Phonic.Error_,
-                            ),
-                            rawResponse: _response.rawResponse,
-                        },
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
                         rawResponse: _response.rawResponse,
-                    };
+                    });
             }
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.conversations.summarize.Error._unknown(_response.error),
-                rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError(
+                    "Timeout exceeded when calling POST /conversations/{id}/summarize.",
+                );
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -426,26 +397,22 @@ export class Conversations {
      * @param {string} id - The ID of the conversation to analyze.
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.NotFoundError}
+     *
      * @example
      *     await client.conversations.getAnalysis("id")
      */
     public getAnalysis(
         id: string,
         requestOptions?: Conversations.RequestOptions,
-    ): core.HttpResponsePromise<
-        core.APIResponse<Phonic.ConversationsGetAnalysisResponse, Phonic.conversations.getAnalysis.Error>
-    > {
+    ): core.HttpResponsePromise<Phonic.ConversationsGetAnalysisResponse> {
         return core.HttpResponsePromise.fromPromise(this.__getAnalysis(id, requestOptions));
     }
 
     private async __getAnalysis(
         id: string,
         requestOptions?: Conversations.RequestOptions,
-    ): Promise<
-        core.WithRawResponse<
-            core.APIResponse<Phonic.ConversationsGetAnalysisResponse, Phonic.conversations.getAnalysis.Error>
-        >
-    > {
+    ): Promise<core.WithRawResponse<Phonic.ConversationsGetAnalysisResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -466,12 +433,7 @@ export class Conversations {
         });
         if (_response.ok) {
             return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ConversationsGetAnalysisResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
+                data: _response.body as Phonic.ConversationsGetAnalysisResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -479,27 +441,31 @@ export class Conversations {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.conversations.getAnalysis.Error.notFoundError(
-                                _response.error.body as Phonic.Error_,
-                            ),
-                            rawResponse: _response.rawResponse,
-                        },
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
                         rawResponse: _response.rawResponse,
-                    };
+                    });
             }
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.conversations.getAnalysis.Error._unknown(_response.error),
-                rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /conversations/{id}/analysis.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -508,26 +474,22 @@ export class Conversations {
      * @param {string} id - The ID of the conversation to get extractions for.
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.NotFoundError}
+     *
      * @example
      *     await client.conversations.listExtractions("id")
      */
     public listExtractions(
         id: string,
         requestOptions?: Conversations.RequestOptions,
-    ): core.HttpResponsePromise<
-        core.APIResponse<Phonic.ConversationsListExtractionsResponse, Phonic.conversations.listExtractions.Error>
-    > {
+    ): core.HttpResponsePromise<Phonic.ConversationsListExtractionsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__listExtractions(id, requestOptions));
     }
 
     private async __listExtractions(
         id: string,
         requestOptions?: Conversations.RequestOptions,
-    ): Promise<
-        core.WithRawResponse<
-            core.APIResponse<Phonic.ConversationsListExtractionsResponse, Phonic.conversations.listExtractions.Error>
-        >
-    > {
+    ): Promise<core.WithRawResponse<Phonic.ConversationsListExtractionsResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -548,12 +510,7 @@ export class Conversations {
         });
         if (_response.ok) {
             return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ConversationsListExtractionsResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
+                data: _response.body as Phonic.ConversationsListExtractionsResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -561,27 +518,33 @@ export class Conversations {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.conversations.listExtractions.Error.notFoundError(
-                                _response.error.body as Phonic.Error_,
-                            ),
-                            rawResponse: _response.rawResponse,
-                        },
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
                         rawResponse: _response.rawResponse,
-                    };
+                    });
             }
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.conversations.listExtractions.Error._unknown(_response.error),
-                rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError(
+                    "Timeout exceeded when calling GET /conversations/{id}/extractions.",
+                );
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -590,6 +553,8 @@ export class Conversations {
      * @param {string} id - The ID of the conversation to extract data from.
      * @param {Phonic.ExtractDataRequest} request
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.NotFoundError}
      *
      * @example
      *     await client.conversations.extractData("id", {
@@ -600,9 +565,7 @@ export class Conversations {
         id: string,
         request: Phonic.ExtractDataRequest,
         requestOptions?: Conversations.RequestOptions,
-    ): core.HttpResponsePromise<
-        core.APIResponse<Phonic.ConversationsExtractDataResponse, Phonic.conversations.extractData.Error>
-    > {
+    ): core.HttpResponsePromise<Phonic.ConversationsExtractDataResponse> {
         return core.HttpResponsePromise.fromPromise(this.__extractData(id, request, requestOptions));
     }
 
@@ -610,11 +573,7 @@ export class Conversations {
         id: string,
         request: Phonic.ExtractDataRequest,
         requestOptions?: Conversations.RequestOptions,
-    ): Promise<
-        core.WithRawResponse<
-            core.APIResponse<Phonic.ConversationsExtractDataResponse, Phonic.conversations.extractData.Error>
-        >
-    > {
+    ): Promise<core.WithRawResponse<Phonic.ConversationsExtractDataResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -638,12 +597,7 @@ export class Conversations {
         });
         if (_response.ok) {
             return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ConversationsExtractDataResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
+                data: _response.body as Phonic.ConversationsExtractDataResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -651,27 +605,33 @@ export class Conversations {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.conversations.extractData.Error.notFoundError(
-                                _response.error.body as Phonic.Error_,
-                            ),
-                            rawResponse: _response.rawResponse,
-                        },
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
                         rawResponse: _response.rawResponse,
-                    };
+                    });
             }
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.conversations.extractData.Error._unknown(_response.error),
-                rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError(
+                    "Timeout exceeded when calling POST /conversations/{id}/extractions.",
+                );
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -680,26 +640,22 @@ export class Conversations {
      * @param {string} id - The ID of the conversation to get evaluations for.
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.NotFoundError}
+     *
      * @example
      *     await client.conversations.listEvaluations("id")
      */
     public listEvaluations(
         id: string,
         requestOptions?: Conversations.RequestOptions,
-    ): core.HttpResponsePromise<
-        core.APIResponse<Phonic.ConversationsListEvaluationsResponse, Phonic.conversations.listEvaluations.Error>
-    > {
+    ): core.HttpResponsePromise<Phonic.ConversationsListEvaluationsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__listEvaluations(id, requestOptions));
     }
 
     private async __listEvaluations(
         id: string,
         requestOptions?: Conversations.RequestOptions,
-    ): Promise<
-        core.WithRawResponse<
-            core.APIResponse<Phonic.ConversationsListEvaluationsResponse, Phonic.conversations.listEvaluations.Error>
-        >
-    > {
+    ): Promise<core.WithRawResponse<Phonic.ConversationsListEvaluationsResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -720,12 +676,7 @@ export class Conversations {
         });
         if (_response.ok) {
             return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ConversationsListEvaluationsResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
+                data: _response.body as Phonic.ConversationsListEvaluationsResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -733,27 +684,31 @@ export class Conversations {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.conversations.listEvaluations.Error.notFoundError(
-                                _response.error.body as Phonic.Error_,
-                            ),
-                            rawResponse: _response.rawResponse,
-                        },
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
                         rawResponse: _response.rawResponse,
-                    };
+                    });
             }
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.conversations.listEvaluations.Error._unknown(_response.error),
-                rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /conversations/{id}/evals.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -762,6 +717,8 @@ export class Conversations {
      * @param {string} id - The ID of the conversation to evaluate.
      * @param {Phonic.EvaluateConversationRequest} request
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.NotFoundError}
      *
      * @example
      *     await client.conversations.evaluate("id", {
@@ -772,9 +729,7 @@ export class Conversations {
         id: string,
         request: Phonic.EvaluateConversationRequest,
         requestOptions?: Conversations.RequestOptions,
-    ): core.HttpResponsePromise<
-        core.APIResponse<Phonic.ConversationEvaluationResult, Phonic.conversations.evaluate.Error>
-    > {
+    ): core.HttpResponsePromise<Phonic.ConversationEvaluationResult> {
         return core.HttpResponsePromise.fromPromise(this.__evaluate(id, request, requestOptions));
     }
 
@@ -782,9 +737,7 @@ export class Conversations {
         id: string,
         request: Phonic.EvaluateConversationRequest,
         requestOptions?: Conversations.RequestOptions,
-    ): Promise<
-        core.WithRawResponse<core.APIResponse<Phonic.ConversationEvaluationResult, Phonic.conversations.evaluate.Error>>
-    > {
+    ): Promise<core.WithRawResponse<Phonic.ConversationEvaluationResult>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -807,41 +760,37 @@ export class Conversations {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ConversationEvaluationResult,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.ConversationEvaluationResult, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.conversations.evaluate.Error.notFoundError(
-                                _response.error.body as Phonic.Error_,
-                            ),
-                            rawResponse: _response.rawResponse,
-                        },
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
                         rawResponse: _response.rawResponse,
-                    };
+                    });
             }
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.conversations.evaluate.Error._unknown(_response.error),
-                rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling POST /conversations/{id}/evals.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -873,20 +822,14 @@ export class Conversations {
     public outboundCall(
         request: Phonic.OutboundCallRequest,
         requestOptions?: Conversations.RequestOptions,
-    ): core.HttpResponsePromise<
-        core.APIResponse<Phonic.ConversationsOutboundCallResponse, Phonic.conversations.outboundCall.Error>
-    > {
+    ): core.HttpResponsePromise<Phonic.ConversationsOutboundCallResponse> {
         return core.HttpResponsePromise.fromPromise(this.__outboundCall(request, requestOptions));
     }
 
     private async __outboundCall(
         request: Phonic.OutboundCallRequest,
         requestOptions?: Conversations.RequestOptions,
-    ): Promise<
-        core.WithRawResponse<
-            core.APIResponse<Phonic.ConversationsOutboundCallResponse, Phonic.conversations.outboundCall.Error>
-        >
-    > {
+    ): Promise<core.WithRawResponse<Phonic.ConversationsOutboundCallResponse>> {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -910,24 +853,34 @@ export class Conversations {
         });
         if (_response.ok) {
             return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ConversationsOutboundCallResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
+                data: _response.body as Phonic.ConversationsOutboundCallResponse,
                 rawResponse: _response.rawResponse,
             };
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.conversations.outboundCall.Error._unknown(_response.error),
+        if (_response.error.reason === "status-code") {
+            throw new errors.PhonicError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
                 rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+            });
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling POST /conversations/outbound_call.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     protected async _getAuthorizationHeader(): Promise<string> {
