@@ -394,7 +394,6 @@ export class ReconnectingWebSocket {
                 }
                 const options: Record<string, unknown> = {};
                 if (this._headers) {
-                    console.log("this._headers", this._headers);
                     options.headers = this._headers;
                 }
                 if (this._queryParameters && Object.keys(this._queryParameters).length > 0) {

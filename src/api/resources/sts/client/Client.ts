@@ -35,8 +35,8 @@ export class Sts {
         this._options = _options;
     }
 
-    public async connect(args: Sts.ConnectArgs): Promise<StsSocket> {
-        const { downstream_websocket_url, headers, debug, reconnectAttempts } = args;
+    public async connect(args?: Sts.ConnectArgs): Promise<StsSocket> {
+        const { downstream_websocket_url, headers, debug, reconnectAttempts } = args ?? {};
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (downstream_websocket_url != null) {
             _queryParams["downstream_websocket_url"] = downstream_websocket_url;
