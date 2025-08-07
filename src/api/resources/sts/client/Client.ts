@@ -19,7 +19,6 @@ export declare namespace Sts {
 
     export interface ConnectArgs {
         downstream_websocket_url: string;
-        Authorization: string;
         /** Arbitrary headers to send with the websocket connect request. */
         headers?: Record<string, string>;
         /** Enable debug mode on the websocket. Defaults to false. */
@@ -43,9 +42,7 @@ export class Sts {
         let _headers: Record<string, string> = {
             ...headers,
         };
-        if (args["Authorization"] != null) {
-            _headers["Authorization"] = args["Authorization"];
-        }
+        _headers["Authorization"] = await this._getAuthorizationHeader();
 
         const socket = new core.ReconnectingWebSocket({
             url: core.url.join(
