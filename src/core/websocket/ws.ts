@@ -5,11 +5,11 @@ import { toQueryString } from "../url/qs.js";
 import * as Events from "./events.js";
 
 const getGlobalWebSocket = (): WebSocket | undefined => {
-    if (typeof WebSocket !== "undefined") {
+    if (RUNTIME.type === "node") {
+        return NodeWebSocket as unknown as WebSocket;
+    } else if (typeof WebSocket !== "undefined") {
         // @ts-ignore
         return WebSocket;
-    } else if (RUNTIME.type === "node") {
-        return NodeWebSocket as unknown as WebSocket;
     }
     return undefined;
 };
@@ -394,6 +394,7 @@ export class ReconnectingWebSocket {
                 }
                 const options: Record<string, unknown> = {};
                 if (this._headers) {
+                    console.log("this._headers", this._headers);
                     options.headers = this._headers;
                 }
                 if (this._queryParameters && Object.keys(this._queryParameters).length > 0) {
