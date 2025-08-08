@@ -30,9 +30,28 @@ export declare namespace Sts {
 
 export class Sts {
     protected readonly _options: Sts.Options;
+    private pendingMessages: Array<() => void> = [];
+    private isConnected = false;
+    private socket: StsSocket | null = null;
 
     constructor(_options: Sts.Options) {
         this._options = _options;
+    }
+
+    private withBuffer<T extends unknown[]>(fn: (...args: T) => void) {
+        return (...args: T) => {
+            const action = () => fn(...args);
+            if (this.isConnected && this.socket) {
+                action();
+            } else {
+                this.pendingMessages.push(action);
+            }
+        };
+    }
+
+    private flushPendingMessages(): void {
+        this.isConnected = true;
+        this.pendingMessages.splice(0).forEach((action) => action());
     }
 
     public async connect(args?: Sts.ConnectArgs): Promise<StsSocket> {
@@ -58,7 +77,42 @@ export class Sts {
             headers: _headers,
             options: { debug: debug ?? false, maxRetries: reconnectAttempts ?? 30 },
         });
-        return new StsSocket({ socket });
+        
+        this.socket = new StsSocket({ socket });
+        this.isConnected = false;
+
+        this.socket.on("open", () => {
+            this.flushPendingMessages();
+        });
+
+        this.socket.on("close", () => {
+            this.isConnected = false;
+        });
+
+        this.socket.on("error", () => {
+            this.isConnected = false;
+        });
+
+        const bufferedSocket = this.createBufferedSocket(this.socket);
+        return bufferedSocket;
+    }
+
+    private createBufferedSocket(socket: StsSocket): StsSocket {
+        const unbufferedSendConfig = socket.sendConfig.bind(socket);
+        const unbufferedSendAudioChunk = socket.sendAudioChunk.bind(socket);
+        const unbufferedSendUpdateSystemPrompt = socket.sendUpdateSystemPrompt.bind(socket);
+        const unbufferedSendSetExternalId = socket.sendSetExternalId.bind(socket);
+        const unbufferedSendSetTwilioCallSid = socket.sendSetTwilioCallSid.bind(socket);
+        const unbufferedSendToolCallOutput = socket.sendToolCallOutput.bind(socket);
+
+        socket.sendConfig = this.withBuffer(unbufferedSendConfig);
+        socket.sendAudioChunk = this.withBuffer(unbufferedSendAudioChunk);
+        socket.sendUpdateSystemPrompt = this.withBuffer(unbufferedSendUpdateSystemPrompt);
+        socket.sendSetExternalId = this.withBuffer(unbufferedSendSetExternalId);
+        socket.sendSetTwilioCallSid = this.withBuffer(unbufferedSendSetTwilioCallSid);
+        socket.sendToolCallOutput = this.withBuffer(unbufferedSendToolCallOutput);
+
+        return socket;
     }
 
     protected async _getAuthorizationHeader(): Promise<string> {
