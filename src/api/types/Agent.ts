@@ -19,6 +19,8 @@ export interface Agent {
     voice_id: string;
     /** The audio format of the agent. If the agent has a phone number, the audio format will be `mulaw_8000`. */
     audio_format: Agent.AudioFormat;
+    /** The audio speed of the agent. */
+    audio_speed: number;
     /** Message to play when the conversation starts. */
     welcome_message?: string;
     /** Instructions for the conversation. */

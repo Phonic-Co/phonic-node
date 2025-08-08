@@ -14,6 +14,8 @@ export interface CreateAgentRequest {
     voice_id?: string;
     /** The audio format of the agent. */
     audio_format?: CreateAgentRequest.AudioFormat;
+    /** The audio speed of the agent. */
+    audio_speed?: number;
     /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. */
     welcome_message?: string;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */

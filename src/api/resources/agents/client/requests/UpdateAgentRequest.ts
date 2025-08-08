@@ -11,6 +11,7 @@ import * as Phonic from "../../../../index.js";
  *         phone_number: "assign-automatically",
  *         timezone: "America/Los_Angeles",
  *         voice_id: "sarah",
+ *         audio_speed: 1,
  *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
  *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
  *         template_variables: {
@@ -46,6 +47,8 @@ export interface UpdateAgentRequest {
     voice_id?: string;
     /** The audio format of the agent. */
     audio_format?: UpdateAgentRequest.AudioFormat;
+    /** The audio speed of the agent. */
+    audio_speed?: number;
     /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. */
     welcome_message?: string;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */

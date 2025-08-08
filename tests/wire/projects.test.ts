@@ -13,18 +13,26 @@ describe("Projects", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
-        const rawResponseBody = { projects: [{ id: "id", name: "name", default_agent: { id: "id", name: "name" } }] };
+        const rawResponseBody = {
+            projects: [
+                {
+                    id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
+                    name: "customer-support",
+                    default_agent: { id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783", name: "support-agent" },
+                },
+            ],
+        };
         server.mockEndpoint().get("/projects").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.projects.list();
         expect(response).toEqual({
             projects: [
                 {
-                    id: "id",
-                    name: "name",
+                    id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
+                    name: "customer-support",
                     default_agent: {
-                        id: "id",
-                        name: "name",
+                        id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+                        name: "support-agent",
                     },
                 },
             ],
@@ -64,17 +72,23 @@ describe("Projects", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
-        const rawResponseBody = { project: { id: "id", name: "name", default_agent: { id: "id", name: "name" } } };
+        const rawResponseBody = {
+            project: {
+                id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
+                name: "customer-support",
+                default_agent: { id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783", name: "support-agent" },
+            },
+        };
         server.mockEndpoint().get("/projects/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.projects.get("nameOrId");
         expect(response).toEqual({
             project: {
-                id: "id",
-                name: "name",
+                id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
+                name: "customer-support",
                 default_agent: {
-                    id: "id",
-                    name: "name",
+                    id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+                    name: "support-agent",
                 },
             },
         });
@@ -135,7 +149,15 @@ describe("Projects", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
-        const rawResponseBody = { conversation_eval_prompts: [{ id: "id", name: "name", prompt: "prompt" }] };
+        const rawResponseBody = {
+            conversation_eval_prompts: [
+                {
+                    id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
+                    name: "chocolate_usage",
+                    prompt: "The assistant used the word chocolate in the conversation",
+                },
+            ],
+        };
         server
             .mockEndpoint()
             .get("/projects/id/conversation_eval_prompts")
@@ -148,9 +170,9 @@ describe("Projects", () => {
         expect(response).toEqual({
             conversation_eval_prompts: [
                 {
-                    id: "id",
-                    name: "name",
-                    prompt: "prompt",
+                    id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
+                    name: "chocolate_usage",
+                    prompt: "The assistant used the word chocolate in the conversation",
                 },
             ],
         });

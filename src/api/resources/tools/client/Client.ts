@@ -46,6 +46,8 @@ export class Tools {
      * @param {Phonic.ToolsListRequest} request
      * @param {Tools.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.NotFoundError}
+     *
      * @example
      *     await client.tools.list()
      */
@@ -89,11 +91,16 @@ export class Tools {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -118,6 +125,10 @@ export class Tools {
      *
      * @param {Phonic.CreateToolRequest} request
      * @param {Tools.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.ConflictError}
      *
      * @example
      *     await client.tools.create({
@@ -203,11 +214,20 @@ export class Tools {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -233,6 +253,9 @@ export class Tools {
      * @param {string} nameOrId - The name or the ID of the tool to get.
      * @param {Phonic.ToolsGetRequest} request
      * @param {Tools.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
      *
      * @example
      *     await client.tools.get("nameOrId")
@@ -279,11 +302,18 @@ export class Tools {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -309,6 +339,8 @@ export class Tools {
      * @param {string} nameOrId - The name or the ID of the tool to delete.
      * @param {Phonic.ToolsDeleteRequest} request
      * @param {Tools.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.NotFoundError}
      *
      * @example
      *     await client.tools.delete("nameOrId")
@@ -355,11 +387,16 @@ export class Tools {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -385,6 +422,10 @@ export class Tools {
      * @param {string} nameOrId - The name or the ID of the tool to update.
      * @param {Phonic.UpdateToolRequest} request
      * @param {Tools.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
      *
      * @example
      *     await client.tools.update("nameOrId", {
@@ -440,11 +481,20 @@ export class Tools {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {

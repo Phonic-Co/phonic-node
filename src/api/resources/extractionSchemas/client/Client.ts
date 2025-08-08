@@ -46,6 +46,8 @@ export class ExtractionSchemas {
      * @param {Phonic.ExtractionSchemasListRequest} request
      * @param {ExtractionSchemas.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.NotFoundError}
+     *
      * @example
      *     await client.extractionSchemas.list()
      */
@@ -89,11 +91,16 @@ export class ExtractionSchemas {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -118,6 +125,10 @@ export class ExtractionSchemas {
      *
      * @param {Phonic.CreateExtractionSchemaRequest} request
      * @param {ExtractionSchemas.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
      *
      * @example
      *     await client.extractionSchemas.create({
@@ -184,11 +195,20 @@ export class ExtractionSchemas {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -214,6 +234,8 @@ export class ExtractionSchemas {
      * @param {string} nameOrId - The name or the ID of the extraction schema to get.
      * @param {Phonic.ExtractionSchemasGetRequest} request
      * @param {ExtractionSchemas.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.NotFoundError}
      *
      * @example
      *     await client.extractionSchemas.get("nameOrId")
@@ -260,11 +282,16 @@ export class ExtractionSchemas {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -292,6 +319,8 @@ export class ExtractionSchemas {
      * @param {string} nameOrId - The name or the ID of the extraction schema to delete.
      * @param {Phonic.ExtractionSchemasDeleteRequest} request
      * @param {ExtractionSchemas.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.NotFoundError}
      *
      * @example
      *     await client.extractionSchemas.delete("nameOrId")
@@ -341,11 +370,16 @@ export class ExtractionSchemas {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -373,6 +407,10 @@ export class ExtractionSchemas {
      * @param {string} nameOrId - The name or the ID of the extraction schema to update.
      * @param {Phonic.UpdateExtractionSchemaRequest} request
      * @param {ExtractionSchemas.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
      *
      * @example
      *     await client.extractionSchemas.update("nameOrId", {
@@ -437,11 +475,20 @@ export class ExtractionSchemas {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {

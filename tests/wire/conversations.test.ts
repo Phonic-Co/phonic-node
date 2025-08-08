@@ -14,63 +14,95 @@ describe("Conversations", () => {
         });
 
         const rawResponseBody = {
-            conversation: {
-                id: "id",
-                workspace: "workspace",
-                external_id: "external_id",
-                model: "model",
-                welcome_message: "welcome_message",
-                input_format: "input_format",
-                output_format: "output_format",
-                live_transcript: "live_transcript",
-                post_call_transcript: "post_call_transcript",
-                duration_ms: 1.1,
-                audio_url: "audio_url",
-                started_at: "2024-01-15T09:30:00Z",
-                ended_at: "2024-01-15T09:30:00Z",
-                items: [
-                    {
-                        item_idx: 1,
-                        role: "user",
-                        live_transcript: "live_transcript",
-                        duration_ms: 1.1,
-                        started_at: "2024-01-15T09:30:00Z",
-                    },
-                ],
-                task_results: { key: "value" },
-            },
+            conversations: [
+                {
+                    id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+                    workspace: "example-workspace",
+                    external_id: "call-123",
+                    model: "merritt",
+                    welcome_message: "Hello, how can I help you today?",
+                    input_format: "mulaw_8000",
+                    output_format: "mulaw_8000",
+                    live_transcript:
+                        "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
+                    post_call_transcript:
+                        "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
+                    duration_ms: 120500,
+                    audio_url: "https://example.com/audio/conv_12cf6e88.wav",
+                    started_at: "2025-07-30T23:45:00Z",
+                    ended_at: "2025-07-30T23:47:00Z",
+                    items: [
+                        {
+                            item_idx: 0,
+                            role: "user",
+                            live_transcript: "Hi, I need help with booking an appointment.",
+                            post_call_transcript: "Hi, I need help with booking an appointment.",
+                            duration_ms: 2500,
+                            started_at: "2025-07-30T23:45:00Z",
+                        },
+                        {
+                            item_idx: 1,
+                            role: "assistant",
+                            live_transcript: "Of course! I'd be happy to help you book an appointment.",
+                            post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
+                            duration_ms: 3000,
+                            started_at: "2025-07-30T23:45:02Z",
+                            system_prompt: "You are a helpful assistant for booking appointments.",
+                            voice_id: "sarah",
+                            audio_speed: 1,
+                        },
+                    ],
+                    task_results: { key: "value" },
+                },
+            ],
         };
         server.mockEndpoint().get("/conversations").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.conversations.list();
         expect(response).toEqual({
-            conversation: {
-                id: "id",
-                workspace: "workspace",
-                external_id: "external_id",
-                model: "model",
-                welcome_message: "welcome_message",
-                input_format: "input_format",
-                output_format: "output_format",
-                live_transcript: "live_transcript",
-                post_call_transcript: "post_call_transcript",
-                duration_ms: 1.1,
-                audio_url: "audio_url",
-                started_at: "2024-01-15T09:30:00Z",
-                ended_at: "2024-01-15T09:30:00Z",
-                items: [
-                    {
-                        item_idx: 1,
-                        role: "user",
-                        live_transcript: "live_transcript",
-                        duration_ms: 1.1,
-                        started_at: "2024-01-15T09:30:00Z",
+            conversations: [
+                {
+                    id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+                    workspace: "example-workspace",
+                    external_id: "call-123",
+                    model: "merritt",
+                    welcome_message: "Hello, how can I help you today?",
+                    input_format: "mulaw_8000",
+                    output_format: "mulaw_8000",
+                    live_transcript:
+                        "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
+                    post_call_transcript:
+                        "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
+                    duration_ms: 120500,
+                    audio_url: "https://example.com/audio/conv_12cf6e88.wav",
+                    started_at: "2025-07-30T23:45:00Z",
+                    ended_at: "2025-07-30T23:47:00Z",
+                    items: [
+                        {
+                            item_idx: 0,
+                            role: "user",
+                            live_transcript: "Hi, I need help with booking an appointment.",
+                            post_call_transcript: "Hi, I need help with booking an appointment.",
+                            duration_ms: 2500,
+                            started_at: "2025-07-30T23:45:00Z",
+                        },
+                        {
+                            item_idx: 1,
+                            role: "assistant",
+                            live_transcript: "Of course! I'd be happy to help you book an appointment.",
+                            post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
+                            duration_ms: 3000,
+                            started_at: "2025-07-30T23:45:02Z",
+                            system_prompt: "You are a helpful assistant for booking appointments.",
+                            voice_id: "sarah",
+                            audio_speed: 1,
+                        },
+                    ],
+                    task_results: {
+                        key: "value",
                     },
-                ],
-                task_results: {
-                    key: "value",
                 },
-            },
+            ],
         });
     });
 
@@ -83,26 +115,40 @@ describe("Conversations", () => {
 
         const rawResponseBody = {
             conversation: {
-                id: "id",
-                workspace: "workspace",
-                external_id: "external_id",
-                model: "model",
-                welcome_message: "welcome_message",
-                input_format: "input_format",
-                output_format: "output_format",
-                live_transcript: "live_transcript",
-                post_call_transcript: "post_call_transcript",
-                duration_ms: 1.1,
-                audio_url: "audio_url",
-                started_at: "2024-01-15T09:30:00Z",
-                ended_at: "2024-01-15T09:30:00Z",
+                id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+                workspace: "example-workspace",
+                external_id: "call-123",
+                model: "merritt",
+                welcome_message: "Hello, how can I help you today?",
+                input_format: "mulaw_8000",
+                output_format: "mulaw_8000",
+                live_transcript:
+                    "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
+                post_call_transcript:
+                    "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
+                duration_ms: 120500,
+                audio_url: "https://example.com/audio/conv_12cf6e88.wav",
+                started_at: "2025-07-30T23:45:00Z",
+                ended_at: "2025-07-30T23:47:00Z",
                 items: [
                     {
-                        item_idx: 1,
+                        item_idx: 0,
                         role: "user",
-                        live_transcript: "live_transcript",
-                        duration_ms: 1.1,
-                        started_at: "2024-01-15T09:30:00Z",
+                        live_transcript: "Hi, I need help with booking an appointment.",
+                        post_call_transcript: "Hi, I need help with booking an appointment.",
+                        duration_ms: 2500,
+                        started_at: "2025-07-30T23:45:00Z",
+                    },
+                    {
+                        item_idx: 1,
+                        role: "assistant",
+                        live_transcript: "Of course! I'd be happy to help you book an appointment.",
+                        post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
+                        duration_ms: 3000,
+                        started_at: "2025-07-30T23:45:02Z",
+                        system_prompt: "You are a helpful assistant for booking appointments.",
+                        voice_id: "sarah",
+                        audio_speed: 1,
                     },
                 ],
                 task_results: { key: "value" },
@@ -113,26 +159,40 @@ describe("Conversations", () => {
         const response = await client.conversations.get("id");
         expect(response).toEqual({
             conversation: {
-                id: "id",
-                workspace: "workspace",
-                external_id: "external_id",
-                model: "model",
-                welcome_message: "welcome_message",
-                input_format: "input_format",
-                output_format: "output_format",
-                live_transcript: "live_transcript",
-                post_call_transcript: "post_call_transcript",
-                duration_ms: 1.1,
-                audio_url: "audio_url",
-                started_at: "2024-01-15T09:30:00Z",
-                ended_at: "2024-01-15T09:30:00Z",
+                id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+                workspace: "example-workspace",
+                external_id: "call-123",
+                model: "merritt",
+                welcome_message: "Hello, how can I help you today?",
+                input_format: "mulaw_8000",
+                output_format: "mulaw_8000",
+                live_transcript:
+                    "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
+                post_call_transcript:
+                    "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
+                duration_ms: 120500,
+                audio_url: "https://example.com/audio/conv_12cf6e88.wav",
+                started_at: "2025-07-30T23:45:00Z",
+                ended_at: "2025-07-30T23:47:00Z",
                 items: [
                     {
-                        item_idx: 1,
+                        item_idx: 0,
                         role: "user",
-                        live_transcript: "live_transcript",
-                        duration_ms: 1.1,
-                        started_at: "2024-01-15T09:30:00Z",
+                        live_transcript: "Hi, I need help with booking an appointment.",
+                        post_call_transcript: "Hi, I need help with booking an appointment.",
+                        duration_ms: 2500,
+                        started_at: "2025-07-30T23:45:00Z",
+                    },
+                    {
+                        item_idx: 1,
+                        role: "assistant",
+                        live_transcript: "Of course! I'd be happy to help you book an appointment.",
+                        post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
+                        duration_ms: 3000,
+                        started_at: "2025-07-30T23:45:02Z",
+                        system_prompt: "You are a helpful assistant for booking appointments.",
+                        voice_id: "sarah",
+                        audio_speed: 1,
                     },
                 ],
                 task_results: {
@@ -161,32 +221,6 @@ describe("Conversations", () => {
         const response = await client.conversations.cancel("id");
         expect(response).toEqual({
             success: true,
-        });
-    });
-
-    test("summarize", async () => {
-        const server = mockServerPool.createServer();
-        const client = new PhonicClient({
-            token: "test",
-            environment: { base: server.baseUrl, production: server.baseUrl },
-        });
-
-        const rawResponseBody = {
-            summary:
-                "The user called to book an appointment. The assistant helped them schedule for Monday at 9 AM under the name David Smith.",
-        };
-        server
-            .mockEndpoint()
-            .post("/conversations/id/summarize")
-            .respondWith()
-            .statusCode(200)
-            .jsonBody(rawResponseBody)
-            .build();
-
-        const response = await client.conversations.summarize("id");
-        expect(response).toEqual({
-            summary:
-                "The user called to book an appointment. The assistant helped them schedule for Monday at 9 AM under the name David Smith.",
         });
     });
 
@@ -225,12 +259,19 @@ describe("Conversations", () => {
         const rawResponseBody = {
             extractions: [
                 {
-                    id: "id",
+                    id: "conv_extract_f825-4d3e-a149-ddf1bdd2254c",
                     conversation_id: "conversation_id",
-                    schema: { id: "id", name: "name" },
-                    result: { key: "value" },
+                    schema: {
+                        id: "conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c",
+                        name: "appointment-details",
+                    },
+                    result: {
+                        customer_name: "John Smith",
+                        appointment_date: "2025-04-17",
+                        appointment_time: "2:30 PM",
+                    },
                     error: "error",
-                    created_at: "2024-01-15T09:30:00Z",
+                    created_at: "2025-07-30T23:49:18Z",
                 },
             ],
         };
@@ -246,17 +287,19 @@ describe("Conversations", () => {
         expect(response).toEqual({
             extractions: [
                 {
-                    id: "id",
+                    id: "conv_extract_f825-4d3e-a149-ddf1bdd2254c",
                     conversation_id: "conversation_id",
                     schema: {
-                        id: "id",
-                        name: "name",
+                        id: "conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c",
+                        name: "appointment-details",
                     },
                     result: {
-                        key: "value",
+                        customer_name: "John Smith",
+                        appointment_date: "2025-04-17",
+                        appointment_time: "2:30 PM",
                     },
                     error: "error",
-                    created_at: "2024-01-15T09:30:00Z",
+                    created_at: "2025-07-30T23:49:18Z",
                 },
             ],
         });
@@ -422,5 +465,18 @@ describe("Conversations", () => {
         expect(response).toEqual({
             conversation_id: "conv_12cf6e88-c254-233e-a149-b2f1bdd22783",
         });
+    });
+
+    test("summarize", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            token: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        server.mockEndpoint().post("/conversations/id/summarize").respondWith().statusCode(200).build();
+
+        const response = await client.conversations.summarize("id");
+        expect(response).toEqual(undefined);
     });
 });
