@@ -6,7 +6,6 @@ import * as environments from "../../../../environments.js";
 import * as core from "../../../../core/index.js";
 import * as Phonic from "../../../index.js";
 import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../core/headers.js";
-import * as errors from "../../../../errors/index.js";
 
 export declare namespace Agents {
     export interface Options {
@@ -52,14 +51,14 @@ export class Agents {
     public list(
         request: Phonic.AgentsListRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.AgentsListResponse> {
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.AgentsListResponse, Phonic.agents.list.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
         request: Phonic.AgentsListRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.AgentsListResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.AgentsListResponse, Phonic.agents.list.Error>>> {
         const { project } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -85,32 +84,25 @@ export class Agents {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.AgentsListResponse, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.AgentsListResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
                 rawResponse: _response.rawResponse,
-            });
+            };
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /agents.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.agents.list.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     /**
@@ -118,9 +110,6 @@ export class Agents {
      *
      * @param {Phonic.AgentsCreateRequest} request
      * @param {Agents.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Phonic.BadRequestError}
-     * @throws {@link Phonic.NotFoundError}
      *
      * @example
      *     await client.agents.create({
@@ -155,14 +144,14 @@ export class Agents {
     public create(
         request: Phonic.AgentsCreateRequest,
         requestOptions?: Agents.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.AgentsCreateResponse> {
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.AgentsCreateResponse, Phonic.agents.create.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: Phonic.AgentsCreateRequest,
         requestOptions?: Agents.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.AgentsCreateResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.AgentsCreateResponse, Phonic.agents.create.Error>>> {
         const { project, body: _body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -191,39 +180,48 @@ export class Agents {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.AgentsCreateResponse, rawResponse: _response.rawResponse };
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.AgentsCreateResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
-                case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
-                default:
-                    throw new errors.PhonicError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
+                    return {
+                        data: {
+                            ok: false,
+                            error: Phonic.agents.create.Error.badRequestError(_response.error.body as Phonic.Error_),
+                            rawResponse: _response.rawResponse,
+                        },
                         rawResponse: _response.rawResponse,
-                    });
+                    };
+                case 404:
+                    return {
+                        data: {
+                            ok: false,
+                            error: Phonic.agents.create.Error.notFoundError(_response.error.body as Phonic.Error_),
+                            rawResponse: _response.rawResponse,
+                        },
+                        rawResponse: _response.rawResponse,
+                    };
             }
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling POST /agents.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.agents.create.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     /**
@@ -231,9 +229,6 @@ export class Agents {
      *
      * @param {Phonic.UpsertAgentRequest} request
      * @param {Agents.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Phonic.BadRequestError}
-     * @throws {@link Phonic.NotFoundError}
      *
      * @example
      *     await client.agents.upsert({
@@ -266,14 +261,14 @@ export class Agents {
     public upsert(
         request: Phonic.UpsertAgentRequest,
         requestOptions?: Agents.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.AgentsUpsertResponse> {
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.AgentsUpsertResponse, Phonic.agents.upsert.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__upsert(request, requestOptions));
     }
 
     private async __upsert(
         request: Phonic.UpsertAgentRequest,
         requestOptions?: Agents.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.AgentsUpsertResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.AgentsUpsertResponse, Phonic.agents.upsert.Error>>> {
         const { project, ..._body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -302,39 +297,48 @@ export class Agents {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.AgentsUpsertResponse, rawResponse: _response.rawResponse };
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.AgentsUpsertResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
-                case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
-                default:
-                    throw new errors.PhonicError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
+                    return {
+                        data: {
+                            ok: false,
+                            error: Phonic.agents.upsert.Error.badRequestError(_response.error.body as Phonic.Error_),
+                            rawResponse: _response.rawResponse,
+                        },
                         rawResponse: _response.rawResponse,
-                    });
+                    };
+                case 404:
+                    return {
+                        data: {
+                            ok: false,
+                            error: Phonic.agents.upsert.Error.notFoundError(_response.error.body as Phonic.Error_),
+                            rawResponse: _response.rawResponse,
+                        },
+                        rawResponse: _response.rawResponse,
+                    };
             }
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling PUT /agents/upsert.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.agents.upsert.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     /**
@@ -344,9 +348,6 @@ export class Agents {
      * @param {Phonic.AgentsGetRequest} request
      * @param {Agents.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link Phonic.ForbiddenError}
-     * @throws {@link Phonic.NotFoundError}
-     *
      * @example
      *     await client.agents.get("nameOrId")
      */
@@ -354,7 +355,7 @@ export class Agents {
         nameOrId: string,
         request: Phonic.AgentsGetRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.AgentsGetResponse> {
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.AgentsGetResponse, Phonic.agents.get.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__get(nameOrId, request, requestOptions));
     }
 
@@ -362,7 +363,7 @@ export class Agents {
         nameOrId: string,
         request: Phonic.AgentsGetRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.AgentsGetResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.AgentsGetResponse, Phonic.agents.get.Error>>> {
         const { project } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -388,39 +389,48 @@ export class Agents {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.AgentsGetResponse, rawResponse: _response.rawResponse };
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.AgentsGetResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 403:
-                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
-                case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
-                default:
-                    throw new errors.PhonicError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
+                    return {
+                        data: {
+                            ok: false,
+                            error: Phonic.agents.get.Error.forbiddenError(_response.error.body as Phonic.Error_),
+                            rawResponse: _response.rawResponse,
+                        },
                         rawResponse: _response.rawResponse,
-                    });
+                    };
+                case 404:
+                    return {
+                        data: {
+                            ok: false,
+                            error: Phonic.agents.get.Error.notFoundError(_response.error.body as Phonic.Error_),
+                            rawResponse: _response.rawResponse,
+                        },
+                        rawResponse: _response.rawResponse,
+                    };
             }
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /agents/{nameOrId}.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.agents.get.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     /**
@@ -430,9 +440,6 @@ export class Agents {
      * @param {Phonic.AgentsDeleteRequest} request
      * @param {Agents.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link Phonic.ForbiddenError}
-     * @throws {@link Phonic.NotFoundError}
-     *
      * @example
      *     await client.agents.delete("nameOrId")
      */
@@ -440,7 +447,7 @@ export class Agents {
         nameOrId: string,
         request: Phonic.AgentsDeleteRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.AgentsDeleteResponse> {
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.AgentsDeleteResponse, Phonic.agents.delete.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__delete(nameOrId, request, requestOptions));
     }
 
@@ -448,7 +455,7 @@ export class Agents {
         nameOrId: string,
         request: Phonic.AgentsDeleteRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.AgentsDeleteResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.AgentsDeleteResponse, Phonic.agents.delete.Error>>> {
         const { project } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -474,39 +481,48 @@ export class Agents {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.AgentsDeleteResponse, rawResponse: _response.rawResponse };
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.AgentsDeleteResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 403:
-                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
-                case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
-                default:
-                    throw new errors.PhonicError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
+                    return {
+                        data: {
+                            ok: false,
+                            error: Phonic.agents.delete.Error.forbiddenError(_response.error.body as Phonic.Error_),
+                            rawResponse: _response.rawResponse,
+                        },
                         rawResponse: _response.rawResponse,
-                    });
+                    };
+                case 404:
+                    return {
+                        data: {
+                            ok: false,
+                            error: Phonic.agents.delete.Error.notFoundError(_response.error.body as Phonic.Error_),
+                            rawResponse: _response.rawResponse,
+                        },
+                        rawResponse: _response.rawResponse,
+                    };
             }
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling DELETE /agents/{nameOrId}.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.agents.delete.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     /**
@@ -515,10 +531,6 @@ export class Agents {
      * @param {string} nameOrId - The name or the ID of the agent to update.
      * @param {Phonic.UpdateAgentRequest} request
      * @param {Agents.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link Phonic.BadRequestError}
-     * @throws {@link Phonic.ForbiddenError}
-     * @throws {@link Phonic.NotFoundError}
      *
      * @example
      *     await client.agents.update("nameOrId", {
@@ -552,7 +564,7 @@ export class Agents {
         nameOrId: string,
         request: Phonic.UpdateAgentRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.AgentsUpdateResponse> {
+    ): core.HttpResponsePromise<core.APIResponse<Phonic.AgentsUpdateResponse, Phonic.agents.update.Error>> {
         return core.HttpResponsePromise.fromPromise(this.__update(nameOrId, request, requestOptions));
     }
 
@@ -560,7 +572,7 @@ export class Agents {
         nameOrId: string,
         request: Phonic.UpdateAgentRequest = {},
         requestOptions?: Agents.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.AgentsUpdateResponse>> {
+    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.AgentsUpdateResponse, Phonic.agents.update.Error>>> {
         const { project, ..._body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -589,41 +601,57 @@ export class Agents {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.AgentsUpdateResponse, rawResponse: _response.rawResponse };
+            return {
+                data: {
+                    ok: true,
+                    body: _response.body as Phonic.AgentsUpdateResponse,
+                    headers: _response.headers,
+                    rawResponse: _response.rawResponse,
+                },
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
-                case 403:
-                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
-                case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
-                default:
-                    throw new errors.PhonicError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
+                    return {
+                        data: {
+                            ok: false,
+                            error: Phonic.agents.update.Error.badRequestError(_response.error.body as Phonic.Error_),
+                            rawResponse: _response.rawResponse,
+                        },
                         rawResponse: _response.rawResponse,
-                    });
+                    };
+                case 403:
+                    return {
+                        data: {
+                            ok: false,
+                            error: Phonic.agents.update.Error.forbiddenError(_response.error.body as Phonic.Error_),
+                            rawResponse: _response.rawResponse,
+                        },
+                        rawResponse: _response.rawResponse,
+                    };
+                case 404:
+                    return {
+                        data: {
+                            ok: false,
+                            error: Phonic.agents.update.Error.notFoundError(_response.error.body as Phonic.Error_),
+                            rawResponse: _response.rawResponse,
+                        },
+                        rawResponse: _response.rawResponse,
+                    };
             }
         }
 
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.PhonicError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                    rawResponse: _response.rawResponse,
-                });
-            case "timeout":
-                throw new errors.PhonicTimeoutError("Timeout exceeded when calling PATCH /agents/{nameOrId}.");
-            case "unknown":
-                throw new errors.PhonicError({
-                    message: _response.error.errorMessage,
-                    rawResponse: _response.rawResponse,
-                });
-        }
+        return {
+            data: {
+                ok: false,
+                error: Phonic.agents.update.Error._unknown(_response.error),
+                rawResponse: _response.rawResponse,
+            },
+            rawResponse: _response.rawResponse,
+        };
     }
 
     protected async _getAuthorizationHeader(): Promise<string> {

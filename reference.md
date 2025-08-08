@@ -2,7 +2,7 @@
 
 ## Agents
 
-<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">list</a>({ ...params }) -> Phonic.AgentsListResponse</code></summary>
+<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">list</a>({ ...params }) -> core.APIResponse<Phonic.AgentsListResponse, Phonic.agents.list.Error></code></summary>
 <dl>
 <dd>
 
@@ -65,7 +65,7 @@ await client.agents.list();
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">create</a>({ ...params }) -> Phonic.AgentsCreateResponse</code></summary>
+<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">create</a>({ ...params }) -> core.APIResponse<Phonic.AgentsCreateResponse, Phonic.agents.create.Error></code></summary>
 <dl>
 <dd>
 
@@ -155,7 +155,7 @@ await client.agents.create({
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">upsert</a>({ ...params }) -> Phonic.AgentsUpsertResponse</code></summary>
+<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">upsert</a>({ ...params }) -> core.APIResponse<Phonic.AgentsUpsertResponse, Phonic.agents.upsert.Error></code></summary>
 <dl>
 <dd>
 
@@ -243,7 +243,7 @@ await client.agents.upsert({
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">get</a>(nameOrId, { ...params }) -> Phonic.AgentsGetResponse</code></summary>
+<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">get</a>(nameOrId, { ...params }) -> core.APIResponse<Phonic.AgentsGetResponse, Phonic.agents.get.Error></code></summary>
 <dl>
 <dd>
 
@@ -314,7 +314,7 @@ await client.agents.get("nameOrId");
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">delete</a>(nameOrId, { ...params }) -> Phonic.AgentsDeleteResponse</code></summary>
+<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">delete</a>(nameOrId, { ...params }) -> core.APIResponse<Phonic.AgentsDeleteResponse, Phonic.agents.delete.Error></code></summary>
 <dl>
 <dd>
 
@@ -385,7 +385,7 @@ await client.agents.delete("nameOrId");
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">update</a>(nameOrId, { ...params }) -> Phonic.AgentsUpdateResponse</code></summary>
+<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">update</a>(nameOrId, { ...params }) -> core.APIResponse<Phonic.AgentsUpdateResponse, Phonic.agents.update.Error></code></summary>
 <dl>
 <dd>
 
@@ -483,7 +483,7 @@ await client.agents.update("nameOrId", {
 
 ## Tools
 
-<details><summary><code>client.tools.<a href="/src/api/resources/tools/client/Client.ts">list</a>({ ...params }) -> Phonic.ToolsListResponse</code></summary>
+<details><summary><code>client.tools.<a href="/src/api/resources/tools/client/Client.ts">list</a>({ ...params }) -> core.APIResponse<Phonic.ToolsListResponse, Phonic.tools.list.Error></code></summary>
 <dl>
 <dd>
 
@@ -546,7 +546,7 @@ await client.tools.list();
 </dl>
 </details>
 
-<details><summary><code>client.tools.<a href="/src/api/resources/tools/client/Client.ts">create</a>({ ...params }) -> Phonic.ToolsCreateResponse</code></summary>
+<details><summary><code>client.tools.<a href="/src/api/resources/tools/client/Client.ts">create</a>({ ...params }) -> core.APIResponse<Phonic.ToolsCreateResponse, Phonic.tools.create.Error></code></summary>
 <dl>
 <dd>
 
@@ -635,7 +635,7 @@ await client.tools.create({
 </dl>
 </details>
 
-<details><summary><code>client.tools.<a href="/src/api/resources/tools/client/Client.ts">get</a>(nameOrId, { ...params }) -> Phonic.ToolsGetResponse</code></summary>
+<details><summary><code>client.tools.<a href="/src/api/resources/tools/client/Client.ts">get</a>(nameOrId, { ...params }) -> core.APIResponse<Phonic.ToolsGetResponse, Phonic.tools.get.Error></code></summary>
 <dl>
 <dd>
 
@@ -706,7 +706,7 @@ await client.tools.get("nameOrId");
 </dl>
 </details>
 
-<details><summary><code>client.tools.<a href="/src/api/resources/tools/client/Client.ts">delete</a>(nameOrId, { ...params }) -> Phonic.ToolsDeleteResponse</code></summary>
+<details><summary><code>client.tools.<a href="/src/api/resources/tools/client/Client.ts">delete</a>(nameOrId, { ...params }) -> core.APIResponse<Phonic.ToolsDeleteResponse, Phonic.tools.delete.Error></code></summary>
 <dl>
 <dd>
 
@@ -777,7 +777,7 @@ await client.tools.delete("nameOrId");
 </dl>
 </details>
 
-<details><summary><code>client.tools.<a href="/src/api/resources/tools/client/Client.ts">update</a>(nameOrId, { ...params }) -> Phonic.ToolsUpdateResponse</code></summary>
+<details><summary><code>client.tools.<a href="/src/api/resources/tools/client/Client.ts">update</a>(nameOrId, { ...params }) -> core.APIResponse<Phonic.ToolsUpdateResponse, Phonic.tools.update.Error></code></summary>
 <dl>
 <dd>
 
@@ -856,7 +856,7 @@ await client.tools.update("nameOrId", {
 
 ## ExtractionSchemas
 
-<details><summary><code>client.extractionSchemas.<a href="/src/api/resources/extractionSchemas/client/Client.ts">list</a>({ ...params }) -> Phonic.ExtractionSchemasListResponse</code></summary>
+<details><summary><code>client.extractionSchemas.<a href="/src/api/resources/extractionSchemas/client/Client.ts">list</a>({ ...params }) -> core.APIResponse<Phonic.ExtractionSchemasListResponse, Phonic.extractionSchemas.list.Error></code></summary>
 <dl>
 <dd>
 
@@ -919,7 +919,7 @@ await client.extractionSchemas.list();
 </dl>
 </details>
 
-<details><summary><code>client.extractionSchemas.<a href="/src/api/resources/extractionSchemas/client/Client.ts">create</a>({ ...params }) -> Phonic.ExtractionSchemasCreateResponse</code></summary>
+<details><summary><code>client.extractionSchemas.<a href="/src/api/resources/extractionSchemas/client/Client.ts">create</a>({ ...params }) -> core.APIResponse<Phonic.ExtractionSchemasCreateResponse, Phonic.extractionSchemas.create.Error></code></summary>
 <dl>
 <dd>
 
@@ -1002,7 +1002,7 @@ await client.extractionSchemas.create({
 </dl>
 </details>
 
-<details><summary><code>client.extractionSchemas.<a href="/src/api/resources/extractionSchemas/client/Client.ts">get</a>(nameOrId, { ...params }) -> Phonic.ExtractionSchemasGetResponse</code></summary>
+<details><summary><code>client.extractionSchemas.<a href="/src/api/resources/extractionSchemas/client/Client.ts">get</a>(nameOrId, { ...params }) -> core.APIResponse<Phonic.ExtractionSchemasGetResponse, Phonic.extractionSchemas.get.Error></code></summary>
 <dl>
 <dd>
 
@@ -1073,7 +1073,7 @@ await client.extractionSchemas.get("nameOrId");
 </dl>
 </details>
 
-<details><summary><code>client.extractionSchemas.<a href="/src/api/resources/extractionSchemas/client/Client.ts">delete</a>(nameOrId, { ...params }) -> Phonic.ExtractionSchemasDeleteResponse</code></summary>
+<details><summary><code>client.extractionSchemas.<a href="/src/api/resources/extractionSchemas/client/Client.ts">delete</a>(nameOrId, { ...params }) -> core.APIResponse<Phonic.ExtractionSchemasDeleteResponse, Phonic.extractionSchemas.delete.Error></code></summary>
 <dl>
 <dd>
 
@@ -1144,7 +1144,7 @@ await client.extractionSchemas.delete("nameOrId");
 </dl>
 </details>
 
-<details><summary><code>client.extractionSchemas.<a href="/src/api/resources/extractionSchemas/client/Client.ts">update</a>(nameOrId, { ...params }) -> Phonic.ExtractionSchemasUpdateResponse</code></summary>
+<details><summary><code>client.extractionSchemas.<a href="/src/api/resources/extractionSchemas/client/Client.ts">update</a>(nameOrId, { ...params }) -> core.APIResponse<Phonic.ExtractionSchemasUpdateResponse, Phonic.extractionSchemas.update.Error></code></summary>
 <dl>
 <dd>
 
@@ -1232,7 +1232,7 @@ await client.extractionSchemas.update("nameOrId", {
 
 ## Voices
 
-<details><summary><code>client.voices.<a href="/src/api/resources/voices/client/Client.ts">list</a>({ ...params }) -> Phonic.VoicesListResponse</code></summary>
+<details><summary><code>client.voices.<a href="/src/api/resources/voices/client/Client.ts">list</a>({ ...params }) -> core.APIResponse<Phonic.VoicesListResponse, Phonic.voices.list.Error></code></summary>
 <dl>
 <dd>
 
@@ -1297,7 +1297,7 @@ await client.voices.list({
 </dl>
 </details>
 
-<details><summary><code>client.voices.<a href="/src/api/resources/voices/client/Client.ts">get</a>(id) -> Phonic.VoicesGetResponse</code></summary>
+<details><summary><code>client.voices.<a href="/src/api/resources/voices/client/Client.ts">get</a>(id) -> core.APIResponse<Phonic.VoicesGetResponse, Phonic.voices.get.Error></code></summary>
 <dl>
 <dd>
 
@@ -1362,7 +1362,7 @@ await client.voices.get("id");
 
 ## Conversations
 
-<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">list</a>({ ...params }) -> Phonic.ConversationsListResponse</code></summary>
+<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">list</a>({ ...params }) -> core.APIResponse<Phonic.ConversationsListResponse, Phonic.conversations.list.Error></code></summary>
 <dl>
 <dd>
 
@@ -1425,7 +1425,7 @@ await client.conversations.list();
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">get</a>(id) -> Phonic.ConversationsGetResponse</code></summary>
+<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">get</a>(id) -> core.APIResponse<Phonic.ConversationsGetResponse, Phonic.conversations.get.Error></code></summary>
 <dl>
 <dd>
 
@@ -1488,7 +1488,7 @@ await client.conversations.get("id");
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">cancel</a>(id) -> Phonic.ConversationsCancelResponse</code></summary>
+<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">cancel</a>(id) -> core.APIResponse<Phonic.ConversationsCancelResponse, Phonic.conversations.cancel.Error></code></summary>
 <dl>
 <dd>
 
@@ -1551,7 +1551,7 @@ await client.conversations.cancel("id");
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">getAnalysis</a>(id) -> Phonic.ConversationsGetAnalysisResponse</code></summary>
+<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">getAnalysis</a>(id) -> core.APIResponse<Phonic.ConversationsGetAnalysisResponse, Phonic.conversations.getAnalysis.Error></code></summary>
 <dl>
 <dd>
 
@@ -1614,7 +1614,7 @@ await client.conversations.getAnalysis("id");
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">listExtractions</a>(id) -> Phonic.ConversationsListExtractionsResponse</code></summary>
+<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">listExtractions</a>(id) -> core.APIResponse<Phonic.ConversationsListExtractionsResponse, Phonic.conversations.listExtractions.Error></code></summary>
 <dl>
 <dd>
 
@@ -1677,7 +1677,7 @@ await client.conversations.listExtractions("id");
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">extractData</a>(id, { ...params }) -> Phonic.ConversationsExtractDataResponse</code></summary>
+<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">extractData</a>(id, { ...params }) -> core.APIResponse<Phonic.ConversationsExtractDataResponse, Phonic.conversations.extractData.Error></code></summary>
 <dl>
 <dd>
 
@@ -1750,7 +1750,7 @@ await client.conversations.extractData("id", {
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">listEvaluations</a>(id) -> Phonic.ConversationsListEvaluationsResponse</code></summary>
+<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">listEvaluations</a>(id) -> core.APIResponse<Phonic.ConversationsListEvaluationsResponse, Phonic.conversations.listEvaluations.Error></code></summary>
 <dl>
 <dd>
 
@@ -1813,7 +1813,7 @@ await client.conversations.listEvaluations("id");
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">evaluate</a>(id, { ...params }) -> Phonic.ConversationEvaluationResult</code></summary>
+<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">evaluate</a>(id, { ...params }) -> core.APIResponse<Phonic.ConversationEvaluationResult, Phonic.conversations.evaluate.Error></code></summary>
 <dl>
 <dd>
 
@@ -1886,7 +1886,7 @@ await client.conversations.evaluate("id", {
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">outboundCall</a>({ ...params }) -> Phonic.ConversationsOutboundCallResponse</code></summary>
+<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">outboundCall</a>({ ...params }) -> core.APIResponse<Phonic.ConversationsOutboundCallResponse, Phonic.conversations.outboundCall.Error></code></summary>
 <dl>
 <dd>
 
@@ -1966,7 +1966,7 @@ await client.conversations.outboundCall({
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">summarize</a>(id) -> void</code></summary>
+<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">summarize</a>(id) -> core.APIResponse<void, Phonic.conversations.summarize.Error></code></summary>
 <dl>
 <dd>
 
@@ -2016,7 +2016,7 @@ await client.conversations.summarize("id");
 
 ## Projects
 
-<details><summary><code>client.projects.<a href="/src/api/resources/projects/client/Client.ts">list</a>() -> Phonic.ProjectsListResponse</code></summary>
+<details><summary><code>client.projects.<a href="/src/api/resources/projects/client/Client.ts">list</a>() -> core.APIResponse<Phonic.ProjectsListResponse, Phonic.projects.list.Error></code></summary>
 <dl>
 <dd>
 
@@ -2071,7 +2071,7 @@ await client.projects.list();
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="/src/api/resources/projects/client/Client.ts">create</a>({ ...params }) -> Phonic.ProjectsCreateResponse</code></summary>
+<details><summary><code>client.projects.<a href="/src/api/resources/projects/client/Client.ts">create</a>({ ...params }) -> core.APIResponse<Phonic.ProjectsCreateResponse, Phonic.projects.create.Error></code></summary>
 <dl>
 <dd>
 
@@ -2136,7 +2136,7 @@ await client.projects.create({
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="/src/api/resources/projects/client/Client.ts">get</a>(nameOrId) -> Phonic.ProjectsGetResponse</code></summary>
+<details><summary><code>client.projects.<a href="/src/api/resources/projects/client/Client.ts">get</a>(nameOrId) -> core.APIResponse<Phonic.ProjectsGetResponse, Phonic.projects.get.Error></code></summary>
 <dl>
 <dd>
 
@@ -2199,7 +2199,7 @@ await client.projects.get("nameOrId");
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="/src/api/resources/projects/client/Client.ts">delete</a>(nameOrId) -> Phonic.ProjectsDeleteResponse</code></summary>
+<details><summary><code>client.projects.<a href="/src/api/resources/projects/client/Client.ts">delete</a>(nameOrId) -> core.APIResponse<Phonic.ProjectsDeleteResponse, Phonic.projects.delete.Error></code></summary>
 <dl>
 <dd>
 
@@ -2262,7 +2262,7 @@ await client.projects.delete("nameOrId");
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="/src/api/resources/projects/client/Client.ts">update</a>(nameOrId, { ...params }) -> Phonic.ProjectsUpdateResponse</code></summary>
+<details><summary><code>client.projects.<a href="/src/api/resources/projects/client/Client.ts">update</a>(nameOrId, { ...params }) -> core.APIResponse<Phonic.ProjectsUpdateResponse, Phonic.projects.update.Error></code></summary>
 <dl>
 <dd>
 
@@ -2336,7 +2336,7 @@ await client.projects.update("nameOrId", {
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="/src/api/resources/projects/client/Client.ts">listEvalPrompts</a>(id) -> Phonic.ProjectsListEvalPromptsResponse</code></summary>
+<details><summary><code>client.projects.<a href="/src/api/resources/projects/client/Client.ts">listEvalPrompts</a>(id) -> core.APIResponse<Phonic.ProjectsListEvalPromptsResponse, Phonic.projects.listEvalPrompts.Error></code></summary>
 <dl>
 <dd>
 
@@ -2399,7 +2399,7 @@ await client.projects.listEvalPrompts("id");
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="/src/api/resources/projects/client/Client.ts">createEvalPrompt</a>(id, { ...params }) -> Phonic.ProjectsCreateEvalPromptResponse</code></summary>
+<details><summary><code>client.projects.<a href="/src/api/resources/projects/client/Client.ts">createEvalPrompt</a>(id, { ...params }) -> core.APIResponse<Phonic.ProjectsCreateEvalPromptResponse, Phonic.projects.createEvalPrompt.Error></code></summary>
 <dl>
 <dd>
 
