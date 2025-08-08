@@ -119,6 +119,9 @@ export class Agents {
      * @param {Phonic.AgentsCreateRequest} request
      * @param {Agents.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.NotFoundError}
+     *
      * @example
      *     await client.agents.create({
      *         body: {
@@ -126,6 +129,7 @@ export class Agents {
      *             phone_number: "assign-automatically",
      *             timezone: "America/Los_Angeles",
      *             voice_id: "sarah",
+     *             audio_speed: 1,
      *             welcome_message: "Hi {{customer_name}}. How can I help you today?",
      *             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
      *             template_variables: {
@@ -191,11 +195,18 @@ export class Agents {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -221,12 +232,16 @@ export class Agents {
      * @param {Phonic.UpsertAgentRequest} request
      * @param {Agents.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.NotFoundError}
+     *
      * @example
      *     await client.agents.upsert({
      *         name: "support-agent",
      *         phone_number: "assign-automatically",
      *         timezone: "America/Los_Angeles",
      *         voice_id: "sarah",
+     *         audio_speed: 1,
      *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
      *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
      *         template_variables: {
@@ -291,11 +306,18 @@ export class Agents {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -321,6 +343,9 @@ export class Agents {
      * @param {string} nameOrId - The name or the ID of the agent to get.
      * @param {Phonic.AgentsGetRequest} request
      * @param {Agents.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
      *
      * @example
      *     await client.agents.get("nameOrId")
@@ -367,11 +392,18 @@ export class Agents {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -397,6 +429,9 @@ export class Agents {
      * @param {string} nameOrId - The name or the ID of the agent to delete.
      * @param {Phonic.AgentsDeleteRequest} request
      * @param {Agents.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
      *
      * @example
      *     await client.agents.delete("nameOrId")
@@ -443,11 +478,18 @@ export class Agents {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -474,12 +516,17 @@ export class Agents {
      * @param {Phonic.UpdateAgentRequest} request
      * @param {Agents.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
+     *
      * @example
      *     await client.agents.update("nameOrId", {
      *         name: "updated-support-agent",
      *         phone_number: "assign-automatically",
      *         timezone: "America/Los_Angeles",
      *         voice_id: "sarah",
+     *         audio_speed: 1,
      *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
      *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
      *         template_variables: {
@@ -546,11 +593,20 @@ export class Agents {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {

@@ -99,6 +99,7 @@ await client.agents.create({
         phone_number: "assign-automatically",
         timezone: "America/Los_Angeles",
         voice_id: "sarah",
+        audio_speed: 1,
         welcome_message: "Hi {{customer_name}}. How can I help you today?",
         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
         template_variables: {
@@ -187,6 +188,7 @@ await client.agents.upsert({
     phone_number: "assign-automatically",
     timezone: "America/Los_Angeles",
     voice_id: "sarah",
+    audio_speed: 1,
     welcome_message: "Hi {{customer_name}}. How can I help you today?",
     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables: {
@@ -416,6 +418,7 @@ await client.agents.update("nameOrId", {
     phone_number: "assign-automatically",
     timezone: "America/Los_Angeles",
     voice_id: "sarah",
+    audio_speed: 1,
     welcome_message: "Hi {{customer_name}}. How can I help you today?",
     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables: {
@@ -1548,69 +1551,6 @@ await client.conversations.cancel("id");
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">summarize</a>(id) -> Phonic.ConversationsSummarizeResponse</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Generates a summary of the specified conversation.
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-await client.conversations.summarize("id");
-```
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `string` — The ID of the conversation to summarize.
-
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**requestOptions:** `Conversations.RequestOptions`
-
-</dd>
-</dl>
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
 <details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">getAnalysis</a>(id) -> Phonic.ConversationsGetAnalysisResponse</code></summary>
 <dl>
 <dd>
@@ -2008,6 +1948,54 @@ await client.conversations.outboundCall({
 <dd>
 
 **request:** `Phonic.OutboundCallRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Conversations.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">summarize</a>(id) -> void</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.conversations.summarize("id");
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string`
 
 </dd>
 </dl>

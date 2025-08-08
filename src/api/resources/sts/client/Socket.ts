@@ -25,6 +25,7 @@ export declare namespace StsSocket {
         | Phonic.DtmfPayload
         | Phonic.ToolCallPayload
         | Phonic.ToolCallOutputProcessedPayload
+        | Phonic.ToolCallInterruptedPayload
         | Phonic.AssistantChoseNotToRespondPayload
         | Phonic.AssistantEndedConversationPayload
         | Phonic.ErrorPayload;

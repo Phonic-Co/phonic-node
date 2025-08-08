@@ -55,8 +55,8 @@ export class PhonicClient {
                 {
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "phonic",
-                    "X-Fern-SDK-Version": "0.0.2",
-                    "User-Agent": "phonic/0.0.2",
+                    "X-Fern-SDK-Version": "0.29.1",
+                    "User-Agent": "phonic/0.29.1",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },

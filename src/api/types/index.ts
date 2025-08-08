@@ -36,6 +36,7 @@ export * from "./InterruptedResponsePayload.js";
 export * from "./DtmfPayload.js";
 export * from "./ToolCallPayload.js";
 export * from "./ToolCallOutputProcessedPayload.js";
+export * from "./ToolCallInterruptedPayload.js";
 export * from "./AssistantChoseNotToRespondPayload.js";
 export * from "./AssistantEndedConversationPayload.js";
 export * from "./ErrorPayload.js";

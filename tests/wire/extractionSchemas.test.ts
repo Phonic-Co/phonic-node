@@ -15,7 +15,24 @@ describe("ExtractionSchemas", () => {
 
         const rawResponseBody = {
             extraction_schemas: [
-                { id: "id", name: "name", prompt: "prompt", fields: [{ name: "name", type: "string" }] },
+                {
+                    id: "conv_extract_schema_c818e617-59f9-4f43-936e-ca8a794f9ccf",
+                    name: "Appointment details",
+                    prompt: "Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
+                    fields: [
+                        { name: "Date", type: "string", description: "The date of the appointment" },
+                        {
+                            name: "Copay",
+                            type: "string",
+                            description: "Amount of money the patient pays for the appointment",
+                        },
+                        {
+                            name: "Confirmed as booked",
+                            type: "bool",
+                            description: "Is the appointment confirmed as booked?",
+                        },
+                    ],
+                },
             ],
         };
         server
@@ -30,13 +47,24 @@ describe("ExtractionSchemas", () => {
         expect(response).toEqual({
             extraction_schemas: [
                 {
-                    id: "id",
-                    name: "name",
-                    prompt: "prompt",
+                    id: "conv_extract_schema_c818e617-59f9-4f43-936e-ca8a794f9ccf",
+                    name: "Appointment details",
+                    prompt: "Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
                     fields: [
                         {
-                            name: "name",
+                            name: "Date",
                             type: "string",
+                            description: "The date of the appointment",
+                        },
+                        {
+                            name: "Copay",
+                            type: "string",
+                            description: "Amount of money the patient pays for the appointment",
+                        },
+                        {
+                            name: "Confirmed as booked",
+                            type: "bool",
+                            description: "Is the appointment confirmed as booked?",
                         },
                     ],
                 },
@@ -107,7 +135,24 @@ describe("ExtractionSchemas", () => {
         });
 
         const rawResponseBody = {
-            extraction_schema: { id: "id", name: "name", prompt: "prompt", fields: [{ name: "name", type: "string" }] },
+            extraction_schema: {
+                id: "conv_extract_schema_c818e617-59f9-4f43-936e-ca8a794f9ccf",
+                name: "Appointment details",
+                prompt: "Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
+                fields: [
+                    { name: "Date", type: "string", description: "The date of the appointment" },
+                    {
+                        name: "Copay",
+                        type: "string",
+                        description: "Amount of money the patient pays for the appointment",
+                    },
+                    {
+                        name: "Confirmed as booked",
+                        type: "bool",
+                        description: "Is the appointment confirmed as booked?",
+                    },
+                ],
+            },
         };
         server
             .mockEndpoint()
@@ -120,13 +165,24 @@ describe("ExtractionSchemas", () => {
         const response = await client.extractionSchemas.get("nameOrId");
         expect(response).toEqual({
             extraction_schema: {
-                id: "id",
-                name: "name",
-                prompt: "prompt",
+                id: "conv_extract_schema_c818e617-59f9-4f43-936e-ca8a794f9ccf",
+                name: "Appointment details",
+                prompt: "Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
                 fields: [
                     {
-                        name: "name",
+                        name: "Date",
                         type: "string",
+                        description: "The date of the appointment",
+                    },
+                    {
+                        name: "Copay",
+                        type: "string",
+                        description: "Amount of money the patient pays for the appointment",
+                    },
+                    {
+                        name: "Confirmed as booked",
+                        type: "bool",
+                        description: "Is the appointment confirmed as booked?",
                     },
                 ],
             },
