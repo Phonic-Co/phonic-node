@@ -5,4 +5,8 @@ export type {
   PhonicSTSWebSocketResponseMessage,
   PhonicSTSConfig,
 } from "./sts/types";
+export type {
+  ConversationEndedWebhookPayload,
+  ConversationAnalysisWebhookPayload,
+} from "./types";
 export type { PhonicSTSWebSocket } from "./sts/websocket";
