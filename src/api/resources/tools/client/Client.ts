@@ -6,6 +6,7 @@ import * as environments from "../../../../environments.js";
 import * as core from "../../../../core/index.js";
 import * as Phonic from "../../../index.js";
 import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../core/headers.js";
+import * as errors from "../../../../errors/index.js";
 
 export declare namespace Tools {
     export interface Options {
@@ -45,20 +46,22 @@ export class Tools {
      * @param {Phonic.ToolsListRequest} request
      * @param {Tools.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.NotFoundError}
+     *
      * @example
      *     await client.tools.list()
      */
     public list(
         request: Phonic.ToolsListRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): core.HttpResponsePromise<core.APIResponse<Phonic.ToolsListResponse, Phonic.tools.list.Error>> {
+    ): core.HttpResponsePromise<Phonic.ToolsListResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
         request: Phonic.ToolsListRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.ToolsListResponse, Phonic.tools.list.Error>>> {
+    ): Promise<core.WithRawResponse<Phonic.ToolsListResponse>> {
         const { project } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -84,39 +87,37 @@ export class Tools {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ToolsListResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.ToolsListResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.tools.list.Error.notFoundError(_response.error.body as Phonic.Error_),
-                            rawResponse: _response.rawResponse,
-                        },
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
                         rawResponse: _response.rawResponse,
-                    };
+                    });
             }
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.tools.list.Error._unknown(_response.error),
-                rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /tools.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -124,6 +125,10 @@ export class Tools {
      *
      * @param {Phonic.CreateToolRequest} request
      * @param {Tools.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.ConflictError}
      *
      * @example
      *     await client.tools.create({
@@ -169,14 +174,14 @@ export class Tools {
     public create(
         request: Phonic.CreateToolRequest,
         requestOptions?: Tools.RequestOptions,
-    ): core.HttpResponsePromise<core.APIResponse<Phonic.ToolsCreateResponse, Phonic.tools.create.Error>> {
+    ): core.HttpResponsePromise<Phonic.ToolsCreateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: Phonic.CreateToolRequest,
         requestOptions?: Tools.RequestOptions,
-    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.ToolsCreateResponse, Phonic.tools.create.Error>>> {
+    ): Promise<core.WithRawResponse<Phonic.ToolsCreateResponse>> {
         const { project, ..._body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -205,57 +210,41 @@ export class Tools {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ToolsCreateResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.ToolsCreateResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.tools.create.Error.badRequestError(_response.error.body as Phonic.Error_),
-                            rawResponse: _response.rawResponse,
-                        },
-                        rawResponse: _response.rawResponse,
-                    };
+                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
                 case 403:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.tools.create.Error.forbiddenError(_response.error.body as Phonic.Error_),
-                            rawResponse: _response.rawResponse,
-                        },
-                        rawResponse: _response.rawResponse,
-                    };
+                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
                 case 409:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.tools.create.Error.conflictError(_response.error.body as Phonic.Error_),
-                            rawResponse: _response.rawResponse,
-                        },
+                    throw new Phonic.ConflictError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
                         rawResponse: _response.rawResponse,
-                    };
+                    });
             }
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.tools.create.Error._unknown(_response.error),
-                rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling POST /tools.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -265,6 +254,9 @@ export class Tools {
      * @param {Phonic.ToolsGetRequest} request
      * @param {Tools.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
+     *
      * @example
      *     await client.tools.get("nameOrId")
      */
@@ -272,7 +264,7 @@ export class Tools {
         nameOrId: string,
         request: Phonic.ToolsGetRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): core.HttpResponsePromise<core.APIResponse<Phonic.ToolsGetResponse, Phonic.tools.get.Error>> {
+    ): core.HttpResponsePromise<Phonic.ToolsGetResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(nameOrId, request, requestOptions));
     }
 
@@ -280,7 +272,7 @@ export class Tools {
         nameOrId: string,
         request: Phonic.ToolsGetRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.ToolsGetResponse, Phonic.tools.get.Error>>> {
+    ): Promise<core.WithRawResponse<Phonic.ToolsGetResponse>> {
         const { project } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -306,48 +298,39 @@ export class Tools {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ToolsGetResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.ToolsGetResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 403:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.tools.get.Error.forbiddenError(_response.error.body as Phonic.Error_),
-                            rawResponse: _response.rawResponse,
-                        },
-                        rawResponse: _response.rawResponse,
-                    };
+                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
                 case 404:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.tools.get.Error.notFoundError(_response.error.body as Phonic.Error_),
-                            rawResponse: _response.rawResponse,
-                        },
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
                         rawResponse: _response.rawResponse,
-                    };
+                    });
             }
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.tools.get.Error._unknown(_response.error),
-                rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling GET /tools/{nameOrId}.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -357,6 +340,8 @@ export class Tools {
      * @param {Phonic.ToolsDeleteRequest} request
      * @param {Tools.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.NotFoundError}
+     *
      * @example
      *     await client.tools.delete("nameOrId")
      */
@@ -364,7 +349,7 @@ export class Tools {
         nameOrId: string,
         request: Phonic.ToolsDeleteRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): core.HttpResponsePromise<core.APIResponse<Phonic.ToolsDeleteResponse, Phonic.tools.delete.Error>> {
+    ): core.HttpResponsePromise<Phonic.ToolsDeleteResponse> {
         return core.HttpResponsePromise.fromPromise(this.__delete(nameOrId, request, requestOptions));
     }
 
@@ -372,7 +357,7 @@ export class Tools {
         nameOrId: string,
         request: Phonic.ToolsDeleteRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.ToolsDeleteResponse, Phonic.tools.delete.Error>>> {
+    ): Promise<core.WithRawResponse<Phonic.ToolsDeleteResponse>> {
         const { project } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -398,39 +383,37 @@ export class Tools {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ToolsDeleteResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.ToolsDeleteResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.tools.delete.Error.notFoundError(_response.error.body as Phonic.Error_),
-                            rawResponse: _response.rawResponse,
-                        },
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
                         rawResponse: _response.rawResponse,
-                    };
+                    });
             }
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.tools.delete.Error._unknown(_response.error),
-                rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling DELETE /tools/{nameOrId}.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     /**
@@ -439,6 +422,10 @@ export class Tools {
      * @param {string} nameOrId - The name or the ID of the tool to update.
      * @param {Phonic.UpdateToolRequest} request
      * @param {Tools.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
      *
      * @example
      *     await client.tools.update("nameOrId", {
@@ -453,7 +440,7 @@ export class Tools {
         nameOrId: string,
         request: Phonic.UpdateToolRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): core.HttpResponsePromise<core.APIResponse<Phonic.ToolsUpdateResponse, Phonic.tools.update.Error>> {
+    ): core.HttpResponsePromise<Phonic.ToolsUpdateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__update(nameOrId, request, requestOptions));
     }
 
@@ -461,7 +448,7 @@ export class Tools {
         nameOrId: string,
         request: Phonic.UpdateToolRequest = {},
         requestOptions?: Tools.RequestOptions,
-    ): Promise<core.WithRawResponse<core.APIResponse<Phonic.ToolsUpdateResponse, Phonic.tools.update.Error>>> {
+    ): Promise<core.WithRawResponse<Phonic.ToolsUpdateResponse>> {
         const { project, ..._body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -490,57 +477,41 @@ export class Tools {
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return {
-                data: {
-                    ok: true,
-                    body: _response.body as Phonic.ToolsUpdateResponse,
-                    headers: _response.headers,
-                    rawResponse: _response.rawResponse,
-                },
-                rawResponse: _response.rawResponse,
-            };
+            return { data: _response.body as Phonic.ToolsUpdateResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.tools.update.Error.badRequestError(_response.error.body as Phonic.Error_),
-                            rawResponse: _response.rawResponse,
-                        },
-                        rawResponse: _response.rawResponse,
-                    };
+                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
                 case 404:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.tools.update.Error.notFoundError(_response.error.body as Phonic.Error_),
-                            rawResponse: _response.rawResponse,
-                        },
-                        rawResponse: _response.rawResponse,
-                    };
+                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
                 case 409:
-                    return {
-                        data: {
-                            ok: false,
-                            error: Phonic.tools.update.Error.conflictError(_response.error.body as Phonic.Error_),
-                            rawResponse: _response.rawResponse,
-                        },
+                    throw new Phonic.ConflictError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
                         rawResponse: _response.rawResponse,
-                    };
+                    });
             }
         }
 
-        return {
-            data: {
-                ok: false,
-                error: Phonic.tools.update.Error._unknown(_response.error),
-                rawResponse: _response.rawResponse,
-            },
-            rawResponse: _response.rawResponse,
-        };
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError("Timeout exceeded when calling PATCH /tools/{nameOrId}.");
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
     }
 
     protected async _getAuthorizationHeader(): Promise<string> {
