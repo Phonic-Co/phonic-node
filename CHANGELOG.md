@@ -1,5 +1,11 @@
 # phonic
 
+## 0.29.1
+
+### Patch Changes
+
+- [#80](https://github.com/Phonic-Co/phonic-node/pull/80) [`742363a`](https://github.com/Phonic-Co/phonic-node/commit/742363a65374bddf2844b949d2b9a37e4e13366d) Thanks [@moroshko](https://github.com/moroshko)! - Export `ConversationEndedWebhookPayload` and `ConversationAnalysisWebhookPayload` types, and update the `Conversation` type.
+
 ## 0.29.0
 
 ### Minor Changes
