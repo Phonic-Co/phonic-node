@@ -35,7 +35,6 @@ export declare namespace Conversations {
 
     export interface ConnectArgs {
         downstream_websocket_url?: string | undefined;
-        Authorization: string;
         /** Arbitrary headers to send with the websocket connect request. */
         headers?: Record<string, string>;
         /** Enable debug mode on the websocket. Defaults to false. */
@@ -1091,7 +1090,7 @@ export class Conversations {
         }
     }
 
-    public async connect(args: Conversations.ConnectArgs): Promise<ConversationsSocket> {
+    public async connect(args: Conversations.ConnectArgs = {}): Promise<ConversationsSocket> {
         const { downstream_websocket_url, headers, debug, reconnectAttempts } = args;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (downstream_websocket_url != null) {
@@ -1101,10 +1100,6 @@ export class Conversations {
         let _headers: Record<string, string> = {
             ...headers,
         };
-        if (args["Authorization"] != null) {
-            _headers["Authorization"] = args["Authorization"];
-        }
-
         const socket = new core.ReconnectingWebSocket({
             url: core.url.join(
                 (await core.Supplier.get(this._options["baseUrl"])) ??

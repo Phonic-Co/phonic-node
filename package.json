@@ -1,6 +1,6 @@
 {
     "name": "phonic",
-    "version": "0.30.0rc1",
+    "version": "0.30.0-rc3",
     "private": false,
     "repository": "github:fern-demo/phonic-ts-sdk",
     "type": "commonjs",
