@@ -6,7 +6,7 @@ import * as core from "../../../../core/index.js";
 import * as Phonic from "../../../index.js";
 import { fromJson, toJson } from "../../../../core/json.js";
 
-export declare namespace StsSocket {
+export declare namespace ConversationsSocket {
     export interface Args {
         socket: core.ReconnectingWebSocket;
     }
@@ -18,7 +18,6 @@ export declare namespace StsSocket {
         | Phonic.InputCancelledPayload
         | Phonic.AudioChunkResponsePayload
         | Phonic.AudioFinishedPayload
-        | Phonic.IsUserSpeakingPayload
         | Phonic.UserStartedSpeakingPayload
         | Phonic.UserFinishedSpeakingPayload
         | Phonic.InterruptedResponsePayload
@@ -37,16 +36,16 @@ export declare namespace StsSocket {
     };
 }
 
-export class StsSocket {
+export class ConversationsSocket {
     public readonly socket: core.ReconnectingWebSocket;
-    protected readonly eventHandlers: StsSocket.EventHandlers = {};
+    protected readonly eventHandlers: ConversationsSocket.EventHandlers = {};
     private handleOpen: () => void = () => {
         this.eventHandlers.open?.();
     };
     private handleMessage: (event: { data: string }) => void = (event) => {
         const data = fromJson(event.data);
 
-        this.eventHandlers.message?.(data as StsSocket.Response);
+        this.eventHandlers.message?.(data as ConversationsSocket.Response);
     };
     private handleClose: (event: core.CloseEvent) => void = (event) => {
         this.eventHandlers.close?.(event);
@@ -56,7 +55,7 @@ export class StsSocket {
         this.eventHandlers.error?.(new Error(message));
     };
 
-    constructor(args: StsSocket.Args) {
+    constructor(args: ConversationsSocket.Args) {
         this.socket = args.socket;
         this.socket.addEventListener("open", this.handleOpen);
         this.socket.addEventListener("message", this.handleMessage);
@@ -79,7 +78,10 @@ export class StsSocket {
      * });
      * ```
      */
-    public on<T extends keyof StsSocket.EventHandlers>(event: T, callback: StsSocket.EventHandlers[T]) {
+    public on<T extends keyof ConversationsSocket.EventHandlers>(
+        event: T,
+        callback: ConversationsSocket.EventHandlers[T],
+    ) {
         this.eventHandlers[event] = callback;
     }
 
@@ -114,7 +116,7 @@ export class StsSocket {
     }
 
     /** Connect to the websocket and register event handlers. */
-    public connect(): StsSocket {
+    public connect(): ConversationsSocket {
         this.socket.reconnect();
 
         this.socket.addEventListener("open", this.handleOpen);

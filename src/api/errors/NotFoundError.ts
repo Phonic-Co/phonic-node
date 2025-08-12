@@ -3,11 +3,10 @@
  */
 
 import * as errors from "../../errors/index.js";
-import * as Phonic from "../index.js";
 import * as core from "../../core/index.js";
 
 export class NotFoundError extends errors.PhonicError {
-    constructor(body: Phonic.Error_, rawResponse?: core.RawResponse) {
+    constructor(body?: unknown, rawResponse?: core.RawResponse) {
         super({
             message: "NotFoundError",
             statusCode: 404,

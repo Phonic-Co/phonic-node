@@ -13,7 +13,7 @@ export declare namespace ExtractionSchemas {
         environment?: core.Supplier<environments.PhonicEnvironment | environments.PhonicEnvironmentUrls>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token: core.Supplier<core.BearerToken>;
+        apiKey?: core.Supplier<core.BearerToken | undefined>;
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
@@ -36,7 +36,7 @@ export declare namespace ExtractionSchemas {
 export class ExtractionSchemas {
     protected readonly _options: ExtractionSchemas.Options;
 
-    constructor(_options: ExtractionSchemas.Options) {
+    constructor(_options: ExtractionSchemas.Options = {}) {
         this._options = _options;
     }
 
@@ -93,7 +93,7 @@ export class ExtractionSchemas {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -197,11 +197,11 @@ export class ExtractionSchemas {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new Phonic.ConflictError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -284,7 +284,7 @@ export class ExtractionSchemas {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -372,7 +372,7 @@ export class ExtractionSchemas {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -477,11 +477,11 @@ export class ExtractionSchemas {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new Phonic.ConflictError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -511,6 +511,14 @@ export class ExtractionSchemas {
     }
 
     protected async _getAuthorizationHeader(): Promise<string> {
-        return `Bearer ${await core.Supplier.get(this._options.token)}`;
+        const bearer = (await core.Supplier.get(this._options.apiKey)) ?? process?.env["PHONIC_API_KEY"];
+        if (bearer == null) {
+            throw new errors.PhonicError({
+                message:
+                    "Please specify a bearer by either passing it in to the constructor or initializing a PHONIC_API_KEY environment variable",
+            });
+        }
+
+        return `Bearer ${bearer}`;
     }
 }

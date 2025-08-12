@@ -13,7 +13,7 @@ export declare namespace Projects {
         environment?: core.Supplier<environments.PhonicEnvironment | environments.PhonicEnvironmentUrls>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token: core.Supplier<core.BearerToken>;
+        apiKey?: core.Supplier<core.BearerToken | undefined>;
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
@@ -36,7 +36,7 @@ export declare namespace Projects {
 export class Projects {
     protected readonly _options: Projects.Options;
 
-    constructor(_options: Projects.Options) {
+    constructor(_options: Projects.Options = {}) {
         this._options = _options;
     }
 
@@ -44,6 +44,9 @@ export class Projects {
      * Returns all projects in a workspace.
      *
      * @param {Projects.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.projects.list()
@@ -78,11 +81,24 @@ export class Projects {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -107,6 +123,11 @@ export class Projects {
      *
      * @param {Phonic.CreateProjectRequest} request
      * @param {Projects.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ConflictError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.projects.create({
@@ -150,11 +171,28 @@ export class Projects {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -179,6 +217,11 @@ export class Projects {
      *
      * @param {string} nameOrId - The name or the ID of the project to get.
      * @param {Projects.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.projects.get("nameOrId")
@@ -217,11 +260,28 @@ export class Projects {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -246,6 +306,11 @@ export class Projects {
      *
      * @param {string} nameOrId - The name or the ID of the project to delete.
      * @param {Projects.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.projects.delete("nameOrId")
@@ -284,11 +349,28 @@ export class Projects {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -314,6 +396,13 @@ export class Projects {
      * @param {string} nameOrId - The name or the ID of the project to update.
      * @param {Phonic.UpdateProjectRequest} request
      * @param {Projects.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.projects.update("nameOrId", {
@@ -360,11 +449,32 @@ export class Projects {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -390,7 +500,10 @@ export class Projects {
      * @param {string} id - The ID of the project.
      * @param {Projects.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.projects.listEvalPrompts("id")
@@ -433,8 +546,20 @@ export class Projects {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -470,7 +595,12 @@ export class Projects {
      * @param {Phonic.CreateConversationEvalPromptRequest} request
      * @param {Projects.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.projects.createEvalPrompt("id", {
@@ -521,8 +651,24 @@ export class Projects {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -552,6 +698,14 @@ export class Projects {
     }
 
     protected async _getAuthorizationHeader(): Promise<string> {
-        return `Bearer ${await core.Supplier.get(this._options.token)}`;
+        const bearer = (await core.Supplier.get(this._options.apiKey)) ?? process?.env["PHONIC_API_KEY"];
+        if (bearer == null) {
+            throw new errors.PhonicError({
+                message:
+                    "Please specify a bearer by either passing it in to the constructor or initializing a PHONIC_API_KEY environment variable",
+            });
+        }
+
+        return `Bearer ${bearer}`;
     }
 }

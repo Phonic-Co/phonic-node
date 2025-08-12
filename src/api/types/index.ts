@@ -1,4 +1,7 @@
+export * from "./BadRequestErrorBody.js";
 export * from "./Error_.js";
+export * from "./BasicError.js";
+export * from "./ValidationError.js";
 export * from "./Agent.js";
 export * from "./CreateAgentRequest.js";
 export * from "./Tool.js";
@@ -29,7 +32,6 @@ export * from "./InputTextPayload.js";
 export * from "./InputCancelledPayload.js";
 export * from "./AudioChunkResponsePayload.js";
 export * from "./AudioFinishedPayload.js";
-export * from "./IsUserSpeakingPayload.js";
 export * from "./UserStartedSpeakingPayload.js";
 export * from "./UserFinishedSpeakingPayload.js";
 export * from "./InterruptedResponsePayload.js";

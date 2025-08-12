@@ -9,7 +9,7 @@ describe("Conversations", () => {
     test("list", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -17,6 +17,7 @@ describe("Conversations", () => {
             conversations: [
                 {
                     id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+                    agent: { id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783", name: "support-agent" },
                     workspace: "example-workspace",
                     external_id: "call-123",
                     model: "merritt",
@@ -63,6 +64,10 @@ describe("Conversations", () => {
             conversations: [
                 {
                     id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+                    agent: {
+                        id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+                        name: "support-agent",
+                    },
                     workspace: "example-workspace",
                     external_id: "call-123",
                     model: "merritt",
@@ -109,13 +114,14 @@ describe("Conversations", () => {
     test("get", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
         const rawResponseBody = {
             conversation: {
                 id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+                agent: { id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783", name: "support-agent" },
                 workspace: "example-workspace",
                 external_id: "call-123",
                 model: "merritt",
@@ -160,6 +166,10 @@ describe("Conversations", () => {
         expect(response).toEqual({
             conversation: {
                 id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+                agent: {
+                    id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+                    name: "support-agent",
+                },
                 workspace: "example-workspace",
                 external_id: "call-123",
                 model: "merritt",
@@ -205,7 +215,7 @@ describe("Conversations", () => {
     test("cancel", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -227,7 +237,7 @@ describe("Conversations", () => {
     test("get_analysis", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -252,7 +262,7 @@ describe("Conversations", () => {
     test("list_extractions", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -308,7 +318,7 @@ describe("Conversations", () => {
     test("extract_data", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { schema_id: "conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c" };
@@ -339,7 +349,7 @@ describe("Conversations", () => {
     test("list_evaluations", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -380,7 +390,7 @@ describe("Conversations", () => {
     test("evaluate", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { prompt_id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0" };
@@ -416,7 +426,7 @@ describe("Conversations", () => {
     test("outbound_call", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {
@@ -467,16 +477,31 @@ describe("Conversations", () => {
         });
     });
 
-    test("summarize", async () => {
+    test("sip_outbound_call", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
+        const rawRequestBody = { from_phone_number: "from_phone_number", to_phone_number: "to_phone_number" };
+        const rawResponseBody = { conversation_id: "conversation_id" };
+        server
+            .mockEndpoint()
+            .post("/conversations/sip/outbound_call")
+            .header("X-Sip-Address", "X-Sip-Address")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
 
-        server.mockEndpoint().post("/conversations/id/summarize").respondWith().statusCode(200).build();
-
-        const response = await client.conversations.summarize("id");
-        expect(response).toEqual(undefined);
+        const response = await client.conversations.sipOutboundCall({
+            "X-Sip-Address": "X-Sip-Address",
+            from_phone_number: "from_phone_number",
+            to_phone_number: "to_phone_number",
+        });
+        expect(response).toEqual({
+            conversation_id: "conversation_id",
+        });
     });
 });

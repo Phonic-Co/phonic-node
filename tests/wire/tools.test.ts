@@ -9,7 +9,7 @@ describe("Tools", () => {
     test("list", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -136,7 +136,7 @@ describe("Tools", () => {
     test("create", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {
@@ -209,7 +209,7 @@ describe("Tools", () => {
     test("get", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -285,7 +285,7 @@ describe("Tools", () => {
     test("delete", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -301,7 +301,7 @@ describe("Tools", () => {
     test("update", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {

@@ -13,7 +13,7 @@ export declare namespace Voices {
         environment?: core.Supplier<environments.PhonicEnvironment | environments.PhonicEnvironmentUrls>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token: core.Supplier<core.BearerToken>;
+        apiKey?: core.Supplier<core.BearerToken | undefined>;
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
@@ -36,7 +36,7 @@ export declare namespace Voices {
 export class Voices {
     protected readonly _options: Voices.Options;
 
-    constructor(_options: Voices.Options) {
+    constructor(_options: Voices.Options = {}) {
         this._options = _options;
     }
 
@@ -45,6 +45,10 @@ export class Voices {
      *
      * @param {Phonic.VoicesListRequest} request
      * @param {Voices.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.voices.list({
@@ -88,11 +92,26 @@ export class Voices {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -118,6 +137,7 @@ export class Voices {
      * @param {string} id - The ID of the voice to get.
      * @param {Voices.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.UnauthorizedError}
      * @throws {@link Phonic.NotFoundError}
      *
      * @example
@@ -155,8 +175,13 @@ export class Voices {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -184,6 +209,14 @@ export class Voices {
     }
 
     protected async _getAuthorizationHeader(): Promise<string> {
-        return `Bearer ${await core.Supplier.get(this._options.token)}`;
+        const bearer = (await core.Supplier.get(this._options.apiKey)) ?? process?.env["PHONIC_API_KEY"];
+        if (bearer == null) {
+            throw new errors.PhonicError({
+                message:
+                    "Please specify a bearer by either passing it in to the constructor or initializing a PHONIC_API_KEY environment variable",
+            });
+        }
+
+        return `Bearer ${bearer}`;
     }
 }

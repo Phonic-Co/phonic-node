@@ -11,14 +11,13 @@ import { ExtractionSchemas } from "./api/resources/extractionSchemas/client/Clie
 import { Voices } from "./api/resources/voices/client/Client.js";
 import { Conversations } from "./api/resources/conversations/client/Client.js";
 import { Projects } from "./api/resources/projects/client/Client.js";
-import { Sts } from "./api/resources/sts/client/Client.js";
 
 export declare namespace PhonicClient {
     export interface Options {
         environment?: core.Supplier<environments.PhonicEnvironment | environments.PhonicEnvironmentUrls>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token: core.Supplier<core.BearerToken>;
+        apiKey?: core.Supplier<core.BearerToken | undefined>;
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
@@ -46,17 +45,16 @@ export class PhonicClient {
     protected _voices: Voices | undefined;
     protected _conversations: Conversations | undefined;
     protected _projects: Projects | undefined;
-    protected _sts: Sts | undefined;
 
-    constructor(_options: PhonicClient.Options) {
+    constructor(_options: PhonicClient.Options = {}) {
         this._options = {
             ..._options,
             headers: mergeHeaders(
                 {
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "phonic",
-                    "X-Fern-SDK-Version": "0.29.1",
-                    "User-Agent": "phonic/0.29.1",
+                    "X-Fern-SDK-Version": "0.30.0rc1",
+                    "User-Agent": "phonic/0.30.0rc1",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },
@@ -87,9 +85,5 @@ export class PhonicClient {
 
     public get projects(): Projects {
         return (this._projects ??= new Projects(this._options));
-    }
-
-    public get sts(): Sts {
-        return (this._sts ??= new Sts(this._options));
     }
 }

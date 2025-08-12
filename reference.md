@@ -1966,9 +1966,24 @@ await client.conversations.outboundCall({
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">summarize</a>(id) -> void</code></summary>
+<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">sipOutboundCall</a>({ ...params }) -> Phonic.ConversationsSipOutboundCallResponse</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Initiates a SIP outbound call using user-supplied SIP credentials in headers.
+
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -1979,7 +1994,11 @@ await client.conversations.outboundCall({
 <dd>
 
 ```typescript
-await client.conversations.summarize("id");
+await client.conversations.sipOutboundCall({
+    "X-Sip-Address": "X-Sip-Address",
+    from_phone_number: "from_phone_number",
+    to_phone_number: "to_phone_number",
+});
 ```
 
 </dd>
@@ -1995,7 +2014,7 @@ await client.conversations.summarize("id");
 <dl>
 <dd>
 
-**id:** `string`
+**request:** `Phonic.ConversationsSipOutboundCallRequest`
 
 </dd>
 </dl>

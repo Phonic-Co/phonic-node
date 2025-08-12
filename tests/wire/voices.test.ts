@@ -9,7 +9,7 @@ describe("Voices", () => {
     test("list", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -33,7 +33,7 @@ describe("Voices", () => {
     test("get", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
