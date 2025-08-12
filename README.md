@@ -22,7 +22,7 @@ Instantiate and use the client with the following:
 ```typescript
 import { PhonicClient } from "phonic";
 
-const client = new PhonicClient({ token: "YOUR_TOKEN" });
+const client = new PhonicClient({ apiKey: "YOUR_API_KEY" });
 await client.agents.create({
     body: {
         name: "support-agent",

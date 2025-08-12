@@ -9,7 +9,7 @@ describe("ExtractionSchemas", () => {
     test("list", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -75,7 +75,7 @@ describe("ExtractionSchemas", () => {
     test("create", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {
@@ -130,7 +130,7 @@ describe("ExtractionSchemas", () => {
     test("get", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -192,7 +192,7 @@ describe("ExtractionSchemas", () => {
     test("delete", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -214,7 +214,7 @@ describe("ExtractionSchemas", () => {
     test("update", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {

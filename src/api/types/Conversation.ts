@@ -7,6 +7,8 @@ import * as Phonic from "../index.js";
 export interface Conversation {
     /** The conversation ID. */
     id: string;
+    /** The agent associated with the conversation. */
+    agent?: Conversation.Agent;
     /** The organization/workspace name. */
     workspace: string;
     /** External ID for conversation tracking. */
@@ -35,4 +37,16 @@ export interface Conversation {
     items: Phonic.ConversationItem[];
     /** Results from conversation evaluations and extractions. */
     task_results: Record<string, unknown>;
+}
+
+export namespace Conversation {
+    /**
+     * The agent associated with the conversation.
+     */
+    export interface Agent {
+        /** The ID of the agent. */
+        id: string;
+        /** The name of the agent. */
+        name: string;
+    }
 }

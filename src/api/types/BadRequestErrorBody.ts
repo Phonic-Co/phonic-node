@@ -4,4 +4,4 @@
 
 import * as Phonic from "../index.js";
 
-export type Error_ = Phonic.BasicError | Phonic.ValidationError;
+export type BadRequestErrorBody = Phonic.ValidationError | Phonic.BasicError;

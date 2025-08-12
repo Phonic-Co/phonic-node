@@ -7,13 +7,14 @@ import * as core from "../../../../core/index.js";
 import * as Phonic from "../../../index.js";
 import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../core/headers.js";
 import * as errors from "../../../../errors/index.js";
+import { ConversationsSocket } from "./Socket.js";
 
 export declare namespace Conversations {
     export interface Options {
         environment?: core.Supplier<environments.PhonicEnvironment | environments.PhonicEnvironmentUrls>;
         /** Specify a custom URL to connect the client to. */
         baseUrl?: core.Supplier<string>;
-        token: core.Supplier<core.BearerToken>;
+        apiKey?: core.Supplier<core.BearerToken | undefined>;
         /** Additional headers to include in requests. */
         headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
@@ -31,12 +32,23 @@ export declare namespace Conversations {
         /** Additional headers to include in the request. */
         headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
     }
+
+    export interface ConnectArgs {
+        downstream_websocket_url?: string | undefined;
+        Authorization: string;
+        /** Arbitrary headers to send with the websocket connect request. */
+        headers?: Record<string, string>;
+        /** Enable debug mode on the websocket. Defaults to false. */
+        debug?: boolean;
+        /** Number of reconnect attempts. Defaults to 30. */
+        reconnectAttempts?: number;
+    }
 }
 
 export class Conversations {
     protected readonly _options: Conversations.Options;
 
-    constructor(_options: Conversations.Options) {
+    constructor(_options: Conversations.Options = {}) {
         this._options = _options;
     }
 
@@ -47,7 +59,10 @@ export class Conversations {
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.conversations.list()
@@ -136,9 +151,21 @@ export class Conversations {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -171,8 +198,10 @@ export class Conversations {
      * @param {string} id - The ID of the conversation to get.
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.UnauthorizedError}
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.conversations.get("id")
@@ -212,10 +241,20 @@ export class Conversations {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -248,9 +287,11 @@ export class Conversations {
      * @param {string} id - The ID of the conversation to cancel.
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.UnauthorizedError}
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.ConflictError}
+     * @throws {@link Phonic.InternalServerError}
      * @throws {@link Phonic.GatewayTimeoutError}
      *
      * @example
@@ -291,12 +332,22 @@ export class Conversations {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new Phonic.ConflictError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 case 504:
                     throw new Phonic.GatewayTimeoutError(_response.error.body as Phonic.Error_, _response.rawResponse);
                 default:
@@ -331,8 +382,10 @@ export class Conversations {
      * @param {string} id - The ID of the conversation to analyze.
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.UnauthorizedError}
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.conversations.getAnalysis("id")
@@ -375,10 +428,20 @@ export class Conversations {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -411,8 +474,10 @@ export class Conversations {
      * @param {string} id - The ID of the conversation to get extractions for.
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.UnauthorizedError}
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.conversations.listExtractions("id")
@@ -455,10 +520,20 @@ export class Conversations {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -495,8 +570,10 @@ export class Conversations {
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.conversations.extractData("id", {
@@ -547,11 +624,21 @@ export class Conversations {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -586,8 +673,10 @@ export class Conversations {
      * @param {string} id - The ID of the conversation to get evaluations for.
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.UnauthorizedError}
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.conversations.listEvaluations("id")
@@ -630,10 +719,20 @@ export class Conversations {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -668,8 +767,10 @@ export class Conversations {
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.conversations.evaluate("id", {
@@ -717,11 +818,21 @@ export class Conversations {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new Phonic.BadRequestError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new Phonic.ForbiddenError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new Phonic.NotFoundError(_response.error.body as Phonic.Error_, _response.rawResponse);
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -753,6 +864,11 @@ export class Conversations {
      *
      * @param {Phonic.OutboundCallRequest} request
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.InternalServerError}
      *
      * @example
      *     await client.conversations.outboundCall({
@@ -814,11 +930,28 @@ export class Conversations {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -839,48 +972,104 @@ export class Conversations {
     }
 
     /**
-     * @param {string} id
+     * Initiates a SIP outbound call using user-supplied SIP credentials in headers.
+     *
+     * @param {Phonic.ConversationsSipOutboundCallRequest} request
      * @param {Conversations.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.InternalServerError}
+     *
      * @example
-     *     await client.conversations.summarize("id")
+     *     await client.conversations.sipOutboundCall({
+     *         "X-Sip-Address": "X-Sip-Address",
+     *         from_phone_number: "from_phone_number",
+     *         to_phone_number: "to_phone_number"
+     *     })
      */
-    public summarize(id: string, requestOptions?: Conversations.RequestOptions): core.HttpResponsePromise<void> {
-        return core.HttpResponsePromise.fromPromise(this.__summarize(id, requestOptions));
+    public sipOutboundCall(
+        request: Phonic.ConversationsSipOutboundCallRequest,
+        requestOptions?: Conversations.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.ConversationsSipOutboundCallResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__sipOutboundCall(request, requestOptions));
     }
 
-    private async __summarize(
-        id: string,
+    private async __sipOutboundCall(
+        request: Phonic.ConversationsSipOutboundCallRequest,
         requestOptions?: Conversations.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<Phonic.ConversationsSipOutboundCallResponse>> {
+        const {
+            token,
+            downstream_websocket_url: downstreamWebsocketUrl,
+            "X-Sip-Address": sipAddress,
+            "X-Sip-Auth-Username": sipAuthUsername,
+            "X-Sip-Auth-Password": sipAuthPassword,
+            ..._body
+        } = request;
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
+        if (token != null) {
+            _queryParams["token"] = token;
+        }
+
+        if (downstreamWebsocketUrl != null) {
+            _queryParams["downstream_websocket_url"] = downstreamWebsocketUrl;
+        }
+
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `conversations/${encodeURIComponent(id)}/summarize`,
+                "conversations/sip/outbound_call",
             ),
             method: "POST",
             headers: mergeHeaders(
                 this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+                mergeOnlyDefinedHeaders({
+                    Authorization: await this._getAuthorizationHeader(),
+                    "X-Sip-Address": sipAddress,
+                    "X-Sip-Auth-Username": sipAuthUsername != null ? sipAuthUsername : undefined,
+                    "X-Sip-Auth-Password": sipAuthPassword != null ? sipAuthPassword : undefined,
+                }),
                 requestOptions?.headers,
             ),
-            queryParameters: requestOptions?.queryParams,
+            contentType: "application/json",
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            requestType: "json",
+            body: _body,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as Phonic.ConversationsSipOutboundCallResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.PhonicError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         switch (_response.error.reason) {
@@ -892,7 +1081,7 @@ export class Conversations {
                 });
             case "timeout":
                 throw new errors.PhonicTimeoutError(
-                    "Timeout exceeded when calling POST /conversations/{id}/summarize.",
+                    "Timeout exceeded when calling POST /conversations/sip/outbound_call.",
                 );
             case "unknown":
                 throw new errors.PhonicError({
@@ -902,7 +1091,44 @@ export class Conversations {
         }
     }
 
+    public async connect(args: Conversations.ConnectArgs): Promise<ConversationsSocket> {
+        const { downstream_websocket_url, headers, debug, reconnectAttempts } = args;
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
+        if (downstream_websocket_url != null) {
+            _queryParams["downstream_websocket_url"] = downstream_websocket_url;
+        }
+
+        let _headers: Record<string, string> = {
+            ...headers,
+        };
+        if (args["Authorization"] != null) {
+            _headers["Authorization"] = args["Authorization"];
+        }
+
+        const socket = new core.ReconnectingWebSocket({
+            url: core.url.join(
+                (await core.Supplier.get(this._options["baseUrl"])) ??
+                    ((await core.Supplier.get(this._options["environment"])) ?? environments.PhonicEnvironment.Default)
+                        .production,
+                "/v1/sts/ws",
+            ),
+            protocols: [],
+            queryParameters: _queryParams,
+            headers: _headers,
+            options: { debug: debug ?? false, maxRetries: reconnectAttempts ?? 30 },
+        });
+        return new ConversationsSocket({ socket });
+    }
+
     protected async _getAuthorizationHeader(): Promise<string> {
-        return `Bearer ${await core.Supplier.get(this._options.token)}`;
+        const bearer = (await core.Supplier.get(this._options.apiKey)) ?? process?.env["PHONIC_API_KEY"];
+        if (bearer == null) {
+            throw new errors.PhonicError({
+                message:
+                    "Please specify a bearer by either passing it in to the constructor or initializing a PHONIC_API_KEY environment variable",
+            });
+        }
+
+        return `Bearer ${bearer}`;
     }
 }

@@ -9,7 +9,7 @@ describe("Projects", () => {
     test("list", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -42,7 +42,7 @@ describe("Projects", () => {
     test("create", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { name: "customer-support" };
@@ -68,7 +68,7 @@ describe("Projects", () => {
     test("get", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -76,7 +76,7 @@ describe("Projects", () => {
             project: {
                 id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
                 name: "customer-support",
-                default_agent: { id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783", name: "support-agent" },
+                default_agent: { id: "id", name: "name" },
             },
         };
         server.mockEndpoint().get("/projects/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -87,8 +87,8 @@ describe("Projects", () => {
                 id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
                 name: "customer-support",
                 default_agent: {
-                    id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-                    name: "support-agent",
+                    id: "id",
+                    name: "name",
                 },
             },
         });
@@ -97,7 +97,7 @@ describe("Projects", () => {
     test("delete", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -119,7 +119,7 @@ describe("Projects", () => {
     test("update", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { name: "updated-customer-support", default_agent: "another-agent" };
@@ -145,7 +145,7 @@ describe("Projects", () => {
     test("list_eval_prompts", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
@@ -181,7 +181,7 @@ describe("Projects", () => {
     test("create_eval_prompt", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
-            token: "test",
+            apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {
