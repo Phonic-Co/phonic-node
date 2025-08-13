@@ -1,5 +1,11 @@
 # phonic
 
+## 0.29.2
+
+### Patch Changes
+
+- [#83](https://github.com/Phonic-Co/phonic-node/pull/83) [`2d205f5`](https://github.com/Phonic-Co/phonic-node/commit/2d205f5718dee3303505fd43695b5fe18cf30a94) Thanks [@qionghuang6](https://github.com/qionghuang6)! - Add audio_speed to agents and STS config
+
 ## 0.29.1
 
 ### Patch Changes
