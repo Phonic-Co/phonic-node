@@ -39,7 +39,9 @@ export declare namespace ConversationsSocket {
 export class ConversationsSocket {
     public readonly socket: core.ReconnectingWebSocket;
     protected readonly eventHandlers: ConversationsSocket.EventHandlers = {};
+    private messageBuffer: (() => void)[] = [];
     private handleOpen: () => void = () => {
+        this.flushMessageBuffer();
         this.eventHandlers.open?.();
     };
     private handleMessage: (event: { data: string }) => void = (event) => {
@@ -86,33 +88,27 @@ export class ConversationsSocket {
     }
 
     public sendConfig(message: Phonic.ConfigPayload): void {
-        this.assertSocketIsOpen();
-        this.sendJson(message);
+        this.sendWithBuffering(() => this.sendJson(message));
     }
 
     public sendAudioChunk(message: Phonic.AudioChunkPayload): void {
-        this.assertSocketIsOpen();
-        this.sendJson(message);
+        this.sendWithBuffering(() => this.sendJson(message));
     }
 
     public sendUpdateSystemPrompt(message: Phonic.UpdateSystemPromptPayload): void {
-        this.assertSocketIsOpen();
-        this.sendJson(message);
+        this.sendWithBuffering(() => this.sendJson(message));
     }
 
     public sendSetExternalId(message: Phonic.SetExternalIdPayload): void {
-        this.assertSocketIsOpen();
-        this.sendJson(message);
+        this.sendWithBuffering(() => this.sendJson(message));
     }
 
     public sendSetTwilioCallSid(message: Phonic.SetTwilioCallSidPayload): void {
-        this.assertSocketIsOpen();
-        this.sendJson(message);
+        this.sendWithBuffering(() => this.sendJson(message));
     }
 
     public sendToolCallOutput(message: Phonic.ToolCallOutputPayload): void {
-        this.assertSocketIsOpen();
-        this.sendJson(message);
+        this.sendWithBuffering(() => this.sendJson(message));
     }
 
     /** Connect to the websocket and register event handlers. */
@@ -132,6 +128,7 @@ export class ConversationsSocket {
         this.socket.close();
 
         this.handleClose({ code: 1000 } as CloseEvent);
+        this.clearMessageBuffer();
 
         this.socket.removeEventListener("open", this.handleOpen);
         this.socket.removeEventListener("message", this.handleMessage);
@@ -165,6 +162,34 @@ export class ConversationsSocket {
         if (this.socket.readyState !== core.ReconnectingWebSocket.OPEN) {
             throw new Error("Socket is not open.");
         }
+    }
+
+    /** Send a message with buffering - if socket is not open, buffer the message. */
+    private sendWithBuffering(sendFn: () => void): void {
+        if (this.socket.readyState === core.ReconnectingWebSocket.OPEN) {
+            sendFn();
+        } else {
+            this.messageBuffer.push(sendFn);
+        }
+    }
+
+    /** Flush all buffered messages when the socket opens. */
+    private flushMessageBuffer(): void {
+        while (this.messageBuffer.length > 0) {
+            const sendFn = this.messageBuffer.shift();
+            if (sendFn) {
+                try {
+                    sendFn();
+                } catch (error) {
+                    console.error("Error sending buffered message:", error);
+                }
+            }
+        }
+    }
+
+    /** Clear all buffered messages. */
+    private clearMessageBuffer(): void {
+        this.messageBuffer = [];
     }
 
     /** Send a binary payload to the websocket. */
