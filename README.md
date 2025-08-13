@@ -80,6 +80,7 @@ const result = await phonic.agents.create({
   timezone: "Australia/Melbourne", // Defaults to "America/Los_Angeles"
   audioFormat: "mulaw_8000", // Defaults to "pcm_44100". Must be "mulaw_8000" when `phoneNumber` is "assign-automatically"
   voiceId: "sarah", // Defaults to "grant"
+  audioSpeed: 1.1, // Defaults to 1.0. Must be between 0.5 and 1.5, multiple of 0.1
   welcomeMessage: "Hello, how can I help you?", // Defaults to ""
   systemPrompt: "You are an expert in {{subject}}. Be kind to {{user_name}}.", // Defaults to "Respond in 1-2 sentences."
   templateVariables: {
@@ -117,6 +118,7 @@ const result = await phonic.agents.update("chris", {
   timezone: "Australia/Melbourne",
   voiceId: "sarah",
   audioFormat: "mulaw_8000", // Must be "mulaw_8000" when `phoneNumber` is "assign-automatically"
+  audioSpeed: 1.1, // Must be between 0.5 and 1.5, multiple of 0.1
   welcomeMessage: "Hello, how can I help you?",
   systemPrompt: "You are an expert in {{subject}}. Be kind to {{user_name}}.",
   templateVariables: {
@@ -154,6 +156,7 @@ const result = await phonic.agents.upsert({
   timezone: "Australia/Melbourne",
   voiceId: "sarah",
   audioFormat: "mulaw_8000", // Must be "mulaw_8000" when `phoneNumber` is "assign-automatically"
+  audioSpeed: 1.1, // Defaults to 1.0. Must be between 0.5 and 1.5, multiple of 0.1
   welcomeMessage: "Hello, how can I help you?",
   systemPrompt: "You are an expert in {{subject}}. Be kind to {{user_name}}.",
   templateVariables: {

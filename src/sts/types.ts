@@ -11,6 +11,7 @@ interface PhonicSTSConfigBase {
   input_format: "pcm_44100" | "mulaw_8000";
   output_format?: "pcm_44100" | "mulaw_8000";
   voice_id?: string;
+  audio_speed?: number; // API default: 1.0 // Must be between 0.5 and 1.5, multiple of 0.1
   welcome_message?: string;
   system_prompt?: string;
   template_variables?: Record<string, string>;

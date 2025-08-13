@@ -46,6 +46,7 @@ interface AgentOptionalParams {
   project?: string;
   timezone?: string;
   voiceId?: string;
+  audioSpeed?: number;
   welcomeMessage?: string;
   systemPrompt?: string;
   templateVariables?: Record<string, { defaultValue: string | null }>;

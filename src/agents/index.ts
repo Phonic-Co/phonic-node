@@ -101,6 +101,7 @@ export class Agents {
           params.phoneNumber === "assign-automatically"
             ? "mulaw_8000"
             : params.audioFormat,
+        audio_speed: params.audioSpeed,
         voice_id: params.voiceId,
         welcome_message: params.welcomeMessage,
         system_prompt: params.systemPrompt,
@@ -136,6 +137,7 @@ export class Agents {
             ? "mulaw_8000"
             : params.audioFormat,
         voice_id: params.voiceId,
+        audio_speed: params.audioSpeed,
         welcome_message: params.welcomeMessage,
         system_prompt: params.systemPrompt,
         template_variables: this.getTemplateVariablesForBody(
@@ -171,6 +173,7 @@ export class Agents {
         voice_id: params.voiceId,
         welcome_message: params.welcomeMessage,
         system_prompt: params.systemPrompt,
+        audio_speed: params.audioSpeed,
         template_variables: this.getTemplateVariablesForBody(
           params.templateVariables,
         ),
