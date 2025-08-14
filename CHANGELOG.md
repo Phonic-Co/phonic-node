@@ -1,5 +1,11 @@
 # phonic
 
+## 0.29.3
+
+### Patch Changes
+
+- [#85](https://github.com/Phonic-Co/phonic-node/pull/85) [`9c554d8`](https://github.com/Phonic-Co/phonic-node/commit/9c554d8c92054588c7f9a782f2e53c660b0f5ef0) Thanks [@moroshko](https://github.com/moroshko)! - Fix types
+
 ## 0.29.2
 
 ### Patch Changes
