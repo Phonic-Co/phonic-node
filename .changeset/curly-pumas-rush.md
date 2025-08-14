@@ -1,0 +1,5 @@
+---
+"phonic": patch
+---
+
+Fix types

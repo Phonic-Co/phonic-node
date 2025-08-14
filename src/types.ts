@@ -57,44 +57,69 @@ type TaskResults = {
   results: Array<TaskResult>;
 };
 
+type ToolCall = {
+  id: string;
+  tool: {
+    id: string;
+    name: string;
+  };
+  endpoint_url: string | null;
+  endpoint_headers: Record<string, string> | null;
+  endpoint_timeout_ms: number | null;
+  endpoint_called_at: string | null;
+  request_body: Record<string, unknown> | null;
+  response_body: Record<string, unknown> | null;
+  response_status_code: number | null;
+  timed_out: boolean | null;
+  error_message: string | null;
+};
+
 type ConversationItem =
   | {
-      role: "user";
       item_idx: number;
-      text: string;
+      role: "user";
+      live_transcript: string;
+      post_call_transcript: string | null;
       duration_ms: number;
       started_at: string;
     }
   | {
-      role: "assistant";
       item_idx: number;
-      text: string;
+      role: "assistant";
+      live_transcript: string;
       voice_id: string;
       system_prompt: string;
       audio_speed: number;
       duration_ms: number;
       started_at: string;
+      tool_calls: Array<ToolCall>;
     };
 
 export type Conversation = {
   id: string;
-  external_id: string | null;
-  workspace: string;
   agent: {
     id: string;
     name: string;
+    is_deleted: boolean;
   } | null;
+  workspace: string;
+  project: {
+    id: string;
+    name: string;
+  };
+  external_id: string | null;
   model: string;
   welcome_message: string | null;
+  template_variables: Record<string, string>;
   input_format: "pcm_44100" | "mulaw_8000";
   output_format: "pcm_44100" | "mulaw_8000";
   live_transcript: string;
   post_call_transcript: string | null;
-  audio_url: string | null;
   duration_ms: number;
-  task_results: TaskResults;
+  audio_url: string | null;
   started_at: ISODateTime;
   ended_at: ISODateTime | null;
+  task_results: TaskResults;
   items: Array<ConversationItem>;
 };
 
