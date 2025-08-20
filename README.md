@@ -1,45 +1,14 @@
-# Phonic Node.js SDK
+# Phonic TypeScript Library
 
-Node.js library for the Phonic API.
+[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2FPhonic-Co%2Fphonic-node)
+[![npm shield](https://img.shields.io/npm/v/phonic)](https://www.npmjs.com/package/phonic)
 
-- [Installation](#installation)
-- [Setup](#setup)
-- [Agents](#agents)
-  - [List agents](#list-agents)
-  - [Get agent](#get-agent)
-  - [Create agent](#create-agent)
-  - [Update agent](#update-agent)
-  - [Upsert agent](#upsert-agent)
-  - [Delete agent](#delete-agent)
-- [Tools](#tools)
-  - [List tools](#list-tools)
-  - [Get tool](#get-tool)
-  - [Create tool](#create-tool)
-  - [Update tool](#update-tool)
-  - [Delete tool](#delete-tool)
-- [Voices](#voices)
-  - [List voices](#list-voices)
-  - [Get voice](#get-voice)
-- [Conversations](#conversations)
-  - [List conversations](#list-conversations)
-  - [Get conversation by id](#get-conversation-by-id)
-  - [Get conversation by external id](#get-conversation-by-external-id)
-  - [Outbound call](#outbound-call)
-  - [Outbound call using own Twilio account](#outbound-call-using-own-twilio-account)
-- [STS via WebSocket](#sts-via-websocket)
-  - [Messages that Phonic sends back to you](#messages-that-phonic-sends-back-to-you)
-- [Projects](#projects)
-  - [List projects](#list-projects)
-  - [Get project](#get-project)
-  - [Create project](#create-project)
-  - [Update project](#update-project)
-  - [Delete project](#delete-project)
-- [License](#license)
+The Phonic TypeScript library provides convenient access to the Phonic API from TypeScript.
 
 ## Installation
 
-```bash
-npm i phonic
+```sh
+npm i -s phonic
 ```
 
 ## Setup
@@ -72,37 +41,37 @@ const result = await phonic.agents.get("chris", { project: "main" });
 
 ```ts
 const result = await phonic.agents.create({
-  name: "chris",
-  
-  // Optional fields
-  project: "main", // Defaults to "main"
-  phoneNumber: "assign-automatically", // Defaults to null
-  timezone: "Australia/Melbourne", // Defaults to "America/Los_Angeles"
-  audioFormat: "mulaw_8000", // Defaults to "pcm_44100". Must be "mulaw_8000" when `phoneNumber` is "assign-automatically"
-  voiceId: "sarah", // Defaults to "grant"
-  audioSpeed: 1.1, // Defaults to 1.0. Must be between 0.5 and 1.5, multiple of 0.1
-  welcomeMessage: "Hello, how can I help you?", // Defaults to ""
-  systemPrompt: "You are an expert in {{subject}}. Be kind to {{user_name}}.", // Defaults to "Respond in 1-2 sentences."
-  templateVariables: {
-    subject: {
-      defaultValue: "Maths"
+    name: "chris",
+
+    // Optional fields
+    project: "main", // Defaults to "main"
+    phoneNumber: "assign-automatically", // Defaults to null
+    timezone: "Australia/Melbourne", // Defaults to "America/Los_Angeles"
+    audioFormat: "mulaw_8000", // Defaults to "pcm_44100". Must be "mulaw_8000" when `phoneNumber` is "assign-automatically"
+    voiceId: "sarah", // Defaults to "grant"
+    audioSpeed: 1.1, // Defaults to 1.0. Must be between 0.5 and 1.5, multiple of 0.1
+    welcomeMessage: "Hello, how can I help you?", // Defaults to ""
+    systemPrompt: "You are an expert in {{subject}}. Be kind to {{user_name}}.", // Defaults to "Respond in 1-2 sentences."
+    templateVariables: {
+        subject: {
+            defaultValue: "Maths",
+        },
+        user_name: {
+            defaultValue: null,
+        },
     },
-    user_name: {
-      defaultValue: null
-    }
-  },
-  tools: ["keypad_input", "natural_conversation_ending", "my-custom-tool"], // Defaults to []
-  noInputPokeSec: 30, // Defaults to null
-  noInputPokeText: "Hey, are you with me?", // Defaults to "Are you still there?"
-  noInputEndConversationSec: 150, // Defaults to 180
-  boostedKeywords: ["Salamanca Market", "Bonorong Wildlife Sanctuary"], // Defaults to []
-  configurationEndpoint: {
-    url: "https://myapp.com/webhooks/phonic-config",
-    headers: {
-      Authorization: "Bearer 123"
-    },
-    timeoutMs: 10000 // Defaults to 3000
-  } // Defaults to null
+    tools: ["keypad_input", "natural_conversation_ending", "my-custom-tool"], // Defaults to []
+    noInputPokeSec: 30, // Defaults to null
+    noInputPokeText: "Hey, are you with me?", // Defaults to "Are you still there?"
+    noInputEndConversationSec: 150, // Defaults to 180
+    boostedKeywords: ["Salamanca Market", "Bonorong Wildlife Sanctuary"], // Defaults to []
+    configurationEndpoint: {
+        url: "https://myapp.com/webhooks/phonic-config",
+        headers: {
+            Authorization: "Bearer 123",
+        },
+        timeoutMs: 10000, // Defaults to 3000
+    }, // Defaults to null
 });
 ```
 
@@ -110,37 +79,37 @@ const result = await phonic.agents.create({
 
 ```ts
 const result = await phonic.agents.update("chris", {
-  name: "chris",
-  
-  // Optional fields
-  project: "main",
-  phoneNumber: "assign-automatically", // or null
-  timezone: "Australia/Melbourne",
-  voiceId: "sarah",
-  audioFormat: "mulaw_8000", // Must be "mulaw_8000" when `phoneNumber` is "assign-automatically"
-  audioSpeed: 1.1, // Must be between 0.5 and 1.5, multiple of 0.1
-  welcomeMessage: "Hello, how can I help you?",
-  systemPrompt: "You are an expert in {{subject}}. Be kind to {{user_name}}.",
-  templateVariables: {
-    subject: {
-      defaultValue: "Maths"
+    name: "chris",
+
+    // Optional fields
+    project: "main",
+    phoneNumber: "assign-automatically", // or null
+    timezone: "Australia/Melbourne",
+    voiceId: "sarah",
+    audioFormat: "mulaw_8000", // Must be "mulaw_8000" when `phoneNumber` is "assign-automatically"
+    audioSpeed: 1.1, // Must be between 0.5 and 1.5, multiple of 0.1
+    welcomeMessage: "Hello, how can I help you?",
+    systemPrompt: "You are an expert in {{subject}}. Be kind to {{user_name}}.",
+    templateVariables: {
+        subject: {
+            defaultValue: "Maths",
+        },
+        user_name: {
+            defaultValue: null,
+        },
     },
-    user_name: {
-      defaultValue: null
-    }
-  },
-  tools: ["keypad_input", "natural_conversation_ending", "my-custom-tool"],
-  noInputPokeSec: 30,
-  noInputPokeText: "Hey, are you with me?",
-  noInputEndConversationSec: 150,
-  boostedKeywords: ["Salamanca Market", "Bonorong Wildlife Sanctuary"],
-  configurationEndpoint: {
-    url: "https://myapp.com/webhooks/phonic-config",
-    headers: {
-      Authorization: "Bearer 123"
+    tools: ["keypad_input", "natural_conversation_ending", "my-custom-tool"],
+    noInputPokeSec: 30,
+    noInputPokeText: "Hey, are you with me?",
+    noInputEndConversationSec: 150,
+    boostedKeywords: ["Salamanca Market", "Bonorong Wildlife Sanctuary"],
+    configurationEndpoint: {
+        url: "https://myapp.com/webhooks/phonic-config",
+        headers: {
+            Authorization: "Bearer 123",
+        },
+        timeoutMs: 7000,
     },
-    timeoutMs: 7000
-  }
 });
 ```
 
@@ -148,37 +117,37 @@ const result = await phonic.agents.update("chris", {
 
 ```ts
 const result = await phonic.agents.upsert({
-  name: "chris",
-  
-  // Optional fields
-  project: "main",
-  phoneNumber: "assign-automatically", // or null
-  timezone: "Australia/Melbourne",
-  voiceId: "sarah",
-  audioFormat: "mulaw_8000", // Must be "mulaw_8000" when `phoneNumber` is "assign-automatically"
-  audioSpeed: 1.1, // Defaults to 1.0. Must be between 0.5 and 1.5, multiple of 0.1
-  welcomeMessage: "Hello, how can I help you?",
-  systemPrompt: "You are an expert in {{subject}}. Be kind to {{user_name}}.",
-  templateVariables: {
-    subject: {
-      defaultValue: "Maths"
+    name: "chris",
+
+    // Optional fields
+    project: "main",
+    phoneNumber: "assign-automatically", // or null
+    timezone: "Australia/Melbourne",
+    voiceId: "sarah",
+    audioFormat: "mulaw_8000", // Must be "mulaw_8000" when `phoneNumber` is "assign-automatically"
+    audioSpeed: 1.1, // Defaults to 1.0. Must be between 0.5 and 1.5, multiple of 0.1
+    welcomeMessage: "Hello, how can I help you?",
+    systemPrompt: "You are an expert in {{subject}}. Be kind to {{user_name}}.",
+    templateVariables: {
+        subject: {
+            defaultValue: "Maths",
+        },
+        user_name: {
+            defaultValue: null,
+        },
     },
-    user_name: {
-      defaultValue: null
-    }
-  },
-  tools: ["keypad_input", "natural_conversation_ending", "my-custom-tool"],
-  noInputPokeSec: 30,
-  noInputPokeText: "Hey, are you with me?",
-  noInputEndConversationSec: 150,
-  boostedKeywords: ["Salamanca Market", "Bonorong Wildlife Sanctuary"],
-  configurationEndpoint: {
-    url: "https://myapp.com/webhooks/phonic-config",
-    headers: {
-      Authorization: "Bearer 123"
+    tools: ["keypad_input", "natural_conversation_ending", "my-custom-tool"],
+    noInputPokeSec: 30,
+    noInputPokeText: "Hey, are you with me?",
+    noInputEndConversationSec: 150,
+    boostedKeywords: ["Salamanca Market", "Bonorong Wildlife Sanctuary"],
+    configurationEndpoint: {
+        url: "https://myapp.com/webhooks/phonic-config",
+        headers: {
+            Authorization: "Bearer 123",
+        },
+        timeoutMs: 7000,
     },
-    timeoutMs: 7000
-  }
 });
 ```
 
@@ -186,8 +155,8 @@ const result = await phonic.agents.upsert({
 
 ```ts
 const result = await phonic.agents.delete("chris", {
-  // Optional fields
-  project: "main",
+    // Optional fields
+    project: "main",
 });
 ```
 
@@ -196,8 +165,8 @@ const result = await phonic.agents.delete("chris", {
 ### List tools
 
 ```ts
-const result = await phonic.tools.list({ 
-  project: "customer-support" // Optional. Defaults to "main".
+const result = await phonic.tools.list({
+    project: "customer-support", // Optional. Defaults to "main".
 });
 ```
 
@@ -206,8 +175,8 @@ const result = await phonic.tools.list({
 Returns a tool by name or ID.
 
 ```ts
-const result = await phonic.tools.get("next_invoice", { 
-  project: "customer-support" // Optional. Defaults to "main".
+const result = await phonic.tools.get("next_invoice", {
+    project: "customer-support", // Optional. Defaults to "main".
 });
 ```
 
@@ -217,38 +186,38 @@ const result = await phonic.tools.get("next_invoice", {
 
 ```ts
 const result = await phonic.tools.create({
-  project: "customer-support", // Optional. Defaults to "main".
-  name: "next_invoice",
-  description: "Returns the next invoice of the given user",
-  type: "custom_webhook",
-  executionMode: "sync",
-  endpointMethod: "POST",
-  endpointUrl: "https://myapp.com/webhooks/next-invoice",
-  endpointHeaders: {
-    Authorization: "Bearer 123"
-  },
-  endpointTimeoutMs: 20000, // Optional, defaults to 15000
-  parameters: [
-    {
-      type: "string",
-      name: "user",
-      description: "Full name of the user to get the invoice for",
-      isRequired: true
+    project: "customer-support", // Optional. Defaults to "main".
+    name: "next_invoice",
+    description: "Returns the next invoice of the given user",
+    type: "custom_webhook",
+    executionMode: "sync",
+    endpointMethod: "POST",
+    endpointUrl: "https://myapp.com/webhooks/next-invoice",
+    endpointHeaders: {
+        Authorization: "Bearer 123",
     },
-    {
-      type: "array",
-      itemType: "string",
-      name: "invoice_items",
-      description: "List of invoice items",
-      isRequired: false
-    },
-    {
-      type: "number",
-      name: "invoice_total",
-      description: "Total invoice amount in USD",
-      isRequired: true
-    },
-  ]
+    endpointTimeoutMs: 20000, // Optional, defaults to 15000
+    parameters: [
+        {
+            type: "string",
+            name: "user",
+            description: "Full name of the user to get the invoice for",
+            isRequired: true,
+        },
+        {
+            type: "array",
+            itemType: "string",
+            name: "invoice_items",
+            description: "List of invoice items",
+            isRequired: false,
+        },
+        {
+            type: "number",
+            name: "invoice_total",
+            description: "Total invoice amount in USD",
+            isRequired: true,
+        },
+    ],
 });
 ```
 
@@ -258,20 +227,20 @@ WebSocket tools allow you to handle tool execution through the WebSocket connect
 
 ```ts
 const result = await phonic.tools.create({
-  project: "customer-support", // Optional. Defaults to "main".
-  name: "get_product_recommendations",
-  description: "Gets personalized product recommendations",
-  type: "custom_websocket",
-  executionMode: "async",
-  toolCallOutputTimeoutMs: 5000, // Optional, defaults to 15000
-  parameters: [
-    {
-      type: "string",
-      name: "category",
-      description: "Product category (e.g., 'handbags', 'shoes', 'electronics')",
-      isRequired: true
-    }
-  ]
+    project: "customer-support", // Optional. Defaults to "main".
+    name: "get_product_recommendations",
+    description: "Gets personalized product recommendations",
+    type: "custom_websocket",
+    executionMode: "async",
+    toolCallOutputTimeoutMs: 5000, // Optional, defaults to 15000
+    parameters: [
+        {
+            type: "string",
+            name: "category",
+            description: "Product category (e.g., 'handbags', 'shoes', 'electronics')",
+            isRequired: true,
+        },
+    ],
 });
 ```
 
@@ -296,10 +265,10 @@ const phonicWebSocket = phonic.sts.websocket({
 phonicWebSocket.onMessage(async (message) => {
   if (message.type === "tool_call" && message.name === "get_product_recommendations") {
     const category = message.parameters.category;
-    
+
     // Execute your business logic
     const recommendations = fetchRecommendations(category);
-    
+
     // Send the result back
     phonicWebSocket.[sendToolCallOutput](#send-tool-output-to-phonic)({
       toolCallId: message.tool_call_id,
@@ -318,38 +287,38 @@ Updates a tool by ID or name. All fields are optional - only provided fields wil
 
 ```ts
 const result = await phonic.tools.update("next_invoice", {
-  project: "customer-support", // Optional. Defaults to "main".
-  name: "next_invoice_updated",
-  description: "Updated description.",
-  type: "custom_webhook",
-  executionMode: "sync",
-  endpointMethod: "POST",
-  endpointUrl: "https://myapp.com/webhooks/next-invoice-updated",
-  endpointHeaders: {
-    Authorization: "Bearer 456"
-  },
-  endpointTimeoutMs: 30000,
-  parameters: [
-    {
-      type: "string",
-      name: "user",
-      description: "Full name of the user to get the invoice for",
-      isRequired: true
+    project: "customer-support", // Optional. Defaults to "main".
+    name: "next_invoice_updated",
+    description: "Updated description.",
+    type: "custom_webhook",
+    executionMode: "sync",
+    endpointMethod: "POST",
+    endpointUrl: "https://myapp.com/webhooks/next-invoice-updated",
+    endpointHeaders: {
+        Authorization: "Bearer 456",
     },
-    {
-      type: "array",
-      itemType: "string",
-      name: "invoice_items",
-      description: "List of invoice items",
-      isRequired: true
-    },
-    {
-      type: "number",
-      name: "invoice_total",
-      description: "Total invoice amount in USD",
-      isRequired: true
-    },
-  ]
+    endpointTimeoutMs: 30000,
+    parameters: [
+        {
+            type: "string",
+            name: "user",
+            description: "Full name of the user to get the invoice for",
+            isRequired: true,
+        },
+        {
+            type: "array",
+            itemType: "string",
+            name: "invoice_items",
+            description: "List of invoice items",
+            isRequired: true,
+        },
+        {
+            type: "number",
+            name: "invoice_total",
+            description: "Total invoice amount in USD",
+            isRequired: true,
+        },
+    ],
 });
 ```
 
@@ -357,8 +326,8 @@ For WebSocket tools, you would use `toolCallOutputTimeoutMs` instead of the endp
 
 ```ts
 const result = await phonic.tools.update("get_product_recommendations", {
-  description: "Updated product recommendation tool",
-  toolCallOutputTimeoutMs: 7000
+    description: "Updated product recommendation tool",
+    toolCallOutputTimeoutMs: 7000,
 });
 ```
 
@@ -367,8 +336,8 @@ const result = await phonic.tools.update("get_product_recommendations", {
 Deletes a tool by ID or name.
 
 ```ts
-const result = await phonic.tools.delete("next_invoice", { 
-  project: "customer-support" // Optional. Defaults to "main".
+const result = await phonic.tools.delete("next_invoice", {
+    project: "customer-support", // Optional. Defaults to "main".
 });
 ```
 
@@ -379,7 +348,6 @@ const result = await phonic.tools.delete("next_invoice", {
 ```ts
 const result = await phonic.voices.list({ model: "merritt" });
 ```
-
 
 ### Get voice
 
@@ -393,14 +361,13 @@ const result = await phonic.voices.get("grant");
 
 ```ts
 const result = await phonic.conversations.list({
-  project: "main",
-  durationMin: 10, // sec
-  durationMax: 20, // sec
-  startedAtMin: "2025-04-17", // 00:00:00 UTC time is assumed
-  startedAtMax: "2025-09-05T10:30:00.000Z",
+    project: "main",
+    durationMin: 10, // sec
+    durationMax: 20, // sec
+    startedAtMin: "2025-04-17", // 00:00:00 UTC time is assumed
+    startedAtMax: "2025-09-05T10:30:00.000Z",
 });
 ```
-
 
 ### Get conversation by id
 
@@ -412,8 +379,8 @@ const result = await phonic.conversations.get("conv_b1804883-5be4-42fe-b1cf-aa84
 
 ```ts
 const result = await phonic.conversations.getByExternalId({
-  project: "main",
-  externalId: "CAdb9c032c809fec7feb932ea4c96d71e1"
+    project: "main",
+    externalId: "CAdb9c032c809fec7feb932ea4c96d71e1",
 });
 ```
 
@@ -421,12 +388,12 @@ const result = await phonic.conversations.getByExternalId({
 
 ```ts
 const result = await phonic.conversations.outboundCall("+19189396241", {
-  // Optional fields
-  agent: "chris",
-  template_variables: {
-    customer_name: "David",
-    subject: "Chess"
-  },
+    // Optional fields
+    agent: "chris",
+    template_variables: {
+        customer_name: "David",
+        subject: "Chess",
+    },
 });
 ```
 
@@ -436,27 +403,27 @@ In Twilio, create a restricted API key with the following permissions: `voice ->
 
 ```ts
 const result = await phonic.conversations.twilio.outboundCall(
-  {
-    account_sid: "AC...",
-    api_key_sid: "SK...",
-    api_key_secret: "...",
-    from_phone_number: "+19189372905",
-    to_phone_number: "+19189396241",
-  }, 
-  {
-    // Optional fields
-    agent: "chris",
-    welcome_message: "Hello, how can I help you?",
-    project: "main",
-    system_prompt: "You are a helpful assistant.",
-    voice_id: "grant",
-    enable_silent_audio_fallback: true,
-    vad_prebuffer_duration_ms: 1800,
-    vad_min_speech_duration_ms: 40,
-    vad_min_silence_duration_ms: 550,
-    vad_threshold: 0.6,
-    tools: ["keypad_input", "natural_conversation_ending"]
-  }
+    {
+        account_sid: "AC...",
+        api_key_sid: "SK...",
+        api_key_secret: "...",
+        from_phone_number: "+19189372905",
+        to_phone_number: "+19189396241",
+    },
+    {
+        // Optional fields
+        agent: "chris",
+        welcome_message: "Hello, how can I help you?",
+        project: "main",
+        system_prompt: "You are a helpful assistant.",
+        voice_id: "grant",
+        enable_silent_audio_fallback: true,
+        vad_prebuffer_duration_ms: 1800,
+        vad_min_speech_duration_ms: 40,
+        vad_min_silence_duration_ms: 550,
+        vad_threshold: 0.6,
+        tools: ["keypad_input", "natural_conversation_ending"],
+    },
 );
 ```
 
@@ -466,17 +433,17 @@ To start a conversation, open a WebSocket connection:
 
 ```ts
 const phonicWebSocket = phonic.sts.websocket({
-  input_format: "mulaw_8000",
+    input_format: "mulaw_8000",
 
-  // Optional fields
-  agent: "chris",
-  template_variables: {
-    customer_name: "David",
-    subject: "Chess"
-  },
-  welcome_message: "Hello, how can I help you?",
-  voice_id: "grant",
-  output_format: "mulaw_8000",
+    // Optional fields
+    agent: "chris",
+    template_variables: {
+        customer_name: "David",
+        subject: "Chess",
+    },
+    welcome_message: "Hello, how can I help you?",
+    voice_id: "grant",
+    output_format: "mulaw_8000",
 });
 ```
 
@@ -484,7 +451,7 @@ Stream input (user) audio chunks:
 
 ```ts
 phonicWebSocket.audioChunk({
-  audio: "...", // base64 encoded audio chunk
+    audio: "...", // base64 encoded audio chunk
 });
 ```
 
@@ -515,12 +482,12 @@ phonicWebSocket.onMessage((message) => {
     case "tool_call": {
       // Handle WebSocket tool calls
       console.log(`Tool ${message.tool_name} called with parameters:`, message.parameters);
-      
+
       // Example: Process a product recommendations tool call
       if (message.tool_name === "get_product_recommendations") {
         const category = message.parameters.category;
         const recommendations = fetchRecommendations(category);
-        
+
         phonicWebSocket.[sendToolCallOutput](#send-tool-output-to-phonic)({
           toolCallId: message.tool_call_id,
           output: {
@@ -539,16 +506,16 @@ Update the system prompt mid-conversation:
 
 ```ts
 phonicWebSocket.updateSystemPrompt({
-  systemPrompt: "..."
-})
+    systemPrompt: "...",
+});
 ```
 
 Set an external id for the conversation (can be the Twilio Call SID, for example):
 
 ```ts
 phonicWebSocket.setExternalId({
-  externalId: "..."
-})
+    externalId: "...",
+});
 ```
 
 ### Send tool output to Phonic
@@ -557,24 +524,25 @@ When you receive a `tool_call` message for a WebSocket tool, you must respond wi
 
 ```ts
 phonicWebSocket.sendToolCallOutput({
-  toolCallId: "tool_call_123...", // The tool_call_id from the tool_call message
-  output: "Success! Found 2 items" // Can be any JSON-serializable value (string, number, object, array, etc.)
+    toolCallId: "tool_call_123...", // The tool_call_id from the tool_call message
+    output: "Success! Found 2 items", // Can be any JSON-serializable value (string, number, object, array, etc.)
 });
 
 // Or with an object:
 phonicWebSocket.sendToolCallOutput({
-  toolCallId: message.tool_call_id,
-  output: {
-    result: "success",
-    data: {
-      items: ["item1", "item2"],
-      total: 2
-    }
-  }
+    toolCallId: message.tool_call_id,
+    output: {
+        result: "success",
+        data: {
+            items: ["item1", "item2"],
+            total: 2,
+        },
+    },
 });
 ```
 
 **Important notes:**
+
 - You must use the exact `tool_call_id` received in the `tool_call` message
 - The `output` can be any JSON-serializable value (string, number, boolean, object, array, etc.)
 - If you don't send a response within `toolCallOutputTimeoutMs`, the tool call will be marked as failed.
@@ -589,13 +557,11 @@ You can also listen for close and error events:
 
 ```ts
 phonicWebSocket.onClose((event) => {
-  console.log(
-    `Phonic WebSocket closed with code ${event.code} and reason "${event.reason}"`,
-  );
+    console.log(`Phonic WebSocket closed with code ${event.code} and reason "${event.reason}"`);
 });
 
 phonicWebSocket.onError((event) => {
-  console.log(`Error from Phonic WebSocket: ${event.message}`);
+    console.log(`Error from Phonic WebSocket: ${event.message}`);
 });
 ```
 
@@ -605,8 +571,8 @@ phonicWebSocket.onError((event) => {
 
 ```ts
 {
-  type: "conversation_created";
-  conversation_id: string;
+    type: "conversation_created";
+    conversation_id: string;
 }
 ```
 
@@ -616,7 +582,7 @@ Sent when the conversation has been successfully created.
 
 ```ts
 {
-  type: "ready_to_start_conversation";
+    type: "ready_to_start_conversation";
 }
 ```
 
@@ -626,8 +592,8 @@ Sent when Phonic is ready to begin processing audio. You should start sending au
 
 ```ts
 {
-  type: "input_text";
-  text: string;
+    type: "input_text";
+    text: string;
 }
 ```
 
@@ -637,9 +603,9 @@ Phonic sends this message once user's audio is transcribed.
 
 ```ts
 {
-  type: "audio_chunk";
-  audio: string; // base64 encoded array of audio data (each value is in range [-32768..32767] for "pcm_44100" output format, and in range [0..255] for "mulaw_8000" output format)  
-  text: string; // May potentially be "", but will typically be one word.
+    type: "audio_chunk";
+    audio: string; // base64 encoded array of audio data (each value is in range [-32768..32767] for "pcm_44100" output format, and in range [0..255] for "mulaw_8000" output format)
+    text: string; // May potentially be "", but will typically be one word.
 }
 ```
 
@@ -649,7 +615,7 @@ These are the assistant response audio chunks.
 
 ```ts
 {
-  type: "audio_finished";
+    type: "audio_finished";
 }
 ```
 
@@ -659,7 +625,7 @@ Sent after the last "audio_chunk" is sent.
 
 ```ts
 {
-  type: "user_started_speaking";
+    type: "user_started_speaking";
 }
 ```
 
@@ -669,7 +635,7 @@ Sent when the user begins speaking.
 
 ```ts
 {
-  type: "user_finished_speaking";
+    type: "user_finished_speaking";
 }
 ```
 
@@ -690,7 +656,7 @@ Sent when the user interrupts the assistant, after the user has finished speakin
 
 ```ts
 {
-  type: "assistant_chose_not_to_respond";
+    type: "assistant_chose_not_to_respond";
 }
 ```
 
@@ -700,7 +666,7 @@ Sent when the assistant decides not to respond to the user's input.
 
 ```ts
 {
-  type: "assistant_ended_conversation";
+    type: "assistant_ended_conversation";
 }
 ```
 
@@ -710,14 +676,15 @@ Sent when the assistant decides to end the conversation.
 
 ```ts
 {
-  type: "tool_call";
-  tool_call_id: string;
-  tool_name: string;
-  parameters: Record<string, unknown>;
+    type: "tool_call";
+    tool_call_id: string;
+    tool_name: string;
+    parameters: Record<string, unknown>;
 }
 ```
 
 Sent when a WebSocket tool is called during the conversation. When you receive this message, you should:
+
 1. Process the tool call using the provided `tool_name` and `parameters`
 2. Send back the result using [`phonicWebSocket.sendToolCallOutput`](#send-tool-output-to-phonic)
 
@@ -749,6 +716,7 @@ This is only sent for tools created with `type: "custom_websocket"`. Webhook too
   error_message: string | null;
 }
 ```
+
 Sent when a tool is called during the conversation. Built-in tools will have null values for endpoint-related fields.
 
 When a custom tool is called, the `request_body` field always includes a `call_info` field.
@@ -789,7 +757,7 @@ const result = await phonic.projects.get("main");
 
 ```ts
 const result = await phonic.projects.create({
-  name: "customer-support",
+    name: "customer-support",
 });
 ```
 
@@ -797,8 +765,8 @@ const result = await phonic.projects.create({
 
 ```ts
 const result = await phonic.projects.update("customer-support", {
-  name: "updated-customer-support",
-  defaultAgent: "another-agent"
+    name: "updated-customer-support",
+    defaultAgent: "another-agent",
 });
 ```
 
@@ -811,3 +779,194 @@ const result = await phonic.projects.delete("customer-support");
 ## License
 
 MIT
+
+## Reference
+
+A full reference for this library is available [here](https://github.com/Phonic-Co/phonic-node/blob/HEAD/./reference.md).
+
+## Usage
+
+Instantiate and use the client with the following:
+
+```typescript
+import { PhonicClient } from "phonic";
+
+const client = new PhonicClient({ apiKey: "YOUR_API_KEY" });
+await client.agents.create({
+    project: "main",
+    body: {
+        name: "support-agent",
+        phone_number: "assign-automatically",
+        timezone: "America/Los_Angeles",
+        voice_id: "sarah",
+        audio_speed: 1,
+        welcome_message: "Hi {{customer_name}}. How can I help you today?",
+        system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+        template_variables: {
+            customer_name: {},
+            subject: {
+                default_value: "Chess",
+            },
+        },
+        tools: ["keypad_input"],
+        no_input_poke_sec: 30,
+        no_input_poke_text: "Are you still there?",
+        boosted_keywords: ["Load ID", "dispatch"],
+        configuration_endpoint: {
+            url: "https://api.example.com/config",
+            headers: {
+                Authorization: "Bearer token123",
+            },
+            timeout_ms: 7000,
+        },
+    },
+});
+```
+
+## Request And Response Types
+
+The SDK exports all request and response types as TypeScript interfaces. Simply import them with the
+following namespace:
+
+```typescript
+import { Phonic } from "phonic";
+
+const request: Phonic.AgentsListRequest = {
+    ...
+};
+```
+
+## Exception Handling
+
+When the API returns a non-success status code (4xx or 5xx response), a subclass of the following error
+will be thrown.
+
+```typescript
+import { PhonicError } from "phonic";
+
+try {
+    await client.agents.create(...);
+} catch (err) {
+    if (err instanceof PhonicError) {
+        console.log(err.statusCode);
+        console.log(err.message);
+        console.log(err.body);
+        console.log(err.rawResponse);
+    }
+}
+```
+
+## Advanced
+
+### Additional Headers
+
+If you would like to send additional headers as part of the request, use the `headers` request option.
+
+```typescript
+const response = await client.agents.create(..., {
+    headers: {
+        'X-Custom-Header': 'custom value'
+    }
+});
+```
+
+### Additional Query String Parameters
+
+If you would like to send additional query string parameters as part of the request, use the `queryParams` request option.
+
+```typescript
+const response = await client.agents.create(..., {
+    queryParams: {
+        'customQueryParamKey': 'custom query param value'
+    }
+});
+```
+
+### Retries
+
+The SDK is instrumented with automatic retries with exponential backoff. A request will be retried as long
+as the request is deemed retryable and the number of retry attempts has not grown larger than the configured
+retry limit (default: 2).
+
+A request is deemed retryable when any of the following HTTP status codes is returned:
+
+- [408](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/408) (Timeout)
+- [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429) (Too Many Requests)
+- [5XX](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500) (Internal Server Errors)
+
+Use the `maxRetries` request option to configure this behavior.
+
+```typescript
+const response = await client.agents.create(..., {
+    maxRetries: 0 // override maxRetries at the request level
+});
+```
+
+### Timeouts
+
+The SDK defaults to a 60 second timeout. Use the `timeoutInSeconds` option to configure this behavior.
+
+```typescript
+const response = await client.agents.create(..., {
+    timeoutInSeconds: 30 // override timeout to 30s
+});
+```
+
+### Aborting Requests
+
+The SDK allows users to abort requests at any point by passing in an abort signal.
+
+```typescript
+const controller = new AbortController();
+const response = await client.agents.create(..., {
+    abortSignal: controller.signal
+});
+controller.abort(); // aborts the request
+```
+
+### Access Raw Response Data
+
+The SDK provides access to raw response data, including headers, through the `.withRawResponse()` method.
+The `.withRawResponse()` method returns a promise that results to an object with a `data` and a `rawResponse` property.
+
+```typescript
+const { data, rawResponse } = await client.agents.create(...).withRawResponse();
+
+console.log(data);
+console.log(rawResponse.headers['X-My-Header']);
+```
+
+### Runtime Compatibility
+
+The SDK works in the following runtimes:
+
+- Node.js 18+
+- Vercel
+- Cloudflare Workers
+- Deno v1.25+
+- Bun 1.0+
+- React Native
+
+### Customizing Fetch Client
+
+The SDK provides a way for you to customize the underlying HTTP client / Fetch function. If you're running in an
+unsupported environment, this provides a way for you to break glass and ensure the SDK works.
+
+```typescript
+import { PhonicClient } from "phonic";
+
+const client = new PhonicClient({
+    ...
+    fetcher: // provide your implementation here
+});
+```
+
+## Contributing
+
+While we value open-source contributions to this SDK, this library is generated programmatically.
+Additions made directly to this library would have to be moved over to our generation code,
+otherwise they would be overwritten upon the next generated release. Feel free to open a PR as
+a proof of concept, but know that we will not be able to merge it as-is. We suggest opening
+an issue first to discuss with us!
+
+On the other hand, contributions to the README are always very welcome!
