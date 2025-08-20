@@ -1,0 +1,8 @@
+# Specify files that shouldn't be modified by Fern
+
+src/api/resources/conversations/client/Client.ts
+src/api/resources/conversations/client/Socket.ts
+src/core/websocket/ws.ts
+
+src/api/index.ts
+src/api/types/overrides.ts

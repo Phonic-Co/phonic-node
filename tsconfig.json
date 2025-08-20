@@ -1,17 +1,3 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "compilerOptions": {
-    "allowJs": false,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "commonjs",
-    "noEmit": true,
-    "noUncheckedIndexedAccess": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "target": "esnext",
-    "resolveJsonModule": true
-  },
-  "exclude": ["node_modules"],
-  "include": ["**/*.ts"]
+    "extends": "./tsconfig.cjs.json"
 }
