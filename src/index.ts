@@ -1,12 +1,4 @@
-export { Phonic } from "./phonic";
-export type {
-  PhonicConfigurationEndpointRequestPayload,
-  PhonicConfigurationEndpointResponsePayload,
-  PhonicSTSWebSocketResponseMessage,
-  PhonicSTSConfig,
-} from "./sts/types";
-export type {
-  ConversationEndedWebhookPayload,
-  ConversationAnalysisWebhookPayload,
-} from "./types";
-export type { PhonicSTSWebSocket } from "./sts/websocket";
+export * as Phonic from "./api/index.js";
+export { PhonicError, PhonicTimeoutError } from "./errors/index.js";
+export { PhonicClient } from "./Client.js";
+export { PhonicEnvironment, PhonicEnvironmentUrls } from "./environments.js";
