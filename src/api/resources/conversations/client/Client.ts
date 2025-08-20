@@ -128,8 +128,8 @@ export class Conversations {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                        .base,
+                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                    .base,
                 "conversations",
             ),
             method: "GET",
@@ -219,8 +219,8 @@ export class Conversations {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                        .base,
+                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                    .base,
                 `conversations/${encodeURIComponent(id)}`,
             ),
             method: "GET",
@@ -310,8 +310,8 @@ export class Conversations {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                        .base,
+                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                    .base,
                 `conversations/${encodeURIComponent(id)}/cancel`,
             ),
             method: "POST",
@@ -403,8 +403,8 @@ export class Conversations {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                        .base,
+                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                    .base,
                 `conversations/${encodeURIComponent(id)}/analysis`,
             ),
             method: "GET",
@@ -495,8 +495,8 @@ export class Conversations {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                        .base,
+                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                    .base,
                 `conversations/${encodeURIComponent(id)}/extractions`,
             ),
             method: "GET",
@@ -595,8 +595,8 @@ export class Conversations {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                        .base,
+                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                    .base,
                 `conversations/${encodeURIComponent(id)}/extractions`,
             ),
             method: "POST",
@@ -694,8 +694,8 @@ export class Conversations {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                        .base,
+                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                    .base,
                 `conversations/${encodeURIComponent(id)}/evals`,
             ),
             method: "GET",
@@ -792,8 +792,8 @@ export class Conversations {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                        .base,
+                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                    .base,
                 `conversations/${encodeURIComponent(id)}/evals`,
             ),
             method: "POST",
@@ -903,8 +903,8 @@ export class Conversations {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                        .base,
+                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                    .base,
                 "conversations/outbound_call",
             ),
             method: "POST",
@@ -1018,8 +1018,8 @@ export class Conversations {
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                        .base,
+                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                    .base,
                 "conversations/sip/outbound_call",
             ),
             method: "POST",
@@ -1100,11 +1100,12 @@ export class Conversations {
         let _headers: Record<string, string> = {
             ...headers,
         };
+        _headers["Authorization"] = await this._getAuthorizationHeader();
         const socket = new core.ReconnectingWebSocket({
             url: core.url.join(
                 (await core.Supplier.get(this._options["baseUrl"])) ??
-                    ((await core.Supplier.get(this._options["environment"])) ?? environments.PhonicEnvironment.Default)
-                        .production,
+                ((await core.Supplier.get(this._options["environment"])) ?? environments.PhonicEnvironment.Default)
+                    .production,
                 "/v1/sts/ws",
             ),
             protocols: [],
