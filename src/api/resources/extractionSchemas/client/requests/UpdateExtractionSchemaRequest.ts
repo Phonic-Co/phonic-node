@@ -7,7 +7,6 @@ import * as Phonic from "../../../../index.js";
 /**
  * @example
  *     {
- *         project: "main",
  *         name: "Updated appointment details",
  *         prompt: "Updated extraction instructions. Dates should be in `9 Apr 2025` format.",
  *         fields: [{
@@ -22,9 +21,7 @@ import * as Phonic from "../../../../index.js";
  *     }
  */
 export interface UpdateExtractionSchemaRequest {
-    /**
-     * The name of the project containing the extraction schema. Only used when `nameOrId` is a name.
-     */
+    /** The name of the project containing the extraction schema. Only used when `nameOrId` is a name. */
     project?: string;
     /** A name for the extraction schema. */
     name?: string;

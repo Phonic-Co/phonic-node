@@ -49,9 +49,7 @@ export class Tools {
      * @throws {@link Phonic.NotFoundError}
      *
      * @example
-     *     await client.tools.list({
-     *         project: "main"
-     *     })
+     *     await client.tools.list()
      */
     public list(
         request: Phonic.ToolsListRequest = {},
@@ -70,6 +68,11 @@ export class Tools {
             _queryParams["project"] = project;
         }
 
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -78,11 +81,7 @@ export class Tools {
                 "tools",
             ),
             method: "GET",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
@@ -134,7 +133,6 @@ export class Tools {
      *
      * @example
      *     await client.tools.create({
-     *         project: "main",
      *         name: "book_appointment",
      *         description: "Books an appointment in the calendar system",
      *         type: "custom_webhook",
@@ -161,7 +159,6 @@ export class Tools {
      *
      * @example
      *     await client.tools.create({
-     *         project: "main",
      *         name: "check_inventory",
      *         description: "Checks product inventory levels",
      *         type: "custom_websocket",
@@ -192,6 +189,11 @@ export class Tools {
             _queryParams["project"] = project;
         }
 
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -200,11 +202,7 @@ export class Tools {
                 "tools",
             ),
             method: "POST",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             contentType: "application/json",
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             requestType: "json",
@@ -262,9 +260,7 @@ export class Tools {
      * @throws {@link Phonic.NotFoundError}
      *
      * @example
-     *     await client.tools.get("nameOrId", {
-     *         project: "main"
-     *     })
+     *     await client.tools.get("nameOrId")
      */
     public get(
         nameOrId: string,
@@ -285,6 +281,11 @@ export class Tools {
             _queryParams["project"] = project;
         }
 
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -293,11 +294,7 @@ export class Tools {
                 `tools/${encodeURIComponent(nameOrId)}`,
             ),
             method: "GET",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
@@ -349,9 +346,7 @@ export class Tools {
      * @throws {@link Phonic.NotFoundError}
      *
      * @example
-     *     await client.tools.delete("nameOrId", {
-     *         project: "main"
-     *     })
+     *     await client.tools.delete("nameOrId")
      */
     public delete(
         nameOrId: string,
@@ -372,6 +367,11 @@ export class Tools {
             _queryParams["project"] = project;
         }
 
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -380,11 +380,7 @@ export class Tools {
                 `tools/${encodeURIComponent(nameOrId)}`,
             ),
             method: "DELETE",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
@@ -437,7 +433,6 @@ export class Tools {
      *
      * @example
      *     await client.tools.update("nameOrId", {
-     *         project: "main",
      *         description: "Updated description for booking appointments with enhanced features",
      *         endpoint_headers: {
      *             "Authorization": "Bearer updated_token456"
@@ -464,6 +459,11 @@ export class Tools {
             _queryParams["project"] = project;
         }
 
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -472,11 +472,7 @@ export class Tools {
                 `tools/${encodeURIComponent(nameOrId)}`,
             ),
             method: "PATCH",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             contentType: "application/json",
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             requestType: "json",

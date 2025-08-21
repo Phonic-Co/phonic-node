@@ -7,7 +7,6 @@ import * as Phonic from "../../../../index.js";
 /**
  * @example
  *     {
- *         project: "main",
  *         name: "updated-support-agent",
  *         phone_number: "assign-automatically",
  *         timezone: "America/Los_Angeles",
@@ -35,9 +34,7 @@ import * as Phonic from "../../../../index.js";
  *     }
  */
 export interface UpdateAgentRequest {
-    /**
-     * The name of the project containing the agent. Only used when `nameOrId` is a name.
-     */
+    /** The name of the project containing the agent. Only used when `nameOrId` is a name. */
     project?: string;
     /** The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
     name?: string;

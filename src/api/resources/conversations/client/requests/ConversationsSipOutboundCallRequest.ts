@@ -13,25 +13,15 @@ import * as Phonic from "../../../../index.js";
  *     }
  */
 export interface ConversationsSipOutboundCallRequest {
-    /**
-     * Optional session token used for STS authorization.
-     */
+    /** Optional session token used for STS authorization. */
     token?: string;
-    /**
-     * Optional downstream STS WebSocket URL to override the default.
-     */
+    /** Optional downstream STS WebSocket URL to override the default. */
     downstream_websocket_url?: string;
-    /**
-     * SIP address of the user's SIP trunk. Required.
-     */
+    /** SIP address of the user's SIP trunk. Required. */
     "X-Sip-Address": string;
-    /**
-     * SIP auth username, if your provider requires it.
-     */
+    /** SIP auth username, if your provider requires it. */
     "X-Sip-Auth-Username"?: string;
-    /**
-     * SIP auth password, if your provider requires it.
-     */
+    /** SIP auth password, if your provider requires it. */
     "X-Sip-Auth-Password"?: string;
     /** Caller ID phone number in E.164 format. */
     from_phone_number: string;

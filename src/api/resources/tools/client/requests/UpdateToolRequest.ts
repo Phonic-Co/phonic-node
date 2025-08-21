@@ -7,7 +7,6 @@ import * as Phonic from "../../../../index.js";
 /**
  * @example
  *     {
- *         project: "main",
  *         description: "Updated description for booking appointments with enhanced features",
  *         endpoint_headers: {
  *             "Authorization": "Bearer updated_token456"
@@ -16,9 +15,7 @@ import * as Phonic from "../../../../index.js";
  *     }
  */
 export interface UpdateToolRequest {
-    /**
-     * The name of the project containing the tool. Only used when `nameOrId` is a name.
-     */
+    /** The name of the project containing the tool. Only used when `nameOrId` is a name. */
     project?: string;
     /** The name of the tool. Must be snake_case and unique within the organization. */
     name?: string;

@@ -43,9 +43,7 @@ describe("ExtractionSchemas", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.extractionSchemas.list({
-            project: "main",
-        });
+        const response = await client.extractionSchemas.list();
         expect(response).toEqual({
             extraction_schemas: [
                 {
@@ -103,7 +101,6 @@ describe("ExtractionSchemas", () => {
             .build();
 
         const response = await client.extractionSchemas.create({
-            project: "main",
             name: "Appointment details",
             prompt: "Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
             fields: [
@@ -165,9 +162,7 @@ describe("ExtractionSchemas", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.extractionSchemas.get("nameOrId", {
-            project: "main",
-        });
+        const response = await client.extractionSchemas.get("nameOrId");
         expect(response).toEqual({
             extraction_schema: {
                 id: "conv_extract_schema_c818e617-59f9-4f43-936e-ca8a794f9ccf",
@@ -210,9 +205,7 @@ describe("ExtractionSchemas", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.extractionSchemas.delete("nameOrId", {
-            project: "main",
-        });
+        const response = await client.extractionSchemas.delete("nameOrId");
         expect(response).toEqual({
             success: true,
         });
@@ -243,7 +236,6 @@ describe("ExtractionSchemas", () => {
             .build();
 
         const response = await client.extractionSchemas.update("nameOrId", {
-            project: "main",
             name: "Updated appointment details",
             prompt: "Updated extraction instructions. Dates should be in `9 Apr 2025` format.",
             fields: [

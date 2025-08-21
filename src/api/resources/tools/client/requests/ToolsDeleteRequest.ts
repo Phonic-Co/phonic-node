@@ -4,13 +4,9 @@
 
 /**
  * @example
- *     {
- *         project: "main"
- *     }
+ *     {}
  */
 export interface ToolsDeleteRequest {
-    /**
-     * The name of the project containing the tool. Only used when `nameOrId` is a name.
-     */
+    /** The name of the project containing the tool. Only used when `nameOrId` is a name. */
     project?: string;
 }

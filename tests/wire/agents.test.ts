@@ -132,7 +132,6 @@ describe("Agents", () => {
             .build();
 
         const response = await client.agents.create({
-            project: "main",
             body: {
                 name: "support-agent",
                 phone_number: "assign-automatically",
@@ -232,7 +231,6 @@ describe("Agents", () => {
             .build();
 
         const response = await client.agents.upsert({
-            project: "main",
             name: "support-agent",
             phone_number: "assign-automatically",
             timezone: "America/Los_Angeles",
@@ -345,9 +343,7 @@ describe("Agents", () => {
         };
         server.mockEndpoint().get("/agents/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
-        const response = await client.agents.get("nameOrId", {
-            project: "main",
-        });
+        const response = await client.agents.get("nameOrId");
         expect(response).toEqual({
             agent: {
                 id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
@@ -411,9 +407,7 @@ describe("Agents", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.agents.delete("nameOrId", {
-            project: "main",
-        });
+        const response = await client.agents.delete("nameOrId");
         expect(response).toEqual({
             success: true,
         });
@@ -455,7 +449,6 @@ describe("Agents", () => {
             .build();
 
         const response = await client.agents.update("nameOrId", {
-            project: "main",
             name: "updated-support-agent",
             phone_number: "assign-automatically",
             timezone: "America/Los_Angeles",

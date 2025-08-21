@@ -7,7 +7,6 @@ import * as Phonic from "../../../../index.js";
 /**
  * @example
  *     {
- *         project: "main",
  *         name: "book_appointment",
  *         description: "Books an appointment in the calendar system",
  *         type: "custom_webhook",
@@ -34,7 +33,6 @@ import * as Phonic from "../../../../index.js";
  *
  * @example
  *     {
- *         project: "main",
  *         name: "check_inventory",
  *         description: "Checks product inventory levels",
  *         type: "custom_websocket",
@@ -49,9 +47,7 @@ import * as Phonic from "../../../../index.js";
  *     }
  */
 export interface CreateToolRequest {
-    /**
-     * The name of the project to create the tool in.
-     */
+    /** The name of the project to create the tool in. */
     project?: string;
     /** The name of the tool. Must be snake_case and unique within the organization. */
     name: string;
