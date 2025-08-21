@@ -7,7 +7,6 @@ import * as Phonic from "../../../../index.js";
 /**
  * @example
  *     {
- *         project: "main",
  *         body: {
  *             name: "support-agent",
  *             phone_number: "assign-automatically",
@@ -37,9 +36,7 @@ import * as Phonic from "../../../../index.js";
  *     }
  */
 export interface AgentsCreateRequest {
-    /**
-     * The name of the project to create the agent in.
-     */
+    /** The name of the project to create the agent in. */
     project?: string;
     body: Phonic.CreateAgentRequest;
 }

@@ -4,13 +4,9 @@
 
 /**
  * @example
- *     {
- *         project: "main"
- *     }
+ *     {}
  */
 export interface ToolsListRequest {
-    /**
-     * The name of the project to list tools for.
-     */
+    /** The name of the project to list tools for. */
     project?: string;
 }

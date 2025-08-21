@@ -69,6 +69,11 @@ export class Agents {
             _queryParams["project"] = project;
         }
 
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -77,11 +82,7 @@ export class Agents {
                 "agents",
             ),
             method: "GET",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
@@ -139,7 +140,6 @@ export class Agents {
      *
      * @example
      *     await client.agents.create({
-     *         project: "main",
      *         body: {
      *             name: "support-agent",
      *             phone_number: "assign-automatically",
@@ -185,6 +185,11 @@ export class Agents {
             _queryParams["project"] = project;
         }
 
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -193,11 +198,7 @@ export class Agents {
                 "agents",
             ),
             method: "POST",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             contentType: "application/json",
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             requestType: "json",
@@ -263,7 +264,6 @@ export class Agents {
      *
      * @example
      *     await client.agents.upsert({
-     *         project: "main",
      *         name: "support-agent",
      *         phone_number: "assign-automatically",
      *         timezone: "America/Los_Angeles",
@@ -307,6 +307,11 @@ export class Agents {
             _queryParams["project"] = project;
         }
 
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -315,11 +320,7 @@ export class Agents {
                 "agents/upsert",
             ),
             method: "PUT",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             contentType: "application/json",
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             requestType: "json",
@@ -375,9 +376,7 @@ export class Agents {
      * @throws {@link Phonic.NotFoundError}
      *
      * @example
-     *     await client.agents.get("nameOrId", {
-     *         project: "main"
-     *     })
+     *     await client.agents.get("nameOrId")
      */
     public get(
         nameOrId: string,
@@ -398,6 +397,11 @@ export class Agents {
             _queryParams["project"] = project;
         }
 
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -406,11 +410,7 @@ export class Agents {
                 `agents/${encodeURIComponent(nameOrId)}`,
             ),
             method: "GET",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
@@ -463,9 +463,7 @@ export class Agents {
      * @throws {@link Phonic.NotFoundError}
      *
      * @example
-     *     await client.agents.delete("nameOrId", {
-     *         project: "main"
-     *     })
+     *     await client.agents.delete("nameOrId")
      */
     public delete(
         nameOrId: string,
@@ -486,6 +484,11 @@ export class Agents {
             _queryParams["project"] = project;
         }
 
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -494,11 +497,7 @@ export class Agents {
                 `agents/${encodeURIComponent(nameOrId)}`,
             ),
             method: "DELETE",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
@@ -553,7 +552,6 @@ export class Agents {
      *
      * @example
      *     await client.agents.update("nameOrId", {
-     *         project: "main",
      *         name: "updated-support-agent",
      *         phone_number: "assign-automatically",
      *         timezone: "America/Los_Angeles",
@@ -599,6 +597,11 @@ export class Agents {
             _queryParams["project"] = project;
         }
 
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -607,11 +610,7 @@ export class Agents {
                 `agents/${encodeURIComponent(nameOrId)}`,
             ),
             method: "PATCH",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             contentType: "application/json",
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             requestType: "json",

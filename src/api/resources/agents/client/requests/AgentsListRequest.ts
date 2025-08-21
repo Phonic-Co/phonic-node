@@ -7,8 +7,6 @@
  *     {}
  */
 export interface AgentsListRequest {
-    /**
-     * The name of the project to list agents for.
-     */
+    /** The name of the project to list agents for. */
     project?: string;
 }

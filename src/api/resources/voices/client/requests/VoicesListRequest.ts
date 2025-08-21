@@ -9,8 +9,6 @@
  *     }
  */
 export interface VoicesListRequest {
-    /**
-     * The model to get voices for.
-     */
+    /** The model to get voices for. */
     model: "merritt";
 }

@@ -10,40 +10,22 @@
  *     {}
  */
 export interface ConversationsListRequest {
-    /**
-     * The name of the project to list conversations for.
-     */
+    /** The name of the project to list conversations for. */
     project?: string;
-    /**
-     * Filter by external ID to get a specific conversation.
-     */
+    /** Filter by external ID to get a specific conversation. */
     external_id?: string;
-    /**
-     * Minimum duration in seconds.
-     */
+    /** Minimum duration in seconds. */
     duration_min?: number;
-    /**
-     * Maximum duration in seconds.
-     */
+    /** Maximum duration in seconds. */
     duration_max?: number;
-    /**
-     * Minimum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z`
-     */
+    /** Minimum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z` */
     started_at_min?: string;
-    /**
-     * Maximum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z`
-     */
+    /** Maximum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z` */
     started_at_max?: string;
-    /**
-     * Cursor for pagination (before).
-     */
+    /** Cursor for pagination (before). */
     before?: string;
-    /**
-     * Cursor for pagination (after).
-     */
+    /** Cursor for pagination (after). */
     after?: string;
-    /**
-     * Maximum number of conversations to return.
-     */
+    /** Maximum number of conversations to return. */
     limit?: number;
 }

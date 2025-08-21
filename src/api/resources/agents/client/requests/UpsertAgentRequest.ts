@@ -7,7 +7,6 @@ import * as Phonic from "../../../../index.js";
 /**
  * @example
  *     {
- *         project: "main",
  *         name: "support-agent",
  *         phone_number: "assign-automatically",
  *         timezone: "America/Los_Angeles",
@@ -35,8 +34,6 @@ import * as Phonic from "../../../../index.js";
  *     }
  */
 export interface UpsertAgentRequest extends Phonic.CreateAgentRequest {
-    /**
-     * The name of the project containing the agent.
-     */
+    /** The name of the project containing the agent. */
     project?: string;
 }

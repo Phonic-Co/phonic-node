@@ -67,9 +67,7 @@ describe("Tools", () => {
         };
         server.mockEndpoint().get("/tools").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
-        const response = await client.tools.list({
-            project: "main",
-        });
+        const response = await client.tools.list();
         expect(response).toEqual({
             tools: [
                 {
@@ -176,7 +174,6 @@ describe("Tools", () => {
             .build();
 
         const response = await client.tools.create({
-            project: "main",
             name: "book_appointment",
             description: "Books an appointment in the calendar system",
             type: "custom_webhook",
@@ -247,9 +244,7 @@ describe("Tools", () => {
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
-        const response = await client.tools.get("nameOrId", {
-            project: "main",
-        });
+        const response = await client.tools.get("nameOrId");
         expect(response).toEqual({
             tool: {
                 id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -297,9 +292,7 @@ describe("Tools", () => {
         const rawResponseBody = { success: true };
         server.mockEndpoint().delete("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
-        const response = await client.tools.delete("nameOrId", {
-            project: "main",
-        });
+        const response = await client.tools.delete("nameOrId");
         expect(response).toEqual({
             success: true,
         });
@@ -327,7 +320,6 @@ describe("Tools", () => {
             .build();
 
         const response = await client.tools.update("nameOrId", {
-            project: "main",
             description: "Updated description for booking appointments with enhanced features",
             endpoint_headers: {
                 Authorization: "Bearer updated_token456",

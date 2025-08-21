@@ -7,7 +7,6 @@ import * as Phonic from "../../../../index.js";
 /**
  * @example
  *     {
- *         project: "main",
  *         name: "Appointment details",
  *         prompt: "Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
  *         fields: [{
@@ -26,9 +25,7 @@ import * as Phonic from "../../../../index.js";
  *     }
  */
 export interface CreateExtractionSchemaRequest {
-    /**
-     * The name of the project to create the extraction schema in.
-     */
+    /** The name of the project to create the extraction schema in. */
     project?: string;
     /** A name for the extraction schema. */
     name: string;
