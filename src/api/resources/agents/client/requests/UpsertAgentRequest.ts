@@ -11,7 +11,7 @@ import * as Phonic from "../../../../index.js";
  *         name: "support-agent",
  *         phone_number: "assign-automatically",
  *         timezone: "America/Los_Angeles",
- *         voice_id: "sarah",
+ *         voice_id: "grant",
  *         audio_speed: 1,
  *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
  *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -35,8 +35,6 @@ import * as Phonic from "../../../../index.js";
  *     }
  */
 export interface UpsertAgentRequest extends Phonic.CreateAgentRequest {
-    /**
-     * The name of the project containing the agent.
-     */
+    /** The name of the project containing the agent. */
     project?: string;
 }

@@ -32,6 +32,7 @@ describe("Conversations", () => {
                     audio_url: "https://example.com/audio/conv_12cf6e88.wav",
                     started_at: "2025-07-30T23:45:00Z",
                     ended_at: "2025-07-30T23:47:00Z",
+                    system_prompt: "You are a helpful assistant for booking appointments.",
                     items: [
                         {
                             item_idx: 0,
@@ -48,8 +49,7 @@ describe("Conversations", () => {
                             post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
                             duration_ms: 3000,
                             started_at: "2025-07-30T23:45:02Z",
-                            system_prompt: "You are a helpful assistant for booking appointments.",
-                            voice_id: "sarah",
+                            voice_id: "grant",
                             audio_speed: 1,
                         },
                     ],
@@ -82,6 +82,7 @@ describe("Conversations", () => {
                     audio_url: "https://example.com/audio/conv_12cf6e88.wav",
                     started_at: "2025-07-30T23:45:00Z",
                     ended_at: "2025-07-30T23:47:00Z",
+                    system_prompt: "You are a helpful assistant for booking appointments.",
                     items: [
                         {
                             item_idx: 0,
@@ -98,8 +99,7 @@ describe("Conversations", () => {
                             post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
                             duration_ms: 3000,
                             started_at: "2025-07-30T23:45:02Z",
-                            system_prompt: "You are a helpful assistant for booking appointments.",
-                            voice_id: "sarah",
+                            voice_id: "grant",
                             audio_speed: 1,
                         },
                     ],
@@ -136,6 +136,7 @@ describe("Conversations", () => {
                 audio_url: "https://example.com/audio/conv_12cf6e88.wav",
                 started_at: "2025-07-30T23:45:00Z",
                 ended_at: "2025-07-30T23:47:00Z",
+                system_prompt: "You are a helpful assistant for booking appointments.",
                 items: [
                     {
                         item_idx: 0,
@@ -152,8 +153,7 @@ describe("Conversations", () => {
                         post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
                         duration_ms: 3000,
                         started_at: "2025-07-30T23:45:02Z",
-                        system_prompt: "You are a helpful assistant for booking appointments.",
-                        voice_id: "sarah",
+                        voice_id: "grant",
                         audio_speed: 1,
                     },
                 ],
@@ -184,6 +184,7 @@ describe("Conversations", () => {
                 audio_url: "https://example.com/audio/conv_12cf6e88.wav",
                 started_at: "2025-07-30T23:45:00Z",
                 ended_at: "2025-07-30T23:47:00Z",
+                system_prompt: "You are a helpful assistant for booking appointments.",
                 items: [
                     {
                         item_idx: 0,
@@ -200,8 +201,7 @@ describe("Conversations", () => {
                         post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
                         duration_ms: 3000,
                         started_at: "2025-07-30T23:45:02Z",
-                        system_prompt: "You are a helpful assistant for booking appointments.",
-                        voice_id: "sarah",
+                        voice_id: "grant",
                         audio_speed: 1,
                     },
                 ],
@@ -436,7 +436,7 @@ describe("Conversations", () => {
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: { customer_name: "David", subject: "Chess" },
-                voice_id: "sarah",
+                voice_id: "grant",
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
@@ -464,7 +464,7 @@ describe("Conversations", () => {
                     customer_name: "David",
                     subject: "Chess",
                 },
-                voice_id: "sarah",
+                voice_id: "grant",
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,

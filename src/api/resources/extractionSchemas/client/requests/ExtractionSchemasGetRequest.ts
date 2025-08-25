@@ -9,8 +9,6 @@
  *     }
  */
 export interface ExtractionSchemasGetRequest {
-    /**
-     * The name of the project containing the extraction schema. Only used when `nameOrId` is a name.
-     */
+    /** The name of the project containing the extraction schema. Only used when `nameOrId` is a name. */
     project?: string;
 }

@@ -9,8 +9,6 @@
  *     }
  */
 export interface AgentsGetRequest {
-    /**
-     * The name of the project containing the agent. Only used when `nameOrId` is a name.
-     */
+    /** The name of the project containing the agent. Only used when `nameOrId` is a name. */
     project?: string;
 }
