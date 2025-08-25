@@ -8,7 +8,7 @@
 export interface OutboundCallConfig {
     /** The name of the agent to use for the call. */
     agent?: string;
-    /** The name of the project to use for the call. Ignored when `agent` is provided. */
+    /** The name of the project to use for the call. */
     project?: string;
     /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. */
     welcome_message?: string;

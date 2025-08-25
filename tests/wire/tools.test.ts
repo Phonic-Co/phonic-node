@@ -41,6 +41,7 @@ describe("Tools", () => {
                     endpoint_headers: { Authorization: "Bearer token123", "Content-Type": "application/json" },
                     endpoint_timeout_ms: 5000,
                     tool_call_output_timeout_ms: 1,
+                    phone_number: "phone_number",
                 },
                 {
                     id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
@@ -62,6 +63,22 @@ describe("Tools", () => {
                     endpoint_headers: { key: "value" },
                     endpoint_timeout_ms: 1,
                     tool_call_output_timeout_ms: 5000,
+                    phone_number: "phone_number",
+                },
+                {
+                    id: "tool_11111111-2222-3333-4444-555555555555",
+                    name: "transfer_to_support",
+                    description: "Transfers the caller to the support team",
+                    project: { id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd", name: "main" },
+                    type: "built_in_transfer_to_phone_number",
+                    execution_mode: "sync",
+                    parameters: [{ type: "string", name: "name", description: "description", is_required: true }],
+                    endpoint_method: "POST",
+                    endpoint_url: "endpoint_url",
+                    endpoint_headers: { key: "value" },
+                    endpoint_timeout_ms: 1,
+                    tool_call_output_timeout_ms: 1,
+                    phone_number: "+15551234567",
                 },
             ],
         };
@@ -104,6 +121,7 @@ describe("Tools", () => {
                     },
                     endpoint_timeout_ms: 5000,
                     tool_call_output_timeout_ms: 1,
+                    phone_number: "phone_number",
                 },
                 {
                     id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
@@ -130,6 +148,34 @@ describe("Tools", () => {
                     },
                     endpoint_timeout_ms: 1,
                     tool_call_output_timeout_ms: 5000,
+                    phone_number: "phone_number",
+                },
+                {
+                    id: "tool_11111111-2222-3333-4444-555555555555",
+                    name: "transfer_to_support",
+                    description: "Transfers the caller to the support team",
+                    project: {
+                        id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
+                        name: "main",
+                    },
+                    type: "built_in_transfer_to_phone_number",
+                    execution_mode: "sync",
+                    parameters: [
+                        {
+                            type: "string",
+                            name: "name",
+                            description: "description",
+                            is_required: true,
+                        },
+                    ],
+                    endpoint_method: "POST",
+                    endpoint_url: "endpoint_url",
+                    endpoint_headers: {
+                        key: "value",
+                    },
+                    endpoint_timeout_ms: 1,
+                    tool_call_output_timeout_ms: 1,
+                    phone_number: "+15551234567",
                 },
             ],
         });
@@ -243,6 +289,7 @@ describe("Tools", () => {
                 endpoint_headers: { Authorization: "Bearer token123", "Content-Type": "application/json" },
                 endpoint_timeout_ms: 5000,
                 tool_call_output_timeout_ms: 1,
+                phone_number: "phone_number",
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -283,6 +330,7 @@ describe("Tools", () => {
                 },
                 endpoint_timeout_ms: 5000,
                 tool_call_output_timeout_ms: 1,
+                phone_number: "phone_number",
             },
         });
     });

@@ -26,9 +26,7 @@ import * as Phonic from "../../../../index.js";
  *     }
  */
 export interface CreateExtractionSchemaRequest {
-    /**
-     * The name of the project to create the extraction schema in.
-     */
+    /** The name of the project to create the extraction schema in. */
     project?: string;
     /** A name for the extraction schema. */
     name: string;

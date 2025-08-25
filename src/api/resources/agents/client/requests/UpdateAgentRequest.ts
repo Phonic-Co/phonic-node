@@ -11,7 +11,7 @@ import * as Phonic from "../../../../index.js";
  *         name: "updated-support-agent",
  *         phone_number: "assign-automatically",
  *         timezone: "America/Los_Angeles",
- *         voice_id: "sarah",
+ *         voice_id: "grant",
  *         audio_speed: 1,
  *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
  *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -35,9 +35,7 @@ import * as Phonic from "../../../../index.js";
  *     }
  */
 export interface UpdateAgentRequest {
-    /**
-     * The name of the project containing the agent. Only used when `nameOrId` is a name.
-     */
+    /** The name of the project containing the agent. Only used when `nameOrId` is a name. */
     project?: string;
     /** The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
     name?: string;
