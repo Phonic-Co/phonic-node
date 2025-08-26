@@ -15,6 +15,8 @@ export interface ConversationItem {
     duration_ms: number;
     /** When this turn started. */
     started_at: string;
+    /** System prompt used (assistant only). */
+    system_prompt?: string;
     /** Voice ID used (assistant only). */
     voice_id?: string;
     /** Audio speed used (assistant only). */

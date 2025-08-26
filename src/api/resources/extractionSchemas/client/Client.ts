@@ -49,9 +49,7 @@ export class ExtractionSchemas {
      * @throws {@link Phonic.NotFoundError}
      *
      * @example
-     *     await client.extractionSchemas.list({
-     *         project: "main"
-     *     })
+     *     await client.extractionSchemas.list()
      */
     public list(
         request: Phonic.ExtractionSchemasListRequest = {},
@@ -135,7 +133,6 @@ export class ExtractionSchemas {
      *
      * @example
      *     await client.extractionSchemas.create({
-     *         project: "main",
      *         name: "Appointment details",
      *         prompt: "Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
      *         fields: [{
@@ -243,9 +240,7 @@ export class ExtractionSchemas {
      * @throws {@link Phonic.NotFoundError}
      *
      * @example
-     *     await client.extractionSchemas.get("nameOrId", {
-     *         project: "main"
-     *     })
+     *     await client.extractionSchemas.get("nameOrId")
      */
     public get(
         nameOrId: string,
@@ -331,9 +326,7 @@ export class ExtractionSchemas {
      * @throws {@link Phonic.NotFoundError}
      *
      * @example
-     *     await client.extractionSchemas.delete("nameOrId", {
-     *         project: "main"
-     *     })
+     *     await client.extractionSchemas.delete("nameOrId")
      */
     public delete(
         nameOrId: string,
@@ -425,7 +418,6 @@ export class ExtractionSchemas {
      *
      * @example
      *     await client.extractionSchemas.update("nameOrId", {
-     *         project: "main",
      *         name: "Updated appointment details",
      *         prompt: "Updated extraction instructions. Dates should be in `9 Apr 2025` format.",
      *         fields: [{

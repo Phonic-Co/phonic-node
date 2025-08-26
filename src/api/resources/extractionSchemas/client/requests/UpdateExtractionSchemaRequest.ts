@@ -7,7 +7,6 @@ import * as Phonic from "../../../../index.js";
 /**
  * @example
  *     {
- *         project: "main",
  *         name: "Updated appointment details",
  *         prompt: "Updated extraction instructions. Dates should be in `9 Apr 2025` format.",
  *         fields: [{

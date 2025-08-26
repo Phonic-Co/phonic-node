@@ -16,7 +16,7 @@ import * as Phonic from "../../../../index.js";
  *                 "customer_name": "David",
  *                 "subject": "Chess"
  *             },
- *             voice_id: "grant",
+ *             voice_id: "sarah",
  *             no_input_poke_sec: 30,
  *             no_input_poke_text: "Are you still there?",
  *             no_input_end_conversation_sec: 180,

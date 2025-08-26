@@ -4,9 +4,7 @@
 
 /**
  * @example
- *     {
- *         project: "main"
- *     }
+ *     {}
  */
 export interface ExtractionSchemasListRequest {
     /** The name of the project to list extraction schemas for. */
