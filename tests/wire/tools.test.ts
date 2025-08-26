@@ -41,7 +41,6 @@ describe("Tools", () => {
                     endpoint_headers: { Authorization: "Bearer token123", "Content-Type": "application/json" },
                     endpoint_timeout_ms: 5000,
                     tool_call_output_timeout_ms: 1,
-                    phone_number: "phone_number",
                 },
                 {
                     id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
@@ -63,30 +62,12 @@ describe("Tools", () => {
                     endpoint_headers: { key: "value" },
                     endpoint_timeout_ms: 1,
                     tool_call_output_timeout_ms: 5000,
-                    phone_number: "phone_number",
-                },
-                {
-                    id: "tool_11111111-2222-3333-4444-555555555555",
-                    name: "transfer_to_support",
-                    description: "Transfers the caller to the support team",
-                    project: { id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd", name: "main" },
-                    type: "built_in_transfer_to_phone_number",
-                    execution_mode: "sync",
-                    parameters: [{ type: "string", name: "name", description: "description", is_required: true }],
-                    endpoint_method: "POST",
-                    endpoint_url: "endpoint_url",
-                    endpoint_headers: { key: "value" },
-                    endpoint_timeout_ms: 1,
-                    tool_call_output_timeout_ms: 1,
-                    phone_number: "+15551234567",
                 },
             ],
         };
         server.mockEndpoint().get("/tools").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
-        const response = await client.tools.list({
-            project: "main",
-        });
+        const response = await client.tools.list();
         expect(response).toEqual({
             tools: [
                 {
@@ -121,7 +102,6 @@ describe("Tools", () => {
                     },
                     endpoint_timeout_ms: 5000,
                     tool_call_output_timeout_ms: 1,
-                    phone_number: "phone_number",
                 },
                 {
                     id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
@@ -148,34 +128,6 @@ describe("Tools", () => {
                     },
                     endpoint_timeout_ms: 1,
                     tool_call_output_timeout_ms: 5000,
-                    phone_number: "phone_number",
-                },
-                {
-                    id: "tool_11111111-2222-3333-4444-555555555555",
-                    name: "transfer_to_support",
-                    description: "Transfers the caller to the support team",
-                    project: {
-                        id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
-                        name: "main",
-                    },
-                    type: "built_in_transfer_to_phone_number",
-                    execution_mode: "sync",
-                    parameters: [
-                        {
-                            type: "string",
-                            name: "name",
-                            description: "description",
-                            is_required: true,
-                        },
-                    ],
-                    endpoint_method: "POST",
-                    endpoint_url: "endpoint_url",
-                    endpoint_headers: {
-                        key: "value",
-                    },
-                    endpoint_timeout_ms: 1,
-                    tool_call_output_timeout_ms: 1,
-                    phone_number: "+15551234567",
                 },
             ],
         });
@@ -222,7 +174,6 @@ describe("Tools", () => {
             .build();
 
         const response = await client.tools.create({
-            project: "main",
             name: "book_appointment",
             description: "Books an appointment in the calendar system",
             type: "custom_webhook",
@@ -289,14 +240,11 @@ describe("Tools", () => {
                 endpoint_headers: { Authorization: "Bearer token123", "Content-Type": "application/json" },
                 endpoint_timeout_ms: 5000,
                 tool_call_output_timeout_ms: 1,
-                phone_number: "phone_number",
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
-        const response = await client.tools.get("nameOrId", {
-            project: "main",
-        });
+        const response = await client.tools.get("nameOrId");
         expect(response).toEqual({
             tool: {
                 id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -330,7 +278,6 @@ describe("Tools", () => {
                 },
                 endpoint_timeout_ms: 5000,
                 tool_call_output_timeout_ms: 1,
-                phone_number: "phone_number",
             },
         });
     });
@@ -345,9 +292,7 @@ describe("Tools", () => {
         const rawResponseBody = { success: true };
         server.mockEndpoint().delete("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
-        const response = await client.tools.delete("nameOrId", {
-            project: "main",
-        });
+        const response = await client.tools.delete("nameOrId");
         expect(response).toEqual({
             success: true,
         });
@@ -375,7 +320,6 @@ describe("Tools", () => {
             .build();
 
         const response = await client.tools.update("nameOrId", {
-            project: "main",
             description: "Updated description for booking appointments with enhanced features",
             endpoint_headers: {
                 Authorization: "Bearer updated_token456",

@@ -125,19 +125,20 @@ export class Conversations {
             _queryParams["limit"] = limit.toString();
         }
 
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                    .base,
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
                 "conversations",
             ),
             method: "GET",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
@@ -216,19 +217,20 @@ export class Conversations {
         id: string,
         requestOptions?: Conversations.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.ConversationsGetResponse>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                    .base,
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
                 `conversations/${encodeURIComponent(id)}`,
             ),
             method: "GET",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             queryParameters: requestOptions?.queryParams,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
@@ -307,19 +309,20 @@ export class Conversations {
         id: string,
         requestOptions?: Conversations.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.ConversationsCancelResponse>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                    .base,
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
                 `conversations/${encodeURIComponent(id)}/cancel`,
             ),
             method: "POST",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             queryParameters: requestOptions?.queryParams,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
@@ -400,19 +403,20 @@ export class Conversations {
         id: string,
         requestOptions?: Conversations.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.ConversationsGetAnalysisResponse>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                    .base,
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
                 `conversations/${encodeURIComponent(id)}/analysis`,
             ),
             method: "GET",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             queryParameters: requestOptions?.queryParams,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
@@ -492,19 +496,20 @@ export class Conversations {
         id: string,
         requestOptions?: Conversations.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.ConversationsListExtractionsResponse>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                    .base,
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
                 `conversations/${encodeURIComponent(id)}/extractions`,
             ),
             method: "GET",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             queryParameters: requestOptions?.queryParams,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
@@ -592,19 +597,20 @@ export class Conversations {
         request: Phonic.ExtractDataRequest,
         requestOptions?: Conversations.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.ConversationsExtractDataResponse>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                    .base,
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
                 `conversations/${encodeURIComponent(id)}/extractions`,
             ),
             method: "POST",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
@@ -691,19 +697,20 @@ export class Conversations {
         id: string,
         requestOptions?: Conversations.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.ConversationsListEvaluationsResponse>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                    .base,
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
                 `conversations/${encodeURIComponent(id)}/evals`,
             ),
             method: "GET",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             queryParameters: requestOptions?.queryParams,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
             maxRetries: requestOptions?.maxRetries,
@@ -789,19 +796,20 @@ export class Conversations {
         request: Phonic.EvaluateConversationRequest,
         requestOptions?: Conversations.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.ConversationEvaluationResult>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                    .base,
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
                 `conversations/${encodeURIComponent(id)}/evals`,
             ),
             method: "POST",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
@@ -900,19 +908,20 @@ export class Conversations {
         request: Phonic.OutboundCallRequest,
         requestOptions?: Conversations.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.ConversationsOutboundCallResponse>> {
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                    .base,
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
                 "conversations/outbound_call",
             ),
             method: "POST",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             contentType: "application/json",
             queryParameters: requestOptions?.queryParams,
             requestType: "json",
@@ -1015,24 +1024,25 @@ export class Conversations {
             _queryParams["downstream_websocket_url"] = downstreamWebsocketUrl;
         }
 
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Sip-Address": sipAddress,
+                "X-Sip-Auth-Username": sipAuthUsername != null ? sipAuthUsername : undefined,
+                "X-Sip-Auth-Password": sipAuthPassword != null ? sipAuthPassword : undefined,
+            }),
+            requestOptions?.headers,
+        );
         const _response = await (this._options.fetcher ?? core.fetcher)({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
-                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                    .base,
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
                 "conversations/sip/outbound_call",
             ),
             method: "POST",
-            headers: mergeHeaders(
-                this._options?.headers,
-                mergeOnlyDefinedHeaders({
-                    Authorization: await this._getAuthorizationHeader(),
-                    "X-Sip-Address": sipAddress,
-                    "X-Sip-Auth-Username": sipAuthUsername != null ? sipAuthUsername : undefined,
-                    "X-Sip-Auth-Password": sipAuthPassword != null ? sipAuthPassword : undefined,
-                }),
-                requestOptions?.headers,
-            ),
+            headers: _headers,
             contentType: "application/json",
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             requestType: "json",
@@ -1097,15 +1107,15 @@ export class Conversations {
             _queryParams["downstream_websocket_url"] = downstream_websocket_url;
         }
 
-        let _headers: Record<string, string> = {
-            ...headers,
-        };
-        _headers["Authorization"] = await this._getAuthorizationHeader();
+        let _headers: Record<string, unknown> = mergeHeaders(
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            headers,
+        );
         const socket = new core.ReconnectingWebSocket({
             url: core.url.join(
                 (await core.Supplier.get(this._options["baseUrl"])) ??
-                ((await core.Supplier.get(this._options["environment"])) ?? environments.PhonicEnvironment.Default)
-                    .production,
+                    ((await core.Supplier.get(this._options["environment"])) ?? environments.PhonicEnvironment.Default)
+                        .production,
                 "/v1/sts/ws",
             ),
             protocols: [],
