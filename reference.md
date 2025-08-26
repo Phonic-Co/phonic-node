@@ -94,12 +94,11 @@ Creates a new agent in a project.
 
 ```typescript
 await client.agents.create({
-    project: "main",
     body: {
         name: "support-agent",
         phone_number: "assign-automatically",
         timezone: "America/Los_Angeles",
-        voice_id: "grant",
+        voice_id: "sarah",
         audio_speed: 1,
         welcome_message: "Hi {{customer_name}}. How can I help you today?",
         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -185,11 +184,10 @@ Upserts an agent by name. If an agent with the same name already exists, it will
 
 ```typescript
 await client.agents.upsert({
-    project: "main",
     name: "support-agent",
     phone_number: "assign-automatically",
     timezone: "America/Los_Angeles",
-    voice_id: "grant",
+    voice_id: "sarah",
     audio_speed: 1,
     welcome_message: "Hi {{customer_name}}. How can I help you today?",
     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -273,9 +271,7 @@ Returns an agent by name or ID.
 <dd>
 
 ```typescript
-await client.agents.get("nameOrId", {
-    project: "main",
-});
+await client.agents.get("nameOrId");
 ```
 
 </dd>
@@ -346,9 +342,7 @@ Deletes an agent by name or ID.
 <dd>
 
 ```typescript
-await client.agents.delete("nameOrId", {
-    project: "main",
-});
+await client.agents.delete("nameOrId");
 ```
 
 </dd>
@@ -420,11 +414,10 @@ Updates an agent by name or ID.
 
 ```typescript
 await client.agents.update("nameOrId", {
-    project: "main",
     name: "updated-support-agent",
     phone_number: "assign-automatically",
     timezone: "America/Los_Angeles",
-    voice_id: "grant",
+    voice_id: "sarah",
     audio_speed: 1,
     welcome_message: "Hi {{customer_name}}. How can I help you today?",
     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -518,9 +511,7 @@ Returns all custom tools for the organization.
 <dd>
 
 ```typescript
-await client.tools.list({
-    project: "main",
-});
+await client.tools.list();
 ```
 
 </dd>
@@ -584,7 +575,6 @@ Creates a new tool in a project.
 
 ```typescript
 await client.tools.create({
-    project: "main",
     name: "book_appointment",
     description: "Books an appointment in the calendar system",
     type: "custom_webhook",
@@ -673,9 +663,7 @@ Returns a tool by name or ID.
 <dd>
 
 ```typescript
-await client.tools.get("nameOrId", {
-    project: "main",
-});
+await client.tools.get("nameOrId");
 ```
 
 </dd>
@@ -746,9 +734,7 @@ Deletes a tool by name or ID.
 <dd>
 
 ```typescript
-await client.tools.delete("nameOrId", {
-    project: "main",
-});
+await client.tools.delete("nameOrId");
 ```
 
 </dd>
@@ -820,7 +806,6 @@ Updates a tool by name or ID.
 
 ```typescript
 await client.tools.update("nameOrId", {
-    project: "main",
     description: "Updated description for booking appointments with enhanced features",
     endpoint_headers: {
         Authorization: "Bearer updated_token456",
@@ -899,9 +884,7 @@ Returns all extraction schemas in a project.
 <dd>
 
 ```typescript
-await client.extractionSchemas.list({
-    project: "main",
-});
+await client.extractionSchemas.list();
 ```
 
 </dd>
@@ -965,7 +948,6 @@ Creates a new extraction schema in a project.
 
 ```typescript
 await client.extractionSchemas.create({
-    project: "main",
     name: "Appointment details",
     prompt: "Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
     fields: [
@@ -1048,9 +1030,7 @@ Returns an extraction schema by name or ID.
 <dd>
 
 ```typescript
-await client.extractionSchemas.get("nameOrId", {
-    project: "main",
-});
+await client.extractionSchemas.get("nameOrId");
 ```
 
 </dd>
@@ -1121,9 +1101,7 @@ Deletes an extraction schema by name or ID.
 <dd>
 
 ```typescript
-await client.extractionSchemas.delete("nameOrId", {
-    project: "main",
-});
+await client.extractionSchemas.delete("nameOrId");
 ```
 
 </dd>
@@ -1195,7 +1173,6 @@ Updates an extraction schema by name or ID.
 
 ```typescript
 await client.extractionSchemas.update("nameOrId", {
-    project: "main",
     name: "Updated appointment details",
     prompt: "Updated extraction instructions. Dates should be in `9 Apr 2025` format.",
     fields: [
@@ -1947,7 +1924,7 @@ await client.conversations.outboundCall({
             customer_name: "David",
             subject: "Chess",
         },
-        voice_id: "grant",
+        voice_id: "sarah",
         no_input_poke_sec: 30,
         no_input_poke_text: "Are you still there?",
         no_input_end_conversation_sec: 180,

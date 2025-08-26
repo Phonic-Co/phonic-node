@@ -4,9 +4,7 @@
 
 /**
  * @example
- *     {
- *         project: "main"
- *     }
+ *     {}
  */
 export interface AgentsGetRequest {
     /** The name of the project containing the agent. Only used when `nameOrId` is a name. */

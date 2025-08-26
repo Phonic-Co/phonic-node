@@ -33,8 +33,6 @@ export interface Conversation {
     started_at: string;
     /** When the conversation ended. */
     ended_at?: string;
-    /** System prompt used for the conversation. */
-    system_prompt: string;
     /** Array of conversation items (turns). */
     items: Phonic.ConversationItem[];
     /** Results from conversation evaluations and extractions. */

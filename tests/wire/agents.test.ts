@@ -21,15 +21,12 @@ describe("Agents", () => {
                     phone_number: "+1234567890",
                     project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                     timezone: "America/Los_Angeles",
-                    voice_id: "grant",
+                    voice_id: "sarah",
                     audio_format: "pcm_44100",
                     audio_speed: 1,
                     welcome_message: "Hi {{customer_name}}. How can I help you today?",
                     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-                    template_variables: {
-                        customer_name: { default_value: "Sean" },
-                        subject: { default_value: "Chess" },
-                    },
+                    template_variables: { customer_name: {}, subject: { default_value: "Chess" } },
                     tools: ["keypad_input"],
                     tasks: [
                         { name: "Check Availability", description: "Check if the appointment is available" },
@@ -61,15 +58,13 @@ describe("Agents", () => {
                         name: "customer-support",
                     },
                     timezone: "America/Los_Angeles",
-                    voice_id: "grant",
+                    voice_id: "sarah",
                     audio_format: "pcm_44100",
                     audio_speed: 1,
                     welcome_message: "Hi {{customer_name}}. How can I help you today?",
                     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                     template_variables: {
-                        customer_name: {
-                            default_value: "Sean",
-                        },
+                        customer_name: {},
                         subject: {
                             default_value: "Chess",
                         },
@@ -111,7 +106,7 @@ describe("Agents", () => {
             name: "support-agent",
             phone_number: "assign-automatically",
             timezone: "America/Los_Angeles",
-            voice_id: "grant",
+            voice_id: "sarah",
             audio_speed: 1,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -137,12 +132,11 @@ describe("Agents", () => {
             .build();
 
         const response = await client.agents.create({
-            project: "main",
             body: {
                 name: "support-agent",
                 phone_number: "assign-automatically",
                 timezone: "America/Los_Angeles",
-                voice_id: "grant",
+                voice_id: "sarah",
                 audio_speed: 1,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -181,7 +175,7 @@ describe("Agents", () => {
             name: "support-agent",
             phone_number: "assign-automatically",
             timezone: "America/Los_Angeles",
-            voice_id: "grant",
+            voice_id: "sarah",
             audio_speed: 1,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -203,12 +197,12 @@ describe("Agents", () => {
                 phone_number: "+1234567890",
                 project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 timezone: "America/Los_Angeles",
-                voice_id: "grant",
+                voice_id: "sarah",
                 audio_format: "pcm_44100",
                 audio_speed: 1.1,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-                template_variables: { customer_name: { default_value: "Sean" }, subject: { default_value: "Chess" } },
+                template_variables: { customer_name: {}, subject: { default_value: "Chess" } },
                 tools: ["keypad_input"],
                 tasks: [
                     { name: "Check Availability", description: "Check if the appointment is available" },
@@ -237,11 +231,10 @@ describe("Agents", () => {
             .build();
 
         const response = await client.agents.upsert({
-            project: "main",
             name: "support-agent",
             phone_number: "assign-automatically",
             timezone: "America/Los_Angeles",
-            voice_id: "grant",
+            voice_id: "sarah",
             audio_speed: 1,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -273,15 +266,13 @@ describe("Agents", () => {
                     name: "customer-support",
                 },
                 timezone: "America/Los_Angeles",
-                voice_id: "grant",
+                voice_id: "sarah",
                 audio_format: "pcm_44100",
                 audio_speed: 1.1,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: {
-                    customer_name: {
-                        default_value: "Sean",
-                    },
+                    customer_name: {},
                     subject: {
                         default_value: "Chess",
                     },
@@ -328,12 +319,12 @@ describe("Agents", () => {
                 phone_number: "+1234567890",
                 project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 timezone: "America/Los_Angeles",
-                voice_id: "grant",
+                voice_id: "sarah",
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-                template_variables: { customer_name: { default_value: "Sean" }, subject: { default_value: "Chess" } },
+                template_variables: { customer_name: {}, subject: { default_value: "Chess" } },
                 tools: ["keypad_input"],
                 tasks: [
                     { name: "Check Availability", description: "Check if the appointment is available" },
@@ -352,9 +343,7 @@ describe("Agents", () => {
         };
         server.mockEndpoint().get("/agents/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
-        const response = await client.agents.get("nameOrId", {
-            project: "main",
-        });
+        const response = await client.agents.get("nameOrId");
         expect(response).toEqual({
             agent: {
                 id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
@@ -365,15 +354,13 @@ describe("Agents", () => {
                     name: "customer-support",
                 },
                 timezone: "America/Los_Angeles",
-                voice_id: "grant",
+                voice_id: "sarah",
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: {
-                    customer_name: {
-                        default_value: "Sean",
-                    },
+                    customer_name: {},
                     subject: {
                         default_value: "Chess",
                     },
@@ -420,9 +407,7 @@ describe("Agents", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.agents.delete("nameOrId", {
-            project: "main",
-        });
+        const response = await client.agents.delete("nameOrId");
         expect(response).toEqual({
             success: true,
         });
@@ -438,7 +423,7 @@ describe("Agents", () => {
             name: "updated-support-agent",
             phone_number: "assign-automatically",
             timezone: "America/Los_Angeles",
-            voice_id: "grant",
+            voice_id: "sarah",
             audio_speed: 1,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -464,11 +449,10 @@ describe("Agents", () => {
             .build();
 
         const response = await client.agents.update("nameOrId", {
-            project: "main",
             name: "updated-support-agent",
             phone_number: "assign-automatically",
             timezone: "America/Los_Angeles",
-            voice_id: "grant",
+            voice_id: "sarah",
             audio_speed: 1,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",

@@ -4,9 +4,7 @@
 
 /**
  * @example
- *     {
- *         project: "main"
- *     }
+ *     {}
  */
 export interface ExtractionSchemasGetRequest {
     /** The name of the project containing the extraction schema. Only used when `nameOrId` is a name. */
