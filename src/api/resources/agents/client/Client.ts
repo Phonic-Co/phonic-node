@@ -140,12 +140,11 @@ export class Agents {
      *
      * @example
      *     await client.agents.create({
-     *         project: "main",
      *         body: {
      *             name: "support-agent",
      *             phone_number: "assign-automatically",
      *             timezone: "America/Los_Angeles",
-     *             voice_id: "grant",
+     *             voice_id: "sarah",
      *             audio_speed: 1,
      *             welcome_message: "Hi {{customer_name}}. How can I help you today?",
      *             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -265,11 +264,10 @@ export class Agents {
      *
      * @example
      *     await client.agents.upsert({
-     *         project: "main",
      *         name: "support-agent",
      *         phone_number: "assign-automatically",
      *         timezone: "America/Los_Angeles",
-     *         voice_id: "grant",
+     *         voice_id: "sarah",
      *         audio_speed: 1,
      *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
      *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -378,9 +376,7 @@ export class Agents {
      * @throws {@link Phonic.NotFoundError}
      *
      * @example
-     *     await client.agents.get("nameOrId", {
-     *         project: "main"
-     *     })
+     *     await client.agents.get("nameOrId")
      */
     public get(
         nameOrId: string,
@@ -467,9 +463,7 @@ export class Agents {
      * @throws {@link Phonic.NotFoundError}
      *
      * @example
-     *     await client.agents.delete("nameOrId", {
-     *         project: "main"
-     *     })
+     *     await client.agents.delete("nameOrId")
      */
     public delete(
         nameOrId: string,
@@ -558,11 +552,10 @@ export class Agents {
      *
      * @example
      *     await client.agents.update("nameOrId", {
-     *         project: "main",
      *         name: "updated-support-agent",
      *         phone_number: "assign-automatically",
      *         timezone: "America/Los_Angeles",
-     *         voice_id: "grant",
+     *         voice_id: "sarah",
      *         audio_speed: 1,
      *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
      *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
