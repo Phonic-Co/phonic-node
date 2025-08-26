@@ -7,7 +7,6 @@ import * as Phonic from "../../../../index.js";
 /**
  * @example
  *     {
- *         project: "main",
  *         name: "book_appointment",
  *         description: "Books an appointment in the calendar system",
  *         type: "custom_webhook",
@@ -34,7 +33,6 @@ import * as Phonic from "../../../../index.js";
  *
  * @example
  *     {
- *         project: "main",
  *         name: "check_inventory",
  *         description: "Checks product inventory levels",
  *         type: "custom_websocket",
@@ -46,16 +44,6 @@ import * as Phonic from "../../../../index.js";
  *                 is_required: true
  *             }],
  *         tool_call_output_timeout_ms: 5000
- *     }
- *
- * @example
- *     {
- *         project: "main",
- *         name: "transfer_to_support",
- *         description: "Transfers the caller to the support team",
- *         type: "built_in_transfer_to_phone_number",
- *         execution_mode: "sync",
- *         phone_number: "+15551234567"
  *     }
  */
 export interface CreateToolRequest {
@@ -81,19 +69,16 @@ export interface CreateToolRequest {
     endpoint_timeout_ms?: number;
     /** Timeout for WebSocket tool responses. */
     tool_call_output_timeout_ms?: number;
-    /** The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools. */
-    phone_number?: string;
 }
 
 export namespace CreateToolRequest {
     /**
      * The type of tool.
      */
-    export type Type = "custom_webhook" | "custom_websocket" | "built_in_transfer_to_phone_number";
+    export type Type = "custom_webhook" | "custom_websocket";
     export const Type = {
         CustomWebhook: "custom_webhook",
         CustomWebsocket: "custom_websocket",
-        BuiltInTransferToPhoneNumber: "built_in_transfer_to_phone_number",
     } as const;
     /**
      * Mode of operation.

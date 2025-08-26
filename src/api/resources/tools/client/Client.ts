@@ -49,9 +49,7 @@ export class Tools {
      * @throws {@link Phonic.NotFoundError}
      *
      * @example
-     *     await client.tools.list({
-     *         project: "main"
-     *     })
+     *     await client.tools.list()
      */
     public list(
         request: Phonic.ToolsListRequest = {},
@@ -135,7 +133,6 @@ export class Tools {
      *
      * @example
      *     await client.tools.create({
-     *         project: "main",
      *         name: "book_appointment",
      *         description: "Books an appointment in the calendar system",
      *         type: "custom_webhook",
@@ -162,7 +159,6 @@ export class Tools {
      *
      * @example
      *     await client.tools.create({
-     *         project: "main",
      *         name: "check_inventory",
      *         description: "Checks product inventory levels",
      *         type: "custom_websocket",
@@ -174,16 +170,6 @@ export class Tools {
      *                 is_required: true
      *             }],
      *         tool_call_output_timeout_ms: 5000
-     *     })
-     *
-     * @example
-     *     await client.tools.create({
-     *         project: "main",
-     *         name: "transfer_to_support",
-     *         description: "Transfers the caller to the support team",
-     *         type: "built_in_transfer_to_phone_number",
-     *         execution_mode: "sync",
-     *         phone_number: "+15551234567"
      *     })
      */
     public create(
@@ -274,9 +260,7 @@ export class Tools {
      * @throws {@link Phonic.NotFoundError}
      *
      * @example
-     *     await client.tools.get("nameOrId", {
-     *         project: "main"
-     *     })
+     *     await client.tools.get("nameOrId")
      */
     public get(
         nameOrId: string,
@@ -362,9 +346,7 @@ export class Tools {
      * @throws {@link Phonic.NotFoundError}
      *
      * @example
-     *     await client.tools.delete("nameOrId", {
-     *         project: "main"
-     *     })
+     *     await client.tools.delete("nameOrId")
      */
     public delete(
         nameOrId: string,
@@ -451,7 +433,6 @@ export class Tools {
      *
      * @example
      *     await client.tools.update("nameOrId", {
-     *         project: "main",
      *         description: "Updated description for booking appointments with enhanced features",
      *         endpoint_headers: {
      *             "Authorization": "Bearer updated_token456"

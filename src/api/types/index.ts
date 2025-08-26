@@ -34,7 +34,6 @@ export * from "./AudioChunkResponsePayload.js";
 export * from "./AudioFinishedPayload.js";
 export * from "./UserStartedSpeakingPayload.js";
 export * from "./UserFinishedSpeakingPayload.js";
-export * from "./IsUserSpeakingPayload.js";
 export * from "./InterruptedResponsePayload.js";
 export * from "./DtmfPayload.js";
 export * from "./ToolCallPayload.js";

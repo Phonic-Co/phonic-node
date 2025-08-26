@@ -28,8 +28,6 @@ export interface Tool {
     endpoint_timeout_ms?: number;
     /** Timeout in milliseconds for WebSocket tool responses. */
     tool_call_output_timeout_ms?: number;
-    /** The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools. */
-    phone_number?: string;
 }
 
 export namespace Tool {
@@ -41,11 +39,10 @@ export namespace Tool {
     /**
      * The type of tool.
      */
-    export type Type = "custom_webhook" | "custom_websocket" | "built_in_transfer_to_phone_number";
+    export type Type = "custom_webhook" | "custom_websocket";
     export const Type = {
         CustomWebhook: "custom_webhook",
         CustomWebsocket: "custom_websocket",
-        BuiltInTransferToPhoneNumber: "built_in_transfer_to_phone_number",
     } as const;
     /**
      * Mode of operation - sync waits for response, async continues without waiting.
