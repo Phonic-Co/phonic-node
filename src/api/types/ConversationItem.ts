@@ -22,7 +22,7 @@ export interface ConversationItem {
     /** System prompt used for this assistant turn. */
     system_prompt?: string;
     /** Tool calls made by the assistant. */
-    tool_calls?: Record<string, unknown>[];
+    tool_calls?: ConversationItem.ToolCalls.Item[];
 }
 
 export namespace ConversationItem {
@@ -34,4 +34,46 @@ export namespace ConversationItem {
         User: "user",
         Assistant: "assistant",
     } as const;
+    export type ToolCalls = ToolCalls.Item[];
+
+    export namespace ToolCalls {
+        export interface Item {
+            /** The tool call ID. */
+            id: string;
+            tool: Item.Tool;
+            /** HTTP method for webhook tool calls. */
+            endpoint_method?: string;
+            /** URL for webhook tool calls. */
+            endpoint_url?: string;
+            /** Headers for webhook tool calls. */
+            endpoint_headers?: Record<string, string | undefined>;
+            /** Timeout in milliseconds for webhook tool calls. */
+            endpoint_timeout_ms?: number;
+            /** When the webhook endpoint was called (null on error). */
+            endpoint_called_at?: string;
+            /** Query parameters for webhook tool calls (null on error or when no params). */
+            query_params?: Record<string, unknown>;
+            /** HTTP response status code for webhook tool calls (null on error). */
+            response_status_code?: number;
+            /** Timeout in milliseconds for websocket tool calls. */
+            tool_call_output_timeout_ms?: number;
+            /** The request body sent to the tool. */
+            request_body?: Record<string, unknown>;
+            /** The response body received from the tool. */
+            response_body?: Record<string, unknown>;
+            /** Whether the tool call timed out. */
+            timed_out?: boolean;
+            /** Error message if the tool call failed. */
+            error_message?: string;
+        }
+
+        export namespace Item {
+            export interface Tool {
+                /** The tool ID. */
+                id: string;
+                /** The tool name. */
+                name: string;
+            }
+        }
+    }
 }

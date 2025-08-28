@@ -61,8 +61,17 @@ describe("Conversations", () => {
                                 "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
                             tool_calls: [
                                 {
-                                    name: "check_availability",
-                                    parameters: { date: "tomorrow", service: "consultation" },
+                                    id: "tool_call_a3f8e4b2-7c91-4d63-9b2f-8e5a6c9d1f3a",
+                                    tool: { id: "tool_check_availability", name: "check_availability" },
+                                    endpoint_method: "POST",
+                                    endpoint_url: "https://api.example.com/tools/check_availability",
+                                    endpoint_headers: { Authorization: "Bearer token123" },
+                                    endpoint_timeout_ms: 5000,
+                                    endpoint_called_at: "2025-07-30T23:45:03Z",
+                                    response_status_code: 200,
+                                    request_body: { date: "tomorrow", service: "consultation" },
+                                    response_body: { available: true, slots: ["09:00", "10:00", "14:00"] },
+                                    timed_out: false,
                                 },
                             ],
                         },
@@ -128,11 +137,28 @@ describe("Conversations", () => {
                                 "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
                             tool_calls: [
                                 {
-                                    name: "check_availability",
-                                    parameters: {
+                                    id: "tool_call_a3f8e4b2-7c91-4d63-9b2f-8e5a6c9d1f3a",
+                                    tool: {
+                                        id: "tool_check_availability",
+                                        name: "check_availability",
+                                    },
+                                    endpoint_method: "POST",
+                                    endpoint_url: "https://api.example.com/tools/check_availability",
+                                    endpoint_headers: {
+                                        Authorization: "Bearer token123",
+                                    },
+                                    endpoint_timeout_ms: 5000,
+                                    endpoint_called_at: "2025-07-30T23:45:03Z",
+                                    response_status_code: 200,
+                                    request_body: {
                                         date: "tomorrow",
                                         service: "consultation",
                                     },
+                                    response_body: {
+                                        available: true,
+                                        slots: ["09:00", "10:00", "14:00"],
+                                    },
+                                    timed_out: false,
                                 },
                             ],
                         },
@@ -193,7 +219,19 @@ describe("Conversations", () => {
                         system_prompt:
                             "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
                         tool_calls: [
-                            { name: "check_availability", parameters: { date: "tomorrow", service: "consultation" } },
+                            {
+                                id: "tool_call_f2d5c8a1-9e4b-4a7c-b3d1-6f8e2a9c5b7d",
+                                tool: { id: "tool_check_availability", name: "check_availability" },
+                                endpoint_method: "POST",
+                                endpoint_url: "https://api.example.com/tools/check_availability",
+                                endpoint_headers: { Authorization: "Bearer token123" },
+                                endpoint_timeout_ms: 5000,
+                                endpoint_called_at: "2025-07-30T23:45:03Z",
+                                response_status_code: 200,
+                                request_body: { date: "tomorrow", service: "consultation" },
+                                response_body: { available: true, slots: ["09:00", "10:00", "14:00"] },
+                                timed_out: false,
+                            },
                         ],
                     },
                 ],
@@ -255,11 +293,28 @@ describe("Conversations", () => {
                             "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
                         tool_calls: [
                             {
-                                name: "check_availability",
-                                parameters: {
+                                id: "tool_call_f2d5c8a1-9e4b-4a7c-b3d1-6f8e2a9c5b7d",
+                                tool: {
+                                    id: "tool_check_availability",
+                                    name: "check_availability",
+                                },
+                                endpoint_method: "POST",
+                                endpoint_url: "https://api.example.com/tools/check_availability",
+                                endpoint_headers: {
+                                    Authorization: "Bearer token123",
+                                },
+                                endpoint_timeout_ms: 5000,
+                                endpoint_called_at: "2025-07-30T23:45:03Z",
+                                response_status_code: 200,
+                                request_body: {
                                     date: "tomorrow",
                                     service: "consultation",
                                 },
+                                response_body: {
+                                    available: true,
+                                    slots: ["09:00", "10:00", "14:00"],
+                                },
+                                timed_out: false,
                             },
                         ],
                     },
