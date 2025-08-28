@@ -7,7 +7,6 @@ import * as Phonic from "../../../../index.js";
 /**
  * @example
  *     {
- *         project: "main",
  *         description: "Updated description for booking appointments with enhanced features",
  *         endpoint_headers: {
  *             "Authorization": "Bearer updated_token456"
@@ -33,19 +32,16 @@ export interface UpdateToolRequest {
     endpoint_headers?: Record<string, string>;
     endpoint_timeout_ms?: number;
     tool_call_output_timeout_ms?: number;
-    /** The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools. */
-    phone_number?: string;
 }
 
 export namespace UpdateToolRequest {
     /**
      * The type of tool.
      */
-    export type Type = "custom_webhook" | "custom_websocket" | "built_in_transfer_to_phone_number";
+    export type Type = "custom_webhook" | "custom_websocket";
     export const Type = {
         CustomWebhook: "custom_webhook",
         CustomWebsocket: "custom_websocket",
-        BuiltInTransferToPhoneNumber: "built_in_transfer_to_phone_number",
     } as const;
     /**
      * Mode of operation.
