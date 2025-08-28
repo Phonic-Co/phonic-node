@@ -8,36 +8,64 @@ import * as Phonic from "../../../../index.js";
  * @example
  *     {
  *         project: "main",
- *         body: {
- *             name: "support-agent",
- *             phone_number: "assign-automatically",
- *             timezone: "America/Los_Angeles",
- *             voice_id: "grant",
- *             audio_speed: 1,
- *             welcome_message: "Hi {{customer_name}}. How can I help you today?",
- *             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
- *             template_variables: {
- *                 "customer_name": {},
- *                 "subject": {
- *                     default_value: "Chess"
- *                 }
- *             },
- *             tools: ["keypad_input"],
- *             no_input_poke_sec: 30,
- *             no_input_poke_text: "Are you still there?",
- *             boosted_keywords: ["Load ID", "dispatch"],
- *             configuration_endpoint: {
- *                 url: "https://api.example.com/config",
- *                 headers: {
- *                     "Authorization": "Bearer token123"
- *                 },
- *                 timeout_ms: 7000
+ *         name: "support-agent",
+ *         phone_number: "assign-automatically",
+ *         timezone: "America/Los_Angeles",
+ *         voice_id: "grant",
+ *         audio_speed: 1,
+ *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
+ *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+ *         template_variables: {
+ *             "customer_name": {},
+ *             "subject": {
+ *                 default_value: "Chess"
  *             }
+ *         },
+ *         tools: ["keypad_input"],
+ *         no_input_poke_sec: 30,
+ *         no_input_poke_text: "Are you still there?",
+ *         boosted_keywords: ["Load ID", "dispatch"],
+ *         configuration_endpoint: {
+ *             url: "https://api.example.com/config",
+ *             headers: {
+ *                 "Authorization": "Bearer token123"
+ *             },
+ *             timeout_ms: 7000
  *         }
  *     }
  */
 export interface AgentsCreateRequest {
     /** The name of the project to create the agent in. */
     project?: string;
-    body: Phonic.CreateAgentRequest;
+    /** The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
+    name: string;
+    phone_number?: "assign-automatically";
+    /** The timezone of the agent. Used to format system variables like `{{system_time}}`. */
+    timezone?: string;
+    /** The voice ID to use. */
+    voice_id?: string;
+    /** The audio format of the agent. */
+    audio_format?: Phonic.CreateAgentRequest.AudioFormat;
+    /** The audio speed of the agent. */
+    audio_speed?: number;
+    /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. */
+    welcome_message?: string;
+    /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */
+    system_prompt?: string;
+    /** Variables that can be used in the welcome message and the system prompt. */
+    template_variables?: Record<string, Phonic.CreateAgentRequest.TemplateVariables.Value>;
+    /** Array of built-in or custom tool names to use. */
+    tools?: Phonic.CreateAgentRequest.Tools.Item[];
+    /** Array of task objects with `name` and `description` fields. */
+    tasks?: Phonic.Task[];
+    /** Number of seconds of silence before sending a poke message. `null` disables the poke message. */
+    no_input_poke_sec?: number;
+    /** The message to send after the specified silence. */
+    no_input_poke_text?: string;
+    /** Seconds of silence before ending the conversation. */
+    no_input_end_conversation_sec?: number;
+    /** These words, or short phrases, will be more accurately recognized by the agent. */
+    boosted_keywords?: string[];
+    /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options. */
+    configuration_endpoint?: Phonic.CreateAgentRequest.ConfigurationEndpoint;
 }
