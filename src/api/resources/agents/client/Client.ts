@@ -141,31 +141,29 @@ export class Agents {
      * @example
      *     await client.agents.create({
      *         project: "main",
-     *         body: {
-     *             name: "support-agent",
-     *             phone_number: "assign-automatically",
-     *             timezone: "America/Los_Angeles",
-     *             voice_id: "grant",
-     *             audio_speed: 1,
-     *             welcome_message: "Hi {{customer_name}}. How can I help you today?",
-     *             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-     *             template_variables: {
-     *                 "customer_name": {},
-     *                 "subject": {
-     *                     default_value: "Chess"
-     *                 }
-     *             },
-     *             tools: ["keypad_input"],
-     *             no_input_poke_sec: 30,
-     *             no_input_poke_text: "Are you still there?",
-     *             boosted_keywords: ["Load ID", "dispatch"],
-     *             configuration_endpoint: {
-     *                 url: "https://api.example.com/config",
-     *                 headers: {
-     *                     "Authorization": "Bearer token123"
-     *                 },
-     *                 timeout_ms: 7000
+     *         name: "support-agent",
+     *         phone_number: "assign-automatically",
+     *         timezone: "America/Los_Angeles",
+     *         voice_id: "grant",
+     *         audio_speed: 1,
+     *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
+     *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+     *         template_variables: {
+     *             "customer_name": {},
+     *             "subject": {
+     *                 default_value: "Chess"
      *             }
+     *         },
+     *         tools: ["keypad_input"],
+     *         no_input_poke_sec: 30,
+     *         no_input_poke_text: "Are you still there?",
+     *         boosted_keywords: ["Load ID", "dispatch"],
+     *         configuration_endpoint: {
+     *             url: "https://api.example.com/config",
+     *             headers: {
+     *                 "Authorization": "Bearer token123"
+     *             },
+     *             timeout_ms: 7000
      *         }
      *     })
      */
@@ -180,7 +178,7 @@ export class Agents {
         request: Phonic.AgentsCreateRequest,
         requestOptions?: Agents.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.AgentsCreateResponse>> {
-        const { project, body: _body } = request;
+        const { project, ..._body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
             _queryParams["project"] = project;
