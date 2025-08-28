@@ -20,7 +20,7 @@ export interface Conversation {
     /** Welcome message played at start. */
     welcome_message?: string;
     /** Template variables used in the conversation. */
-    template_variables: Record<string, unknown>;
+    template_variables: Record<string, string>;
     /** Audio input format. */
     input_format: string;
     /** Audio output format. */
