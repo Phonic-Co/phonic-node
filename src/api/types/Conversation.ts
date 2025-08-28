@@ -11,12 +11,16 @@ export interface Conversation {
     agent?: Conversation.Agent;
     /** The organization/workspace name. */
     workspace: string;
+    /** The project associated with the conversation. */
+    project: Conversation.Project;
     /** External ID for conversation tracking. */
     external_id?: string;
     /** The STS model used. */
     model: string;
     /** Welcome message played at start. */
     welcome_message?: string;
+    /** Template variables used in the conversation. */
+    template_variables: Record<string, unknown>;
     /** Audio input format. */
     input_format: string;
     /** Audio output format. */
@@ -33,8 +37,6 @@ export interface Conversation {
     started_at: string;
     /** When the conversation ended. */
     ended_at?: string;
-    /** System prompt used for the conversation. */
-    system_prompt: string;
     /** Array of conversation items (turns). */
     items: Phonic.ConversationItem[];
     /** Results from conversation evaluations and extractions. */
@@ -49,6 +51,18 @@ export namespace Conversation {
         /** The ID of the agent. */
         id: string;
         /** The name of the agent. */
+        name: string;
+        /** Whether the agent has been deleted. */
+        is_deleted: boolean;
+    }
+
+    /**
+     * The project associated with the conversation.
+     */
+    export interface Project {
+        /** The ID of the project. */
+        id: string;
+        /** The name of the project. */
         name: string;
     }
 }

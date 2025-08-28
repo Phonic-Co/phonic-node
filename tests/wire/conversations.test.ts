@@ -17,11 +17,18 @@ describe("Conversations", () => {
             conversations: [
                 {
                     id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-                    agent: { id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783", name: "support-agent" },
+                    agent: {
+                        id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+                        name: "support-agent",
+                        is_deleted: false,
+                    },
                     workspace: "example-workspace",
+                    project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                     external_id: "call-123",
                     model: "merritt",
-                    welcome_message: "Hello, how can I help you today?",
+                    welcome_message:
+                        "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
+                    template_variables: { customer_name: "John", department: "Support" },
                     input_format: "mulaw_8000",
                     output_format: "mulaw_8000",
                     live_transcript:
@@ -32,7 +39,6 @@ describe("Conversations", () => {
                     audio_url: "https://example.com/audio/conv_12cf6e88.wav",
                     started_at: "2025-07-30T23:45:00Z",
                     ended_at: "2025-07-30T23:47:00Z",
-                    system_prompt: "You are a helpful assistant for booking appointments.",
                     items: [
                         {
                             item_idx: 0,
@@ -51,6 +57,14 @@ describe("Conversations", () => {
                             started_at: "2025-07-30T23:45:02Z",
                             voice_id: "grant",
                             audio_speed: 1,
+                            system_prompt:
+                                "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
+                            tool_calls: [
+                                {
+                                    name: "check_availability",
+                                    parameters: { date: "tomorrow", service: "consultation" },
+                                },
+                            ],
                         },
                     ],
                     task_results: { key: "value" },
@@ -67,11 +81,21 @@ describe("Conversations", () => {
                     agent: {
                         id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
                         name: "support-agent",
+                        is_deleted: false,
                     },
                     workspace: "example-workspace",
+                    project: {
+                        id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
+                        name: "customer-support",
+                    },
                     external_id: "call-123",
                     model: "merritt",
-                    welcome_message: "Hello, how can I help you today?",
+                    welcome_message:
+                        "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
+                    template_variables: {
+                        customer_name: "John",
+                        department: "Support",
+                    },
                     input_format: "mulaw_8000",
                     output_format: "mulaw_8000",
                     live_transcript:
@@ -82,7 +106,6 @@ describe("Conversations", () => {
                     audio_url: "https://example.com/audio/conv_12cf6e88.wav",
                     started_at: "2025-07-30T23:45:00Z",
                     ended_at: "2025-07-30T23:47:00Z",
-                    system_prompt: "You are a helpful assistant for booking appointments.",
                     items: [
                         {
                             item_idx: 0,
@@ -101,6 +124,17 @@ describe("Conversations", () => {
                             started_at: "2025-07-30T23:45:02Z",
                             voice_id: "grant",
                             audio_speed: 1,
+                            system_prompt:
+                                "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
+                            tool_calls: [
+                                {
+                                    name: "check_availability",
+                                    parameters: {
+                                        date: "tomorrow",
+                                        service: "consultation",
+                                    },
+                                },
+                            ],
                         },
                     ],
                     task_results: {
@@ -121,11 +155,13 @@ describe("Conversations", () => {
         const rawResponseBody = {
             conversation: {
                 id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-                agent: { id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783", name: "support-agent" },
+                agent: { id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783", name: "support-agent", is_deleted: false },
                 workspace: "example-workspace",
+                project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 external_id: "call-123",
                 model: "merritt",
-                welcome_message: "Hello, how can I help you today?",
+                welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
+                template_variables: { customer_name: "John", department: "Support" },
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
                 live_transcript:
@@ -136,7 +172,6 @@ describe("Conversations", () => {
                 audio_url: "https://example.com/audio/conv_12cf6e88.wav",
                 started_at: "2025-07-30T23:45:00Z",
                 ended_at: "2025-07-30T23:47:00Z",
-                system_prompt: "You are a helpful assistant for booking appointments.",
                 items: [
                     {
                         item_idx: 0,
@@ -155,6 +190,11 @@ describe("Conversations", () => {
                         started_at: "2025-07-30T23:45:02Z",
                         voice_id: "grant",
                         audio_speed: 1,
+                        system_prompt:
+                            "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
+                        tool_calls: [
+                            { name: "check_availability", parameters: { date: "tomorrow", service: "consultation" } },
+                        ],
                     },
                 ],
                 task_results: { key: "value" },
@@ -169,11 +209,20 @@ describe("Conversations", () => {
                 agent: {
                     id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
                     name: "support-agent",
+                    is_deleted: false,
                 },
                 workspace: "example-workspace",
+                project: {
+                    id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
+                    name: "customer-support",
+                },
                 external_id: "call-123",
                 model: "merritt",
-                welcome_message: "Hello, how can I help you today?",
+                welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
+                template_variables: {
+                    customer_name: "John",
+                    department: "Support",
+                },
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
                 live_transcript:
@@ -184,7 +233,6 @@ describe("Conversations", () => {
                 audio_url: "https://example.com/audio/conv_12cf6e88.wav",
                 started_at: "2025-07-30T23:45:00Z",
                 ended_at: "2025-07-30T23:47:00Z",
-                system_prompt: "You are a helpful assistant for booking appointments.",
                 items: [
                     {
                         item_idx: 0,
@@ -203,6 +251,17 @@ describe("Conversations", () => {
                         started_at: "2025-07-30T23:45:02Z",
                         voice_id: "grant",
                         audio_speed: 1,
+                        system_prompt:
+                            "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
+                        tool_calls: [
+                            {
+                                name: "check_availability",
+                                parameters: {
+                                    date: "tomorrow",
+                                    service: "consultation",
+                                },
+                            },
+                        ],
                     },
                 ],
                 task_results: {

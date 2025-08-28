@@ -19,6 +19,10 @@ export interface ConversationItem {
     voice_id?: string;
     /** Audio speed used (assistant only). */
     audio_speed?: number;
+    /** System prompt used for this assistant turn. */
+    system_prompt?: string;
+    /** Tool calls made by the assistant. */
+    tool_calls?: Record<string, unknown>[];
 }
 
 export namespace ConversationItem {
