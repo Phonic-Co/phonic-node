@@ -40,6 +40,8 @@ export interface ConfigPayload {
     no_input_poke_text?: string;
     /** Seconds of silence before ending conversation */
     no_input_end_conversation_sec?: number;
+    /** Array of ISO 639-1 language codes that the agent should be able to recognize */
+    recognized_languages?: string[];
     /** Keywords to boost in speech recognition */
     boosted_keywords?: string[];
     /** Tools available to the assistant */

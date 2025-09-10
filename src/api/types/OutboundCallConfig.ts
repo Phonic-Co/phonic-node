@@ -24,6 +24,8 @@ export interface OutboundCallConfig {
     no_input_poke_text?: string;
     /** Seconds of silence before ending the conversation. */
     no_input_end_conversation_sec?: number;
+    /** Array of ISO 639-1 language codes that the agent should be able to recognize */
+    recognized_languages?: string[];
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[];
     /** Array of built-in or custom tool names to use. */

@@ -4,6 +4,8 @@
 
 export interface InputTextPayload {
     type: "input_text";
+    /** Detected ISO 639-1 language code of user speech */
+    language: string;
     /** Transcribed user speech */
     text: string;
 }
