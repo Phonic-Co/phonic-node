@@ -31,6 +31,7 @@ describe("Conversations", () => {
                     template_variables: { customer_name: "John", department: "Support" },
                     input_format: "mulaw_8000",
                     output_format: "mulaw_8000",
+                    background_noise_level: 0,
                     live_transcript:
                         "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                     post_call_transcript:
@@ -107,6 +108,7 @@ describe("Conversations", () => {
                     },
                     input_format: "mulaw_8000",
                     output_format: "mulaw_8000",
+                    background_noise_level: 0,
                     live_transcript:
                         "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                     post_call_transcript:
@@ -190,6 +192,7 @@ describe("Conversations", () => {
                 template_variables: { customer_name: "John", department: "Support" },
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
+                background_noise_level: 1.1,
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:
@@ -263,6 +266,7 @@ describe("Conversations", () => {
                 },
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
+                background_noise_level: 1.1,
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:

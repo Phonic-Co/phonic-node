@@ -13,6 +13,7 @@ import * as Phonic from "../../../../index.js";
  *         timezone: "America/Los_Angeles",
  *         voice_id: "grant",
  *         audio_speed: 1,
+ *         background_noise_level: 0,
  *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
  *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
  *         template_variables: {
@@ -48,6 +49,8 @@ export interface AgentsCreateRequest {
     audio_format?: Phonic.CreateAgentRequest.AudioFormat;
     /** The audio speed of the agent. */
     audio_speed?: number;
+    /** The background noise level of the agent. */
+    background_noise_level?: number;
     /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. */
     welcome_message?: string;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */

@@ -21,6 +21,8 @@ export interface Agent {
     audio_format: Agent.AudioFormat;
     /** The audio speed of the agent. Must be a multiple of 0.1. */
     audio_speed: number;
+    /** The background noise level of the agent. Must be between 0 and 1. */
+    background_noise_level: number;
     /** Message to play when the conversation starts. */
     welcome_message?: string;
     /** Instructions for the conversation. */

@@ -14,6 +14,8 @@ export interface ConfigPayload {
     system_prompt?: string;
     /** Audio playback speed */
     audio_speed?: number;
+    /** Background noise level for the conversation */
+    background_noise_level?: number;
     /** Message to play when conversation starts */
     welcome_message?: string;
     /** Voice ID to use for speech synthesis */

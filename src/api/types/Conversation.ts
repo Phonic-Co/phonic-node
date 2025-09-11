@@ -25,6 +25,8 @@ export interface Conversation {
     input_format: string;
     /** Audio output format. */
     output_format: string;
+    /** Background noise level used in the conversation. */
+    background_noise_level: number;
     /** Live transcript of the conversation. */
     live_transcript: string;
     /** Post-call processed transcript. */
