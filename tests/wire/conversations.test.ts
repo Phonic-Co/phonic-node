@@ -31,6 +31,7 @@ describe("Conversations", () => {
                     template_variables: { customer_name: "John", department: "Support" },
                     input_format: "mulaw_8000",
                     output_format: "mulaw_8000",
+                    background_noise_level: 0.01,
                     live_transcript:
                         "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                     post_call_transcript:
@@ -39,6 +40,7 @@ describe("Conversations", () => {
                     audio_url: "https://example.com/audio/conv_12cf6e88.wav",
                     started_at: "2025-07-30T23:45:00Z",
                     ended_at: "2025-07-30T23:47:00Z",
+                    ended_by: "user",
                     items: [
                         {
                             item_idx: 0,
@@ -107,6 +109,7 @@ describe("Conversations", () => {
                     },
                     input_format: "mulaw_8000",
                     output_format: "mulaw_8000",
+                    background_noise_level: 0.01,
                     live_transcript:
                         "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                     post_call_transcript:
@@ -115,6 +118,7 @@ describe("Conversations", () => {
                     audio_url: "https://example.com/audio/conv_12cf6e88.wav",
                     started_at: "2025-07-30T23:45:00Z",
                     ended_at: "2025-07-30T23:47:00Z",
+                    ended_by: "user",
                     items: [
                         {
                             item_idx: 0,
@@ -190,6 +194,7 @@ describe("Conversations", () => {
                 template_variables: { customer_name: "John", department: "Support" },
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
+                background_noise_level: 1.1,
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:
@@ -198,6 +203,7 @@ describe("Conversations", () => {
                 audio_url: "https://example.com/audio/conv_12cf6e88.wav",
                 started_at: "2025-07-30T23:45:00Z",
                 ended_at: "2025-07-30T23:47:00Z",
+                ended_by: "user",
                 items: [
                     {
                         item_idx: 0,
@@ -263,6 +269,7 @@ describe("Conversations", () => {
                 },
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
+                background_noise_level: 1.1,
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:
@@ -271,6 +278,7 @@ describe("Conversations", () => {
                 audio_url: "https://example.com/audio/conv_12cf6e88.wav",
                 started_at: "2025-07-30T23:45:00Z",
                 ended_at: "2025-07-30T23:47:00Z",
+                ended_by: "user",
                 items: [
                     {
                         item_idx: 0,

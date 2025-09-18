@@ -13,6 +13,7 @@ import * as Phonic from "../../../../index.js";
  *         timezone: "America/Los_Angeles",
  *         voice_id: "grant",
  *         audio_speed: 1,
+ *         background_noise_level: 0,
  *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
  *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
  *         template_variables: {

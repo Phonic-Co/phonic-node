@@ -16,6 +16,8 @@ export interface CreateAgentRequest {
     audio_format?: CreateAgentRequest.AudioFormat;
     /** The audio speed of the agent. */
     audio_speed?: number;
+    /** The background noise level of the agent. */
+    background_noise_level?: number;
     /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. */
     welcome_message?: string;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */
@@ -44,9 +46,10 @@ export namespace CreateAgentRequest {
     /**
      * The audio format of the agent.
      */
-    export type AudioFormat = "pcm_44100" | "mulaw_8000";
+    export type AudioFormat = "pcm_44100" | "pcm_16000" | "mulaw_8000";
     export const AudioFormat = {
         Pcm44100: "pcm_44100",
+        Pcm16000: "pcm_16000",
         Mulaw8000: "mulaw_8000",
     } as const;
 

@@ -14,6 +14,8 @@ export interface ConfigPayload {
     system_prompt?: string;
     /** Audio playback speed */
     audio_speed?: number;
+    /** Background noise level for the conversation */
+    background_noise_level?: number;
     /** Message to play when conversation starts */
     welcome_message?: string;
     /** Voice ID to use for speech synthesis */
@@ -54,17 +56,19 @@ export namespace ConfigPayload {
     /**
      * Audio input format
      */
-    export type InputFormat = "pcm_44100" | "mulaw_8000";
+    export type InputFormat = "pcm_44100" | "pcm_16000" | "mulaw_8000";
     export const InputFormat = {
         Pcm44100: "pcm_44100",
+        Pcm16000: "pcm_16000",
         Mulaw8000: "mulaw_8000",
     } as const;
     /**
      * Audio output format
      */
-    export type OutputFormat = "pcm_44100" | "mulaw_8000";
+    export type OutputFormat = "pcm_44100" | "pcm_16000" | "mulaw_8000";
     export const OutputFormat = {
         Pcm44100: "pcm_44100",
+        Pcm16000: "pcm_16000",
         Mulaw8000: "mulaw_8000",
     } as const;
 }
