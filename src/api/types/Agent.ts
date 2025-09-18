@@ -21,6 +21,8 @@ export interface Agent {
     audio_format: Agent.AudioFormat;
     /** The audio speed of the agent. Must be a multiple of 0.1. */
     audio_speed: number;
+    /** The background noise level of the agent. Must be between 0 and 1. */
+    background_noise_level: number;
     /** Message to play when the conversation starts. */
     welcome_message?: string;
     /** Instructions for the conversation. */
@@ -57,9 +59,10 @@ export namespace Agent {
     /**
      * The audio format of the agent. If the agent has a phone number, the audio format will be `mulaw_8000`.
      */
-    export type AudioFormat = "pcm_44100" | "mulaw_8000";
+    export type AudioFormat = "pcm_44100" | "pcm_16000" | "mulaw_8000";
     export const AudioFormat = {
         Pcm44100: "pcm_44100",
+        Pcm16000: "pcm_16000",
         Mulaw8000: "mulaw_8000",
     } as const;
 
