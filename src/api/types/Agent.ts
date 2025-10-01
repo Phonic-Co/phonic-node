@@ -10,7 +10,7 @@ export interface Agent {
     /** The name of the agent. */
     name: string;
     /** The phone number that the agent uses to accept and initiate phone calls. `null` if the agent is not associated with a phone number, in which can the agent can be used via WebSockets. */
-    phone_number?: string;
+    phone_number: string | null;
     /** The project the agent belongs to. */
     project: Agent.Project;
     /** The timezone of the agent. Used to format system variables like `{{system_time}}`. */
@@ -24,7 +24,7 @@ export interface Agent {
     /** The background noise level of the agent. Must be between 0 and 1. */
     background_noise_level: number;
     /** Message to play when the conversation starts. */
-    welcome_message?: string;
+    welcome_message: string | null;
     /** Instructions for the conversation. */
     system_prompt: string;
     /** Template variables that the agent can use in the welcome message and the system prompt. */
@@ -34,7 +34,7 @@ export interface Agent {
     /** Tasks for the agent to complete during the conversation. */
     tasks: Phonic.Task[];
     /** Number of seconds of silence before sending a poke message. `null` disables the poke message. */
-    no_input_poke_sec?: number;
+    no_input_poke_sec: number | null;
     /** The message to send after the specified silence. */
     no_input_poke_text: string;
     /** Seconds of silence before ending the conversation. */
@@ -44,7 +44,7 @@ export interface Agent {
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords: string[];
     /** When not `null`, the agent will call this endpoint to get configuration options. */
-    configuration_endpoint?: Agent.ConfigurationEndpoint;
+    configuration_endpoint: Agent.ConfigurationEndpoint | null;
 }
 
 export namespace Agent {
@@ -59,16 +59,17 @@ export namespace Agent {
     /**
      * The audio format of the agent. If the agent has a phone number, the audio format will be `mulaw_8000`.
      */
-    export type AudioFormat = "pcm_44100" | "pcm_16000" | "mulaw_8000";
+    export type AudioFormat = "pcm_44100" | "pcm_16000" | "pcm_8000" | "mulaw_8000";
     export const AudioFormat = {
         Pcm44100: "pcm_44100",
         Pcm16000: "pcm_16000",
+        Pcm8000: "pcm_8000",
         Mulaw8000: "mulaw_8000",
     } as const;
 
     export namespace TemplateVariables {
         export interface Value {
-            default_value?: string;
+            default_value: string | null;
         }
     }
 

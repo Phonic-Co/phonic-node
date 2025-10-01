@@ -210,15 +210,12 @@ export class Voices {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string> {
+    protected async _getAuthorizationHeader(): Promise<string | undefined> {
         const bearer = (await core.Supplier.get(this._options.apiKey)) ?? process?.env["PHONIC_API_KEY"];
-        if (bearer == null) {
-            throw new errors.PhonicError({
-                message:
-                    "Please specify a bearer by either passing it in to the constructor or initializing a PHONIC_API_KEY environment variable",
-            });
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
         }
 
-        return `Bearer ${bearer}`;
+        return undefined;
     }
 }

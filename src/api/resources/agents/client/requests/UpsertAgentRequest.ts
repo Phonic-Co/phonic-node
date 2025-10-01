@@ -17,7 +17,9 @@ import * as Phonic from "../../../../index.js";
  *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
  *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
  *         template_variables: {
- *             "customer_name": {},
+ *             "customer_name": {
+ *                 default_value: null
+ *             },
  *             "subject": {
  *                 default_value: "Chess"
  *             }

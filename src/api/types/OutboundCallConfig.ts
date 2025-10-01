@@ -11,7 +11,7 @@ export interface OutboundCallConfig {
     /** The name of the project to use for the call. */
     project?: string;
     /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. */
-    welcome_message?: string;
+    welcome_message?: string | null;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */
     system_prompt?: string;
     /** Variables that can be used in the welcome message and the system prompt. */
@@ -19,7 +19,7 @@ export interface OutboundCallConfig {
     /** The voice ID to use for the agent. */
     voice_id?: string;
     /** Number of seconds of silence before sending a poke message. `null` disables the poke message. */
-    no_input_poke_sec?: number;
+    no_input_poke_sec?: number | null;
     /** The message to send after the specified silence. */
     no_input_poke_text?: string;
     /** Seconds of silence before ending the conversation. */

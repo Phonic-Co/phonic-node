@@ -8,23 +8,23 @@ export interface ToolCallOutputProcessedPayload {
     tool_call_id: string;
     tool: ToolCallOutputProcessedPayload.Tool;
     /** Webhook endpoint URL (null for WebSocket tools) */
-    endpoint_url?: string;
+    endpoint_url?: string | null;
     /** Webhook timeout in milliseconds (null for WebSocket tools) */
-    endpoint_timeout_ms?: number;
+    endpoint_timeout_ms?: number | null;
     /** When webhook was called (null for WebSocket tools) */
-    endpoint_called_at?: string;
+    endpoint_called_at?: string | null;
     /** Webhook request body (null for WebSocket tools) */
-    request_body?: Record<string, unknown>;
+    request_body?: Record<string, unknown> | null;
     response_body?: unknown;
     /** WebSocket tool parameters (null for webhook tools) */
-    parameters?: Record<string, unknown>;
+    parameters?: Record<string, unknown> | null;
     output?: unknown;
     /** Webhook HTTP status code (null for WebSocket tools) */
-    response_status_code?: number;
+    response_status_code?: number | null;
     /** Whether the tool call timed out */
-    timed_out?: boolean;
+    timed_out?: boolean | null;
     /** Error message if tool call failed */
-    error_message?: string;
+    error_message?: string | null;
 }
 
 export namespace ToolCallOutputProcessedPayload {
