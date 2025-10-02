@@ -10,7 +10,7 @@ export interface ConversationItem {
     /** Live transcript of this turn. */
     live_transcript: string;
     /** Post-call processed transcript. */
-    post_call_transcript?: string;
+    post_call_transcript: string | null;
     /** Duration of this turn in milliseconds. */
     duration_ms: number;
     /** When this turn started. */
@@ -42,29 +42,29 @@ export namespace ConversationItem {
             id: string;
             tool: Item.Tool;
             /** HTTP method for webhook tool calls. */
-            endpoint_method?: string;
+            endpoint_method?: string | null;
             /** URL for webhook tool calls. */
-            endpoint_url?: string;
+            endpoint_url?: string | null;
             /** Headers for webhook tool calls. */
-            endpoint_headers?: Record<string, string | undefined>;
+            endpoint_headers?: Record<string, string | null> | null;
             /** Timeout in milliseconds for webhook tool calls. */
-            endpoint_timeout_ms?: number;
+            endpoint_timeout_ms?: number | null;
             /** When the webhook endpoint was called (null on error). */
-            endpoint_called_at?: string;
+            endpoint_called_at?: string | null;
             /** Query parameters for webhook tool calls (null on error or when no params). */
-            query_params?: Record<string, unknown>;
+            query_params?: Record<string, unknown> | null;
             /** HTTP response status code for webhook tool calls (null on error). */
-            response_status_code?: number;
+            response_status_code?: number | null;
             /** Timeout in milliseconds for websocket tool calls. */
-            tool_call_output_timeout_ms?: number;
+            tool_call_output_timeout_ms?: number | null;
             /** The request body sent to the tool. */
-            request_body?: Record<string, unknown>;
+            request_body: Record<string, unknown> | null;
             /** The response body received from the tool. */
-            response_body?: Record<string, unknown>;
+            response_body: Record<string, unknown> | null;
             /** Whether the tool call timed out. */
-            timed_out?: boolean;
+            timed_out: boolean | null;
             /** Error message if the tool call failed. */
-            error_message?: string;
+            error_message: string | null;
         }
 
         export namespace Item {

@@ -8,17 +8,17 @@ export interface Conversation {
     /** The conversation ID. */
     id: string;
     /** The agent associated with the conversation. */
-    agent?: Conversation.Agent;
+    agent: Conversation.Agent | null;
     /** The organization/workspace name. */
     workspace: string;
     /** The project associated with the conversation. */
     project: Conversation.Project;
     /** External ID for conversation tracking. */
-    external_id?: string;
+    external_id: string | null;
     /** The STS model used. */
     model: string;
     /** Welcome message played at start. */
-    welcome_message?: string;
+    welcome_message: string | null;
     /** Template variables used in the conversation. */
     template_variables: Record<string, string>;
     /** Audio input format. */
@@ -30,17 +30,17 @@ export interface Conversation {
     /** Live transcript of the conversation. */
     live_transcript: string;
     /** Post-call processed transcript. */
-    post_call_transcript?: string;
+    post_call_transcript: string | null;
     /** Duration of the conversation in milliseconds. */
     duration_ms: number;
     /** Presigned URL to the conversation audio file. */
-    audio_url?: string;
+    audio_url: string | null;
     /** When the conversation started. */
     started_at: string;
     /** When the conversation ended. */
-    ended_at?: string;
+    ended_at: string | null;
     /** Who or what ended the conversation. */
-    ended_by?: string;
+    ended_by: Conversation.EndedBy | null;
     /** Array of conversation items (turns). */
     items: Phonic.ConversationItem[];
     /** Results from conversation evaluations and extractions. */
@@ -69,4 +69,16 @@ export namespace Conversation {
         /** The name of the project. */
         name: string;
     }
+
+    /**
+     * Who or what ended the conversation.
+     */
+    export type EndedBy = "user" | "user_canceled" | "user_validation_failed" | "assistant" | "error";
+    export const EndedBy = {
+        User: "user",
+        UserCanceled: "user_canceled",
+        UserValidationFailed: "user_validation_failed",
+        Assistant: "assistant",
+        Error: "error",
+    } as const;
 }

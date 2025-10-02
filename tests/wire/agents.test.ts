@@ -120,7 +120,7 @@ describe("Agents", () => {
             background_noise_level: 0,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-            template_variables: { customer_name: {}, subject: { default_value: "Chess" } },
+            template_variables: { customer_name: { default_value: null }, subject: { default_value: "Chess" } },
             tools: ["keypad_input"],
             no_input_poke_sec: 30,
             no_input_poke_text: "Are you still there?",
@@ -153,7 +153,9 @@ describe("Agents", () => {
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables: {
-                customer_name: {},
+                customer_name: {
+                    default_value: null,
+                },
                 subject: {
                     default_value: "Chess",
                 },
@@ -192,7 +194,7 @@ describe("Agents", () => {
             background_noise_level: 0,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-            template_variables: { customer_name: {}, subject: { default_value: "Chess" } },
+            template_variables: { customer_name: { default_value: null }, subject: { default_value: "Chess" } },
             tools: ["keypad_input"],
             no_input_poke_sec: 30,
             no_input_poke_text: "Are you still there?",
@@ -257,7 +259,9 @@ describe("Agents", () => {
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables: {
-                customer_name: {},
+                customer_name: {
+                    default_value: null,
+                },
                 subject: {
                     default_value: "Chess",
                 },
@@ -461,7 +465,7 @@ describe("Agents", () => {
             background_noise_level: 0,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-            template_variables: { customer_name: {}, subject: { default_value: "Chess" } },
+            template_variables: { customer_name: { default_value: null }, subject: { default_value: "Chess" } },
             tools: ["keypad_input"],
             no_input_poke_sec: 30,
             no_input_poke_text: "Are you still there?",
@@ -494,7 +498,9 @@ describe("Agents", () => {
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables: {
-                customer_name: {},
+                customer_name: {
+                    default_value: null,
+                },
                 subject: {
                     default_value: "Chess",
                 },

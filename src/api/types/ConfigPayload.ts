@@ -17,7 +17,7 @@ export interface ConfigPayload {
     /** Background noise level for the conversation */
     background_noise_level?: number;
     /** Message to play when conversation starts */
-    welcome_message?: string;
+    welcome_message?: string | null;
     /** Voice ID to use for speech synthesis */
     voice_id?: string;
     /** Audio input format */
@@ -37,7 +37,7 @@ export interface ConfigPayload {
     /** Enable transcript RAG */
     enable_transcripts_rag?: boolean;
     /** Seconds of silence before poke message */
-    no_input_poke_sec?: number;
+    no_input_poke_sec?: number | null;
     /** Poke message text */
     no_input_poke_text?: string;
     /** Seconds of silence before ending conversation */
@@ -56,19 +56,21 @@ export namespace ConfigPayload {
     /**
      * Audio input format
      */
-    export type InputFormat = "pcm_44100" | "pcm_16000" | "mulaw_8000";
+    export type InputFormat = "pcm_44100" | "pcm_16000" | "pcm_8000" | "mulaw_8000";
     export const InputFormat = {
         Pcm44100: "pcm_44100",
         Pcm16000: "pcm_16000",
+        Pcm8000: "pcm_8000",
         Mulaw8000: "mulaw_8000",
     } as const;
     /**
      * Audio output format
      */
-    export type OutputFormat = "pcm_44100" | "pcm_16000" | "mulaw_8000";
+    export type OutputFormat = "pcm_44100" | "pcm_16000" | "pcm_8000" | "mulaw_8000";
     export const OutputFormat = {
         Pcm44100: "pcm_44100",
         Pcm16000: "pcm_16000",
+        Pcm8000: "pcm_8000",
         Mulaw8000: "mulaw_8000",
     } as const;
 }

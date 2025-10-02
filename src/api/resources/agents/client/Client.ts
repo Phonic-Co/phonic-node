@@ -150,7 +150,9 @@ export class Agents {
      *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
      *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
      *         template_variables: {
-     *             "customer_name": {},
+     *             "customer_name": {
+     *                 default_value: null
+     *             },
      *             "subject": {
      *                 default_value: "Chess"
      *             }
@@ -275,7 +277,9 @@ export class Agents {
      *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
      *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
      *         template_variables: {
-     *             "customer_name": {},
+     *             "customer_name": {
+     *                 default_value: null
+     *             },
      *             "subject": {
      *                 default_value: "Chess"
      *             }
@@ -570,7 +574,9 @@ export class Agents {
      *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
      *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
      *         template_variables: {
-     *             "customer_name": {},
+     *             "customer_name": {
+     *                 default_value: null
+     *             },
      *             "subject": {
      *                 default_value: "Chess"
      *             }
@@ -668,15 +674,12 @@ export class Agents {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string> {
+    protected async _getAuthorizationHeader(): Promise<string | undefined> {
         const bearer = (await core.Supplier.get(this._options.apiKey)) ?? process?.env["PHONIC_API_KEY"];
-        if (bearer == null) {
-            throw new errors.PhonicError({
-                message:
-                    "Please specify a bearer by either passing it in to the constructor or initializing a PHONIC_API_KEY environment variable",
-            });
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
         }
 
-        return `Bearer ${bearer}`;
+        return undefined;
     }
 }

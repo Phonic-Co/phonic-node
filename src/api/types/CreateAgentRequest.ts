@@ -7,7 +7,7 @@ import * as Phonic from "../index.js";
 export interface CreateAgentRequest {
     /** The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
     name: string;
-    phone_number?: "assign-automatically";
+    phone_number?: "assign-automatically" | null;
     /** The timezone of the agent. Used to format system variables like `{{system_time}}`. */
     timezone?: string;
     /** The voice ID to use. */
@@ -29,7 +29,7 @@ export interface CreateAgentRequest {
     /** Array of task objects with `name` and `description` fields. */
     tasks?: Phonic.Task[];
     /** Number of seconds of silence before sending a poke message. `null` disables the poke message. */
-    no_input_poke_sec?: number;
+    no_input_poke_sec?: number | null;
     /** The message to send after the specified silence. */
     no_input_poke_text?: string;
     /** Seconds of silence before ending the conversation. */
@@ -39,23 +39,24 @@ export interface CreateAgentRequest {
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[];
     /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options. */
-    configuration_endpoint?: CreateAgentRequest.ConfigurationEndpoint;
+    configuration_endpoint?: CreateAgentRequest.ConfigurationEndpoint | null;
 }
 
 export namespace CreateAgentRequest {
     /**
      * The audio format of the agent.
      */
-    export type AudioFormat = "pcm_44100" | "pcm_16000" | "mulaw_8000";
+    export type AudioFormat = "pcm_44100" | "pcm_16000" | "pcm_8000" | "mulaw_8000";
     export const AudioFormat = {
         Pcm44100: "pcm_44100",
         Pcm16000: "pcm_16000",
+        Pcm8000: "pcm_8000",
         Mulaw8000: "mulaw_8000",
     } as const;
 
     export namespace TemplateVariables {
         export interface Value {
-            default_value?: string;
+            default_value: string | null;
             is_boosted_keyword?: boolean;
         }
     }

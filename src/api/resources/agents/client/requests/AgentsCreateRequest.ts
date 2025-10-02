@@ -17,7 +17,9 @@ import * as Phonic from "../../../../index.js";
  *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
  *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
  *         template_variables: {
- *             "customer_name": {},
+ *             "customer_name": {
+ *                 default_value: null
+ *             },
  *             "subject": {
  *                 default_value: "Chess"
  *             }
@@ -41,7 +43,7 @@ export interface AgentsCreateRequest {
     project?: string;
     /** The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
     name: string;
-    phone_number?: "assign-automatically";
+    phone_number?: "assign-automatically" | null;
     /** The timezone of the agent. Used to format system variables like `{{system_time}}`. */
     timezone?: string;
     /** The voice ID to use. */
@@ -63,7 +65,7 @@ export interface AgentsCreateRequest {
     /** Array of task objects with `name` and `description` fields. */
     tasks?: Phonic.Task[];
     /** Number of seconds of silence before sending a poke message. `null` disables the poke message. */
-    no_input_poke_sec?: number;
+    no_input_poke_sec?: number | null;
     /** The message to send after the specified silence. */
     no_input_poke_text?: string;
     /** Seconds of silence before ending the conversation. */
@@ -73,5 +75,5 @@ export interface AgentsCreateRequest {
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[];
     /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options. */
-    configuration_endpoint?: Phonic.CreateAgentRequest.ConfigurationEndpoint;
+    configuration_endpoint?: Phonic.CreateAgentRequest.ConfigurationEndpoint | null;
 }

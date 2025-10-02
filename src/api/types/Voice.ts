@@ -8,5 +8,5 @@ export interface Voice {
     /** The voice name. */
     name: string;
     /** The voice description. */
-    description?: string;
+    description: string | null;
 }
