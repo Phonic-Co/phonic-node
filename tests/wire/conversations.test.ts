@@ -41,6 +41,12 @@ describe("Conversations", () => {
                     started_at: "2025-07-30T23:45:00Z",
                     ended_at: "2025-07-30T23:47:00Z",
                     ended_by: "user",
+                    boosted_keywords: ["Load ID", "dispatch"],
+                    languages: ["en", "es"],
+                    no_input_poke_sec: 30,
+                    no_input_poke_text: "Are you still there?",
+                    no_input_end_conversation_sec: 180,
+                    task_results: { key: "value" },
                     items: [
                         {
                             item_idx: 0,
@@ -79,7 +85,6 @@ describe("Conversations", () => {
                             ],
                         },
                     ],
-                    task_results: { key: "value" },
                 },
             ],
         };
@@ -120,6 +125,14 @@ describe("Conversations", () => {
                     started_at: "2025-07-30T23:45:00Z",
                     ended_at: "2025-07-30T23:47:00Z",
                     ended_by: "user",
+                    boosted_keywords: ["Load ID", "dispatch"],
+                    languages: ["en", "es"],
+                    no_input_poke_sec: 30,
+                    no_input_poke_text: "Are you still there?",
+                    no_input_end_conversation_sec: 180,
+                    task_results: {
+                        key: "value",
+                    },
                     items: [
                         {
                             item_idx: 0,
@@ -169,9 +182,6 @@ describe("Conversations", () => {
                             ],
                         },
                     ],
-                    task_results: {
-                        key: "value",
-                    },
                 },
             ],
         });
@@ -206,6 +216,12 @@ describe("Conversations", () => {
                 started_at: "2025-07-30T23:45:00Z",
                 ended_at: "2025-07-30T23:47:00Z",
                 ended_by: "user",
+                boosted_keywords: ["Load ID", "dispatch"],
+                languages: ["en", "es"],
+                no_input_poke_sec: 30,
+                no_input_poke_text: "Are you still there?",
+                no_input_end_conversation_sec: 180,
+                task_results: { key: "value" },
                 items: [
                     {
                         item_idx: 0,
@@ -244,7 +260,6 @@ describe("Conversations", () => {
                         ],
                     },
                 ],
-                task_results: { key: "value" },
             },
         };
         server.mockEndpoint().get("/conversations/id").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -282,6 +297,14 @@ describe("Conversations", () => {
                 started_at: "2025-07-30T23:45:00Z",
                 ended_at: "2025-07-30T23:47:00Z",
                 ended_by: "user",
+                boosted_keywords: ["Load ID", "dispatch"],
+                languages: ["en", "es"],
+                no_input_poke_sec: 30,
+                no_input_poke_text: "Are you still there?",
+                no_input_end_conversation_sec: 180,
+                task_results: {
+                    key: "value",
+                },
                 items: [
                     {
                         item_idx: 0,
@@ -331,9 +354,6 @@ describe("Conversations", () => {
                         ],
                     },
                 ],
-                task_results: {
-                    key: "value",
-                },
             },
         });
     });
@@ -566,7 +586,7 @@ describe("Conversations", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
-                recognized_languages: ["en", "es"],
+                languages: ["en", "es"],
                 boosted_keywords: ["Load ID", "dispatch"],
                 tools: ["keypad_input"],
             },
@@ -595,7 +615,7 @@ describe("Conversations", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
-                recognized_languages: ["en", "es"],
+                languages: ["en", "es"],
                 boosted_keywords: ["Load ID", "dispatch"],
                 tools: ["keypad_input"],
             },

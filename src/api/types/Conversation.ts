@@ -41,10 +41,20 @@ export interface Conversation {
     ended_at: string | null;
     /** Who or what ended the conversation. */
     ended_by: Conversation.EndedBy | null;
-    /** Array of conversation items (turns). */
-    items: Phonic.ConversationItem[];
+    /** These words, or short phrases, are more accurately recognized by the model. */
+    boosted_keywords: string[] | null;
+    /** Array of ISO 639-1 language codes recognized by the model. */
+    languages: string[] | null;
+    /** Number of seconds of silence before a poke message is sent. `null` means the poke message is disabled. */
+    no_input_poke_sec: number | null;
+    /** The message to send after the specified silence. Relevant only if `no_input_poke_sec` is not `null`. */
+    no_input_poke_text: string | null;
+    /** Seconds of silence before the conversation is ended. */
+    no_input_end_conversation_sec: number | null;
     /** Results from conversation evaluations and extractions. */
     task_results: Record<string, unknown>;
+    /** Array of conversation items (turns). */
+    items: Phonic.ConversationItem[];
 }
 
 export namespace Conversation {

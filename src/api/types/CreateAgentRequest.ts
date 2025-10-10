@@ -35,7 +35,7 @@ export interface CreateAgentRequest {
     /** Seconds of silence before ending the conversation. */
     no_input_end_conversation_sec?: number;
     /** Array of ISO 639-1 language codes that the agent should be able to recognize */
-    recognized_languages?: string[];
+    languages?: Phonic.LanguageCode[];
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[];
     /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options. */
