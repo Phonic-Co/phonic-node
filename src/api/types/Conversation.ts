@@ -27,6 +27,8 @@ export interface Conversation {
     output_format: string;
     /** Background noise level used in the conversation. */
     background_noise_level: number;
+    /** The background noise type used in the conversation. */
+    background_noise: Conversation.BackgroundNoise | null;
     /** Live transcript of the conversation. */
     live_transcript: string;
     /** Post-call processed transcript. */
@@ -44,7 +46,7 @@ export interface Conversation {
     /** These words, or short phrases, are more accurately recognized by the model. */
     boosted_keywords: string[] | null;
     /** Array of ISO 639-1 language codes recognized by the model. */
-    languages: string[] | null;
+    recognized_languages: string[] | null;
     /** Number of seconds of silence before a poke message is sent. `null` means the poke message is disabled. */
     no_input_poke_sec: number | null;
     /** The message to send after the specified silence. Relevant only if `no_input_poke_sec` is not `null`. */
@@ -80,6 +82,15 @@ export namespace Conversation {
         name: string;
     }
 
+    /**
+     * The background noise type used in the conversation.
+     */
+    export type BackgroundNoise = "office" | "call-center" | "coffee-shop";
+    export const BackgroundNoise = {
+        Office: "office",
+        CallCenter: "call-center",
+        CoffeeShop: "coffee-shop",
+    } as const;
     /**
      * Who or what ended the conversation.
      */

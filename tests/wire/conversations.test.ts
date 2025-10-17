@@ -32,6 +32,7 @@ describe("Conversations", () => {
                     input_format: "mulaw_8000",
                     output_format: "mulaw_8000",
                     background_noise_level: 0.01,
+                    background_noise: "office",
                     live_transcript:
                         "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                     post_call_transcript:
@@ -42,7 +43,7 @@ describe("Conversations", () => {
                     ended_at: "2025-07-30T23:47:00Z",
                     ended_by: "user",
                     boosted_keywords: ["Load ID", "dispatch"],
-                    languages: ["en", "es"],
+                    recognized_languages: ["en", "es"],
                     no_input_poke_sec: 30,
                     no_input_poke_text: "Are you still there?",
                     no_input_end_conversation_sec: 180,
@@ -116,6 +117,7 @@ describe("Conversations", () => {
                     input_format: "mulaw_8000",
                     output_format: "mulaw_8000",
                     background_noise_level: 0.01,
+                    background_noise: "office",
                     live_transcript:
                         "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                     post_call_transcript:
@@ -126,7 +128,7 @@ describe("Conversations", () => {
                     ended_at: "2025-07-30T23:47:00Z",
                     ended_by: "user",
                     boosted_keywords: ["Load ID", "dispatch"],
-                    languages: ["en", "es"],
+                    recognized_languages: ["en", "es"],
                     no_input_poke_sec: 30,
                     no_input_poke_text: "Are you still there?",
                     no_input_end_conversation_sec: 180,
@@ -206,7 +208,8 @@ describe("Conversations", () => {
                 template_variables: { customer_name: "John", department: "Support" },
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
-                background_noise_level: 1.1,
+                background_noise_level: 0,
+                background_noise: "office",
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:
@@ -217,7 +220,7 @@ describe("Conversations", () => {
                 ended_at: "2025-07-30T23:47:00Z",
                 ended_by: "user",
                 boosted_keywords: ["Load ID", "dispatch"],
-                languages: ["en", "es"],
+                recognized_languages: ["en", "es"],
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
@@ -287,7 +290,8 @@ describe("Conversations", () => {
                 },
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
-                background_noise_level: 1.1,
+                background_noise_level: 0,
+                background_noise: "office",
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:
@@ -298,7 +302,7 @@ describe("Conversations", () => {
                 ended_at: "2025-07-30T23:47:00Z",
                 ended_by: "user",
                 boosted_keywords: ["Load ID", "dispatch"],
-                languages: ["en", "es"],
+                recognized_languages: ["en", "es"],
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
@@ -586,7 +590,7 @@ describe("Conversations", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
-                languages: ["en", "es"],
+                recognized_languages: ["en", "es"],
                 boosted_keywords: ["Load ID", "dispatch"],
                 tools: ["keypad_input"],
             },
@@ -615,7 +619,7 @@ describe("Conversations", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
-                languages: ["en", "es"],
+                recognized_languages: ["en", "es"],
                 boosted_keywords: ["Load ID", "dispatch"],
                 tools: ["keypad_input"],
             },

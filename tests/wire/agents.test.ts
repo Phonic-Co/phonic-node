@@ -25,6 +25,7 @@ describe("Agents", () => {
                     audio_format: "pcm_44100",
                     audio_speed: 1,
                     background_noise_level: 0,
+                    background_noise: "office",
                     welcome_message: "Hi {{customer_name}}. How can I help you today?",
                     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                     template_variables: {
@@ -39,7 +40,7 @@ describe("Agents", () => {
                     no_input_poke_sec: 30,
                     no_input_poke_text: "Are you still there?",
                     no_input_end_conversation_sec: 180,
-                    languages: ["en", "es"],
+                    recognized_languages: ["en", "es"],
                     boosted_keywords: ["Load ID", "dispatch"],
                     configuration_endpoint: {
                         url: "https://api.example.com/config",
@@ -67,6 +68,7 @@ describe("Agents", () => {
                     audio_format: "pcm_44100",
                     audio_speed: 1,
                     background_noise_level: 0,
+                    background_noise: "office",
                     welcome_message: "Hi {{customer_name}}. How can I help you today?",
                     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                     template_variables: {
@@ -91,7 +93,7 @@ describe("Agents", () => {
                     no_input_poke_sec: 30,
                     no_input_poke_text: "Are you still there?",
                     no_input_end_conversation_sec: 180,
-                    languages: ["en", "es"],
+                    recognized_languages: ["en", "es"],
                     boosted_keywords: ["Load ID", "dispatch"],
                     configuration_endpoint: {
                         url: "https://api.example.com/config",
@@ -124,7 +126,7 @@ describe("Agents", () => {
             tools: ["keypad_input"],
             no_input_poke_sec: 30,
             no_input_poke_text: "Are you still there?",
-            languages: ["en", "es"],
+            recognized_languages: ["en", "es"],
             boosted_keywords: ["Load ID", "dispatch"],
             configuration_endpoint: {
                 url: "https://api.example.com/config",
@@ -163,7 +165,7 @@ describe("Agents", () => {
             tools: ["keypad_input"],
             no_input_poke_sec: 30,
             no_input_poke_text: "Are you still there?",
-            languages: ["en", "es"],
+            recognized_languages: ["en", "es"],
             boosted_keywords: ["Load ID", "dispatch"],
             configuration_endpoint: {
                 url: "https://api.example.com/config",
@@ -198,7 +200,7 @@ describe("Agents", () => {
             tools: ["keypad_input"],
             no_input_poke_sec: 30,
             no_input_poke_text: "Are you still there?",
-            languages: ["en", "es"],
+            recognized_languages: ["en", "es"],
             boosted_keywords: ["Load ID", "dispatch"],
             configuration_endpoint: {
                 url: "https://api.example.com/config",
@@ -217,6 +219,7 @@ describe("Agents", () => {
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
+                background_noise: "office",
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: { customer_name: { default_value: "Sean" }, subject: { default_value: "Chess" } },
@@ -228,7 +231,7 @@ describe("Agents", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
-                languages: ["en", "es"],
+                recognized_languages: ["en", "es"],
                 boosted_keywords: ["Load ID", "dispatch"],
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
@@ -269,7 +272,7 @@ describe("Agents", () => {
             tools: ["keypad_input"],
             no_input_poke_sec: 30,
             no_input_poke_text: "Are you still there?",
-            languages: ["en", "es"],
+            recognized_languages: ["en", "es"],
             boosted_keywords: ["Load ID", "dispatch"],
             configuration_endpoint: {
                 url: "https://api.example.com/config",
@@ -293,6 +296,7 @@ describe("Agents", () => {
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
+                background_noise: "office",
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: {
@@ -317,7 +321,7 @@ describe("Agents", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
-                languages: ["en", "es"],
+                recognized_languages: ["en", "es"],
                 boosted_keywords: ["Load ID", "dispatch"],
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
@@ -350,6 +354,7 @@ describe("Agents", () => {
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
+                background_noise: "office",
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: { customer_name: { default_value: "Sean" }, subject: { default_value: "Chess" } },
@@ -361,7 +366,7 @@ describe("Agents", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
-                languages: ["en", "es"],
+                recognized_languages: ["en", "es"],
                 boosted_keywords: ["Load ID", "dispatch"],
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
@@ -389,6 +394,7 @@ describe("Agents", () => {
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
+                background_noise: "office",
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: {
@@ -413,7 +419,7 @@ describe("Agents", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
-                languages: ["en", "es"],
+                recognized_languages: ["en", "es"],
                 boosted_keywords: ["Load ID", "dispatch"],
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
@@ -469,7 +475,7 @@ describe("Agents", () => {
             tools: ["keypad_input"],
             no_input_poke_sec: 30,
             no_input_poke_text: "Are you still there?",
-            languages: ["en", "es"],
+            recognized_languages: ["en", "es"],
             boosted_keywords: ["Load ID", "dispatch"],
             configuration_endpoint: {
                 url: "https://api.example.com/config",
@@ -508,7 +514,7 @@ describe("Agents", () => {
             tools: ["keypad_input"],
             no_input_poke_sec: 30,
             no_input_poke_text: "Are you still there?",
-            languages: ["en", "es"],
+            recognized_languages: ["en", "es"],
             boosted_keywords: ["Load ID", "dispatch"],
             configuration_endpoint: {
                 url: "https://api.example.com/config",

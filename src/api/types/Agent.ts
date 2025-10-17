@@ -23,6 +23,8 @@ export interface Agent {
     audio_speed: number;
     /** The background noise level of the agent. Must be between 0 and 1. */
     background_noise_level: number;
+    /** The background noise type. Can be "office", "call-center", "coffee-shop", or null. */
+    background_noise: Agent.BackgroundNoise | null;
     /** Message to play when the conversation starts. */
     welcome_message: string | null;
     /** Instructions for the conversation. */
@@ -40,7 +42,7 @@ export interface Agent {
     /** Seconds of silence before ending the conversation. */
     no_input_end_conversation_sec: number;
     /** Array of ISO 639-1 language codes that the agent should be able to recognize */
-    languages: Phonic.LanguageCode[];
+    recognized_languages: string[];
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords: string[];
     /** When not `null`, the agent will call this endpoint to get configuration options. */
@@ -65,6 +67,15 @@ export namespace Agent {
         Pcm16000: "pcm_16000",
         Pcm8000: "pcm_8000",
         Mulaw8000: "mulaw_8000",
+    } as const;
+    /**
+     * The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+     */
+    export type BackgroundNoise = "office" | "call-center" | "coffee-shop";
+    export const BackgroundNoise = {
+        Office: "office",
+        CallCenter: "call-center",
+        CoffeeShop: "coffee-shop",
     } as const;
 
     export namespace TemplateVariables {

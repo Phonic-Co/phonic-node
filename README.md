@@ -44,7 +44,7 @@ await client.agents.create({
     tools: ["keypad_input"],
     no_input_poke_sec: 30,
     no_input_poke_text: "Are you still there?",
-    languages: ["en", "es"],
+    recognized_languages: ["en", "es"],
     boosted_keywords: ["Load ID", "dispatch"],
     configuration_endpoint: {
         url: "https://api.example.com/config",
