@@ -4,9 +4,10 @@
 
 import { mockServerPool } from "../mock-server/MockServerPool";
 import { PhonicClient } from "../../src/Client";
+import * as Phonic from "../../src/api/index";
 
 describe("Agents", () => {
-    test("list", async () => {
+    test("list (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -25,6 +26,7 @@ describe("Agents", () => {
                     audio_format: "pcm_44100",
                     audio_speed: 1,
                     background_noise_level: 0,
+                    background_noise: "office",
                     welcome_message: "Hi {{customer_name}}. How can I help you today?",
                     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                     template_variables: {
@@ -67,6 +69,7 @@ describe("Agents", () => {
                     audio_format: "pcm_44100",
                     audio_speed: 1,
                     background_noise_level: 0,
+                    background_noise: "office",
                     welcome_message: "Hi {{customer_name}}. How can I help you today?",
                     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                     template_variables: {
@@ -105,7 +108,37 @@ describe("Agents", () => {
         });
     });
 
-    test("create", async () => {
+    test("list (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/agents").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.agents.list();
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("list (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server.mockEndpoint().get("/agents").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.agents.list();
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
+
+    test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -179,7 +212,255 @@ describe("Agents", () => {
         });
     });
 
-    test("upsert", async () => {
+    test("create (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "name",
+            phone_number: undefined,
+            timezone: undefined,
+            voice_id: undefined,
+            audio_format: undefined,
+            audio_speed: undefined,
+            background_noise_level: undefined,
+            background_noise: undefined,
+            welcome_message: undefined,
+            system_prompt: undefined,
+            template_variables: undefined,
+            tools: undefined,
+            tasks: undefined,
+            no_input_poke_sec: undefined,
+            no_input_poke_text: undefined,
+            no_input_end_conversation_sec: undefined,
+            languages: undefined,
+            boosted_keywords: undefined,
+            configuration_endpoint: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/agents")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.create({
+                name: "name",
+                phone_number: undefined,
+                timezone: undefined,
+                voice_id: undefined,
+                audio_format: undefined,
+                audio_speed: undefined,
+                background_noise_level: undefined,
+                background_noise: undefined,
+                welcome_message: undefined,
+                system_prompt: undefined,
+                template_variables: undefined,
+                tools: undefined,
+                tasks: undefined,
+                no_input_poke_sec: undefined,
+                no_input_poke_text: undefined,
+                no_input_end_conversation_sec: undefined,
+                languages: undefined,
+                boosted_keywords: undefined,
+                configuration_endpoint: undefined,
+            });
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "name",
+            phone_number: undefined,
+            timezone: undefined,
+            voice_id: undefined,
+            audio_format: undefined,
+            audio_speed: undefined,
+            background_noise_level: undefined,
+            background_noise: undefined,
+            welcome_message: undefined,
+            system_prompt: undefined,
+            template_variables: undefined,
+            tools: undefined,
+            tasks: undefined,
+            no_input_poke_sec: undefined,
+            no_input_poke_text: undefined,
+            no_input_end_conversation_sec: undefined,
+            languages: undefined,
+            boosted_keywords: undefined,
+            configuration_endpoint: undefined,
+        };
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .post("/agents")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.create({
+                name: "name",
+                phone_number: undefined,
+                timezone: undefined,
+                voice_id: undefined,
+                audio_format: undefined,
+                audio_speed: undefined,
+                background_noise_level: undefined,
+                background_noise: undefined,
+                welcome_message: undefined,
+                system_prompt: undefined,
+                template_variables: undefined,
+                tools: undefined,
+                tasks: undefined,
+                no_input_poke_sec: undefined,
+                no_input_poke_text: undefined,
+                no_input_end_conversation_sec: undefined,
+                languages: undefined,
+                boosted_keywords: undefined,
+                configuration_endpoint: undefined,
+            });
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("create (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "name",
+            phone_number: undefined,
+            timezone: undefined,
+            voice_id: undefined,
+            audio_format: undefined,
+            audio_speed: undefined,
+            background_noise_level: undefined,
+            background_noise: undefined,
+            welcome_message: undefined,
+            system_prompt: undefined,
+            template_variables: undefined,
+            tools: undefined,
+            tasks: undefined,
+            no_input_poke_sec: undefined,
+            no_input_poke_text: undefined,
+            no_input_end_conversation_sec: undefined,
+            languages: undefined,
+            boosted_keywords: undefined,
+            configuration_endpoint: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/agents")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.create({
+                name: "name",
+                phone_number: undefined,
+                timezone: undefined,
+                voice_id: undefined,
+                audio_format: undefined,
+                audio_speed: undefined,
+                background_noise_level: undefined,
+                background_noise: undefined,
+                welcome_message: undefined,
+                system_prompt: undefined,
+                template_variables: undefined,
+                tools: undefined,
+                tasks: undefined,
+                no_input_poke_sec: undefined,
+                no_input_poke_text: undefined,
+                no_input_end_conversation_sec: undefined,
+                languages: undefined,
+                boosted_keywords: undefined,
+                configuration_endpoint: undefined,
+            });
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("create (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "name",
+            phone_number: undefined,
+            timezone: undefined,
+            voice_id: undefined,
+            audio_format: undefined,
+            audio_speed: undefined,
+            background_noise_level: undefined,
+            background_noise: undefined,
+            welcome_message: undefined,
+            system_prompt: undefined,
+            template_variables: undefined,
+            tools: undefined,
+            tasks: undefined,
+            no_input_poke_sec: undefined,
+            no_input_poke_text: undefined,
+            no_input_end_conversation_sec: undefined,
+            languages: undefined,
+            boosted_keywords: undefined,
+            configuration_endpoint: undefined,
+        };
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .post("/agents")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.create({
+                name: "name",
+                phone_number: undefined,
+                timezone: undefined,
+                voice_id: undefined,
+                audio_format: undefined,
+                audio_speed: undefined,
+                background_noise_level: undefined,
+                background_noise: undefined,
+                welcome_message: undefined,
+                system_prompt: undefined,
+                template_variables: undefined,
+                tools: undefined,
+                tasks: undefined,
+                no_input_poke_sec: undefined,
+                no_input_poke_text: undefined,
+                no_input_end_conversation_sec: undefined,
+                languages: undefined,
+                boosted_keywords: undefined,
+                configuration_endpoint: undefined,
+            });
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
+
+    test("upsert (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -217,6 +498,7 @@ describe("Agents", () => {
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
+                background_noise: "office",
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: { customer_name: { default_value: "Sean" }, subject: { default_value: "Chess" } },
@@ -293,6 +575,7 @@ describe("Agents", () => {
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
+                background_noise: "office",
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: {
@@ -332,7 +615,131 @@ describe("Agents", () => {
         });
     });
 
-    test("get", async () => {
+    test("upsert (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "name",
+            phone_number: undefined,
+            timezone: undefined,
+            voice_id: undefined,
+            audio_format: undefined,
+            audio_speed: undefined,
+            background_noise_level: undefined,
+            background_noise: undefined,
+            welcome_message: undefined,
+            system_prompt: undefined,
+            template_variables: undefined,
+            tools: undefined,
+            tasks: undefined,
+            no_input_poke_sec: undefined,
+            no_input_poke_text: undefined,
+            no_input_end_conversation_sec: undefined,
+            languages: undefined,
+            boosted_keywords: undefined,
+            configuration_endpoint: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .put("/agents/upsert")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.upsert({
+                name: "name",
+                phone_number: undefined,
+                timezone: undefined,
+                voice_id: undefined,
+                audio_format: undefined,
+                audio_speed: undefined,
+                background_noise_level: undefined,
+                background_noise: undefined,
+                welcome_message: undefined,
+                system_prompt: undefined,
+                template_variables: undefined,
+                tools: undefined,
+                tasks: undefined,
+                no_input_poke_sec: undefined,
+                no_input_poke_text: undefined,
+                no_input_end_conversation_sec: undefined,
+                languages: undefined,
+                boosted_keywords: undefined,
+                configuration_endpoint: undefined,
+            });
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("upsert (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "name",
+            phone_number: undefined,
+            timezone: undefined,
+            voice_id: undefined,
+            audio_format: undefined,
+            audio_speed: undefined,
+            background_noise_level: undefined,
+            background_noise: undefined,
+            welcome_message: undefined,
+            system_prompt: undefined,
+            template_variables: undefined,
+            tools: undefined,
+            tasks: undefined,
+            no_input_poke_sec: undefined,
+            no_input_poke_text: undefined,
+            no_input_end_conversation_sec: undefined,
+            languages: undefined,
+            boosted_keywords: undefined,
+            configuration_endpoint: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .put("/agents/upsert")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.upsert({
+                name: "name",
+                phone_number: undefined,
+                timezone: undefined,
+                voice_id: undefined,
+                audio_format: undefined,
+                audio_speed: undefined,
+                background_noise_level: undefined,
+                background_noise: undefined,
+                welcome_message: undefined,
+                system_prompt: undefined,
+                template_variables: undefined,
+                tools: undefined,
+                tasks: undefined,
+                no_input_poke_sec: undefined,
+                no_input_poke_text: undefined,
+                no_input_end_conversation_sec: undefined,
+                languages: undefined,
+                boosted_keywords: undefined,
+                configuration_endpoint: undefined,
+            });
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("get (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -350,6 +757,7 @@ describe("Agents", () => {
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
+                background_noise: "office",
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: { customer_name: { default_value: "Sean" }, subject: { default_value: "Chess" } },
@@ -389,6 +797,7 @@ describe("Agents", () => {
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
+                background_noise: "office",
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: {
@@ -426,7 +835,37 @@ describe("Agents", () => {
         });
     });
 
-    test("delete", async () => {
+    test("get (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/agents/nameOrId").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.agents.get("nameOrId");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("get (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/agents/nameOrId").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.agents.get("nameOrId");
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("delete (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -450,7 +889,49 @@ describe("Agents", () => {
         });
     });
 
-    test("update", async () => {
+    test("delete (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .delete("/agents/nameOrId")
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.delete("nameOrId");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("delete (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .delete("/agents/nameOrId")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.delete("nameOrId");
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("update (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -521,5 +1002,191 @@ describe("Agents", () => {
         expect(response).toEqual({
             success: true,
         });
+    });
+
+    test("update (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: undefined,
+            phone_number: undefined,
+            timezone: undefined,
+            voice_id: undefined,
+            audio_format: undefined,
+            audio_speed: undefined,
+            background_noise_level: undefined,
+            background_noise: undefined,
+            welcome_message: undefined,
+            system_prompt: undefined,
+            template_variables: undefined,
+            tools: undefined,
+            tasks: undefined,
+            no_input_poke_sec: undefined,
+            no_input_poke_text: undefined,
+            no_input_end_conversation_sec: undefined,
+            languages: undefined,
+            boosted_keywords: undefined,
+            configuration_endpoint: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .patch("/agents/nameOrId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.update("nameOrId", {
+                name: undefined,
+                phone_number: undefined,
+                timezone: undefined,
+                voice_id: undefined,
+                audio_format: undefined,
+                audio_speed: undefined,
+                background_noise_level: undefined,
+                background_noise: undefined,
+                welcome_message: undefined,
+                system_prompt: undefined,
+                template_variables: undefined,
+                tools: undefined,
+                tasks: undefined,
+                no_input_poke_sec: undefined,
+                no_input_poke_text: undefined,
+                no_input_end_conversation_sec: undefined,
+                languages: undefined,
+                boosted_keywords: undefined,
+                configuration_endpoint: undefined,
+            });
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("update (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: undefined,
+            phone_number: undefined,
+            timezone: undefined,
+            voice_id: undefined,
+            audio_format: undefined,
+            audio_speed: undefined,
+            background_noise_level: undefined,
+            background_noise: undefined,
+            welcome_message: undefined,
+            system_prompt: undefined,
+            template_variables: undefined,
+            tools: undefined,
+            tasks: undefined,
+            no_input_poke_sec: undefined,
+            no_input_poke_text: undefined,
+            no_input_end_conversation_sec: undefined,
+            languages: undefined,
+            boosted_keywords: undefined,
+            configuration_endpoint: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .patch("/agents/nameOrId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.update("nameOrId", {
+                name: undefined,
+                phone_number: undefined,
+                timezone: undefined,
+                voice_id: undefined,
+                audio_format: undefined,
+                audio_speed: undefined,
+                background_noise_level: undefined,
+                background_noise: undefined,
+                welcome_message: undefined,
+                system_prompt: undefined,
+                template_variables: undefined,
+                tools: undefined,
+                tasks: undefined,
+                no_input_poke_sec: undefined,
+                no_input_poke_text: undefined,
+                no_input_end_conversation_sec: undefined,
+                languages: undefined,
+                boosted_keywords: undefined,
+                configuration_endpoint: undefined,
+            });
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("update (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: undefined,
+            phone_number: undefined,
+            timezone: undefined,
+            voice_id: undefined,
+            audio_format: undefined,
+            audio_speed: undefined,
+            background_noise_level: undefined,
+            background_noise: undefined,
+            welcome_message: undefined,
+            system_prompt: undefined,
+            template_variables: undefined,
+            tools: undefined,
+            tasks: undefined,
+            no_input_poke_sec: undefined,
+            no_input_poke_text: undefined,
+            no_input_end_conversation_sec: undefined,
+            languages: undefined,
+            boosted_keywords: undefined,
+            configuration_endpoint: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .patch("/agents/nameOrId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.update("nameOrId", {
+                name: undefined,
+                phone_number: undefined,
+                timezone: undefined,
+                voice_id: undefined,
+                audio_format: undefined,
+                audio_speed: undefined,
+                background_noise_level: undefined,
+                background_noise: undefined,
+                welcome_message: undefined,
+                system_prompt: undefined,
+                template_variables: undefined,
+                tools: undefined,
+                tasks: undefined,
+                no_input_poke_sec: undefined,
+                no_input_poke_text: undefined,
+                no_input_end_conversation_sec: undefined,
+                languages: undefined,
+                boosted_keywords: undefined,
+                configuration_endpoint: undefined,
+            });
+        }).rejects.toThrow(Phonic.NotFoundError);
     });
 });

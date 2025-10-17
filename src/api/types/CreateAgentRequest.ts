@@ -18,6 +18,8 @@ export interface CreateAgentRequest {
     audio_speed?: number;
     /** The background noise level of the agent. */
     background_noise_level?: number;
+    /** The background noise type. Can be "office", "call-center", "coffee-shop", or null. */
+    background_noise?: CreateAgentRequest.BackgroundNoise | null;
     /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. */
     welcome_message?: string;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */
@@ -52,6 +54,15 @@ export namespace CreateAgentRequest {
         Pcm16000: "pcm_16000",
         Pcm8000: "pcm_8000",
         Mulaw8000: "mulaw_8000",
+    } as const;
+    /**
+     * The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+     */
+    export type BackgroundNoise = "office" | "call-center" | "coffee-shop";
+    export const BackgroundNoise = {
+        Office: "office",
+        CallCenter: "call-center",
+        CoffeeShop: "coffee-shop",
     } as const;
 
     export namespace TemplateVariables {

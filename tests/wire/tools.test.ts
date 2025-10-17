@@ -4,9 +4,10 @@
 
 import { mockServerPool } from "../mock-server/MockServerPool";
 import { PhonicClient } from "../../src/Client";
+import * as Phonic from "../../src/api/index";
 
 describe("Tools", () => {
-    test("list", async () => {
+    test("list (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -181,7 +182,22 @@ describe("Tools", () => {
         });
     });
 
-    test("create", async () => {
+    test("list (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/tools").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.tools.list();
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -255,7 +271,230 @@ describe("Tools", () => {
         });
     });
 
-    test("get", async () => {
+    test("create (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "check_inventory",
+            description: "Checks product inventory levels",
+            type: "custom_websocket",
+            execution_mode: "async",
+            parameters: [
+                { type: "string", name: "product_id", description: "The product ID to check", is_required: true },
+            ],
+            tool_call_output_timeout_ms: 5000,
+        };
+        const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
+        server
+            .mockEndpoint()
+            .post("/tools")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.tools.create({
+            project: "main",
+            name: "check_inventory",
+            description: "Checks product inventory levels",
+            type: "custom_websocket",
+            execution_mode: "async",
+            parameters: [
+                {
+                    type: "string",
+                    name: "product_id",
+                    description: "The product ID to check",
+                    is_required: true,
+                },
+            ],
+            tool_call_output_timeout_ms: 5000,
+        });
+        expect(response).toEqual({
+            id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+            name: "book_appointment",
+        });
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "transfer_to_support",
+            description: "Transfers the caller to the support team",
+            type: "built_in_transfer_to_phone_number",
+            execution_mode: "sync",
+            phone_number: "+15551234567",
+        };
+        const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
+        server
+            .mockEndpoint()
+            .post("/tools")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.tools.create({
+            project: "main",
+            name: "transfer_to_support",
+            description: "Transfers the caller to the support team",
+            type: "built_in_transfer_to_phone_number",
+            execution_mode: "sync",
+            phone_number: "+15551234567",
+        });
+        expect(response).toEqual({
+            id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+            name: "book_appointment",
+        });
+    });
+
+    test("create (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "name",
+            description: "description",
+            type: "custom_webhook",
+            execution_mode: "sync",
+            parameters: undefined,
+            endpoint_method: undefined,
+            endpoint_url: undefined,
+            endpoint_headers: undefined,
+            endpoint_timeout_ms: undefined,
+            tool_call_output_timeout_ms: undefined,
+            phone_number: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/tools")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.tools.create({
+                name: "name",
+                description: "description",
+                type: "custom_webhook",
+                execution_mode: "sync",
+                parameters: undefined,
+                endpoint_method: undefined,
+                endpoint_url: undefined,
+                endpoint_headers: undefined,
+                endpoint_timeout_ms: undefined,
+                tool_call_output_timeout_ms: undefined,
+                phone_number: undefined,
+            });
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("create (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "name",
+            description: "description",
+            type: "custom_webhook",
+            execution_mode: "sync",
+            parameters: undefined,
+            endpoint_method: undefined,
+            endpoint_url: undefined,
+            endpoint_headers: undefined,
+            endpoint_timeout_ms: undefined,
+            tool_call_output_timeout_ms: undefined,
+            phone_number: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/tools")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.tools.create({
+                name: "name",
+                description: "description",
+                type: "custom_webhook",
+                execution_mode: "sync",
+                parameters: undefined,
+                endpoint_method: undefined,
+                endpoint_url: undefined,
+                endpoint_headers: undefined,
+                endpoint_timeout_ms: undefined,
+                tool_call_output_timeout_ms: undefined,
+                phone_number: undefined,
+            });
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("create (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "name",
+            description: "description",
+            type: "custom_webhook",
+            execution_mode: "sync",
+            parameters: undefined,
+            endpoint_method: undefined,
+            endpoint_url: undefined,
+            endpoint_headers: undefined,
+            endpoint_timeout_ms: undefined,
+            tool_call_output_timeout_ms: undefined,
+            phone_number: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/tools")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.tools.create({
+                name: "name",
+                description: "description",
+                type: "custom_webhook",
+                execution_mode: "sync",
+                parameters: undefined,
+                endpoint_method: undefined,
+                endpoint_url: undefined,
+                endpoint_headers: undefined,
+                endpoint_timeout_ms: undefined,
+                tool_call_output_timeout_ms: undefined,
+                phone_number: undefined,
+            });
+        }).rejects.toThrow(Phonic.ConflictError);
+    });
+
+    test("get (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -335,7 +574,164 @@ describe("Tools", () => {
         });
     });
 
-    test("delete", async () => {
+    test("get (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = {
+            tool: {
+                id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
+                name: "get_product_recommendations",
+                description: "Gets personalized product recommendations",
+                project: { id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd", name: "main" },
+                type: "custom_websocket",
+                execution_mode: "async",
+                parameters: [
+                    {
+                        type: "string",
+                        name: "category",
+                        description: "Product category (e.g., 'handbags', 'shoes', 'electronics')",
+                        is_required: true,
+                    },
+                ],
+                endpoint_method: "POST",
+                endpoint_url: "endpoint_url",
+                endpoint_headers: { key: "value" },
+                endpoint_timeout_ms: 1,
+                tool_call_output_timeout_ms: 5000,
+                phone_number: "phone_number",
+            },
+        };
+        server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
+
+        const response = await client.tools.get("nameOrId", {
+            project: "main",
+        });
+        expect(response).toEqual({
+            tool: {
+                id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
+                name: "get_product_recommendations",
+                description: "Gets personalized product recommendations",
+                project: {
+                    id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
+                    name: "main",
+                },
+                type: "custom_websocket",
+                execution_mode: "async",
+                parameters: [
+                    {
+                        type: "string",
+                        name: "category",
+                        description: "Product category (e.g., 'handbags', 'shoes', 'electronics')",
+                        is_required: true,
+                    },
+                ],
+                endpoint_method: "POST",
+                endpoint_url: "endpoint_url",
+                endpoint_headers: {
+                    key: "value",
+                },
+                endpoint_timeout_ms: 1,
+                tool_call_output_timeout_ms: 5000,
+                phone_number: "phone_number",
+            },
+        });
+    });
+
+    test("get (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = {
+            tool: {
+                id: "tool_11111111-2222-3333-4444-555555555555",
+                name: "transfer_to_support",
+                description: "Transfers the caller to the support team",
+                project: { id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd", name: "main" },
+                type: "built_in_transfer_to_phone_number",
+                execution_mode: "sync",
+                parameters: [{ type: "string", name: "name", description: "description", is_required: true }],
+                endpoint_method: "POST",
+                endpoint_url: "endpoint_url",
+                endpoint_headers: { key: "value" },
+                endpoint_timeout_ms: 1,
+                tool_call_output_timeout_ms: 1,
+                phone_number: "+15551234567",
+            },
+        };
+        server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
+
+        const response = await client.tools.get("nameOrId", {
+            project: "main",
+        });
+        expect(response).toEqual({
+            tool: {
+                id: "tool_11111111-2222-3333-4444-555555555555",
+                name: "transfer_to_support",
+                description: "Transfers the caller to the support team",
+                project: {
+                    id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
+                    name: "main",
+                },
+                type: "built_in_transfer_to_phone_number",
+                execution_mode: "sync",
+                parameters: [
+                    {
+                        type: "string",
+                        name: "name",
+                        description: "description",
+                        is_required: true,
+                    },
+                ],
+                endpoint_method: "POST",
+                endpoint_url: "endpoint_url",
+                endpoint_headers: {
+                    key: "value",
+                },
+                endpoint_timeout_ms: 1,
+                tool_call_output_timeout_ms: 1,
+                phone_number: "+15551234567",
+            },
+        });
+    });
+
+    test("get (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.tools.get("nameOrId");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("get (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.tools.get("nameOrId");
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("delete (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -353,7 +749,22 @@ describe("Tools", () => {
         });
     });
 
-    test("update", async () => {
+    test("delete (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().delete("/tools/nameOrId").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.tools.delete("nameOrId");
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("update (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -385,5 +796,143 @@ describe("Tools", () => {
         expect(response).toEqual({
             success: true,
         });
+    });
+
+    test("update (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: undefined,
+            description: undefined,
+            type: undefined,
+            execution_mode: undefined,
+            parameters: undefined,
+            endpoint_method: undefined,
+            endpoint_url: undefined,
+            endpoint_headers: undefined,
+            endpoint_timeout_ms: undefined,
+            tool_call_output_timeout_ms: undefined,
+            phone_number: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .patch("/tools/nameOrId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.tools.update("nameOrId", {
+                name: undefined,
+                description: undefined,
+                type: undefined,
+                execution_mode: undefined,
+                parameters: undefined,
+                endpoint_method: undefined,
+                endpoint_url: undefined,
+                endpoint_headers: undefined,
+                endpoint_timeout_ms: undefined,
+                tool_call_output_timeout_ms: undefined,
+                phone_number: undefined,
+            });
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("update (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: undefined,
+            description: undefined,
+            type: undefined,
+            execution_mode: undefined,
+            parameters: undefined,
+            endpoint_method: undefined,
+            endpoint_url: undefined,
+            endpoint_headers: undefined,
+            endpoint_timeout_ms: undefined,
+            tool_call_output_timeout_ms: undefined,
+            phone_number: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .patch("/tools/nameOrId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.tools.update("nameOrId", {
+                name: undefined,
+                description: undefined,
+                type: undefined,
+                execution_mode: undefined,
+                parameters: undefined,
+                endpoint_method: undefined,
+                endpoint_url: undefined,
+                endpoint_headers: undefined,
+                endpoint_timeout_ms: undefined,
+                tool_call_output_timeout_ms: undefined,
+                phone_number: undefined,
+            });
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("update (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: undefined,
+            description: undefined,
+            type: undefined,
+            execution_mode: undefined,
+            parameters: undefined,
+            endpoint_method: undefined,
+            endpoint_url: undefined,
+            endpoint_headers: undefined,
+            endpoint_timeout_ms: undefined,
+            tool_call_output_timeout_ms: undefined,
+            phone_number: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .patch("/tools/nameOrId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.tools.update("nameOrId", {
+                name: undefined,
+                description: undefined,
+                type: undefined,
+                execution_mode: undefined,
+                parameters: undefined,
+                endpoint_method: undefined,
+                endpoint_url: undefined,
+                endpoint_headers: undefined,
+                endpoint_timeout_ms: undefined,
+                tool_call_output_timeout_ms: undefined,
+                phone_number: undefined,
+            });
+        }).rejects.toThrow(Phonic.ConflictError);
     });
 });

@@ -4,9 +4,10 @@
 
 import { mockServerPool } from "../mock-server/MockServerPool";
 import { PhonicClient } from "../../src/Client";
+import * as Phonic from "../../src/api/index";
 
 describe("Conversations", () => {
-    test("list", async () => {
+    test("list (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -32,6 +33,7 @@ describe("Conversations", () => {
                     input_format: "mulaw_8000",
                     output_format: "mulaw_8000",
                     background_noise_level: 0.01,
+                    background_noise: "office",
                     live_transcript:
                         "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                     post_call_transcript:
@@ -116,6 +118,7 @@ describe("Conversations", () => {
                     input_format: "mulaw_8000",
                     output_format: "mulaw_8000",
                     background_noise_level: 0.01,
+                    background_noise: "office",
                     live_transcript:
                         "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                     post_call_transcript:
@@ -187,7 +190,7 @@ describe("Conversations", () => {
         });
     });
 
-    test("get", async () => {
+    test("list (2)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -206,7 +209,256 @@ describe("Conversations", () => {
                 template_variables: { customer_name: "John", department: "Support" },
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
-                background_noise_level: 1.1,
+                background_noise_level: 0,
+                background_noise: "office",
+                live_transcript:
+                    "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
+                post_call_transcript:
+                    "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
+                duration_ms: 120500,
+                audio_url: "https://example.com/audio/conv_12cf6e88.wav",
+                started_at: "2025-07-30T23:45:00Z",
+                ended_at: "2025-07-30T23:47:00Z",
+                ended_by: "user",
+                boosted_keywords: ["Load ID", "dispatch"],
+                languages: ["en", "es"],
+                no_input_poke_sec: 30,
+                no_input_poke_text: "Are you still there?",
+                no_input_end_conversation_sec: 180,
+                task_results: { key: "value" },
+                items: [
+                    {
+                        item_idx: 0,
+                        role: "user",
+                        live_transcript: "Hi, I need help with booking an appointment.",
+                        post_call_transcript: "Hi, I need help with booking an appointment.",
+                        duration_ms: 2500,
+                        started_at: "2025-07-30T23:45:00Z",
+                    },
+                    {
+                        item_idx: 1,
+                        role: "assistant",
+                        live_transcript: "Of course! I'd be happy to help you book an appointment.",
+                        post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
+                        duration_ms: 3000,
+                        started_at: "2025-07-30T23:45:02Z",
+                        voice_id: "grant",
+                        audio_speed: 1,
+                        system_prompt:
+                            "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
+                        tool_calls: [
+                            {
+                                id: "tool_call_f2d5c8a1-9e4b-4a7c-b3d1-6f8e2a9c5b7d",
+                                tool: { id: "tool_check_availability", name: "check_availability" },
+                                endpoint_method: "POST",
+                                endpoint_url: "https://api.example.com/tools/check_availability",
+                                endpoint_headers: { Authorization: "Bearer token123" },
+                                endpoint_timeout_ms: 5000,
+                                endpoint_called_at: "2025-07-30T23:45:03Z",
+                                response_status_code: 200,
+                                request_body: { date: "tomorrow", service: "consultation" },
+                                response_body: { available: true, slots: ["09:00", "10:00", "14:00"] },
+                                timed_out: false,
+                                error_message: null,
+                            },
+                        ],
+                    },
+                ],
+            },
+        };
+        server.mockEndpoint().get("/conversations").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
+
+        const response = await client.conversations.list();
+        expect(response).toEqual({
+            conversation: {
+                id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+                agent: {
+                    id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+                    name: "support-agent",
+                    is_deleted: false,
+                },
+                workspace: "example-workspace",
+                project: {
+                    id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
+                    name: "customer-support",
+                },
+                external_id: "call-123",
+                model: "merritt",
+                welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
+                template_variables: {
+                    customer_name: "John",
+                    department: "Support",
+                },
+                input_format: "mulaw_8000",
+                output_format: "mulaw_8000",
+                background_noise_level: 0,
+                background_noise: "office",
+                live_transcript:
+                    "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
+                post_call_transcript:
+                    "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
+                duration_ms: 120500,
+                audio_url: "https://example.com/audio/conv_12cf6e88.wav",
+                started_at: "2025-07-30T23:45:00Z",
+                ended_at: "2025-07-30T23:47:00Z",
+                ended_by: "user",
+                boosted_keywords: ["Load ID", "dispatch"],
+                languages: ["en", "es"],
+                no_input_poke_sec: 30,
+                no_input_poke_text: "Are you still there?",
+                no_input_end_conversation_sec: 180,
+                task_results: {
+                    key: "value",
+                },
+                items: [
+                    {
+                        item_idx: 0,
+                        role: "user",
+                        live_transcript: "Hi, I need help with booking an appointment.",
+                        post_call_transcript: "Hi, I need help with booking an appointment.",
+                        duration_ms: 2500,
+                        started_at: "2025-07-30T23:45:00Z",
+                    },
+                    {
+                        item_idx: 1,
+                        role: "assistant",
+                        live_transcript: "Of course! I'd be happy to help you book an appointment.",
+                        post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
+                        duration_ms: 3000,
+                        started_at: "2025-07-30T23:45:02Z",
+                        voice_id: "grant",
+                        audio_speed: 1,
+                        system_prompt:
+                            "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
+                        tool_calls: [
+                            {
+                                id: "tool_call_f2d5c8a1-9e4b-4a7c-b3d1-6f8e2a9c5b7d",
+                                tool: {
+                                    id: "tool_check_availability",
+                                    name: "check_availability",
+                                },
+                                endpoint_method: "POST",
+                                endpoint_url: "https://api.example.com/tools/check_availability",
+                                endpoint_headers: {
+                                    Authorization: "Bearer token123",
+                                },
+                                endpoint_timeout_ms: 5000,
+                                endpoint_called_at: "2025-07-30T23:45:03Z",
+                                response_status_code: 200,
+                                request_body: {
+                                    date: "tomorrow",
+                                    service: "consultation",
+                                },
+                                response_body: {
+                                    available: true,
+                                    slots: ["09:00", "10:00", "14:00"],
+                                },
+                                timed_out: false,
+                                error_message: null,
+                            },
+                        ],
+                    },
+                ],
+            },
+        });
+    });
+
+    test("list (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/conversations").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.conversations.list();
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("list (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server.mockEndpoint().get("/conversations").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.conversations.list();
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("list (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/conversations").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.conversations.list();
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("list (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/conversations").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.conversations.list();
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("list (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server.mockEndpoint().get("/conversations").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.conversations.list();
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
+
+    test("get (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = {
+            conversation: {
+                id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+                agent: { id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783", name: "support-agent", is_deleted: false },
+                workspace: "example-workspace",
+                project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
+                external_id: "call-123",
+                model: "merritt",
+                welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
+                template_variables: { customer_name: "John", department: "Support" },
+                input_format: "mulaw_8000",
+                output_format: "mulaw_8000",
+                background_noise_level: 0,
+                background_noise: "office",
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:
@@ -287,7 +539,8 @@ describe("Conversations", () => {
                 },
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
-                background_noise_level: 1.1,
+                background_noise_level: 0,
+                background_noise: "office",
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:
@@ -358,7 +611,67 @@ describe("Conversations", () => {
         });
     });
 
-    test("cancel", async () => {
+    test("get (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server.mockEndpoint().get("/conversations/id").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.conversations.get("id");
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("get (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/conversations/id").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.conversations.get("id");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("get (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/conversations/id").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.conversations.get("id");
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("get (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server.mockEndpoint().get("/conversations/id").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.conversations.get("id");
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
+
+    test("cancel (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -380,7 +693,133 @@ describe("Conversations", () => {
         });
     });
 
-    test("get_analysis", async () => {
+    test("cancel (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/cancel")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.cancel("id");
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("cancel (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/cancel")
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.cancel("id");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("cancel (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/cancel")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.cancel("id");
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("cancel (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/cancel")
+            .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.cancel("id");
+        }).rejects.toThrow(Phonic.ConflictError);
+    });
+
+    test("cancel (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/cancel")
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.cancel("id");
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
+
+    test("cancel (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/cancel")
+            .respondWith()
+            .statusCode(504)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.cancel("id");
+        }).rejects.toThrow(Phonic.GatewayTimeoutError);
+    });
+
+    test("get_analysis (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -405,7 +844,91 @@ describe("Conversations", () => {
         });
     });
 
-    test("list_extractions", async () => {
+    test("get_analysis (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .get("/conversations/id/analysis")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.getAnalysis("id");
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("get_analysis (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/conversations/id/analysis")
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.getAnalysis("id");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("get_analysis (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/conversations/id/analysis")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.getAnalysis("id");
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("get_analysis (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .get("/conversations/id/analysis")
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.getAnalysis("id");
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
+
+    test("list_extractions (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -461,7 +984,91 @@ describe("Conversations", () => {
         });
     });
 
-    test("extract_data", async () => {
+    test("list_extractions (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .get("/conversations/id/extractions")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.listExtractions("id");
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("list_extractions (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/conversations/id/extractions")
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.listExtractions("id");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("list_extractions (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/conversations/id/extractions")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.listExtractions("id");
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("list_extractions (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .get("/conversations/id/extractions")
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.listExtractions("id");
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
+
+    test("extract_data (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -492,7 +1099,127 @@ describe("Conversations", () => {
         });
     });
 
-    test("list_evaluations", async () => {
+    test("extract_data (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { schema_id: "schema_id" };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/extractions")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.extractData("id", {
+                schema_id: "schema_id",
+            });
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("extract_data (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { schema_id: "schema_id" };
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/extractions")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.extractData("id", {
+                schema_id: "schema_id",
+            });
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("extract_data (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { schema_id: "schema_id" };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/extractions")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.extractData("id", {
+                schema_id: "schema_id",
+            });
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("extract_data (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { schema_id: "schema_id" };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/extractions")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.extractData("id", {
+                schema_id: "schema_id",
+            });
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("extract_data (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { schema_id: "schema_id" };
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/extractions")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.extractData("id", {
+                schema_id: "schema_id",
+            });
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
+
+    test("list_evaluations (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -533,7 +1260,91 @@ describe("Conversations", () => {
         });
     });
 
-    test("evaluate", async () => {
+    test("list_evaluations (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .get("/conversations/id/evals")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.listEvaluations("id");
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("list_evaluations (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/conversations/id/evals")
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.listEvaluations("id");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("list_evaluations (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/conversations/id/evals")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.listEvaluations("id");
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("list_evaluations (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .get("/conversations/id/evals")
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.listEvaluations("id");
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
+
+    test("evaluate (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -569,7 +1380,127 @@ describe("Conversations", () => {
         });
     });
 
-    test("outbound_call", async () => {
+    test("evaluate (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { prompt_id: "prompt_id" };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/evals")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.evaluate("id", {
+                prompt_id: "prompt_id",
+            });
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("evaluate (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { prompt_id: "prompt_id" };
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/evals")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.evaluate("id", {
+                prompt_id: "prompt_id",
+            });
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("evaluate (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { prompt_id: "prompt_id" };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/evals")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.evaluate("id", {
+                prompt_id: "prompt_id",
+            });
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("evaluate (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { prompt_id: "prompt_id" };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/evals")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.evaluate("id", {
+                prompt_id: "prompt_id",
+            });
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("evaluate (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { prompt_id: "prompt_id" };
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .post("/conversations/id/evals")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.evaluate("id", {
+                prompt_id: "prompt_id",
+            });
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
+
+    test("outbound_call (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -625,7 +1556,107 @@ describe("Conversations", () => {
         });
     });
 
-    test("sip_outbound_call", async () => {
+    test("outbound_call (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { to_phone_number: "to_phone_number", config: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/conversations/outbound_call")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.outboundCall({
+                to_phone_number: "to_phone_number",
+                config: undefined,
+            });
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("outbound_call (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { to_phone_number: "to_phone_number", config: undefined };
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .post("/conversations/outbound_call")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.outboundCall({
+                to_phone_number: "to_phone_number",
+                config: undefined,
+            });
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("outbound_call (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { to_phone_number: "to_phone_number", config: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/conversations/outbound_call")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.outboundCall({
+                to_phone_number: "to_phone_number",
+                config: undefined,
+            });
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("outbound_call (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { to_phone_number: "to_phone_number", config: undefined };
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .post("/conversations/outbound_call")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.outboundCall({
+                to_phone_number: "to_phone_number",
+                config: undefined,
+            });
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
+
+    test("sip_outbound_call (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -651,5 +1682,101 @@ describe("Conversations", () => {
         expect(response).toEqual({
             conversation_id: "conversation_id",
         });
+    });
+
+    test("sip_outbound_call (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            from_phone_number: "from_phone_number",
+            to_phone_number: "to_phone_number",
+            config: undefined,
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/conversations/sip/outbound_call")
+            .header("X-Sip-Address", "sipAddress")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.sipOutboundCall({
+                "X-Sip-Address": "sipAddress",
+                from_phone_number: "from_phone_number",
+                to_phone_number: "to_phone_number",
+                config: undefined,
+            });
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("sip_outbound_call (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            from_phone_number: "from_phone_number",
+            to_phone_number: "to_phone_number",
+            config: undefined,
+        };
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .post("/conversations/sip/outbound_call")
+            .header("X-Sip-Address", "sipAddress")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.sipOutboundCall({
+                "X-Sip-Address": "sipAddress",
+                from_phone_number: "from_phone_number",
+                to_phone_number: "to_phone_number",
+                config: undefined,
+            });
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("sip_outbound_call (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            from_phone_number: "from_phone_number",
+            to_phone_number: "to_phone_number",
+            config: undefined,
+        };
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .post("/conversations/sip/outbound_call")
+            .header("X-Sip-Address", "sipAddress")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.sipOutboundCall({
+                "X-Sip-Address": "sipAddress",
+                from_phone_number: "from_phone_number",
+                to_phone_number: "to_phone_number",
+                config: undefined,
+            });
+        }).rejects.toThrow(Phonic.InternalServerError);
     });
 });
