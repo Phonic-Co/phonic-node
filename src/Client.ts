@@ -19,7 +19,7 @@ export declare namespace PhonicClient {
         baseUrl?: core.Supplier<string>;
         apiKey?: core.Supplier<core.BearerToken | undefined>;
         /** Additional headers to include in requests. */
-        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
+        headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -33,7 +33,7 @@ export declare namespace PhonicClient {
         /** Additional query string parameters to include in the request. */
         queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
-        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
+        headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
     }
 }
 
@@ -53,8 +53,8 @@ export class PhonicClient {
                 {
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "phonic",
-                    "X-Fern-SDK-Version": "0.30.10",
-                    "User-Agent": "phonic/0.30.10",
+                    "X-Fern-SDK-Version": "0.30.11",
+                    "User-Agent": "phonic/0.30.11",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },

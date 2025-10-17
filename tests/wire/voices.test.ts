@@ -4,9 +4,10 @@
 
 import { mockServerPool } from "../mock-server/MockServerPool";
 import { PhonicClient } from "../../src/Client";
+import * as Phonic from "../../src/api/index";
 
 describe("Voices", () => {
-    test("list", async () => {
+    test("list (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -30,7 +31,58 @@ describe("Voices", () => {
         });
     });
 
-    test("get", async () => {
+    test("list (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/voices").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.voices.list({
+                model: "merritt",
+            });
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("list (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server.mockEndpoint().get("/voices").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.voices.list({
+                model: "merritt",
+            });
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("list (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server.mockEndpoint().get("/voices").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.voices.list({
+                model: "merritt",
+            });
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
+
+    test("get (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -48,5 +100,35 @@ describe("Voices", () => {
                 description: "description",
             },
         });
+    });
+
+    test("get (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { error: undefined };
+        server.mockEndpoint().get("/voices/id").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.voices.get("id");
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("get (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server.mockEndpoint().get("/voices/id").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.voices.get("id");
+        }).rejects.toThrow(Phonic.NotFoundError);
     });
 });

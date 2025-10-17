@@ -4,9 +4,10 @@
 
 import { mockServerPool } from "../mock-server/MockServerPool";
 import { PhonicClient } from "../../src/Client";
+import * as Phonic from "../../src/api/index";
 
 describe("ExtractionSchemas", () => {
-    test("list", async () => {
+    test("list (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -74,7 +75,28 @@ describe("ExtractionSchemas", () => {
         });
     });
 
-    test("create", async () => {
+    test("list (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/extraction_schemas")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractionSchemas.list();
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("create (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -130,7 +152,139 @@ describe("ExtractionSchemas", () => {
         });
     });
 
-    test("get", async () => {
+    test("create (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "name",
+            prompt: "prompt",
+            fields: [
+                { name: "name", type: "string", description: undefined },
+                { name: "name", type: "string", description: undefined },
+            ],
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/extraction_schemas")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractionSchemas.create({
+                name: "name",
+                prompt: "prompt",
+                fields: [
+                    {
+                        name: "name",
+                        type: "string",
+                        description: undefined,
+                    },
+                    {
+                        name: "name",
+                        type: "string",
+                        description: undefined,
+                    },
+                ],
+            });
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "name",
+            prompt: "prompt",
+            fields: [
+                { name: "name", type: "string", description: undefined },
+                { name: "name", type: "string", description: undefined },
+            ],
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/extraction_schemas")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractionSchemas.create({
+                name: "name",
+                prompt: "prompt",
+                fields: [
+                    {
+                        name: "name",
+                        type: "string",
+                        description: undefined,
+                    },
+                    {
+                        name: "name",
+                        type: "string",
+                        description: undefined,
+                    },
+                ],
+            });
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("create (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "name",
+            prompt: "prompt",
+            fields: [
+                { name: "name", type: "string", description: undefined },
+                { name: "name", type: "string", description: undefined },
+            ],
+        };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .post("/extraction_schemas")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractionSchemas.create({
+                name: "name",
+                prompt: "prompt",
+                fields: [
+                    {
+                        name: "name",
+                        type: "string",
+                        description: undefined,
+                    },
+                    {
+                        name: "name",
+                        type: "string",
+                        description: undefined,
+                    },
+                ],
+            });
+        }).rejects.toThrow(Phonic.ConflictError);
+    });
+
+    test("get (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -194,7 +348,28 @@ describe("ExtractionSchemas", () => {
         });
     });
 
-    test("delete", async () => {
+    test("get (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .get("/extraction_schemas/nameOrId")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractionSchemas.get("nameOrId");
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("delete (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -218,7 +393,28 @@ describe("ExtractionSchemas", () => {
         });
     });
 
-    test("update", async () => {
+    test("delete (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .delete("/extraction_schemas/nameOrId")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractionSchemas.delete("nameOrId");
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("update (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -262,5 +458,83 @@ describe("ExtractionSchemas", () => {
         expect(response).toEqual({
             success: true,
         });
+    });
+
+    test("update (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { name: undefined, prompt: undefined, fields: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .patch("/extraction_schemas/nameOrId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractionSchemas.update("nameOrId", {
+                name: undefined,
+                prompt: undefined,
+                fields: undefined,
+            });
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("update (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { name: undefined, prompt: undefined, fields: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .patch("/extraction_schemas/nameOrId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractionSchemas.update("nameOrId", {
+                name: undefined,
+                prompt: undefined,
+                fields: undefined,
+            });
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("update (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { name: undefined, prompt: undefined, fields: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .patch("/extraction_schemas/nameOrId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.extractionSchemas.update("nameOrId", {
+                name: undefined,
+                prompt: undefined,
+                fields: undefined,
+            });
+        }).rejects.toThrow(Phonic.ConflictError);
     });
 });
