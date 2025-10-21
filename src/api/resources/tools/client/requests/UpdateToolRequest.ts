@@ -26,9 +26,15 @@ export interface UpdateToolRequest {
     type?: UpdateToolRequest.Type;
     /** Mode of operation. */
     execution_mode?: UpdateToolRequest.ExecutionMode;
-    /** Array of parameter definitions. */
+    /**
+     * Array of parameter definitions.
+     * When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
+     * For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
+     * For `custom_websocket` and `built_in_transfer_to_phone_number` tools: `location` must not be specified.
+     */
     parameters?: Phonic.ToolParameter[];
-    endpoint_method?: "POST";
+    /** HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values. */
+    endpoint_method?: UpdateToolRequest.EndpointMethod;
     endpoint_url?: string;
     endpoint_headers?: Record<string, string>;
     endpoint_timeout_ms?: number;
@@ -54,5 +60,13 @@ export namespace UpdateToolRequest {
     export const ExecutionMode = {
         Sync: "sync",
         Async: "async",
+    } as const;
+    /**
+     * HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values.
+     */
+    export type EndpointMethod = "GET" | "POST";
+    export const EndpointMethod = {
+        Get: "GET",
+        Post: "POST",
     } as const;
 }

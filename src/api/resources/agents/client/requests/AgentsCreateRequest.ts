@@ -54,8 +54,6 @@ export interface AgentsCreateRequest {
     audio_speed?: number;
     /** The background noise level of the agent. */
     background_noise_level?: number;
-    /** The background noise type. Can be "office", "call-center", "coffee-shop", or null. */
-    background_noise?: Phonic.CreateAgentRequest.BackgroundNoise | null;
     /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. */
     welcome_message?: string;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */

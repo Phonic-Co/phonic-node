@@ -15,7 +15,7 @@ export declare namespace Tools {
         baseUrl?: core.Supplier<string>;
         apiKey?: core.Supplier<core.BearerToken | undefined>;
         /** Additional headers to include in requests. */
-        headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
+        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
         fetcher?: core.FetchFunction;
     }
 
@@ -29,7 +29,7 @@ export declare namespace Tools {
         /** Additional query string parameters to include in the request. */
         queryParams?: Record<string, unknown>;
         /** Additional headers to include in the request. */
-        headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
+        headers?: Record<string, string | core.Supplier<string | undefined> | undefined>;
     }
 }
 
@@ -144,12 +144,14 @@ export class Tools {
      *                 type: "string",
      *                 name: "date",
      *                 description: "The date for the appointment in YYYY-MM-DD format",
-     *                 is_required: true
+     *                 is_required: true,
+     *                 location: "request_body"
      *             }, {
      *                 type: "string",
      *                 name: "time",
      *                 description: "The time for the appointment in HH:MM format",
-     *                 is_required: true
+     *                 is_required: true,
+     *                 location: "request_body"
      *             }],
      *         endpoint_method: "POST",
      *         endpoint_url: "https://api.example.com/book-appointment",

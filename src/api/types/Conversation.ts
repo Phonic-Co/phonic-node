@@ -27,8 +27,6 @@ export interface Conversation {
     output_format: string;
     /** Background noise level used in the conversation. */
     background_noise_level: number;
-    /** The background noise type used in the conversation. */
-    background_noise: Conversation.BackgroundNoise | null;
     /** Live transcript of the conversation. */
     live_transcript: string;
     /** Post-call processed transcript. */
@@ -82,15 +80,6 @@ export namespace Conversation {
         name: string;
     }
 
-    /**
-     * The background noise type used in the conversation.
-     */
-    export type BackgroundNoise = "office" | "call-center" | "coffee-shop";
-    export const BackgroundNoise = {
-        Office: "office",
-        CallCenter: "call-center",
-        CoffeeShop: "coffee-shop",
-    } as const;
     /**
      * Who or what ended the conversation.
      */

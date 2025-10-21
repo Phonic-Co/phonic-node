@@ -16,8 +16,6 @@ export interface ConfigPayload {
     audio_speed?: number;
     /** Background noise level for the conversation */
     background_noise_level?: number;
-    /** Background noise type for the conversation */
-    background_noise?: ConfigPayload.BackgroundNoise | null;
     /** Message to play when conversation starts */
     welcome_message?: string | null;
     /** Voice ID to use for speech synthesis */
@@ -55,15 +53,6 @@ export interface ConfigPayload {
 }
 
 export namespace ConfigPayload {
-    /**
-     * Background noise type for the conversation
-     */
-    export type BackgroundNoise = "office" | "call-center" | "coffee-shop";
-    export const BackgroundNoise = {
-        Office: "office",
-        CallCenter: "call-center",
-        CoffeeShop: "coffee-shop",
-    } as const;
     /**
      * Audio input format
      */
