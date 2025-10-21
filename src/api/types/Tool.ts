@@ -19,7 +19,7 @@ export interface Tool {
     /** Array of parameter definitions for the tool. */
     parameters: Phonic.ToolParameter[];
     /** HTTP method for webhook tools. */
-    endpoint_method?: "POST";
+    endpoint_method?: Tool.EndpointMethod;
     /** URL for webhook tools. */
     endpoint_url?: string;
     /** Headers for webhook tools. */
@@ -54,5 +54,13 @@ export namespace Tool {
     export const ExecutionMode = {
         Sync: "sync",
         Async: "async",
+    } as const;
+    /**
+     * HTTP method for webhook tools.
+     */
+    export type EndpointMethod = "GET" | "POST";
+    export const EndpointMethod = {
+        Get: "GET",
+        Post: "POST",
     } as const;
 }

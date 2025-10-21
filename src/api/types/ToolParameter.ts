@@ -13,6 +13,14 @@ export interface ToolParameter {
     description: string;
     /** Whether the parameter is required. */
     is_required: boolean;
+    /**
+     * Only applicable for `custom_webhook` tools. Specifies where the parameter should be sent in the webhook request.
+     * - For GET webhooks: defaults to `"query_string"` and `"request_body"` is not allowed.
+     * - For POST webhooks: required, can be either `"request_body"` or `"query_string"`.
+     * - Not allowed for `custom_websocket` or `built_in_transfer_to_phone_number` tools.
+     * When updating a tool's type or endpoint_method, all parameters must include explicit `location` values.
+     */
+    location?: ToolParameter.Location;
 }
 
 export namespace ToolParameter {
@@ -36,5 +44,17 @@ export namespace ToolParameter {
         Integer: "integer",
         Number: "number",
         Boolean: "boolean",
+    } as const;
+    /**
+     * Only applicable for `custom_webhook` tools. Specifies where the parameter should be sent in the webhook request.
+     * - For GET webhooks: defaults to `"query_string"` and `"request_body"` is not allowed.
+     * - For POST webhooks: required, can be either `"request_body"` or `"query_string"`.
+     * - Not allowed for `custom_websocket` or `built_in_transfer_to_phone_number` tools.
+     * When updating a tool's type or endpoint_method, all parameters must include explicit `location` values.
+     */
+    export type Location = "request_body" | "query_string";
+    export const Location = {
+        RequestBody: "request_body",
+        QueryString: "query_string",
     } as const;
 }

@@ -16,12 +16,14 @@ import * as Phonic from "../../../../index.js";
  *                 type: "string",
  *                 name: "date",
  *                 description: "The date for the appointment in YYYY-MM-DD format",
- *                 is_required: true
+ *                 is_required: true,
+ *                 location: "request_body"
  *             }, {
  *                 type: "string",
  *                 name: "time",
  *                 description: "The time for the appointment in HH:MM format",
- *                 is_required: true
+ *                 is_required: true,
+ *                 location: "request_body"
  *             }],
  *         endpoint_method: "POST",
  *         endpoint_url: "https://api.example.com/book-appointment",
@@ -69,10 +71,15 @@ export interface CreateToolRequest {
     type: CreateToolRequest.Type;
     /** Mode of operation. */
     execution_mode: CreateToolRequest.ExecutionMode;
-    /** Array of parameter definitions. */
+    /**
+     * Array of parameter definitions.
+     * For `custom_webhook` tools with POST method, each parameter must include a `location` field.
+     * For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
+     * For `custom_websocket` and `built_in_transfer_to_phone_number` tools, `location` must not be specified.
+     */
     parameters?: Phonic.ToolParameter[];
-    /** Required for webhook tools. */
-    endpoint_method?: "POST";
+    /** Required for webhook tools. HTTP method for the webhook endpoint. */
+    endpoint_method?: CreateToolRequest.EndpointMethod;
     /** Required for webhook tools. */
     endpoint_url?: string;
     /** Optional headers for webhook tools. */
@@ -102,5 +109,13 @@ export namespace CreateToolRequest {
     export const ExecutionMode = {
         Sync: "sync",
         Async: "async",
+    } as const;
+    /**
+     * Required for webhook tools. HTTP method for the webhook endpoint.
+     */
+    export type EndpointMethod = "GET" | "POST";
+    export const EndpointMethod = {
+        Get: "GET",
+        Post: "POST",
     } as const;
 }

@@ -144,12 +144,14 @@ export class Tools {
      *                 type: "string",
      *                 name: "date",
      *                 description: "The date for the appointment in YYYY-MM-DD format",
-     *                 is_required: true
+     *                 is_required: true,
+     *                 location: "request_body"
      *             }, {
      *                 type: "string",
      *                 name: "time",
      *                 description: "The time for the appointment in HH:MM format",
-     *                 is_required: true
+     *                 is_required: true,
+     *                 location: "request_body"
      *             }],
      *         endpoint_method: "POST",
      *         endpoint_url: "https://api.example.com/book-appointment",
