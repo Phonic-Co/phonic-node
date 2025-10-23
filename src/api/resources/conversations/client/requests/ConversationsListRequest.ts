@@ -22,10 +22,10 @@ export interface ConversationsListRequest {
     started_at_min?: string;
     /** Maximum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z` */
     started_at_max?: string;
-    /** Cursor for pagination (before). */
+    /** Cursor for backward pagination. Use a conversation ID from `pagination.prev_cursor` to fetch the previous page of conversations. Cannot be used with `after`. */
     before?: string;
-    /** Cursor for pagination (after). */
+    /** Cursor for forward pagination. Use a conversation ID from `pagination.next_cursor` to fetch the next page of conversations. Cannot be used with `before`. */
     after?: string;
-    /** Maximum number of conversations to return. */
+    /** Maximum number of conversations to return per page. */
     limit?: number;
 }

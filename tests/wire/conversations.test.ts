@@ -89,6 +89,7 @@ describe("Conversations", () => {
                     ],
                 },
             ],
+            pagination: { prev_cursor: "prev_cursor", next_cursor: "conv_98765432-abcd-1234-5678-abcdef123456" },
         };
         server.mockEndpoint().get("/conversations").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
@@ -187,6 +188,10 @@ describe("Conversations", () => {
                     ],
                 },
             ],
+            pagination: {
+                prev_cursor: "prev_cursor",
+                next_cursor: "conv_98765432-abcd-1234-5678-abcdef123456",
+            },
         });
     });
 
