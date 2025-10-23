@@ -416,7 +416,7 @@ export class Projects {
      */
     public update(
         nameOrId: string,
-        request: Phonic.UpdateProjectRequest = {},
+        request: Phonic.UpdateProjectRequest,
         requestOptions?: Projects.RequestOptions,
     ): core.HttpResponsePromise<Phonic.ProjectsUpdateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__update(nameOrId, request, requestOptions));
@@ -424,7 +424,7 @@ export class Projects {
 
     private async __update(
         nameOrId: string,
-        request: Phonic.UpdateProjectRequest = {},
+        request: Phonic.UpdateProjectRequest,
         requestOptions?: Projects.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.ProjectsUpdateResponse>> {
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

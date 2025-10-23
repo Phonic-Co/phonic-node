@@ -220,7 +220,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: "name",
-            phone_number: undefined,
+            phone_number: null,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -252,7 +252,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.create({
                 name: "name",
-                phone_number: undefined,
+                phone_number: null,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -282,7 +282,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: "name",
-            phone_number: undefined,
+            phone_number: null,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -314,7 +314,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.create({
                 name: "name",
-                phone_number: undefined,
+                phone_number: null,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -344,7 +344,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: "name",
-            phone_number: undefined,
+            phone_number: null,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -376,7 +376,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.create({
                 name: "name",
-                phone_number: undefined,
+                phone_number: null,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -406,7 +406,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: "name",
-            phone_number: undefined,
+            phone_number: null,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -438,7 +438,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.create({
                 name: "name",
-                phone_number: undefined,
+                phone_number: null,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -623,7 +623,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: "name",
-            phone_number: undefined,
+            phone_number: null,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -655,7 +655,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.upsert({
                 name: "name",
-                phone_number: undefined,
+                phone_number: null,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -685,7 +685,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: "name",
-            phone_number: undefined,
+            phone_number: null,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -717,7 +717,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.upsert({
                 name: "name",
-                phone_number: undefined,
+                phone_number: null,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -1012,7 +1012,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: undefined,
-            phone_number: undefined,
+            phone_number: null,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -1044,7 +1044,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.update("nameOrId", {
                 name: undefined,
-                phone_number: undefined,
+                phone_number: null,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -1074,7 +1074,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: undefined,
-            phone_number: undefined,
+            phone_number: null,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -1106,7 +1106,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.update("nameOrId", {
                 name: undefined,
-                phone_number: undefined,
+                phone_number: null,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -1136,7 +1136,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: undefined,
-            phone_number: undefined,
+            phone_number: null,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -1168,7 +1168,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.update("nameOrId", {
                 name: undefined,
-                phone_number: undefined,
+                phone_number: null,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,

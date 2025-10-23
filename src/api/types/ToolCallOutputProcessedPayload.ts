@@ -15,10 +15,12 @@ export interface ToolCallOutputProcessedPayload {
     endpoint_called_at?: string | null;
     /** Webhook request body (null for WebSocket tools) */
     request_body?: Record<string, unknown> | null;
-    response_body?: unknown;
+    /** Webhook response body (null for WebSocket tools) */
+    response_body?: unknown | null;
     /** WebSocket tool parameters (null for webhook tools) */
     parameters?: Record<string, unknown> | null;
-    output?: unknown;
+    /** WebSocket tool output (null for webhook tools) */
+    output?: unknown | null;
     /** Webhook HTTP status code (null for WebSocket tools) */
     response_status_code?: number | null;
     /** Whether the tool call timed out */
