@@ -30,6 +30,8 @@ export interface Tool {
     tool_call_output_timeout_ms?: number;
     /** The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools. */
     phone_number?: string;
+    /** DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. */
+    dtmf?: string | null;
 }
 
 export namespace Tool {

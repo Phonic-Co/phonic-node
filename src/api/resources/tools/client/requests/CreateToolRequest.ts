@@ -57,7 +57,8 @@ import * as Phonic from "../../../../index.js";
  *         description: "Transfers the caller to the support team",
  *         type: "built_in_transfer_to_phone_number",
  *         execution_mode: "sync",
- *         phone_number: "+15551234567"
+ *         phone_number: "+15551234567",
+ *         dtmf: "1234"
  *     }
  */
 export interface CreateToolRequest {
@@ -90,6 +91,8 @@ export interface CreateToolRequest {
     tool_call_output_timeout_ms?: number;
     /** The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools. */
     phone_number?: string;
+    /** DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. */
+    dtmf?: string | null;
 }
 
 export namespace CreateToolRequest {

@@ -45,6 +45,7 @@ describe("Tools", () => {
                     endpoint_timeout_ms: 5000,
                     tool_call_output_timeout_ms: 1,
                     phone_number: "phone_number",
+                    dtmf: "dtmf",
                 },
                 {
                     id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
@@ -67,6 +68,7 @@ describe("Tools", () => {
                     endpoint_timeout_ms: 1,
                     tool_call_output_timeout_ms: 5000,
                     phone_number: "phone_number",
+                    dtmf: "dtmf",
                 },
                 {
                     id: "tool_11111111-2222-3333-4444-555555555555",
@@ -82,6 +84,7 @@ describe("Tools", () => {
                     endpoint_timeout_ms: 1,
                     tool_call_output_timeout_ms: 1,
                     phone_number: "+15551234567",
+                    dtmf: "1234",
                 },
             ],
         };
@@ -127,6 +130,7 @@ describe("Tools", () => {
                     endpoint_timeout_ms: 5000,
                     tool_call_output_timeout_ms: 1,
                     phone_number: "phone_number",
+                    dtmf: "dtmf",
                 },
                 {
                     id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
@@ -154,6 +158,7 @@ describe("Tools", () => {
                     endpoint_timeout_ms: 1,
                     tool_call_output_timeout_ms: 5000,
                     phone_number: "phone_number",
+                    dtmf: "dtmf",
                 },
                 {
                     id: "tool_11111111-2222-3333-4444-555555555555",
@@ -181,6 +186,7 @@ describe("Tools", () => {
                     endpoint_timeout_ms: 1,
                     tool_call_output_timeout_ms: 1,
                     phone_number: "+15551234567",
+                    dtmf: "1234",
                 },
             ],
         });
@@ -339,6 +345,7 @@ describe("Tools", () => {
             type: "built_in_transfer_to_phone_number",
             execution_mode: "sync",
             phone_number: "+15551234567",
+            dtmf: "1234",
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
         server
@@ -357,6 +364,7 @@ describe("Tools", () => {
             type: "built_in_transfer_to_phone_number",
             execution_mode: "sync",
             phone_number: "+15551234567",
+            dtmf: "1234",
         });
         expect(response).toEqual({
             id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -382,6 +390,7 @@ describe("Tools", () => {
             endpoint_timeout_ms: undefined,
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
+            dtmf: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -406,6 +415,7 @@ describe("Tools", () => {
                 endpoint_timeout_ms: undefined,
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
+                dtmf: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
@@ -428,6 +438,7 @@ describe("Tools", () => {
             endpoint_timeout_ms: undefined,
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
+            dtmf: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -452,6 +463,7 @@ describe("Tools", () => {
                 endpoint_timeout_ms: undefined,
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
+                dtmf: undefined,
             });
         }).rejects.toThrow(Phonic.ForbiddenError);
     });
@@ -474,6 +486,7 @@ describe("Tools", () => {
             endpoint_timeout_ms: undefined,
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
+            dtmf: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -498,6 +511,7 @@ describe("Tools", () => {
                 endpoint_timeout_ms: undefined,
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
+                dtmf: undefined,
             });
         }).rejects.toThrow(Phonic.ConflictError);
     });
@@ -539,6 +553,7 @@ describe("Tools", () => {
                 endpoint_timeout_ms: 5000,
                 tool_call_output_timeout_ms: 1,
                 phone_number: "phone_number",
+                dtmf: "dtmf",
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -582,6 +597,7 @@ describe("Tools", () => {
                 endpoint_timeout_ms: 5000,
                 tool_call_output_timeout_ms: 1,
                 phone_number: "phone_number",
+                dtmf: "dtmf",
             },
         });
     });
@@ -615,6 +631,7 @@ describe("Tools", () => {
                 endpoint_timeout_ms: 1,
                 tool_call_output_timeout_ms: 5000,
                 phone_number: "phone_number",
+                dtmf: "dtmf",
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -649,6 +666,7 @@ describe("Tools", () => {
                 endpoint_timeout_ms: 1,
                 tool_call_output_timeout_ms: 5000,
                 phone_number: "phone_number",
+                dtmf: "dtmf",
             },
         });
     });
@@ -675,6 +693,7 @@ describe("Tools", () => {
                 endpoint_timeout_ms: 1,
                 tool_call_output_timeout_ms: 1,
                 phone_number: "+15551234567",
+                dtmf: "1234",
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -709,6 +728,7 @@ describe("Tools", () => {
                 endpoint_timeout_ms: 1,
                 tool_call_output_timeout_ms: 1,
                 phone_number: "+15551234567",
+                dtmf: "1234",
             },
         });
     });
@@ -828,6 +848,7 @@ describe("Tools", () => {
             endpoint_timeout_ms: undefined,
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
+            dtmf: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -852,6 +873,7 @@ describe("Tools", () => {
                 endpoint_timeout_ms: undefined,
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
+                dtmf: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
@@ -874,6 +896,7 @@ describe("Tools", () => {
             endpoint_timeout_ms: undefined,
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
+            dtmf: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -898,6 +921,7 @@ describe("Tools", () => {
                 endpoint_timeout_ms: undefined,
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
+                dtmf: undefined,
             });
         }).rejects.toThrow(Phonic.NotFoundError);
     });
@@ -920,6 +944,7 @@ describe("Tools", () => {
             endpoint_timeout_ms: undefined,
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
+            dtmf: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -944,6 +969,7 @@ describe("Tools", () => {
                 endpoint_timeout_ms: undefined,
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
+                dtmf: undefined,
             });
         }).rejects.toThrow(Phonic.ConflictError);
     });
