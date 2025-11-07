@@ -185,7 +185,8 @@ export class Tools {
      *         description: "Transfers the caller to the support team",
      *         type: "built_in_transfer_to_phone_number",
      *         execution_mode: "sync",
-     *         phone_number: "+15551234567"
+     *         phone_number: "+15551234567",
+     *         dtmf: "1234"
      *     })
      */
     public create(
