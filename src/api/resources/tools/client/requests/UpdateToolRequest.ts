@@ -30,7 +30,7 @@ export interface UpdateToolRequest {
      * Array of parameter definitions.
      * When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
      * For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
-     * For `custom_websocket` and `built_in_transfer_to_phone_number` tools: `location` must not be specified.
+     * For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools: `location` must not be specified.
      */
     parameters?: Phonic.ToolParameter[];
     /** HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values. */
@@ -43,17 +43,26 @@ export interface UpdateToolRequest {
     phone_number?: string;
     /** DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF. */
     dtmf?: string | null;
+    /** Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool. */
+    agents_to_transfer_to?: string[];
+    /** When true, forces the agent to speak before executing the tool. */
+    require_speech_before_tool_call?: boolean;
 }
 
 export namespace UpdateToolRequest {
     /**
      * The type of tool.
      */
-    export type Type = "custom_webhook" | "custom_websocket" | "built_in_transfer_to_phone_number";
+    export type Type =
+        | "custom_webhook"
+        | "custom_websocket"
+        | "built_in_transfer_to_phone_number"
+        | "built_in_transfer_to_agent";
     export const Type = {
         CustomWebhook: "custom_webhook",
         CustomWebsocket: "custom_websocket",
         BuiltInTransferToPhoneNumber: "built_in_transfer_to_phone_number",
+        BuiltInTransferToAgent: "built_in_transfer_to_agent",
     } as const;
     /**
      * Mode of operation.
