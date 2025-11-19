@@ -46,8 +46,6 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 1,
                     phone_number: "phone_number",
                     dtmf: "dtmf",
-                    agents_to_transfer_to: ["agents_to_transfer_to"],
-                    require_speech_before_tool_call: false,
                 },
                 {
                     id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
@@ -71,8 +69,6 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 5000,
                     phone_number: "phone_number",
                     dtmf: "dtmf",
-                    agents_to_transfer_to: ["agents_to_transfer_to"],
-                    require_speech_before_tool_call: false,
                 },
                 {
                     id: "tool_11111111-2222-3333-4444-555555555555",
@@ -89,26 +85,6 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 1,
                     phone_number: "+15551234567",
                     dtmf: "1234",
-                    agents_to_transfer_to: ["agents_to_transfer_to"],
-                    require_speech_before_tool_call: false,
-                },
-                {
-                    id: "tool_22222222-3333-4444-5555-666666666666",
-                    name: "transfer_to_specialist",
-                    description: "Transfers the caller to a specialist agent",
-                    project: { id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd", name: "main" },
-                    type: "built_in_transfer_to_agent",
-                    execution_mode: "sync",
-                    parameters: [{ type: "string", name: "name", description: "description", is_required: true }],
-                    endpoint_method: "GET",
-                    endpoint_url: "endpoint_url",
-                    endpoint_headers: { key: "value" },
-                    endpoint_timeout_ms: 1,
-                    tool_call_output_timeout_ms: 1,
-                    phone_number: "phone_number",
-                    dtmf: "dtmf",
-                    agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
-                    require_speech_before_tool_call: false,
                 },
             ],
         };
@@ -155,8 +131,6 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 1,
                     phone_number: "phone_number",
                     dtmf: "dtmf",
-                    agents_to_transfer_to: ["agents_to_transfer_to"],
-                    require_speech_before_tool_call: false,
                 },
                 {
                     id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
@@ -185,8 +159,6 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 5000,
                     phone_number: "phone_number",
                     dtmf: "dtmf",
-                    agents_to_transfer_to: ["agents_to_transfer_to"],
-                    require_speech_before_tool_call: false,
                 },
                 {
                     id: "tool_11111111-2222-3333-4444-555555555555",
@@ -215,38 +187,6 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 1,
                     phone_number: "+15551234567",
                     dtmf: "1234",
-                    agents_to_transfer_to: ["agents_to_transfer_to"],
-                    require_speech_before_tool_call: false,
-                },
-                {
-                    id: "tool_22222222-3333-4444-5555-666666666666",
-                    name: "transfer_to_specialist",
-                    description: "Transfers the caller to a specialist agent",
-                    project: {
-                        id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
-                        name: "main",
-                    },
-                    type: "built_in_transfer_to_agent",
-                    execution_mode: "sync",
-                    parameters: [
-                        {
-                            type: "string",
-                            name: "name",
-                            description: "description",
-                            is_required: true,
-                        },
-                    ],
-                    endpoint_method: "GET",
-                    endpoint_url: "endpoint_url",
-                    endpoint_headers: {
-                        key: "value",
-                    },
-                    endpoint_timeout_ms: 1,
-                    tool_call_output_timeout_ms: 1,
-                    phone_number: "phone_number",
-                    dtmf: "dtmf",
-                    agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
-                    require_speech_before_tool_call: false,
                 },
             ],
         });
@@ -298,7 +238,6 @@ describe("Tools", () => {
             endpoint_url: "https://api.example.com/book-appointment",
             endpoint_headers: { Authorization: "Bearer token123", "Content-Type": "application/json" },
             endpoint_timeout_ms: 5000,
-            require_speech_before_tool_call: false,
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
         server
@@ -339,7 +278,6 @@ describe("Tools", () => {
                 "Content-Type": "application/json",
             },
             endpoint_timeout_ms: 5000,
-            require_speech_before_tool_call: false,
         });
         expect(response).toEqual({
             id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -362,7 +300,6 @@ describe("Tools", () => {
                 { type: "string", name: "product_id", description: "The product ID to check", is_required: true },
             ],
             tool_call_output_timeout_ms: 5000,
-            require_speech_before_tool_call: false,
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
         server
@@ -389,7 +326,6 @@ describe("Tools", () => {
                 },
             ],
             tool_call_output_timeout_ms: 5000,
-            require_speech_before_tool_call: false,
         });
         expect(response).toEqual({
             id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -410,7 +346,6 @@ describe("Tools", () => {
             execution_mode: "sync",
             phone_number: "+15551234567",
             dtmf: "1234",
-            require_speech_before_tool_call: false,
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
         server
@@ -430,7 +365,6 @@ describe("Tools", () => {
             execution_mode: "sync",
             phone_number: "+15551234567",
             dtmf: "1234",
-            require_speech_before_tool_call: false,
         });
         expect(response).toEqual({
             id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -439,45 +373,6 @@ describe("Tools", () => {
     });
 
     test("create (4)", async () => {
-        const server = mockServerPool.createServer();
-        const client = new PhonicClient({
-            apiKey: "test",
-            environment: { base: server.baseUrl, production: server.baseUrl },
-        });
-        const rawRequestBody = {
-            name: "transfer_to_specialist",
-            description: "Transfers the caller to a specialist agent",
-            type: "built_in_transfer_to_agent",
-            execution_mode: "sync",
-            agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
-            require_speech_before_tool_call: false,
-        };
-        const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
-        server
-            .mockEndpoint()
-            .post("/tools")
-            .jsonBody(rawRequestBody)
-            .respondWith()
-            .statusCode(200)
-            .jsonBody(rawResponseBody)
-            .build();
-
-        const response = await client.tools.create({
-            project: "main",
-            name: "transfer_to_specialist",
-            description: "Transfers the caller to a specialist agent",
-            type: "built_in_transfer_to_agent",
-            execution_mode: "sync",
-            agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
-            require_speech_before_tool_call: false,
-        });
-        expect(response).toEqual({
-            id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-            name: "book_appointment",
-        });
-    });
-
-    test("create (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -496,8 +391,6 @@ describe("Tools", () => {
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
             dtmf: undefined,
-            agents_to_transfer_to: undefined,
-            require_speech_before_tool_call: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -523,13 +416,11 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
                 dtmf: undefined,
-                agents_to_transfer_to: undefined,
-                require_speech_before_tool_call: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
 
-    test("create (6)", async () => {
+    test("create (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -548,8 +439,6 @@ describe("Tools", () => {
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
             dtmf: undefined,
-            agents_to_transfer_to: undefined,
-            require_speech_before_tool_call: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -575,13 +464,11 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
                 dtmf: undefined,
-                agents_to_transfer_to: undefined,
-                require_speech_before_tool_call: undefined,
             });
         }).rejects.toThrow(Phonic.ForbiddenError);
     });
 
-    test("create (7)", async () => {
+    test("create (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -600,8 +487,6 @@ describe("Tools", () => {
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
             dtmf: undefined,
-            agents_to_transfer_to: undefined,
-            require_speech_before_tool_call: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -627,8 +512,6 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
                 dtmf: undefined,
-                agents_to_transfer_to: undefined,
-                require_speech_before_tool_call: undefined,
             });
         }).rejects.toThrow(Phonic.ConflictError);
     });
@@ -671,8 +554,6 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 1,
                 phone_number: "phone_number",
                 dtmf: "dtmf",
-                agents_to_transfer_to: ["agents_to_transfer_to"],
-                require_speech_before_tool_call: false,
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -717,8 +598,6 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 1,
                 phone_number: "phone_number",
                 dtmf: "dtmf",
-                agents_to_transfer_to: ["agents_to_transfer_to"],
-                require_speech_before_tool_call: false,
             },
         });
     });
@@ -753,8 +632,6 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 5000,
                 phone_number: "phone_number",
                 dtmf: "dtmf",
-                agents_to_transfer_to: ["agents_to_transfer_to"],
-                require_speech_before_tool_call: false,
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -790,8 +667,6 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 5000,
                 phone_number: "phone_number",
                 dtmf: "dtmf",
-                agents_to_transfer_to: ["agents_to_transfer_to"],
-                require_speech_before_tool_call: false,
             },
         });
     });
@@ -819,8 +694,6 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 1,
                 phone_number: "+15551234567",
                 dtmf: "1234",
-                agents_to_transfer_to: ["agents_to_transfer_to"],
-                require_speech_before_tool_call: false,
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -856,79 +729,11 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 1,
                 phone_number: "+15551234567",
                 dtmf: "1234",
-                agents_to_transfer_to: ["agents_to_transfer_to"],
-                require_speech_before_tool_call: false,
             },
         });
     });
 
     test("get (4)", async () => {
-        const server = mockServerPool.createServer();
-        const client = new PhonicClient({
-            apiKey: "test",
-            environment: { base: server.baseUrl, production: server.baseUrl },
-        });
-
-        const rawResponseBody = {
-            tool: {
-                id: "tool_22222222-3333-4444-5555-666666666666",
-                name: "transfer_to_specialist",
-                description: "Transfers the caller to a specialist agent",
-                project: { id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd", name: "main" },
-                type: "built_in_transfer_to_agent",
-                execution_mode: "sync",
-                parameters: [{ type: "string", name: "name", description: "description", is_required: true }],
-                endpoint_method: "GET",
-                endpoint_url: "endpoint_url",
-                endpoint_headers: { key: "value" },
-                endpoint_timeout_ms: 1,
-                tool_call_output_timeout_ms: 1,
-                phone_number: "phone_number",
-                dtmf: "dtmf",
-                agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
-                require_speech_before_tool_call: false,
-            },
-        };
-        server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
-
-        const response = await client.tools.get("nameOrId", {
-            project: "main",
-        });
-        expect(response).toEqual({
-            tool: {
-                id: "tool_22222222-3333-4444-5555-666666666666",
-                name: "transfer_to_specialist",
-                description: "Transfers the caller to a specialist agent",
-                project: {
-                    id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
-                    name: "main",
-                },
-                type: "built_in_transfer_to_agent",
-                execution_mode: "sync",
-                parameters: [
-                    {
-                        type: "string",
-                        name: "name",
-                        description: "description",
-                        is_required: true,
-                    },
-                ],
-                endpoint_method: "GET",
-                endpoint_url: "endpoint_url",
-                endpoint_headers: {
-                    key: "value",
-                },
-                endpoint_timeout_ms: 1,
-                tool_call_output_timeout_ms: 1,
-                phone_number: "phone_number",
-                dtmf: "dtmf",
-                agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
-                require_speech_before_tool_call: false,
-            },
-        });
-    });
-
-    test("get (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -943,7 +748,7 @@ describe("Tools", () => {
         }).rejects.toThrow(Phonic.ForbiddenError);
     });
 
-    test("get (6)", async () => {
+    test("get (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -1044,8 +849,6 @@ describe("Tools", () => {
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
             dtmf: undefined,
-            agents_to_transfer_to: undefined,
-            require_speech_before_tool_call: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -1071,8 +874,6 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
                 dtmf: undefined,
-                agents_to_transfer_to: undefined,
-                require_speech_before_tool_call: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
@@ -1096,8 +897,6 @@ describe("Tools", () => {
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
             dtmf: undefined,
-            agents_to_transfer_to: undefined,
-            require_speech_before_tool_call: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -1123,8 +922,6 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
                 dtmf: undefined,
-                agents_to_transfer_to: undefined,
-                require_speech_before_tool_call: undefined,
             });
         }).rejects.toThrow(Phonic.NotFoundError);
     });
@@ -1148,8 +945,6 @@ describe("Tools", () => {
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
             dtmf: undefined,
-            agents_to_transfer_to: undefined,
-            require_speech_before_tool_call: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -1175,8 +970,6 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
                 dtmf: undefined,
-                agents_to_transfer_to: undefined,
-                require_speech_before_tool_call: undefined,
             });
         }).rejects.toThrow(Phonic.ConflictError);
     });

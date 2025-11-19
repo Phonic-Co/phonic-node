@@ -622,7 +622,6 @@ await client.tools.create({
         "Content-Type": "application/json",
     },
     endpoint_timeout_ms: 5000,
-    require_speech_before_tool_call: false,
 });
 ```
 

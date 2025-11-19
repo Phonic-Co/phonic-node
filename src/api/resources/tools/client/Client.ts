@@ -159,8 +159,7 @@ export class Tools {
      *             "Authorization": "Bearer token123",
      *             "Content-Type": "application/json"
      *         },
-     *         endpoint_timeout_ms: 5000,
-     *         require_speech_before_tool_call: false
+     *         endpoint_timeout_ms: 5000
      *     })
      *
      * @example
@@ -176,8 +175,7 @@ export class Tools {
      *                 description: "The product ID to check",
      *                 is_required: true
      *             }],
-     *         tool_call_output_timeout_ms: 5000,
-     *         require_speech_before_tool_call: false
+     *         tool_call_output_timeout_ms: 5000
      *     })
      *
      * @example
@@ -188,19 +186,7 @@ export class Tools {
      *         type: "built_in_transfer_to_phone_number",
      *         execution_mode: "sync",
      *         phone_number: "+15551234567",
-     *         dtmf: "1234",
-     *         require_speech_before_tool_call: false
-     *     })
-     *
-     * @example
-     *     await client.tools.create({
-     *         project: "main",
-     *         name: "transfer_to_specialist",
-     *         description: "Transfers the caller to a specialist agent",
-     *         type: "built_in_transfer_to_agent",
-     *         execution_mode: "sync",
-     *         agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
-     *         require_speech_before_tool_call: false
+     *         dtmf: "1234"
      *     })
      */
     public create(

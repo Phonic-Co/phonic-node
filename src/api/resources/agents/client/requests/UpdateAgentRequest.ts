@@ -43,7 +43,8 @@ export interface UpdateAgentRequest {
     project?: string;
     /** The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
     name?: string;
-    phone_number: "assign-automatically" | null;
+    /** When set to `null`, the agent will not be associated with a phone number anymore. When set to `"assign-automatically"`, the agent will be assigned a random phone number if it doesn't have one yet. If the agent already has a phone number, `"assign-automatically"` has no effect. */
+    phone_number?: "assign-automatically" | null;
     /** The timezone of the agent. Used to format system variables like `{{system_time}}`. */
     timezone?: string;
     /** The voice ID to use. */

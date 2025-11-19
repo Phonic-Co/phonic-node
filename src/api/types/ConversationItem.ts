@@ -57,8 +57,8 @@ export namespace ConversationItem {
             response_status_code?: number | null;
             /** Timeout in milliseconds for websocket tool calls. */
             tool_call_output_timeout_ms?: number | null;
-            /** The request body sent to the tool. Can be any JSON-serializable value. */
-            request_body: Item.RequestBody | null;
+            /** The request body sent to the tool. */
+            request_body: Record<string, unknown> | null;
             /** The response body received from the tool. */
             response_body: Record<string, unknown> | null;
             /** Whether the tool call timed out. */
@@ -74,11 +74,6 @@ export namespace ConversationItem {
                 /** The tool name. */
                 name: string;
             }
-
-            /**
-             * The request body sent to the tool. Can be any JSON-serializable value.
-             */
-            export type RequestBody = Record<string, unknown> | unknown[] | string | number | boolean;
         }
     }
 }

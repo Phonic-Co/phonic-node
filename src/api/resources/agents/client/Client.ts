@@ -597,7 +597,7 @@ export class Agents {
      */
     public update(
         nameOrId: string,
-        request: Phonic.UpdateAgentRequest,
+        request: Phonic.UpdateAgentRequest = {},
         requestOptions?: Agents.RequestOptions,
     ): core.HttpResponsePromise<Phonic.AgentsUpdateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__update(nameOrId, request, requestOptions));
@@ -605,7 +605,7 @@ export class Agents {
 
     private async __update(
         nameOrId: string,
-        request: Phonic.UpdateAgentRequest,
+        request: Phonic.UpdateAgentRequest = {},
         requestOptions?: Agents.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.AgentsUpdateResponse>> {
         const { project, ..._body } = request;

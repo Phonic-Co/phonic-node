@@ -31,8 +31,7 @@ import * as Phonic from "../../../../index.js";
  *             "Authorization": "Bearer token123",
  *             "Content-Type": "application/json"
  *         },
- *         endpoint_timeout_ms: 5000,
- *         require_speech_before_tool_call: false
+ *         endpoint_timeout_ms: 5000
  *     }
  *
  * @example
@@ -48,8 +47,7 @@ import * as Phonic from "../../../../index.js";
  *                 description: "The product ID to check",
  *                 is_required: true
  *             }],
- *         tool_call_output_timeout_ms: 5000,
- *         require_speech_before_tool_call: false
+ *         tool_call_output_timeout_ms: 5000
  *     }
  *
  * @example
@@ -60,19 +58,7 @@ import * as Phonic from "../../../../index.js";
  *         type: "built_in_transfer_to_phone_number",
  *         execution_mode: "sync",
  *         phone_number: "+15551234567",
- *         dtmf: "1234",
- *         require_speech_before_tool_call: false
- *     }
- *
- * @example
- *     {
- *         project: "main",
- *         name: "transfer_to_specialist",
- *         description: "Transfers the caller to a specialist agent",
- *         type: "built_in_transfer_to_agent",
- *         execution_mode: "sync",
- *         agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
- *         require_speech_before_tool_call: false
+ *         dtmf: "1234"
  *     }
  */
 export interface CreateToolRequest {
@@ -90,7 +76,7 @@ export interface CreateToolRequest {
      * Array of parameter definitions.
      * For `custom_webhook` tools with POST method, each parameter must include a `location` field.
      * For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
-     * For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools, `location` must not be specified.
+     * For `custom_websocket` and `built_in_transfer_to_phone_number` tools, `location` must not be specified.
      */
     parameters?: Phonic.ToolParameter[];
     /** Required for webhook tools. HTTP method for the webhook endpoint. */
@@ -107,26 +93,17 @@ export interface CreateToolRequest {
     phone_number?: string;
     /** DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. */
     dtmf?: string | null;
-    /** Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool. */
-    agents_to_transfer_to?: string[];
-    /** When true, forces the agent to speak before executing the tool. */
-    require_speech_before_tool_call?: boolean;
 }
 
 export namespace CreateToolRequest {
     /**
      * The type of tool.
      */
-    export type Type =
-        | "custom_webhook"
-        | "custom_websocket"
-        | "built_in_transfer_to_phone_number"
-        | "built_in_transfer_to_agent";
+    export type Type = "custom_webhook" | "custom_websocket" | "built_in_transfer_to_phone_number";
     export const Type = {
         CustomWebhook: "custom_webhook",
         CustomWebsocket: "custom_websocket",
         BuiltInTransferToPhoneNumber: "built_in_transfer_to_phone_number",
-        BuiltInTransferToAgent: "built_in_transfer_to_agent",
     } as const;
     /**
      * Mode of operation.

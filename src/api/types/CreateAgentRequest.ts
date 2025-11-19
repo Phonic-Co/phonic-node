@@ -7,7 +7,8 @@ import * as Phonic from "../index.js";
 export interface CreateAgentRequest {
     /** The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
     name: string;
-    phone_number: "assign-automatically" | null;
+    /** When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. */
+    phone_number?: "assign-automatically" | null;
     /** The timezone of the agent. Used to format system variables like `{{system_time}}`. */
     timezone?: string;
     /** The voice ID to use. */

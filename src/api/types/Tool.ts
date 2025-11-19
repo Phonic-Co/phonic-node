@@ -32,10 +32,6 @@ export interface Tool {
     phone_number?: string;
     /** DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. */
     dtmf?: string | null;
-    /** Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. */
-    agents_to_transfer_to?: string[];
-    /** When true, forces the agent to speak before executing the tool. */
-    require_speech_before_tool_call?: boolean;
 }
 
 export namespace Tool {
@@ -47,16 +43,11 @@ export namespace Tool {
     /**
      * The type of tool.
      */
-    export type Type =
-        | "custom_webhook"
-        | "custom_websocket"
-        | "built_in_transfer_to_phone_number"
-        | "built_in_transfer_to_agent";
+    export type Type = "custom_webhook" | "custom_websocket" | "built_in_transfer_to_phone_number";
     export const Type = {
         CustomWebhook: "custom_webhook",
         CustomWebsocket: "custom_websocket",
         BuiltInTransferToPhoneNumber: "built_in_transfer_to_phone_number",
-        BuiltInTransferToAgent: "built_in_transfer_to_agent",
     } as const;
     /**
      * Mode of operation - sync waits for response, async continues without waiting.

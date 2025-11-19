@@ -419,7 +419,7 @@ describe("Projects", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { name: undefined, default_agent: null };
+        const rawRequestBody = { name: undefined, default_agent: undefined };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -433,7 +433,7 @@ describe("Projects", () => {
         await expect(async () => {
             return await client.projects.update("nameOrId", {
                 name: undefined,
-                default_agent: null,
+                default_agent: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
@@ -444,7 +444,7 @@ describe("Projects", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { name: undefined, default_agent: null };
+        const rawRequestBody = { name: undefined, default_agent: undefined };
         const rawResponseBody = { error: undefined };
         server
             .mockEndpoint()
@@ -458,7 +458,7 @@ describe("Projects", () => {
         await expect(async () => {
             return await client.projects.update("nameOrId", {
                 name: undefined,
-                default_agent: null,
+                default_agent: undefined,
             });
         }).rejects.toThrow(Phonic.UnauthorizedError);
     });
@@ -469,7 +469,7 @@ describe("Projects", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { name: undefined, default_agent: null };
+        const rawRequestBody = { name: undefined, default_agent: undefined };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -483,7 +483,7 @@ describe("Projects", () => {
         await expect(async () => {
             return await client.projects.update("nameOrId", {
                 name: undefined,
-                default_agent: null,
+                default_agent: undefined,
             });
         }).rejects.toThrow(Phonic.ForbiddenError);
     });
@@ -494,7 +494,7 @@ describe("Projects", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { name: undefined, default_agent: null };
+        const rawRequestBody = { name: undefined, default_agent: undefined };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -508,7 +508,7 @@ describe("Projects", () => {
         await expect(async () => {
             return await client.projects.update("nameOrId", {
                 name: undefined,
-                default_agent: null,
+                default_agent: undefined,
             });
         }).rejects.toThrow(Phonic.NotFoundError);
     });
@@ -519,7 +519,7 @@ describe("Projects", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { name: undefined, default_agent: null };
+        const rawRequestBody = { name: undefined, default_agent: undefined };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
@@ -533,7 +533,7 @@ describe("Projects", () => {
         await expect(async () => {
             return await client.projects.update("nameOrId", {
                 name: undefined,
-                default_agent: null,
+                default_agent: undefined,
             });
         }).rejects.toThrow(Phonic.ConflictError);
     });
@@ -544,7 +544,7 @@ describe("Projects", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { name: undefined, default_agent: null };
+        const rawRequestBody = { name: undefined, default_agent: undefined };
         const rawResponseBody = { error: undefined };
         server
             .mockEndpoint()
@@ -558,7 +558,7 @@ describe("Projects", () => {
         await expect(async () => {
             return await client.projects.update("nameOrId", {
                 name: undefined,
-                default_agent: null,
+                default_agent: undefined,
             });
         }).rejects.toThrow(Phonic.InternalServerError);
     });
