@@ -24,6 +24,7 @@ export type PhonicConfigurationEndpointResponsePayload = {
     template_variables?: Record<string, string>;
     tools?: Array<PhonicTool>;
     boosted_keywords?: string[];
+    metadata?: unknown;
 };
 
 export type ConversationEndedWebhookPayload = {
