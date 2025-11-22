@@ -1,6 +1,6 @@
 {
     "name": "phonic",
-    "version": "0.30.17",
+    "version": "0.30.18",
     "private": false,
     "repository": "github:Phonic-Co/phonic-node",
     "type": "commonjs",
