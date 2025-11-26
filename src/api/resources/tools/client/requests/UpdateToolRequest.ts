@@ -47,6 +47,8 @@ export interface UpdateToolRequest {
     agents_to_transfer_to?: string[];
     /** When true, forces the agent to speak before executing the tool. */
     require_speech_before_tool_call?: boolean;
+    /** When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
+    forbid_speech_after_tool_call?: boolean;
 }
 
 export namespace UpdateToolRequest {
@@ -54,11 +56,13 @@ export namespace UpdateToolRequest {
      * The type of tool.
      */
     export type Type =
+        | "custom_context"
         | "custom_webhook"
         | "custom_websocket"
         | "built_in_transfer_to_phone_number"
         | "built_in_transfer_to_agent";
     export const Type = {
+        CustomContext: "custom_context",
         CustomWebhook: "custom_webhook",
         CustomWebsocket: "custom_websocket",
         BuiltInTransferToPhoneNumber: "built_in_transfer_to_phone_number",

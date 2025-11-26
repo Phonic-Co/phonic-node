@@ -8,6 +8,23 @@ import * as Phonic from "../../../../index.js";
  * @example
  *     {
  *         project: "main",
+ *         name: "context_printer",
+ *         description: "Gets the specific context for fixing our printer",
+ *         type: "custom_context",
+ *         execution_mode: "sync",
+ *         parameters: [{
+ *                 type: "string",
+ *                 name: "name",
+ *                 description: "description",
+ *                 is_required: true
+ *             }],
+ *         require_speech_before_tool_call: false,
+ *         forbid_speech_after_tool_call: false
+ *     }
+ *
+ * @example
+ *     {
+ *         project: "main",
  *         name: "book_appointment",
  *         description: "Books an appointment in the calendar system",
  *         type: "custom_webhook",
@@ -32,7 +49,8 @@ import * as Phonic from "../../../../index.js";
  *             "Content-Type": "application/json"
  *         },
  *         endpoint_timeout_ms: 5000,
- *         require_speech_before_tool_call: false
+ *         require_speech_before_tool_call: false,
+ *         forbid_speech_after_tool_call: false
  *     }
  *
  * @example
@@ -49,7 +67,8 @@ import * as Phonic from "../../../../index.js";
  *                 is_required: true
  *             }],
  *         tool_call_output_timeout_ms: 5000,
- *         require_speech_before_tool_call: false
+ *         require_speech_before_tool_call: false,
+ *         forbid_speech_after_tool_call: false
  *     }
  *
  * @example
@@ -111,6 +130,8 @@ export interface CreateToolRequest {
     agents_to_transfer_to?: string[];
     /** When true, forces the agent to speak before executing the tool. */
     require_speech_before_tool_call?: boolean;
+    /** When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
+    forbid_speech_after_tool_call?: boolean;
 }
 
 export namespace CreateToolRequest {
@@ -118,11 +139,13 @@ export namespace CreateToolRequest {
      * The type of tool.
      */
     export type Type =
+        | "custom_context"
         | "custom_webhook"
         | "custom_websocket"
         | "built_in_transfer_to_phone_number"
         | "built_in_transfer_to_agent";
     export const Type = {
+        CustomContext: "custom_context",
         CustomWebhook: "custom_webhook",
         CustomWebsocket: "custom_websocket",
         BuiltInTransferToPhoneNumber: "built_in_transfer_to_phone_number",

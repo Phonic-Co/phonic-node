@@ -136,6 +136,23 @@ export class Tools {
      * @example
      *     await client.tools.create({
      *         project: "main",
+     *         name: "context_printer",
+     *         description: "Gets the specific context for fixing our printer",
+     *         type: "custom_context",
+     *         execution_mode: "sync",
+     *         parameters: [{
+     *                 type: "string",
+     *                 name: "name",
+     *                 description: "description",
+     *                 is_required: true
+     *             }],
+     *         require_speech_before_tool_call: false,
+     *         forbid_speech_after_tool_call: false
+     *     })
+     *
+     * @example
+     *     await client.tools.create({
+     *         project: "main",
      *         name: "book_appointment",
      *         description: "Books an appointment in the calendar system",
      *         type: "custom_webhook",
@@ -160,7 +177,8 @@ export class Tools {
      *             "Content-Type": "application/json"
      *         },
      *         endpoint_timeout_ms: 5000,
-     *         require_speech_before_tool_call: false
+     *         require_speech_before_tool_call: false,
+     *         forbid_speech_after_tool_call: false
      *     })
      *
      * @example
@@ -177,7 +195,8 @@ export class Tools {
      *                 is_required: true
      *             }],
      *         tool_call_output_timeout_ms: 5000,
-     *         require_speech_before_tool_call: false
+     *         require_speech_before_tool_call: false,
+     *         forbid_speech_after_tool_call: false
      *     })
      *
      * @example
