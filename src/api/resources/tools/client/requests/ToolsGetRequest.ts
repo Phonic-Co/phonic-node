@@ -22,6 +22,11 @@
  *     {
  *         project: "main"
  *     }
+ *
+ * @example
+ *     {
+ *         project: "main"
+ *     }
  */
 export interface ToolsGetRequest {
     /** The name of the project containing the tool. Only used when `nameOrId` is a name. */
