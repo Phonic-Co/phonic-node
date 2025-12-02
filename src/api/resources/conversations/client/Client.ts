@@ -1009,22 +1009,11 @@ export class Conversations {
         requestOptions?: Conversations.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.ConversationsSipOutboundCallResponse>> {
         const {
-            token,
-            downstream_websocket_url: downstreamWebsocketUrl,
             "X-Sip-Address": sipAddress,
             "X-Sip-Auth-Username": sipAuthUsername,
             "X-Sip-Auth-Password": sipAuthPassword,
             ..._body
         } = request;
-        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (token != null) {
-            _queryParams["token"] = token;
-        }
-
-        if (downstreamWebsocketUrl != null) {
-            _queryParams["downstream_websocket_url"] = downstreamWebsocketUrl;
-        }
-
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
             mergeOnlyDefinedHeaders({
@@ -1045,7 +1034,7 @@ export class Conversations {
             method: "POST",
             headers: _headers,
             contentType: "application/json",
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryParameters: requestOptions?.queryParams,
             requestType: "json",
             body: _body,
             timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,

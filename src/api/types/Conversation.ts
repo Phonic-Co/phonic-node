@@ -57,6 +57,8 @@ export interface Conversation {
     task_results: Record<string, unknown>;
     /** Array of conversation items (turns). */
     items: Phonic.ConversationItem[];
+    /** Phone call metadata. `null` for non-phone call conversations. */
+    call_info: Conversation.CallInfo | null;
 }
 
 export namespace Conversation {
@@ -102,4 +104,16 @@ export namespace Conversation {
         Assistant: "assistant",
         Error: "error",
     } as const;
+
+    /**
+     * Phone call metadata. `null` for non-phone call conversations.
+     */
+    export interface CallInfo {
+        /** Caller phone number in E.164 format. */
+        from_phone_number: string;
+        /** Callee phone number in E.164 format. */
+        to_phone_number: string;
+        /** Twilio Call SID. Only present for user SIP trunking calls. */
+        twilio_call_sid?: string;
+    }
 }

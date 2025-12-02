@@ -5,4 +5,6 @@
 export interface ConversationsSipOutboundCallResponse {
     /** The ID of the created conversation. */
     conversation_id: string;
+    /** The Twilio Call SID. */
+    twilio_call_sid: string;
 }
