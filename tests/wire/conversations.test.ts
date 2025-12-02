@@ -87,6 +87,7 @@ describe("Conversations", () => {
                             ],
                         },
                     ],
+                    call_info: { from_phone_number: "+15551234567", to_phone_number: "+15559876543" },
                 },
             ],
             pagination: { prev_cursor: "prev_cursor", next_cursor: "conv_98765432-abcd-1234-5678-abcdef123456" },
@@ -186,6 +187,10 @@ describe("Conversations", () => {
                             ],
                         },
                     ],
+                    call_info: {
+                        from_phone_number: "+15551234567",
+                        to_phone_number: "+15559876543",
+                    },
                 },
             ],
             pagination: {
@@ -269,6 +274,11 @@ describe("Conversations", () => {
                         ],
                     },
                 ],
+                call_info: {
+                    from_phone_number: "from_phone_number",
+                    to_phone_number: "to_phone_number",
+                    twilio_call_sid: "twilio_call_sid",
+                },
             },
         };
         server.mockEndpoint().get("/conversations").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -364,6 +374,11 @@ describe("Conversations", () => {
                         ],
                     },
                 ],
+                call_info: {
+                    from_phone_number: "from_phone_number",
+                    to_phone_number: "to_phone_number",
+                    twilio_call_sid: "twilio_call_sid",
+                },
             },
         });
     });
@@ -517,6 +532,11 @@ describe("Conversations", () => {
                         ],
                     },
                 ],
+                call_info: {
+                    from_phone_number: "+15551234567",
+                    to_phone_number: "+15559876543",
+                    twilio_call_sid: "twilio_call_sid",
+                },
             },
         };
         server.mockEndpoint().get("/conversations/id").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -612,6 +632,11 @@ describe("Conversations", () => {
                         ],
                     },
                 ],
+                call_info: {
+                    from_phone_number: "+15551234567",
+                    to_phone_number: "+15559876543",
+                    twilio_call_sid: "twilio_call_sid",
+                },
             },
         });
     });
@@ -1668,7 +1693,7 @@ describe("Conversations", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { from_phone_number: "from_phone_number", to_phone_number: "to_phone_number" };
-        const rawResponseBody = { conversation_id: "conversation_id" };
+        const rawResponseBody = { conversation_id: "conversation_id", twilio_call_sid: "twilio_call_sid" };
         server
             .mockEndpoint()
             .post("/conversations/sip/outbound_call")
@@ -1686,6 +1711,7 @@ describe("Conversations", () => {
         });
         expect(response).toEqual({
             conversation_id: "conversation_id",
+            twilio_call_sid: "twilio_call_sid",
         });
     });
 

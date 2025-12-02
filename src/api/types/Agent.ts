@@ -9,8 +9,10 @@ export interface Agent {
     id: string;
     /** The name of the agent. */
     name: string;
-    /** The phone number that the agent uses to accept and initiate phone calls. `null` if the agent is not associated with a phone number, in which can the agent can be used via WebSockets. */
+    /** The phone number that the agent uses to accept calls. `null` if the agent is not associated with a phone number, in which can the agent can be used via WebSockets. This field is deprecated. Use `phone_numbers` instead. */
     phone_number: string | null;
+    /** Array of phone numbers that the agent uses to accept phone calls. */
+    phone_numbers: string[];
     /** The project the agent belongs to. */
     project: Agent.Project;
     /** The timezone of the agent. Used to format system variables like `{{system_time}}`. */

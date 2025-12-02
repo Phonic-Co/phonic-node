@@ -20,6 +20,7 @@ describe("Agents", () => {
                     id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
                     name: "support-agent",
                     phone_number: "+1234567890",
+                    phone_numbers: ["phone_numbers"],
                     project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                     timezone: "America/Los_Angeles",
                     voice_id: "grant",
@@ -60,6 +61,7 @@ describe("Agents", () => {
                     id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
                     name: "support-agent",
                     phone_number: "+1234567890",
+                    phone_numbers: ["phone_numbers"],
                     project: {
                         id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
                         name: "customer-support",
@@ -221,6 +223,8 @@ describe("Agents", () => {
         const rawRequestBody = {
             name: "name",
             phone_number: null,
+            custom_phone_number: undefined,
+            custom_phone_numbers: undefined,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -253,6 +257,8 @@ describe("Agents", () => {
             return await client.agents.create({
                 name: "name",
                 phone_number: null,
+                custom_phone_number: undefined,
+                custom_phone_numbers: undefined,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -283,6 +289,8 @@ describe("Agents", () => {
         const rawRequestBody = {
             name: "name",
             phone_number: null,
+            custom_phone_number: undefined,
+            custom_phone_numbers: undefined,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -315,6 +323,8 @@ describe("Agents", () => {
             return await client.agents.create({
                 name: "name",
                 phone_number: null,
+                custom_phone_number: undefined,
+                custom_phone_numbers: undefined,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -345,6 +355,8 @@ describe("Agents", () => {
         const rawRequestBody = {
             name: "name",
             phone_number: null,
+            custom_phone_number: undefined,
+            custom_phone_numbers: undefined,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -377,6 +389,8 @@ describe("Agents", () => {
             return await client.agents.create({
                 name: "name",
                 phone_number: null,
+                custom_phone_number: undefined,
+                custom_phone_numbers: undefined,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -407,6 +421,8 @@ describe("Agents", () => {
         const rawRequestBody = {
             name: "name",
             phone_number: null,
+            custom_phone_number: undefined,
+            custom_phone_numbers: undefined,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -439,6 +455,8 @@ describe("Agents", () => {
             return await client.agents.create({
                 name: "name",
                 phone_number: null,
+                custom_phone_number: undefined,
+                custom_phone_numbers: undefined,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -492,6 +510,7 @@ describe("Agents", () => {
                 id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
                 name: "support-agent",
                 phone_number: "+1234567890",
+                phone_numbers: ["phone_numbers"],
                 project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 timezone: "America/Los_Angeles",
                 voice_id: "grant",
@@ -566,6 +585,7 @@ describe("Agents", () => {
                 id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
                 name: "support-agent",
                 phone_number: "+1234567890",
+                phone_numbers: ["phone_numbers"],
                 project: {
                     id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
                     name: "customer-support",
@@ -624,6 +644,8 @@ describe("Agents", () => {
         const rawRequestBody = {
             name: "name",
             phone_number: null,
+            custom_phone_number: undefined,
+            custom_phone_numbers: undefined,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -656,6 +678,8 @@ describe("Agents", () => {
             return await client.agents.upsert({
                 name: "name",
                 phone_number: null,
+                custom_phone_number: undefined,
+                custom_phone_numbers: undefined,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -686,6 +710,8 @@ describe("Agents", () => {
         const rawRequestBody = {
             name: "name",
             phone_number: null,
+            custom_phone_number: undefined,
+            custom_phone_numbers: undefined,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -718,6 +744,8 @@ describe("Agents", () => {
             return await client.agents.upsert({
                 name: "name",
                 phone_number: null,
+                custom_phone_number: undefined,
+                custom_phone_numbers: undefined,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -751,6 +779,7 @@ describe("Agents", () => {
                 id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
                 name: "support-agent",
                 phone_number: "+1234567890",
+                phone_numbers: ["phone_numbers"],
                 project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 timezone: "America/Los_Angeles",
                 voice_id: "grant",
@@ -788,6 +817,7 @@ describe("Agents", () => {
                 id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
                 name: "support-agent",
                 phone_number: "+1234567890",
+                phone_numbers: ["phone_numbers"],
                 project: {
                     id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
                     name: "customer-support",
@@ -1013,6 +1043,8 @@ describe("Agents", () => {
         const rawRequestBody = {
             name: undefined,
             phone_number: null,
+            custom_phone_number: undefined,
+            custom_phone_numbers: undefined,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -1045,6 +1077,8 @@ describe("Agents", () => {
             return await client.agents.update("nameOrId", {
                 name: undefined,
                 phone_number: null,
+                custom_phone_number: undefined,
+                custom_phone_numbers: undefined,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -1075,6 +1109,8 @@ describe("Agents", () => {
         const rawRequestBody = {
             name: undefined,
             phone_number: null,
+            custom_phone_number: undefined,
+            custom_phone_numbers: undefined,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -1107,6 +1143,8 @@ describe("Agents", () => {
             return await client.agents.update("nameOrId", {
                 name: undefined,
                 phone_number: null,
+                custom_phone_number: undefined,
+                custom_phone_numbers: undefined,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,
@@ -1137,6 +1175,8 @@ describe("Agents", () => {
         const rawRequestBody = {
             name: undefined,
             phone_number: null,
+            custom_phone_number: undefined,
+            custom_phone_numbers: undefined,
             timezone: undefined,
             voice_id: undefined,
             audio_format: undefined,
@@ -1169,6 +1209,8 @@ describe("Agents", () => {
             return await client.agents.update("nameOrId", {
                 name: undefined,
                 phone_number: null,
+                custom_phone_number: undefined,
+                custom_phone_numbers: undefined,
                 timezone: undefined,
                 voice_id: undefined,
                 audio_format: undefined,

@@ -43,7 +43,11 @@ export interface UpdateAgentRequest {
     project?: string;
     /** The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
     name?: string;
-    phone_number: "assign-automatically" | null;
+    phone_number: UpdateAgentRequest.PhoneNumber | null;
+    /** The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead. */
+    custom_phone_number?: string | null;
+    /** Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique. */
+    custom_phone_numbers?: string[];
     /** The timezone of the agent. Used to format system variables like `{{system_time}}`. */
     timezone?: string;
     /** The voice ID to use. */
@@ -81,6 +85,11 @@ export interface UpdateAgentRequest {
 }
 
 export namespace UpdateAgentRequest {
+    export type PhoneNumber = "assign-automatically" | "custom";
+    export const PhoneNumber = {
+        AssignAutomatically: "assign-automatically",
+        Custom: "custom",
+    } as const;
     /**
      * The audio format of the agent.
      */
