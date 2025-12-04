@@ -10,6 +10,7 @@ import { Tools } from "./api/resources/tools/client/Client.js";
 import { ExtractionSchemas } from "./api/resources/extractionSchemas/client/Client.js";
 import { Voices } from "./api/resources/voices/client/Client.js";
 import { Conversations } from "./api/resources/conversations/client/Client.js";
+import { Auth } from "./api/resources/auth/client/Client.js";
 import { Projects } from "./api/resources/projects/client/Client.js";
 
 export declare namespace PhonicClient {
@@ -44,6 +45,7 @@ export class PhonicClient {
     protected _extractionSchemas: ExtractionSchemas | undefined;
     protected _voices: Voices | undefined;
     protected _conversations: Conversations | undefined;
+    protected _auth: Auth | undefined;
     protected _projects: Projects | undefined;
 
     constructor(_options: PhonicClient.Options = {}) {
@@ -53,8 +55,8 @@ export class PhonicClient {
                 {
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "phonic",
-                    "X-Fern-SDK-Version": "0.30.20",
-                    "User-Agent": "phonic/0.30.20",
+                    "X-Fern-SDK-Version": "0.30.21",
+                    "User-Agent": "phonic/0.30.21",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },
@@ -81,6 +83,10 @@ export class PhonicClient {
 
     public get conversations(): Conversations {
         return (this._conversations ??= new Conversations(this._options));
+    }
+
+    public get auth(): Auth {
+        return (this._auth ??= new Auth(this._options));
     }
 
     public get projects(): Projects {
