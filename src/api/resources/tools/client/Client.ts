@@ -178,6 +178,7 @@ export class Tools {
      *         },
      *         endpoint_timeout_ms: 5000,
      *         require_speech_before_tool_call: false,
+     *         wait_for_speech_before_tool_call: false,
      *         forbid_speech_after_tool_call: false
      *     })
      *
@@ -196,6 +197,7 @@ export class Tools {
      *             }],
      *         tool_call_output_timeout_ms: 5000,
      *         require_speech_before_tool_call: false,
+     *         wait_for_speech_before_tool_call: false,
      *         forbid_speech_after_tool_call: false
      *     })
      *

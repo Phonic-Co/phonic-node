@@ -47,6 +47,8 @@ export interface UpdateToolRequest {
     agents_to_transfer_to?: string[];
     /** When true, forces the agent to speak before executing the tool. */
     require_speech_before_tool_call?: boolean;
+    /** If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools. */
+    wait_for_speech_before_tool_call?: boolean;
     /** When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
     forbid_speech_after_tool_call?: boolean;
 }
