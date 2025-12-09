@@ -14,8 +14,10 @@ export type PhonicConfigurationEndpointRequestPayload = {
         tools: Array<PhonicTool>;
         boosted_keywords: string[];
     };
+    conversation_id: string;
     from_phone_number?: string;
     to_phone_number?: string;
+    twilio_call_sid?: string;
 };
 
 export type PhonicConfigurationEndpointResponsePayload = {
