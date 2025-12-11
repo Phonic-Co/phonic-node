@@ -1,6 +1,6 @@
 import type { Conversation } from "./Conversation";
 
-type PhonicTool = "send_dtmf_tone" | "end_conversation" | (string & {});
+type PhonicTool = "keypad_input" | "natural_conversation_ending" | (string & {});
 type ISODateTime = `${string}Z`;
 
 export type PhonicConfigurationEndpointRequestPayload = {
