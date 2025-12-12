@@ -59,6 +59,8 @@ export interface Conversation {
     items: Phonic.ConversationItem[];
     /** Phone call metadata. `null` for non-phone call conversations. */
     call_info: Conversation.CallInfo | null;
+    /** Analysis of the conversation including latencies and interruptions. */
+    analysis: Phonic.ConversationAnalysis;
 }
 
 export namespace Conversation {

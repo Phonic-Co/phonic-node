@@ -33,7 +33,6 @@ describe("Tools", () => {
                     dtmf: "dtmf",
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
-                    wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: false,
                 },
                 {
@@ -68,7 +67,6 @@ describe("Tools", () => {
                     dtmf: "dtmf",
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
-                    wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
                 },
                 {
@@ -95,7 +93,6 @@ describe("Tools", () => {
                     dtmf: "dtmf",
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
-                    wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
                 },
                 {
@@ -115,7 +112,6 @@ describe("Tools", () => {
                     dtmf: "1234",
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
-                    wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
                 },
                 {
@@ -135,7 +131,6 @@ describe("Tools", () => {
                     dtmf: "dtmf",
                     agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
                     require_speech_before_tool_call: false,
-                    wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
                 },
             ],
@@ -176,7 +171,6 @@ describe("Tools", () => {
                     dtmf: "dtmf",
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
-                    wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: false,
                 },
                 {
@@ -217,7 +211,6 @@ describe("Tools", () => {
                     dtmf: "dtmf",
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
-                    wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
                 },
                 {
@@ -249,7 +242,6 @@ describe("Tools", () => {
                     dtmf: "dtmf",
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
-                    wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
                 },
                 {
@@ -281,7 +273,6 @@ describe("Tools", () => {
                     dtmf: "1234",
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
-                    wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
                 },
                 {
@@ -313,7 +304,6 @@ describe("Tools", () => {
                     dtmf: "dtmf",
                     agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
                     require_speech_before_tool_call: false,
-                    wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
                 },
             ],
@@ -415,7 +405,6 @@ describe("Tools", () => {
             endpoint_headers: { Authorization: "Bearer token123", "Content-Type": "application/json" },
             endpoint_timeout_ms: 5000,
             require_speech_before_tool_call: false,
-            wait_for_speech_before_tool_call: false,
             forbid_speech_after_tool_call: false,
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
@@ -458,7 +447,6 @@ describe("Tools", () => {
             },
             endpoint_timeout_ms: 5000,
             require_speech_before_tool_call: false,
-            wait_for_speech_before_tool_call: false,
             forbid_speech_after_tool_call: false,
         });
         expect(response).toEqual({
@@ -483,7 +471,6 @@ describe("Tools", () => {
             ],
             tool_call_output_timeout_ms: 5000,
             require_speech_before_tool_call: false,
-            wait_for_speech_before_tool_call: false,
             forbid_speech_after_tool_call: false,
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
@@ -512,7 +499,6 @@ describe("Tools", () => {
             ],
             tool_call_output_timeout_ms: 5000,
             require_speech_before_tool_call: false,
-            wait_for_speech_before_tool_call: false,
             forbid_speech_after_tool_call: false,
         });
         expect(response).toEqual({
@@ -622,7 +608,6 @@ describe("Tools", () => {
             dtmf: undefined,
             agents_to_transfer_to: undefined,
             require_speech_before_tool_call: undefined,
-            wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
         };
         const rawResponseBody = { key: "value" };
@@ -651,7 +636,6 @@ describe("Tools", () => {
                 dtmf: undefined,
                 agents_to_transfer_to: undefined,
                 require_speech_before_tool_call: undefined,
-                wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
@@ -678,7 +662,6 @@ describe("Tools", () => {
             dtmf: undefined,
             agents_to_transfer_to: undefined,
             require_speech_before_tool_call: undefined,
-            wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
         };
         const rawResponseBody = { key: "value" };
@@ -707,7 +690,6 @@ describe("Tools", () => {
                 dtmf: undefined,
                 agents_to_transfer_to: undefined,
                 require_speech_before_tool_call: undefined,
-                wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
             });
         }).rejects.toThrow(Phonic.ForbiddenError);
@@ -734,7 +716,6 @@ describe("Tools", () => {
             dtmf: undefined,
             agents_to_transfer_to: undefined,
             require_speech_before_tool_call: undefined,
-            wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
         };
         const rawResponseBody = { key: "value" };
@@ -763,7 +744,6 @@ describe("Tools", () => {
                 dtmf: undefined,
                 agents_to_transfer_to: undefined,
                 require_speech_before_tool_call: undefined,
-                wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
             });
         }).rejects.toThrow(Phonic.ConflictError);
@@ -794,7 +774,6 @@ describe("Tools", () => {
                 dtmf: "dtmf",
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
-                wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: false,
             },
         };
@@ -833,7 +812,6 @@ describe("Tools", () => {
                 dtmf: "dtmf",
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
-                wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: false,
             },
         });
@@ -879,7 +857,6 @@ describe("Tools", () => {
                 dtmf: "dtmf",
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
-                wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
             },
         };
@@ -927,7 +904,6 @@ describe("Tools", () => {
                 dtmf: "dtmf",
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
-                wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
             },
         });
@@ -965,7 +941,6 @@ describe("Tools", () => {
                 dtmf: "dtmf",
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
-                wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
             },
         };
@@ -1004,7 +979,6 @@ describe("Tools", () => {
                 dtmf: "dtmf",
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
-                wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
             },
         });
@@ -1035,7 +1009,6 @@ describe("Tools", () => {
                 dtmf: "1234",
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
-                wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
             },
         };
@@ -1074,7 +1047,6 @@ describe("Tools", () => {
                 dtmf: "1234",
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
-                wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
             },
         });
@@ -1105,7 +1077,6 @@ describe("Tools", () => {
                 dtmf: "dtmf",
                 agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
                 require_speech_before_tool_call: false,
-                wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
             },
         };
@@ -1144,7 +1115,6 @@ describe("Tools", () => {
                 dtmf: "dtmf",
                 agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
                 require_speech_before_tool_call: false,
-                wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
             },
         });
@@ -1268,7 +1238,6 @@ describe("Tools", () => {
             dtmf: undefined,
             agents_to_transfer_to: undefined,
             require_speech_before_tool_call: undefined,
-            wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
         };
         const rawResponseBody = { key: "value" };
@@ -1297,7 +1266,6 @@ describe("Tools", () => {
                 dtmf: undefined,
                 agents_to_transfer_to: undefined,
                 require_speech_before_tool_call: undefined,
-                wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
@@ -1324,7 +1292,6 @@ describe("Tools", () => {
             dtmf: undefined,
             agents_to_transfer_to: undefined,
             require_speech_before_tool_call: undefined,
-            wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
         };
         const rawResponseBody = { key: "value" };
@@ -1353,7 +1320,6 @@ describe("Tools", () => {
                 dtmf: undefined,
                 agents_to_transfer_to: undefined,
                 require_speech_before_tool_call: undefined,
-                wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
             });
         }).rejects.toThrow(Phonic.NotFoundError);
@@ -1380,7 +1346,6 @@ describe("Tools", () => {
             dtmf: undefined,
             agents_to_transfer_to: undefined,
             require_speech_before_tool_call: undefined,
-            wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
         };
         const rawResponseBody = { key: "value" };
@@ -1409,7 +1374,6 @@ describe("Tools", () => {
                 dtmf: undefined,
                 agents_to_transfer_to: undefined,
                 require_speech_before_tool_call: undefined,
-                wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
             });
         }).rejects.toThrow(Phonic.ConflictError);
