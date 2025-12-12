@@ -43,6 +43,8 @@ export interface UpdateToolRequest {
     phone_number?: string;
     /** DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF. */
     dtmf?: string | null;
+    /** When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools. */
+    detect_voicemail?: boolean;
     /** Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool. */
     agents_to_transfer_to?: string[];
     /** When true, forces the agent to speak before executing the tool. */
