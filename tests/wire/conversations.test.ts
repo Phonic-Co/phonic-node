@@ -88,6 +88,7 @@ describe("Conversations", () => {
                         },
                     ],
                     call_info: { from_phone_number: "+15551234567", to_phone_number: "+15559876543" },
+                    analysis: { latencies_ms: [1064, 578, 797], interruptions_count: 0 },
                 },
             ],
             pagination: { prev_cursor: "prev_cursor", next_cursor: "conv_98765432-abcd-1234-5678-abcdef123456" },
@@ -191,6 +192,10 @@ describe("Conversations", () => {
                         from_phone_number: "+15551234567",
                         to_phone_number: "+15559876543",
                     },
+                    analysis: {
+                        latencies_ms: [1064, 578, 797],
+                        interruptions_count: 0,
+                    },
                 },
             ],
             pagination: {
@@ -279,6 +284,7 @@ describe("Conversations", () => {
                     to_phone_number: "to_phone_number",
                     twilio_call_sid: "twilio_call_sid",
                 },
+                analysis: { latencies_ms: [2024, 641], interruptions_count: 0 },
             },
         };
         server.mockEndpoint().get("/conversations").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -378,6 +384,10 @@ describe("Conversations", () => {
                     from_phone_number: "from_phone_number",
                     to_phone_number: "to_phone_number",
                     twilio_call_sid: "twilio_call_sid",
+                },
+                analysis: {
+                    latencies_ms: [2024, 641],
+                    interruptions_count: 0,
                 },
             },
         });
@@ -537,6 +547,7 @@ describe("Conversations", () => {
                     to_phone_number: "+15559876543",
                     twilio_call_sid: "twilio_call_sid",
                 },
+                analysis: { latencies_ms: [1064, 578, 797], interruptions_count: 0 },
             },
         };
         server.mockEndpoint().get("/conversations/id").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -636,6 +647,10 @@ describe("Conversations", () => {
                     from_phone_number: "+15551234567",
                     to_phone_number: "+15559876543",
                     twilio_call_sid: "twilio_call_sid",
+                },
+                analysis: {
+                    latencies_ms: [1064, 578, 797],
+                    interruptions_count: 0,
                 },
             },
         });

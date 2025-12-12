@@ -210,6 +210,7 @@ export class Tools {
      *         execution_mode: "sync",
      *         phone_number: "+15551234567",
      *         dtmf: "1234",
+     *         detect_voicemail: false,
      *         require_speech_before_tool_call: false
      *     })
      *

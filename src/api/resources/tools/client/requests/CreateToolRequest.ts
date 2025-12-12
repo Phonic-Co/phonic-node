@@ -82,6 +82,7 @@ import * as Phonic from "../../../../index.js";
  *         execution_mode: "sync",
  *         phone_number: "+15551234567",
  *         dtmf: "1234",
+ *         detect_voicemail: false,
  *         require_speech_before_tool_call: false
  *     }
  *
@@ -128,6 +129,8 @@ export interface CreateToolRequest {
     phone_number?: string;
     /** DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. */
     dtmf?: string | null;
+    /** When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools. */
+    detect_voicemail?: boolean;
     /** Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool. */
     agents_to_transfer_to?: string[];
     /** When true, forces the agent to speak before executing the tool. */
