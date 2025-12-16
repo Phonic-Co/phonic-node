@@ -37,6 +37,7 @@ export type ConversationEndedWebhookPayload = {
         call_info: {
             from_phone_number: string;
             to_phone_number: string;
+            twilio_call_sid?: string;
         } | null;
     };
 };
@@ -52,6 +53,27 @@ export type ConversationAnalysisWebhookPayload = {
         call_info: {
             from_phone_number: string;
             to_phone_number: string;
+            twilio_call_sid?: string;
+        } | null;
+    };
+};
+
+export type ConversationTransferredWebhookPayload = {
+    event_type: "conversation.transferred";
+    created_at: ISODateTime;
+    data: {
+        conversation: {
+            id: string;
+            items: Array<{
+                role: "user" | "assistant";
+                text: string;
+            }>;
+        };
+        transferred_to: string;
+        call_info: {
+            from_phone_number: string;
+            to_phone_number: string;
+            twilio_call_sid?: string;
         } | null;
     };
 };
