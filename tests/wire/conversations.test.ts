@@ -27,6 +27,7 @@ describe("Conversations", () => {
                     project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                     external_id: "call-123",
                     model: "merritt",
+                    generate_welcome_message: false,
                     welcome_message:
                         "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                     template_variables: { customer_name: "John", department: "Support" },
@@ -112,6 +113,7 @@ describe("Conversations", () => {
                     },
                     external_id: "call-123",
                     model: "merritt",
+                    generate_welcome_message: false,
                     welcome_message:
                         "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                     template_variables: {
@@ -220,6 +222,7 @@ describe("Conversations", () => {
                 project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 external_id: "call-123",
                 model: "merritt",
+                generate_welcome_message: true,
                 welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                 template_variables: { customer_name: "John", department: "Support" },
                 input_format: "mulaw_8000",
@@ -305,6 +308,7 @@ describe("Conversations", () => {
                 },
                 external_id: "call-123",
                 model: "merritt",
+                generate_welcome_message: true,
                 welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                 template_variables: {
                     customer_name: "John",
@@ -483,6 +487,7 @@ describe("Conversations", () => {
                 project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 external_id: "call-123",
                 model: "merritt",
+                generate_welcome_message: true,
                 welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                 template_variables: { customer_name: "John", department: "Support" },
                 input_format: "mulaw_8000",
@@ -568,6 +573,7 @@ describe("Conversations", () => {
                 },
                 external_id: "call-123",
                 model: "merritt",
+                generate_welcome_message: true,
                 welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                 template_variables: {
                     customer_name: "John",

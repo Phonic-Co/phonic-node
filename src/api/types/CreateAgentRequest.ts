@@ -24,7 +24,9 @@ export interface CreateAgentRequest {
     background_noise_level?: number;
     /** The background noise type. Can be "office", "call-center", "coffee-shop", or null. */
     background_noise?: CreateAgentRequest.BackgroundNoise | null;
-    /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. */
+    /** When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. */
+    generate_welcome_message?: boolean;
+    /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`. */
     welcome_message?: string;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */
     system_prompt?: string;
