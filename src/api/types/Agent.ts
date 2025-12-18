@@ -27,7 +27,9 @@ export interface Agent {
     background_noise_level: number;
     /** The background noise type. Can be "office", "call-center", "coffee-shop", or null. */
     background_noise: Agent.BackgroundNoise | null;
-    /** Message to play when the conversation starts. */
+    /** When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. */
+    generate_welcome_message: boolean;
+    /** Message to play when the conversation starts. Ignored when `generate_welcome_message` is `true`. */
     welcome_message: string | null;
     /** Instructions for the conversation. */
     system_prompt: string;

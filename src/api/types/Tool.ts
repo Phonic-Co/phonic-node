@@ -42,6 +42,8 @@ export interface Tool {
     wait_for_speech_before_tool_call?: boolean;
     /** When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
     forbid_speech_after_tool_call?: boolean;
+    /** When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
+    allow_tool_chaining?: boolean;
 }
 
 export namespace Tool {

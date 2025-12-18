@@ -19,7 +19,8 @@ import * as Phonic from "../../../../index.js";
  *                 is_required: true
  *             }],
  *         require_speech_before_tool_call: false,
- *         forbid_speech_after_tool_call: false
+ *         forbid_speech_after_tool_call: false,
+ *         allow_tool_chaining: true
  *     }
  *
  * @example
@@ -51,7 +52,8 @@ import * as Phonic from "../../../../index.js";
  *         endpoint_timeout_ms: 5000,
  *         require_speech_before_tool_call: false,
  *         wait_for_speech_before_tool_call: false,
- *         forbid_speech_after_tool_call: false
+ *         forbid_speech_after_tool_call: false,
+ *         allow_tool_chaining: true
  *     }
  *
  * @example
@@ -70,7 +72,8 @@ import * as Phonic from "../../../../index.js";
  *         tool_call_output_timeout_ms: 5000,
  *         require_speech_before_tool_call: false,
  *         wait_for_speech_before_tool_call: false,
- *         forbid_speech_after_tool_call: false
+ *         forbid_speech_after_tool_call: false,
+ *         allow_tool_chaining: true
  *     }
  *
  * @example
@@ -139,6 +142,8 @@ export interface CreateToolRequest {
     wait_for_speech_before_tool_call?: boolean;
     /** When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
     forbid_speech_after_tool_call?: boolean;
+    /** When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
+    allow_tool_chaining?: boolean;
 }
 
 export namespace CreateToolRequest {

@@ -18,7 +18,9 @@ export interface ConfigPayload {
     background_noise_level?: number;
     /** Background noise type for the conversation */
     background_noise?: ConfigPayload.BackgroundNoise | null;
-    /** Message to play when conversation starts */
+    /** When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. */
+    generate_welcome_message?: boolean;
+    /** Message to play when conversation starts. Ignored when `generate_welcome_message` is `true`. */
     welcome_message?: string | null;
     /** Voice ID to use for speech synthesis */
     voice_id?: string;
