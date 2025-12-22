@@ -14,7 +14,6 @@ import * as Phonic from "../../../../index.js";
  *         voice_id: "grant",
  *         audio_speed: 1,
  *         background_noise_level: 0,
- *         generate_welcome_message: false,
  *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
  *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
  *         template_variables: {
@@ -61,9 +60,7 @@ export interface AgentsCreateRequest {
     background_noise_level?: number;
     /** The background noise type. Can be "office", "call-center", "coffee-shop", or null. */
     background_noise?: Phonic.CreateAgentRequest.BackgroundNoise | null;
-    /** When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. */
-    generate_welcome_message?: boolean;
-    /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`. */
+    /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. */
     welcome_message?: string;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */
     system_prompt?: string;

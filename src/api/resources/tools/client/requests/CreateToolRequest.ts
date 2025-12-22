@@ -19,8 +19,7 @@ import * as Phonic from "../../../../index.js";
  *                 is_required: true
  *             }],
  *         require_speech_before_tool_call: false,
- *         forbid_speech_after_tool_call: false,
- *         allow_tool_chaining: true
+ *         forbid_speech_after_tool_call: false
  *     }
  *
  * @example
@@ -52,8 +51,7 @@ import * as Phonic from "../../../../index.js";
  *         endpoint_timeout_ms: 5000,
  *         require_speech_before_tool_call: false,
  *         wait_for_speech_before_tool_call: false,
- *         forbid_speech_after_tool_call: false,
- *         allow_tool_chaining: true
+ *         forbid_speech_after_tool_call: false
  *     }
  *
  * @example
@@ -72,8 +70,7 @@ import * as Phonic from "../../../../index.js";
  *         tool_call_output_timeout_ms: 5000,
  *         require_speech_before_tool_call: false,
  *         wait_for_speech_before_tool_call: false,
- *         forbid_speech_after_tool_call: false,
- *         allow_tool_chaining: true
+ *         forbid_speech_after_tool_call: false
  *     }
  *
  * @example
@@ -85,6 +82,7 @@ import * as Phonic from "../../../../index.js";
  *         execution_mode: "sync",
  *         phone_number: "+15551234567",
  *         dtmf: "1234",
+ *         use_agent_phone_number: true,
  *         detect_voicemail: false,
  *         require_speech_before_tool_call: false
  *     }
@@ -132,7 +130,9 @@ export interface CreateToolRequest {
     phone_number?: string;
     /** DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. */
     dtmf?: string | null;
-    /** When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools. */
+    /** When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools. */
+    use_agent_phone_number?: boolean;
+    /** When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true. */
     detect_voicemail?: boolean;
     /** Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool. */
     agents_to_transfer_to?: string[];
@@ -142,8 +142,6 @@ export interface CreateToolRequest {
     wait_for_speech_before_tool_call?: boolean;
     /** When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
     forbid_speech_after_tool_call?: boolean;
-    /** When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
-    allow_tool_chaining?: boolean;
 }
 
 export namespace CreateToolRequest {

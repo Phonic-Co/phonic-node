@@ -17,9 +17,7 @@ export interface Conversation {
     external_id: string | null;
     /** The STS model used. */
     model: string;
-    /** Will be `true` if welcome message was automatically generated. */
-    generate_welcome_message: boolean;
-    /** Welcome message played at start. Will be `null` when `generate_welcome_message` is `true`. */
+    /** Welcome message played at start. */
     welcome_message: string | null;
     /** Template variables used in the conversation. */
     template_variables: Record<string, string>;

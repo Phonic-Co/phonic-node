@@ -147,8 +147,7 @@ export class Tools {
      *                 is_required: true
      *             }],
      *         require_speech_before_tool_call: false,
-     *         forbid_speech_after_tool_call: false,
-     *         allow_tool_chaining: true
+     *         forbid_speech_after_tool_call: false
      *     })
      *
      * @example
@@ -180,8 +179,7 @@ export class Tools {
      *         endpoint_timeout_ms: 5000,
      *         require_speech_before_tool_call: false,
      *         wait_for_speech_before_tool_call: false,
-     *         forbid_speech_after_tool_call: false,
-     *         allow_tool_chaining: true
+     *         forbid_speech_after_tool_call: false
      *     })
      *
      * @example
@@ -200,8 +198,7 @@ export class Tools {
      *         tool_call_output_timeout_ms: 5000,
      *         require_speech_before_tool_call: false,
      *         wait_for_speech_before_tool_call: false,
-     *         forbid_speech_after_tool_call: false,
-     *         allow_tool_chaining: true
+     *         forbid_speech_after_tool_call: false
      *     })
      *
      * @example
@@ -213,6 +210,7 @@ export class Tools {
      *         execution_mode: "sync",
      *         phone_number: "+15551234567",
      *         dtmf: "1234",
+     *         use_agent_phone_number: true,
      *         detect_voicemail: false,
      *         require_speech_before_tool_call: false
      *     })

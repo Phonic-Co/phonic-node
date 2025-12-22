@@ -101,7 +101,6 @@ await client.agents.create({
     voice_id: "grant",
     audio_speed: 1,
     background_noise_level: 0,
-    generate_welcome_message: false,
     welcome_message: "Hi {{customer_name}}. How can I help you today?",
     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables: {
@@ -195,7 +194,6 @@ await client.agents.upsert({
     voice_id: "grant",
     audio_speed: 1,
     background_noise_level: 0,
-    generate_welcome_message: false,
     welcome_message: "Hi {{customer_name}}. How can I help you today?",
     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables: {
@@ -435,7 +433,6 @@ await client.agents.update("nameOrId", {
     voice_id: "grant",
     audio_speed: 1,
     background_noise_level: 0,
-    generate_welcome_message: false,
     welcome_message: "Hi {{customer_name}}. How can I help you today?",
     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables: {
@@ -612,7 +609,6 @@ await client.tools.create({
     ],
     require_speech_before_tool_call: false,
     forbid_speech_after_tool_call: false,
-    allow_tool_chaining: true,
 });
 ```
 

@@ -31,12 +31,12 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 1,
                     phone_number: "phone_number",
                     dtmf: "dtmf",
+                    use_agent_phone_number: true,
                     detect_voicemail: true,
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: false,
-                    allow_tool_chaining: true,
                 },
                 {
                     id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -68,12 +68,12 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 1,
                     phone_number: "phone_number",
                     dtmf: "dtmf",
+                    use_agent_phone_number: true,
                     detect_voicemail: true,
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
                     wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
-                    allow_tool_chaining: true,
                 },
                 {
                     id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
@@ -97,12 +97,12 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 5000,
                     phone_number: "phone_number",
                     dtmf: "dtmf",
+                    use_agent_phone_number: true,
                     detect_voicemail: true,
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
                     wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
-                    allow_tool_chaining: true,
                 },
                 {
                     id: "tool_11111111-2222-3333-4444-555555555555",
@@ -119,12 +119,12 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 1,
                     phone_number: "+15551234567",
                     dtmf: "1234",
+                    use_agent_phone_number: true,
                     detect_voicemail: false,
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
-                    allow_tool_chaining: true,
                 },
                 {
                     id: "tool_22222222-3333-4444-5555-666666666666",
@@ -141,12 +141,12 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 1,
                     phone_number: "phone_number",
                     dtmf: "dtmf",
+                    use_agent_phone_number: true,
                     detect_voicemail: true,
                     agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
                     require_speech_before_tool_call: false,
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
-                    allow_tool_chaining: true,
                 },
             ],
         };
@@ -184,12 +184,12 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 1,
                     phone_number: "phone_number",
                     dtmf: "dtmf",
+                    use_agent_phone_number: true,
                     detect_voicemail: true,
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: false,
-                    allow_tool_chaining: true,
                 },
                 {
                     id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -227,12 +227,12 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 1,
                     phone_number: "phone_number",
                     dtmf: "dtmf",
+                    use_agent_phone_number: true,
                     detect_voicemail: true,
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
                     wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
-                    allow_tool_chaining: true,
                 },
                 {
                     id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
@@ -261,12 +261,12 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 5000,
                     phone_number: "phone_number",
                     dtmf: "dtmf",
+                    use_agent_phone_number: true,
                     detect_voicemail: true,
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
                     wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
-                    allow_tool_chaining: true,
                 },
                 {
                     id: "tool_11111111-2222-3333-4444-555555555555",
@@ -295,12 +295,12 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 1,
                     phone_number: "+15551234567",
                     dtmf: "1234",
+                    use_agent_phone_number: true,
                     detect_voicemail: false,
                     agents_to_transfer_to: ["agents_to_transfer_to"],
                     require_speech_before_tool_call: false,
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
-                    allow_tool_chaining: true,
                 },
                 {
                     id: "tool_22222222-3333-4444-5555-666666666666",
@@ -329,12 +329,12 @@ describe("Tools", () => {
                     tool_call_output_timeout_ms: 1,
                     phone_number: "phone_number",
                     dtmf: "dtmf",
+                    use_agent_phone_number: true,
                     detect_voicemail: true,
                     agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
                     require_speech_before_tool_call: false,
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
-                    allow_tool_chaining: true,
                 },
             ],
         });
@@ -369,7 +369,6 @@ describe("Tools", () => {
             parameters: [{ type: "string", name: "name", description: "description", is_required: true }],
             require_speech_before_tool_call: false,
             forbid_speech_after_tool_call: false,
-            allow_tool_chaining: true,
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
         server
@@ -397,7 +396,6 @@ describe("Tools", () => {
             ],
             require_speech_before_tool_call: false,
             forbid_speech_after_tool_call: false,
-            allow_tool_chaining: true,
         });
         expect(response).toEqual({
             id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -439,7 +437,6 @@ describe("Tools", () => {
             require_speech_before_tool_call: false,
             wait_for_speech_before_tool_call: false,
             forbid_speech_after_tool_call: false,
-            allow_tool_chaining: true,
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
         server
@@ -483,7 +480,6 @@ describe("Tools", () => {
             require_speech_before_tool_call: false,
             wait_for_speech_before_tool_call: false,
             forbid_speech_after_tool_call: false,
-            allow_tool_chaining: true,
         });
         expect(response).toEqual({
             id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -509,7 +505,6 @@ describe("Tools", () => {
             require_speech_before_tool_call: false,
             wait_for_speech_before_tool_call: false,
             forbid_speech_after_tool_call: false,
-            allow_tool_chaining: true,
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
         server
@@ -539,7 +534,6 @@ describe("Tools", () => {
             require_speech_before_tool_call: false,
             wait_for_speech_before_tool_call: false,
             forbid_speech_after_tool_call: false,
-            allow_tool_chaining: true,
         });
         expect(response).toEqual({
             id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -560,6 +554,7 @@ describe("Tools", () => {
             execution_mode: "sync",
             phone_number: "+15551234567",
             dtmf: "1234",
+            use_agent_phone_number: true,
             detect_voicemail: false,
             require_speech_before_tool_call: false,
         };
@@ -581,6 +576,7 @@ describe("Tools", () => {
             execution_mode: "sync",
             phone_number: "+15551234567",
             dtmf: "1234",
+            use_agent_phone_number: true,
             detect_voicemail: false,
             require_speech_before_tool_call: false,
         });
@@ -648,12 +644,12 @@ describe("Tools", () => {
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
             dtmf: undefined,
+            use_agent_phone_number: undefined,
             detect_voicemail: undefined,
             agents_to_transfer_to: undefined,
             require_speech_before_tool_call: undefined,
             wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
-            allow_tool_chaining: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -679,12 +675,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
                 dtmf: undefined,
+                use_agent_phone_number: undefined,
                 detect_voicemail: undefined,
                 agents_to_transfer_to: undefined,
                 require_speech_before_tool_call: undefined,
                 wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
-                allow_tool_chaining: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
@@ -708,12 +704,12 @@ describe("Tools", () => {
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
             dtmf: undefined,
+            use_agent_phone_number: undefined,
             detect_voicemail: undefined,
             agents_to_transfer_to: undefined,
             require_speech_before_tool_call: undefined,
             wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
-            allow_tool_chaining: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -739,12 +735,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
                 dtmf: undefined,
+                use_agent_phone_number: undefined,
                 detect_voicemail: undefined,
                 agents_to_transfer_to: undefined,
                 require_speech_before_tool_call: undefined,
                 wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
-                allow_tool_chaining: undefined,
             });
         }).rejects.toThrow(Phonic.ForbiddenError);
     });
@@ -768,12 +764,12 @@ describe("Tools", () => {
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
             dtmf: undefined,
+            use_agent_phone_number: undefined,
             detect_voicemail: undefined,
             agents_to_transfer_to: undefined,
             require_speech_before_tool_call: undefined,
             wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
-            allow_tool_chaining: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -799,12 +795,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
                 dtmf: undefined,
+                use_agent_phone_number: undefined,
                 detect_voicemail: undefined,
                 agents_to_transfer_to: undefined,
                 require_speech_before_tool_call: undefined,
                 wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
-                allow_tool_chaining: undefined,
             });
         }).rejects.toThrow(Phonic.ConflictError);
     });
@@ -832,12 +828,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 1,
                 phone_number: "phone_number",
                 dtmf: "dtmf",
+                use_agent_phone_number: true,
                 detect_voicemail: true,
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: false,
-                allow_tool_chaining: true,
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -873,12 +869,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 1,
                 phone_number: "phone_number",
                 dtmf: "dtmf",
+                use_agent_phone_number: true,
                 detect_voicemail: true,
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: false,
-                allow_tool_chaining: true,
             },
         });
     });
@@ -921,12 +917,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 1,
                 phone_number: "phone_number",
                 dtmf: "dtmf",
+                use_agent_phone_number: true,
                 detect_voicemail: true,
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
                 wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
-                allow_tool_chaining: true,
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -971,12 +967,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 1,
                 phone_number: "phone_number",
                 dtmf: "dtmf",
+                use_agent_phone_number: true,
                 detect_voicemail: true,
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
                 wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
-                allow_tool_chaining: true,
             },
         });
     });
@@ -1011,12 +1007,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 5000,
                 phone_number: "phone_number",
                 dtmf: "dtmf",
+                use_agent_phone_number: true,
                 detect_voicemail: true,
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
                 wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
-                allow_tool_chaining: true,
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -1052,12 +1048,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 5000,
                 phone_number: "phone_number",
                 dtmf: "dtmf",
+                use_agent_phone_number: true,
                 detect_voicemail: true,
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
                 wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
-                allow_tool_chaining: true,
             },
         });
     });
@@ -1085,12 +1081,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 1,
                 phone_number: "+15551234567",
                 dtmf: "1234",
+                use_agent_phone_number: true,
                 detect_voicemail: false,
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
-                allow_tool_chaining: true,
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -1126,12 +1122,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 1,
                 phone_number: "+15551234567",
                 dtmf: "1234",
+                use_agent_phone_number: true,
                 detect_voicemail: false,
                 agents_to_transfer_to: ["agents_to_transfer_to"],
                 require_speech_before_tool_call: false,
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
-                allow_tool_chaining: true,
             },
         });
     });
@@ -1159,12 +1155,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 1,
                 phone_number: "phone_number",
                 dtmf: "dtmf",
+                use_agent_phone_number: true,
                 detect_voicemail: true,
                 agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
                 require_speech_before_tool_call: false,
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
-                allow_tool_chaining: true,
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -1200,12 +1196,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: 1,
                 phone_number: "phone_number",
                 dtmf: "dtmf",
+                use_agent_phone_number: true,
                 detect_voicemail: true,
                 agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
                 require_speech_before_tool_call: false,
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
-                allow_tool_chaining: true,
             },
         });
     });
@@ -1326,12 +1322,12 @@ describe("Tools", () => {
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
             dtmf: undefined,
+            use_agent_phone_number: undefined,
             detect_voicemail: undefined,
             agents_to_transfer_to: undefined,
             require_speech_before_tool_call: undefined,
             wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
-            allow_tool_chaining: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -1357,12 +1353,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
                 dtmf: undefined,
+                use_agent_phone_number: undefined,
                 detect_voicemail: undefined,
                 agents_to_transfer_to: undefined,
                 require_speech_before_tool_call: undefined,
                 wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
-                allow_tool_chaining: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
@@ -1386,12 +1382,12 @@ describe("Tools", () => {
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
             dtmf: undefined,
+            use_agent_phone_number: undefined,
             detect_voicemail: undefined,
             agents_to_transfer_to: undefined,
             require_speech_before_tool_call: undefined,
             wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
-            allow_tool_chaining: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -1417,12 +1413,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
                 dtmf: undefined,
+                use_agent_phone_number: undefined,
                 detect_voicemail: undefined,
                 agents_to_transfer_to: undefined,
                 require_speech_before_tool_call: undefined,
                 wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
-                allow_tool_chaining: undefined,
             });
         }).rejects.toThrow(Phonic.NotFoundError);
     });
@@ -1446,12 +1442,12 @@ describe("Tools", () => {
             tool_call_output_timeout_ms: undefined,
             phone_number: undefined,
             dtmf: undefined,
+            use_agent_phone_number: undefined,
             detect_voicemail: undefined,
             agents_to_transfer_to: undefined,
             require_speech_before_tool_call: undefined,
             wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
-            allow_tool_chaining: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -1477,12 +1473,12 @@ describe("Tools", () => {
                 tool_call_output_timeout_ms: undefined,
                 phone_number: undefined,
                 dtmf: undefined,
+                use_agent_phone_number: undefined,
                 detect_voicemail: undefined,
                 agents_to_transfer_to: undefined,
                 require_speech_before_tool_call: undefined,
                 wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
-                allow_tool_chaining: undefined,
             });
         }).rejects.toThrow(Phonic.ConflictError);
     });
