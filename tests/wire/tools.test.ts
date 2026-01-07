@@ -38,6 +38,7 @@ describe("Tools", () => {
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: false,
                     allow_tool_chaining: true,
+                    wait_for_response: true,
                 },
                 {
                     id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -76,6 +77,7 @@ describe("Tools", () => {
                     wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
                     allow_tool_chaining: true,
+                    wait_for_response: true,
                 },
                 {
                     id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
@@ -106,6 +108,7 @@ describe("Tools", () => {
                     wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
                     allow_tool_chaining: true,
+                    wait_for_response: false,
                 },
                 {
                     id: "tool_11111111-2222-3333-4444-555555555555",
@@ -129,6 +132,7 @@ describe("Tools", () => {
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
                     allow_tool_chaining: true,
+                    wait_for_response: true,
                 },
                 {
                     id: "tool_22222222-3333-4444-5555-666666666666",
@@ -152,6 +156,7 @@ describe("Tools", () => {
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
                     allow_tool_chaining: true,
+                    wait_for_response: true,
                 },
             ],
         };
@@ -196,6 +201,7 @@ describe("Tools", () => {
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: false,
                     allow_tool_chaining: true,
+                    wait_for_response: true,
                 },
                 {
                     id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -240,6 +246,7 @@ describe("Tools", () => {
                     wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
                     allow_tool_chaining: true,
+                    wait_for_response: true,
                 },
                 {
                     id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
@@ -275,6 +282,7 @@ describe("Tools", () => {
                     wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
                     allow_tool_chaining: true,
+                    wait_for_response: false,
                 },
                 {
                     id: "tool_11111111-2222-3333-4444-555555555555",
@@ -310,6 +318,7 @@ describe("Tools", () => {
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
                     allow_tool_chaining: true,
+                    wait_for_response: true,
                 },
                 {
                     id: "tool_22222222-3333-4444-5555-666666666666",
@@ -345,6 +354,7 @@ describe("Tools", () => {
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
                     allow_tool_chaining: true,
+                    wait_for_response: true,
                 },
             ],
         });
@@ -520,6 +530,7 @@ describe("Tools", () => {
             wait_for_speech_before_tool_call: false,
             forbid_speech_after_tool_call: false,
             allow_tool_chaining: true,
+            wait_for_response: false,
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
         server
@@ -550,6 +561,7 @@ describe("Tools", () => {
             wait_for_speech_before_tool_call: false,
             forbid_speech_after_tool_call: false,
             allow_tool_chaining: true,
+            wait_for_response: false,
         });
         expect(response).toEqual({
             id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -667,6 +679,7 @@ describe("Tools", () => {
             wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
             allow_tool_chaining: undefined,
+            wait_for_response: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -699,6 +712,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
                 allow_tool_chaining: undefined,
+                wait_for_response: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
@@ -729,6 +743,7 @@ describe("Tools", () => {
             wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
             allow_tool_chaining: undefined,
+            wait_for_response: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -761,6 +776,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
                 allow_tool_chaining: undefined,
+                wait_for_response: undefined,
             });
         }).rejects.toThrow(Phonic.ForbiddenError);
     });
@@ -791,6 +807,7 @@ describe("Tools", () => {
             wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
             allow_tool_chaining: undefined,
+            wait_for_response: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -823,6 +840,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
                 allow_tool_chaining: undefined,
+                wait_for_response: undefined,
             });
         }).rejects.toThrow(Phonic.ConflictError);
     });
@@ -857,6 +875,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: false,
                 allow_tool_chaining: true,
+                wait_for_response: true,
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -899,6 +918,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: false,
                 allow_tool_chaining: true,
+                wait_for_response: true,
             },
         });
     });
@@ -948,6 +968,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
                 allow_tool_chaining: true,
+                wait_for_response: true,
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -999,6 +1020,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
                 allow_tool_chaining: true,
+                wait_for_response: true,
             },
         });
     });
@@ -1040,6 +1062,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
                 allow_tool_chaining: true,
+                wait_for_response: false,
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -1082,6 +1105,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
                 allow_tool_chaining: true,
+                wait_for_response: false,
             },
         });
     });
@@ -1116,6 +1140,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
                 allow_tool_chaining: true,
+                wait_for_response: true,
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -1158,6 +1183,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
                 allow_tool_chaining: true,
+                wait_for_response: true,
             },
         });
     });
@@ -1192,6 +1218,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
                 allow_tool_chaining: true,
+                wait_for_response: true,
             },
         };
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -1234,6 +1261,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
                 allow_tool_chaining: true,
+                wait_for_response: true,
             },
         });
     });
@@ -1361,6 +1389,7 @@ describe("Tools", () => {
             wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
             allow_tool_chaining: undefined,
+            wait_for_response: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -1393,6 +1422,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
                 allow_tool_chaining: undefined,
+                wait_for_response: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
@@ -1423,6 +1453,7 @@ describe("Tools", () => {
             wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
             allow_tool_chaining: undefined,
+            wait_for_response: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -1455,6 +1486,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
                 allow_tool_chaining: undefined,
+                wait_for_response: undefined,
             });
         }).rejects.toThrow(Phonic.NotFoundError);
     });
@@ -1485,6 +1517,7 @@ describe("Tools", () => {
             wait_for_speech_before_tool_call: undefined,
             forbid_speech_after_tool_call: undefined,
             allow_tool_chaining: undefined,
+            wait_for_response: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -1517,6 +1550,7 @@ describe("Tools", () => {
                 wait_for_speech_before_tool_call: undefined,
                 forbid_speech_after_tool_call: undefined,
                 allow_tool_chaining: undefined,
+                wait_for_response: undefined,
             });
         }).rejects.toThrow(Phonic.ConflictError);
     });

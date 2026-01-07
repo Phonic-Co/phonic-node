@@ -201,7 +201,8 @@ export class Tools {
      *         require_speech_before_tool_call: false,
      *         wait_for_speech_before_tool_call: false,
      *         forbid_speech_after_tool_call: false,
-     *         allow_tool_chaining: true
+     *         allow_tool_chaining: true,
+     *         wait_for_response: false
      *     })
      *
      * @example
