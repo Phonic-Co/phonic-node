@@ -48,6 +48,10 @@ export interface CreateAgentRequest {
     boosted_keywords?: string[];
     /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options. */
     configuration_endpoint?: CreateAgentRequest.ConfigurationEndpoint | null;
+    /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0. */
+    inbound_rollout?: number;
+    /** E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`. */
+    inbound_rollout_forward_phone_number?: string | null;
 }
 
 export namespace CreateAgentRequest {

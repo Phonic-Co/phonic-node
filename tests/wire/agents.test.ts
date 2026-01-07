@@ -50,6 +50,8 @@ describe("Agents", () => {
                         headers: { Authorization: "Bearer token123" },
                         timeout_ms: 7000,
                     },
+                    inbound_rollout: 1,
+                    inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
                 },
             ],
         };
@@ -107,6 +109,8 @@ describe("Agents", () => {
                         },
                         timeout_ms: 7000,
                     },
+                    inbound_rollout: 1,
+                    inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
                 },
             ],
         });
@@ -247,6 +251,8 @@ describe("Agents", () => {
             languages: undefined,
             boosted_keywords: undefined,
             configuration_endpoint: undefined,
+            inbound_rollout: undefined,
+            inbound_rollout_forward_phone_number: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -282,6 +288,8 @@ describe("Agents", () => {
                 languages: undefined,
                 boosted_keywords: undefined,
                 configuration_endpoint: undefined,
+                inbound_rollout: undefined,
+                inbound_rollout_forward_phone_number: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
@@ -315,6 +323,8 @@ describe("Agents", () => {
             languages: undefined,
             boosted_keywords: undefined,
             configuration_endpoint: undefined,
+            inbound_rollout: undefined,
+            inbound_rollout_forward_phone_number: undefined,
         };
         const rawResponseBody = { error: undefined };
         server
@@ -350,6 +360,8 @@ describe("Agents", () => {
                 languages: undefined,
                 boosted_keywords: undefined,
                 configuration_endpoint: undefined,
+                inbound_rollout: undefined,
+                inbound_rollout_forward_phone_number: undefined,
             });
         }).rejects.toThrow(Phonic.UnauthorizedError);
     });
@@ -383,6 +395,8 @@ describe("Agents", () => {
             languages: undefined,
             boosted_keywords: undefined,
             configuration_endpoint: undefined,
+            inbound_rollout: undefined,
+            inbound_rollout_forward_phone_number: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -418,6 +432,8 @@ describe("Agents", () => {
                 languages: undefined,
                 boosted_keywords: undefined,
                 configuration_endpoint: undefined,
+                inbound_rollout: undefined,
+                inbound_rollout_forward_phone_number: undefined,
             });
         }).rejects.toThrow(Phonic.NotFoundError);
     });
@@ -451,6 +467,8 @@ describe("Agents", () => {
             languages: undefined,
             boosted_keywords: undefined,
             configuration_endpoint: undefined,
+            inbound_rollout: undefined,
+            inbound_rollout_forward_phone_number: undefined,
         };
         const rawResponseBody = { error: undefined };
         server
@@ -486,6 +504,8 @@ describe("Agents", () => {
                 languages: undefined,
                 boosted_keywords: undefined,
                 configuration_endpoint: undefined,
+                inbound_rollout: undefined,
+                inbound_rollout_forward_phone_number: undefined,
             });
         }).rejects.toThrow(Phonic.InternalServerError);
     });
@@ -550,6 +570,8 @@ describe("Agents", () => {
                     headers: { Authorization: "Bearer token123" },
                     timeout_ms: 7000,
                 },
+                inbound_rollout: 1,
+                inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
             },
             inserted: true,
             updated: false,
@@ -645,6 +667,8 @@ describe("Agents", () => {
                     },
                     timeout_ms: 7000,
                 },
+                inbound_rollout: 1,
+                inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
             },
             inserted: true,
             updated: false,
@@ -680,6 +704,8 @@ describe("Agents", () => {
             languages: undefined,
             boosted_keywords: undefined,
             configuration_endpoint: undefined,
+            inbound_rollout: undefined,
+            inbound_rollout_forward_phone_number: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -715,6 +741,8 @@ describe("Agents", () => {
                 languages: undefined,
                 boosted_keywords: undefined,
                 configuration_endpoint: undefined,
+                inbound_rollout: undefined,
+                inbound_rollout_forward_phone_number: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
@@ -748,6 +776,8 @@ describe("Agents", () => {
             languages: undefined,
             boosted_keywords: undefined,
             configuration_endpoint: undefined,
+            inbound_rollout: undefined,
+            inbound_rollout_forward_phone_number: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -783,6 +813,8 @@ describe("Agents", () => {
                 languages: undefined,
                 boosted_keywords: undefined,
                 configuration_endpoint: undefined,
+                inbound_rollout: undefined,
+                inbound_rollout_forward_phone_number: undefined,
             });
         }).rejects.toThrow(Phonic.NotFoundError);
     });
@@ -826,6 +858,8 @@ describe("Agents", () => {
                     headers: { Authorization: "Bearer token123" },
                     timeout_ms: 7000,
                 },
+                inbound_rollout: 1,
+                inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
             },
         };
         server.mockEndpoint().get("/agents/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -883,6 +917,8 @@ describe("Agents", () => {
                     },
                     timeout_ms: 7000,
                 },
+                inbound_rollout: 1,
+                inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
             },
         });
     });
@@ -1087,6 +1123,8 @@ describe("Agents", () => {
             languages: undefined,
             boosted_keywords: undefined,
             configuration_endpoint: undefined,
+            inbound_rollout: undefined,
+            inbound_rollout_forward_phone_number: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -1122,6 +1160,8 @@ describe("Agents", () => {
                 languages: undefined,
                 boosted_keywords: undefined,
                 configuration_endpoint: undefined,
+                inbound_rollout: undefined,
+                inbound_rollout_forward_phone_number: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
@@ -1155,6 +1195,8 @@ describe("Agents", () => {
             languages: undefined,
             boosted_keywords: undefined,
             configuration_endpoint: undefined,
+            inbound_rollout: undefined,
+            inbound_rollout_forward_phone_number: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -1190,6 +1232,8 @@ describe("Agents", () => {
                 languages: undefined,
                 boosted_keywords: undefined,
                 configuration_endpoint: undefined,
+                inbound_rollout: undefined,
+                inbound_rollout_forward_phone_number: undefined,
             });
         }).rejects.toThrow(Phonic.ForbiddenError);
     });
@@ -1223,6 +1267,8 @@ describe("Agents", () => {
             languages: undefined,
             boosted_keywords: undefined,
             configuration_endpoint: undefined,
+            inbound_rollout: undefined,
+            inbound_rollout_forward_phone_number: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -1258,6 +1304,8 @@ describe("Agents", () => {
                 languages: undefined,
                 boosted_keywords: undefined,
                 configuration_endpoint: undefined,
+                inbound_rollout: undefined,
+                inbound_rollout_forward_phone_number: undefined,
             });
         }).rejects.toThrow(Phonic.NotFoundError);
     });

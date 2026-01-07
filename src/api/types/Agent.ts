@@ -51,6 +51,10 @@ export interface Agent {
     boosted_keywords: string[];
     /** When not `null`, the agent will call this endpoint to get configuration options. */
     configuration_endpoint: Agent.ConfigurationEndpoint | null;
+    /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Requires `phone_number` to be set when less than 1.0. */
+    inbound_rollout?: number;
+    /** E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. */
+    inbound_rollout_forward_phone_number?: string | null;
 }
 
 export namespace Agent {

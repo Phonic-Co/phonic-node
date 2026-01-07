@@ -46,6 +46,8 @@ export interface Tool {
     forbid_speech_after_tool_call?: boolean;
     /** When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
     allow_tool_chaining?: boolean;
+    /** The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools. */
+    wait_for_response?: boolean;
 }
 
 export namespace Tool {
