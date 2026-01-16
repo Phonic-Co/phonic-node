@@ -40,37 +40,9 @@ Instantiate and use the client with the following:
 import { PhonicClient } from "phonic";
 
 const client = new PhonicClient({ apiKey: "YOUR_API_KEY" });
-await client.agents.create({
+await client.postAgentsNameOrIdAddCustomPhoneNumber("nameOrId", {
     project: "main",
-    name: "support-agent",
-    phone_number: "assign-automatically",
-    timezone: "America/Los_Angeles",
-    voice_id: "grant",
-    audio_speed: 1,
-    background_noise_level: 0,
-    generate_welcome_message: false,
-    welcome_message: "Hi {{customer_name}}. How can I help you today?",
-    system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-    template_variables: {
-        customer_name: {
-            default_value: null,
-        },
-        subject: {
-            default_value: "Chess",
-        },
-    },
-    tools: ["keypad_input"],
-    no_input_poke_sec: 30,
-    no_input_poke_text: "Are you still there?",
-    languages: ["en", "es"],
-    boosted_keywords: ["Load ID", "dispatch"],
-    configuration_endpoint: {
-        url: "https://api.example.com/config",
-        headers: {
-            Authorization: "Bearer token123",
-        },
-        timeout_ms: 7000,
-    },
+    phone_number: "+15551234567",
 });
 ```
 
@@ -96,7 +68,7 @@ will be thrown.
 import { PhonicError } from "phonic";
 
 try {
-    await client.agents.create(...);
+    await client.postAgentsNameOrIdAddCustomPhoneNumber(...);
 } catch (err) {
     if (err instanceof PhonicError) {
         console.log(err.statusCode);
@@ -114,7 +86,7 @@ try {
 If you would like to send additional headers as part of the request, use the `headers` request option.
 
 ```typescript
-const response = await client.agents.create(..., {
+const response = await client.postAgentsNameOrIdAddCustomPhoneNumber(..., {
     headers: {
         'X-Custom-Header': 'custom value'
     }
@@ -126,7 +98,7 @@ const response = await client.agents.create(..., {
 If you would like to send additional query string parameters as part of the request, use the `queryParams` request option.
 
 ```typescript
-const response = await client.agents.create(..., {
+const response = await client.postAgentsNameOrIdAddCustomPhoneNumber(..., {
     queryParams: {
         'customQueryParamKey': 'custom query param value'
     }
@@ -148,7 +120,7 @@ A request is deemed retryable when any of the following HTTP status codes is ret
 Use the `maxRetries` request option to configure this behavior.
 
 ```typescript
-const response = await client.agents.create(..., {
+const response = await client.postAgentsNameOrIdAddCustomPhoneNumber(..., {
     maxRetries: 0 // override maxRetries at the request level
 });
 ```
@@ -158,7 +130,7 @@ const response = await client.agents.create(..., {
 The SDK defaults to a 60 second timeout. Use the `timeoutInSeconds` option to configure this behavior.
 
 ```typescript
-const response = await client.agents.create(..., {
+const response = await client.postAgentsNameOrIdAddCustomPhoneNumber(..., {
     timeoutInSeconds: 30 // override timeout to 30s
 });
 ```
@@ -169,7 +141,7 @@ The SDK allows users to abort requests at any point by passing in an abort signa
 
 ```typescript
 const controller = new AbortController();
-const response = await client.agents.create(..., {
+const response = await client.postAgentsNameOrIdAddCustomPhoneNumber(..., {
     abortSignal: controller.signal
 });
 controller.abort(); // aborts the request
@@ -181,7 +153,7 @@ The SDK provides access to raw response data, including headers, through the `.w
 The `.withRawResponse()` method returns a promise that results to an object with a `data` and a `rawResponse` property.
 
 ```typescript
-const { data, rawResponse } = await client.agents.create(...).withRawResponse();
+const { data, rawResponse } = await client.postAgentsNameOrIdAddCustomPhoneNumber(...).withRawResponse();
 
 console.log(data);
 console.log(rawResponse.headers['X-My-Header']);

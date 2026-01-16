@@ -1,5 +1,81 @@
 # Reference
 
+<details><summary><code>client.<a href="/src/Client.ts">postAgentsNameOrIdRemoveCustomPhoneNumber</a>(nameOrId, { ...params }) -> Phonic.PostAgentsNameOrIdRemoveCustomPhoneNumberResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Removes a custom phone number from an agent.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.postAgentsNameOrIdRemoveCustomPhoneNumber("nameOrId", {
+    project: "main",
+    phone_number: "+15551234567",
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**nameOrId:** `string` — The name or the ID of the agent.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Phonic.PostAgentsNameOrIdRemoveCustomPhoneNumberRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `PhonicClient.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+##
+
 ## Agents
 
 <details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">list</a>({ ...params }) -> Phonic.AgentsListResponse</code></summary>

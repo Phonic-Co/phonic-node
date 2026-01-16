@@ -4,7 +4,9 @@
 
 import * as environments from "./environments.js";
 import * as core from "./core/index.js";
-import { mergeHeaders } from "./core/headers.js";
+import { mergeHeaders, mergeOnlyDefinedHeaders } from "./core/headers.js";
+import * as Phonic from "./api/index.js";
+import * as errors from "./errors/index.js";
 import { Agents } from "./api/resources/agents/client/Client.js";
 import { Tools } from "./api/resources/tools/client/Client.js";
 import { ExtractionSchemas } from "./api/resources/extractionSchemas/client/Client.js";
@@ -55,8 +57,8 @@ export class PhonicClient {
                 {
                     "X-Fern-Language": "JavaScript",
                     "X-Fern-SDK-Name": "phonic",
-                    "X-Fern-SDK-Version": "0.30.28",
-                    "User-Agent": "phonic/0.30.28",
+                    "X-Fern-SDK-Version": "0.30.29",
+                    "User-Agent": "phonic/0.30.29",
                     "X-Fern-Runtime": core.RUNTIME.type,
                     "X-Fern-Runtime-Version": core.RUNTIME.version,
                 },
@@ -91,5 +93,238 @@ export class PhonicClient {
 
     public get projects(): Projects {
         return (this._projects ??= new Projects(this._options));
+    }
+
+    /**
+     * Adds a custom phone number to an agent. The user must configure their SIP trunk to point to Phonic's SIP server.
+     *
+     * @param {string} nameOrId - The name or the ID of the agent.
+     * @param {Phonic.PostAgentsNameOrIdAddCustomPhoneNumberRequest} request
+     * @param {PhonicClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
+     *
+     * @example
+     *     await client.postAgentsNameOrIdAddCustomPhoneNumber("nameOrId", {
+     *         project: "main",
+     *         phone_number: "+15551234567"
+     *     })
+     */
+    public postAgentsNameOrIdAddCustomPhoneNumber(
+        nameOrId: string,
+        request: Phonic.PostAgentsNameOrIdAddCustomPhoneNumberRequest,
+        requestOptions?: PhonicClient.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.PostAgentsNameOrIdAddCustomPhoneNumberResponse> {
+        return core.HttpResponsePromise.fromPromise(
+            this.__postAgentsNameOrIdAddCustomPhoneNumber(nameOrId, request, requestOptions),
+        );
+    }
+
+    private async __postAgentsNameOrIdAddCustomPhoneNumber(
+        nameOrId: string,
+        request: Phonic.PostAgentsNameOrIdAddCustomPhoneNumberRequest,
+        requestOptions?: PhonicClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.PostAgentsNameOrIdAddCustomPhoneNumberResponse>> {
+        const { project, ..._body } = request;
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
+        if (project != null) {
+            _queryParams["project"] = project;
+        }
+
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                `agents/${encodeURIComponent(nameOrId)}/add-custom-phone-number`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            requestType: "json",
+            body: _body,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as Phonic.PostAgentsNameOrIdAddCustomPhoneNumberResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError(
+                    "Timeout exceeded when calling POST /agents/{nameOrId}/add-custom-phone-number.",
+                );
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Removes a custom phone number from an agent.
+     *
+     * @param {string} nameOrId - The name or the ID of the agent.
+     * @param {Phonic.PostAgentsNameOrIdRemoveCustomPhoneNumberRequest} request
+     * @param {PhonicClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
+     *
+     * @example
+     *     await client.postAgentsNameOrIdRemoveCustomPhoneNumber("nameOrId", {
+     *         project: "main",
+     *         phone_number: "+15551234567"
+     *     })
+     */
+    public postAgentsNameOrIdRemoveCustomPhoneNumber(
+        nameOrId: string,
+        request: Phonic.PostAgentsNameOrIdRemoveCustomPhoneNumberRequest,
+        requestOptions?: PhonicClient.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.PostAgentsNameOrIdRemoveCustomPhoneNumberResponse> {
+        return core.HttpResponsePromise.fromPromise(
+            this.__postAgentsNameOrIdRemoveCustomPhoneNumber(nameOrId, request, requestOptions),
+        );
+    }
+
+    private async __postAgentsNameOrIdRemoveCustomPhoneNumber(
+        nameOrId: string,
+        request: Phonic.PostAgentsNameOrIdRemoveCustomPhoneNumberRequest,
+        requestOptions?: PhonicClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.PostAgentsNameOrIdRemoveCustomPhoneNumberResponse>> {
+        const { project, ..._body } = request;
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
+        if (project != null) {
+            _queryParams["project"] = project;
+        }
+
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                `agents/${encodeURIComponent(nameOrId)}/remove-custom-phone-number`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            requestType: "json",
+            body: _body,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as Phonic.PostAgentsNameOrIdRemoveCustomPhoneNumberResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError(
+                    "Timeout exceeded when calling POST /agents/{nameOrId}/remove-custom-phone-number.",
+                );
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    protected async _getAuthorizationHeader(): Promise<string | undefined> {
+        const bearer = (await core.Supplier.get(this._options.apiKey)) ?? process?.env["PHONIC_API_KEY"];
+        if (bearer != null) {
+            return `Bearer ${bearer}`;
+        }
+
+        return undefined;
     }
 }
