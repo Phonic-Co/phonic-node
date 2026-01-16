@@ -501,6 +501,154 @@ await client.agents.update("nameOrId", {
 </dl>
 </details>
 
+<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">addCustomPhoneNumber</a>(nameOrId, { ...params }) -> Phonic.AgentsAddCustomPhoneNumberResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Adds a custom phone number to an agent. The user must configure their SIP trunk to point to Phonic's SIP server.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.agents.addCustomPhoneNumber("nameOrId", {
+    project: "main",
+    phone_number: "+15551234567",
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**nameOrId:** `string` — The name or the ID of the agent.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Phonic.AgentsAddCustomPhoneNumberRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Agents.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">removeCustomPhoneNumber</a>(nameOrId, { ...params }) -> Phonic.AgentsRemoveCustomPhoneNumberResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Removes a custom phone number from an agent.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.agents.removeCustomPhoneNumber("nameOrId", {
+    project: "main",
+    phone_number: "+15551234567",
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**nameOrId:** `string` — The name or the ID of the agent.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Phonic.AgentsRemoveCustomPhoneNumberRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Agents.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
 ## Tools
 
 <details><summary><code>client.tools.<a href="/src/api/resources/tools/client/Client.ts">list</a>({ ...params }) -> Phonic.ToolsListResponse</code></summary>
