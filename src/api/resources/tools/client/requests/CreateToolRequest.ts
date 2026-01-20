@@ -130,8 +130,8 @@ export interface CreateToolRequest {
     endpoint_timeout_ms?: number;
     /** Timeout for WebSocket tool responses. */
     tool_call_output_timeout_ms?: number;
-    /** The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools. */
-    phone_number?: string;
+    /** The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number. */
+    phone_number?: string | null;
     /** DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. */
     dtmf?: string | null;
     /** When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools. */
