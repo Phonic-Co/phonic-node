@@ -709,7 +709,13 @@ export class Agents {
         request: Phonic.AgentsAddCustomPhoneNumberRequest,
         requestOptions?: Agents.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.AgentsAddCustomPhoneNumberResponse>> {
-        const { project, ..._body } = request;
+        const {
+            project,
+            "X-Sip-Address": sipAddress,
+            "X-Sip-Auth-Username": sipAuthUsername,
+            "X-Sip-Auth-Password": sipAuthPassword,
+            ..._body
+        } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
             _queryParams["project"] = project;
@@ -717,7 +723,12 @@ export class Agents {
 
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            mergeOnlyDefinedHeaders({
+                Authorization: await this._getAuthorizationHeader(),
+                "X-Sip-Address": sipAddress != null ? sipAddress : undefined,
+                "X-Sip-Auth-Username": sipAuthUsername != null ? sipAuthUsername : undefined,
+                "X-Sip-Auth-Password": sipAuthPassword != null ? sipAuthPassword : undefined,
+            }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
