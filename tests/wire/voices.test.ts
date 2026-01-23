@@ -14,7 +14,7 @@ describe("Voices", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
-        const rawResponseBody = { voices: [{ id: "grant", name: "Grant", description: "description" }] };
+        const rawResponseBody = { voices: [{ id: "sabrina", name: "Sabrina", description: "description" }] };
         server.mockEndpoint().get("/voices").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.voices.list({
@@ -23,8 +23,8 @@ describe("Voices", () => {
         expect(response).toEqual({
             voices: [
                 {
-                    id: "grant",
-                    name: "Grant",
+                    id: "sabrina",
+                    name: "Sabrina",
                     description: "description",
                 },
             ],
@@ -89,14 +89,14 @@ describe("Voices", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
-        const rawResponseBody = { voice: { id: "grant", name: "Grant", description: "description" } };
+        const rawResponseBody = { voice: { id: "sabrina", name: "Sabrina", description: "description" } };
         server.mockEndpoint().get("/voices/id").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.voices.get("id");
         expect(response).toEqual({
             voice: {
-                id: "grant",
-                name: "Grant",
+                id: "sabrina",
+                name: "Sabrina",
                 description: "description",
             },
         });
