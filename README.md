@@ -45,7 +45,7 @@ await client.agents.create({
     name: "support-agent",
     phone_number: "assign-automatically",
     timezone: "America/Los_Angeles",
-    voice_id: "grant",
+    voice_id: "sabrina",
     audio_speed: 1,
     background_noise_level: 0,
     generate_welcome_message: false,
