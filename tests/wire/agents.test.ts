@@ -23,7 +23,7 @@ describe("Agents", () => {
                     phone_numbers: ["phone_numbers"],
                     project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                     timezone: "America/Los_Angeles",
-                    voice_id: "grant",
+                    voice_id: "sabrina",
                     audio_format: "pcm_44100",
                     audio_speed: 1,
                     background_noise_level: 0,
@@ -70,7 +70,7 @@ describe("Agents", () => {
                         name: "customer-support",
                     },
                     timezone: "America/Los_Angeles",
-                    voice_id: "grant",
+                    voice_id: "sabrina",
                     audio_format: "pcm_44100",
                     audio_speed: 1,
                     background_noise_level: 0,
@@ -156,13 +156,13 @@ describe("Agents", () => {
             name: "support-agent",
             phone_number: "assign-automatically",
             timezone: "America/Los_Angeles",
-            voice_id: "grant",
+            voice_id: "sabrina",
             audio_speed: 1,
             background_noise_level: 0,
             generate_welcome_message: false,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-            template_variables: { customer_name: { default_value: null }, subject: { default_value: "Chess" } },
+            template_variables: { customer_name: { default_value: "David" }, subject: { default_value: "Chess" } },
             tools: ["keypad_input"],
             no_input_poke_sec: 30,
             no_input_poke_text: "Are you still there?",
@@ -189,7 +189,7 @@ describe("Agents", () => {
             name: "support-agent",
             phone_number: "assign-automatically",
             timezone: "America/Los_Angeles",
-            voice_id: "grant",
+            voice_id: "sabrina",
             audio_speed: 1,
             background_noise_level: 0,
             generate_welcome_message: false,
@@ -197,7 +197,7 @@ describe("Agents", () => {
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables: {
                 customer_name: {
-                    default_value: null,
+                    default_value: "David",
                 },
                 subject: {
                     default_value: "Chess",
@@ -520,13 +520,13 @@ describe("Agents", () => {
             name: "support-agent",
             phone_number: "assign-automatically",
             timezone: "America/Los_Angeles",
-            voice_id: "grant",
+            voice_id: "sabrina",
             audio_speed: 1,
             background_noise_level: 0,
             generate_welcome_message: false,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-            template_variables: { customer_name: { default_value: null }, subject: { default_value: "Chess" } },
+            template_variables: { customer_name: { default_value: "David" }, subject: { default_value: "Chess" } },
             tools: ["keypad_input"],
             no_input_poke_sec: 30,
             no_input_poke_text: "Are you still there?",
@@ -546,7 +546,7 @@ describe("Agents", () => {
                 phone_numbers: ["phone_numbers"],
                 project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 timezone: "America/Los_Angeles",
-                voice_id: "grant",
+                voice_id: "sabrina",
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
@@ -590,7 +590,7 @@ describe("Agents", () => {
             name: "support-agent",
             phone_number: "assign-automatically",
             timezone: "America/Los_Angeles",
-            voice_id: "grant",
+            voice_id: "sabrina",
             audio_speed: 1,
             background_noise_level: 0,
             generate_welcome_message: false,
@@ -598,7 +598,7 @@ describe("Agents", () => {
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables: {
                 customer_name: {
-                    default_value: null,
+                    default_value: "David",
                 },
                 subject: {
                     default_value: "Chess",
@@ -628,7 +628,7 @@ describe("Agents", () => {
                     name: "customer-support",
                 },
                 timezone: "America/Los_Angeles",
-                voice_id: "grant",
+                voice_id: "sabrina",
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
@@ -834,7 +834,7 @@ describe("Agents", () => {
                 phone_numbers: ["phone_numbers"],
                 project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 timezone: "America/Los_Angeles",
-                voice_id: "grant",
+                voice_id: "sabrina",
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
@@ -878,7 +878,7 @@ describe("Agents", () => {
                     name: "customer-support",
                 },
                 timezone: "America/Los_Angeles",
-                voice_id: "grant",
+                voice_id: "sabrina",
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
@@ -1029,13 +1029,13 @@ describe("Agents", () => {
             name: "updated-support-agent",
             phone_number: "assign-automatically",
             timezone: "America/Los_Angeles",
-            voice_id: "grant",
+            voice_id: "sabrina",
             audio_speed: 1,
             background_noise_level: 0,
             generate_welcome_message: false,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-            template_variables: { customer_name: { default_value: null }, subject: { default_value: "Chess" } },
+            template_variables: { customer_name: { default_value: "David" }, subject: { default_value: "Chess" } },
             tools: ["keypad_input"],
             no_input_poke_sec: 30,
             no_input_poke_text: "Are you still there?",
@@ -1062,7 +1062,7 @@ describe("Agents", () => {
             name: "updated-support-agent",
             phone_number: "assign-automatically",
             timezone: "America/Los_Angeles",
-            voice_id: "grant",
+            voice_id: "sabrina",
             audio_speed: 1,
             background_noise_level: 0,
             generate_welcome_message: false,
@@ -1070,7 +1070,7 @@ describe("Agents", () => {
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables: {
                 customer_name: {
-                    default_value: null,
+                    default_value: "David",
                 },
                 subject: {
                     default_value: "Chess",
@@ -1316,11 +1316,18 @@ describe("Agents", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { phone_number: "+15551234567" };
+        const rawRequestBody = {
+            phone_number: "+15551234567",
+            configuration_endpoint: {
+                url: "https://api.example.com/config",
+                headers: { Authorization: "Bearer token123" },
+                timeout_ms: 7000,
+            },
+        };
         const rawResponseBody = { success: true };
         server
             .mockEndpoint()
-            .post("/agents/nameOrId/add-custom-phone-number")
+            .post("/agents/nameOrId/custom-phone-numbers")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(200)
@@ -1330,6 +1337,13 @@ describe("Agents", () => {
         const response = await client.agents.addCustomPhoneNumber("nameOrId", {
             project: "main",
             phone_number: "+15551234567",
+            configuration_endpoint: {
+                url: "https://api.example.com/config",
+                headers: {
+                    Authorization: "Bearer token123",
+                },
+                timeout_ms: 7000,
+            },
         });
         expect(response).toEqual({
             success: true,
@@ -1342,11 +1356,11 @@ describe("Agents", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { phone_number: "phone_number" };
+        const rawRequestBody = { phone_number: "phone_number", configuration_endpoint: undefined };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
-            .post("/agents/nameOrId/add-custom-phone-number")
+            .post("/agents/nameOrId/custom-phone-numbers")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(400)
@@ -1356,6 +1370,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.addCustomPhoneNumber("nameOrId", {
                 phone_number: "phone_number",
+                configuration_endpoint: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
@@ -1366,11 +1381,11 @@ describe("Agents", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { phone_number: "phone_number" };
+        const rawRequestBody = { phone_number: "phone_number", configuration_endpoint: undefined };
         const rawResponseBody = { error: undefined };
         server
             .mockEndpoint()
-            .post("/agents/nameOrId/add-custom-phone-number")
+            .post("/agents/nameOrId/custom-phone-numbers")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(401)
@@ -1380,6 +1395,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.addCustomPhoneNumber("nameOrId", {
                 phone_number: "phone_number",
+                configuration_endpoint: undefined,
             });
         }).rejects.toThrow(Phonic.UnauthorizedError);
     });
@@ -1390,11 +1406,11 @@ describe("Agents", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { phone_number: "phone_number" };
+        const rawRequestBody = { phone_number: "phone_number", configuration_endpoint: undefined };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
-            .post("/agents/nameOrId/add-custom-phone-number")
+            .post("/agents/nameOrId/custom-phone-numbers")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(403)
@@ -1404,6 +1420,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.addCustomPhoneNumber("nameOrId", {
                 phone_number: "phone_number",
+                configuration_endpoint: undefined,
             });
         }).rejects.toThrow(Phonic.ForbiddenError);
     });
@@ -1414,11 +1431,11 @@ describe("Agents", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { phone_number: "phone_number" };
+        const rawRequestBody = { phone_number: "phone_number", configuration_endpoint: undefined };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
-            .post("/agents/nameOrId/add-custom-phone-number")
+            .post("/agents/nameOrId/custom-phone-numbers")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(404)
@@ -1428,6 +1445,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.addCustomPhoneNumber("nameOrId", {
                 phone_number: "phone_number",
+                configuration_endpoint: undefined,
             });
         }).rejects.toThrow(Phonic.NotFoundError);
     });
@@ -1438,11 +1456,11 @@ describe("Agents", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { phone_number: "phone_number" };
+        const rawRequestBody = { phone_number: "phone_number", configuration_endpoint: undefined };
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
-            .post("/agents/nameOrId/add-custom-phone-number")
+            .post("/agents/nameOrId/custom-phone-numbers")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(409)
@@ -1452,11 +1470,12 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.addCustomPhoneNumber("nameOrId", {
                 phone_number: "phone_number",
+                configuration_endpoint: undefined,
             });
         }).rejects.toThrow(Phonic.ConflictError);
     });
 
-    test("remove_custom_phone_number (1)", async () => {
+    test("delete_custom_phone_number (1)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -1466,14 +1485,14 @@ describe("Agents", () => {
         const rawResponseBody = { success: true };
         server
             .mockEndpoint()
-            .post("/agents/nameOrId/remove-custom-phone-number")
+            .delete("/agents/nameOrId/custom-phone-numbers")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(200)
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.agents.removeCustomPhoneNumber("nameOrId", {
+        const response = await client.agents.deleteCustomPhoneNumber("nameOrId", {
             project: "main",
             phone_number: "+15551234567",
         });
@@ -1482,7 +1501,7 @@ describe("Agents", () => {
         });
     });
 
-    test("remove_custom_phone_number (2)", async () => {
+    test("delete_custom_phone_number (2)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -1492,7 +1511,7 @@ describe("Agents", () => {
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
-            .post("/agents/nameOrId/remove-custom-phone-number")
+            .delete("/agents/nameOrId/custom-phone-numbers")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(400)
@@ -1500,13 +1519,13 @@ describe("Agents", () => {
             .build();
 
         await expect(async () => {
-            return await client.agents.removeCustomPhoneNumber("nameOrId", {
+            return await client.agents.deleteCustomPhoneNumber("nameOrId", {
                 phone_number: "phone_number",
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
 
-    test("remove_custom_phone_number (3)", async () => {
+    test("delete_custom_phone_number (3)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -1516,7 +1535,7 @@ describe("Agents", () => {
         const rawResponseBody = { error: undefined };
         server
             .mockEndpoint()
-            .post("/agents/nameOrId/remove-custom-phone-number")
+            .delete("/agents/nameOrId/custom-phone-numbers")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(401)
@@ -1524,13 +1543,13 @@ describe("Agents", () => {
             .build();
 
         await expect(async () => {
-            return await client.agents.removeCustomPhoneNumber("nameOrId", {
+            return await client.agents.deleteCustomPhoneNumber("nameOrId", {
                 phone_number: "phone_number",
             });
         }).rejects.toThrow(Phonic.UnauthorizedError);
     });
 
-    test("remove_custom_phone_number (4)", async () => {
+    test("delete_custom_phone_number (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -1540,7 +1559,7 @@ describe("Agents", () => {
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
-            .post("/agents/nameOrId/remove-custom-phone-number")
+            .delete("/agents/nameOrId/custom-phone-numbers")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(403)
@@ -1548,13 +1567,13 @@ describe("Agents", () => {
             .build();
 
         await expect(async () => {
-            return await client.agents.removeCustomPhoneNumber("nameOrId", {
+            return await client.agents.deleteCustomPhoneNumber("nameOrId", {
                 phone_number: "phone_number",
             });
         }).rejects.toThrow(Phonic.ForbiddenError);
     });
 
-    test("remove_custom_phone_number (5)", async () => {
+    test("delete_custom_phone_number (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -1564,7 +1583,7 @@ describe("Agents", () => {
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
-            .post("/agents/nameOrId/remove-custom-phone-number")
+            .delete("/agents/nameOrId/custom-phone-numbers")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(404)
@@ -1572,13 +1591,13 @@ describe("Agents", () => {
             .build();
 
         await expect(async () => {
-            return await client.agents.removeCustomPhoneNumber("nameOrId", {
+            return await client.agents.deleteCustomPhoneNumber("nameOrId", {
                 phone_number: "phone_number",
             });
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
-    test("remove_custom_phone_number (6)", async () => {
+    test("delete_custom_phone_number (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             apiKey: "test",
@@ -1588,7 +1607,7 @@ describe("Agents", () => {
         const rawResponseBody = { key: "value" };
         server
             .mockEndpoint()
-            .post("/agents/nameOrId/remove-custom-phone-number")
+            .delete("/agents/nameOrId/custom-phone-numbers")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(409)
@@ -1596,8 +1615,173 @@ describe("Agents", () => {
             .build();
 
         await expect(async () => {
-            return await client.agents.removeCustomPhoneNumber("nameOrId", {
+            return await client.agents.deleteCustomPhoneNumber("nameOrId", {
                 phone_number: "phone_number",
+            });
+        }).rejects.toThrow(Phonic.ConflictError);
+    });
+
+    test("update_phone_number (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            phone_number: "+15551234567",
+            configuration_endpoint: {
+                url: "https://api.example.com/config",
+                headers: { Authorization: "Bearer token123" },
+                timeout_ms: 7000,
+            },
+        };
+        const rawResponseBody = { success: true };
+        server
+            .mockEndpoint()
+            .patch("/agents/nameOrId/phone-numbers")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.agents.updatePhoneNumber("nameOrId", {
+            project: "main",
+            phone_number: "+15551234567",
+            configuration_endpoint: {
+                url: "https://api.example.com/config",
+                headers: {
+                    Authorization: "Bearer token123",
+                },
+                timeout_ms: 7000,
+            },
+        });
+        expect(response).toEqual({
+            success: true,
+        });
+    });
+
+    test("update_phone_number (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { phone_number: "phone_number", configuration_endpoint: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .patch("/agents/nameOrId/phone-numbers")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.updatePhoneNumber("nameOrId", {
+                phone_number: "phone_number",
+                configuration_endpoint: undefined,
+            });
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("update_phone_number (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { phone_number: "phone_number", configuration_endpoint: undefined };
+        const rawResponseBody = { error: undefined };
+        server
+            .mockEndpoint()
+            .patch("/agents/nameOrId/phone-numbers")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.updatePhoneNumber("nameOrId", {
+                phone_number: "phone_number",
+                configuration_endpoint: undefined,
+            });
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("update_phone_number (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { phone_number: "phone_number", configuration_endpoint: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .patch("/agents/nameOrId/phone-numbers")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.updatePhoneNumber("nameOrId", {
+                phone_number: "phone_number",
+                configuration_endpoint: undefined,
+            });
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("update_phone_number (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { phone_number: "phone_number", configuration_endpoint: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .patch("/agents/nameOrId/phone-numbers")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.updatePhoneNumber("nameOrId", {
+                phone_number: "phone_number",
+                configuration_endpoint: undefined,
+            });
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("update_phone_number (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { phone_number: "phone_number", configuration_endpoint: undefined };
+        const rawResponseBody = { key: "value" };
+        server
+            .mockEndpoint()
+            .patch("/agents/nameOrId/phone-numbers")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.updatePhoneNumber("nameOrId", {
+                phone_number: "phone_number",
+                configuration_endpoint: undefined,
             });
         }).rejects.toThrow(Phonic.ConflictError);
     });

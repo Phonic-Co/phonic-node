@@ -11,7 +11,7 @@ import * as Phonic from "../../../../index.js";
  *         name: "support-agent",
  *         phone_number: "assign-automatically",
  *         timezone: "America/Los_Angeles",
- *         voice_id: "grant",
+ *         voice_id: "sabrina",
  *         audio_speed: 1,
  *         background_noise_level: 0,
  *         generate_welcome_message: false,
@@ -19,7 +19,7 @@ import * as Phonic from "../../../../index.js";
  *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
  *         template_variables: {
  *             "customer_name": {
- *                 default_value: null
+ *                 default_value: "David"
  *             },
  *             "subject": {
  *                 default_value: "Chess"
