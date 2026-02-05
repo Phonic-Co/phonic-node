@@ -5,4 +5,5 @@ export * from "./AgentsGetResponse.js";
 export * from "./AgentsDeleteResponse.js";
 export * from "./AgentsUpdateResponse.js";
 export * from "./AgentsAddCustomPhoneNumberResponse.js";
-export * from "./AgentsRemoveCustomPhoneNumberResponse.js";
+export * from "./AgentsDeleteCustomPhoneNumberResponse.js";
+export * from "./AgentsUpdatePhoneNumberResponse.js";

@@ -9,7 +9,7 @@
  *         phone_number: "+15551234567"
  *     }
  */
-export interface AgentsRemoveCustomPhoneNumberRequest {
+export interface AgentsDeleteCustomPhoneNumberRequest {
     /** The name of the project containing the agent. Only used when `nameOrId` is a name. */
     project?: string;
     /** The E.164 formatted phone number to remove (e.g., "+15551234567"). */

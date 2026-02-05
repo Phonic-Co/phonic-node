@@ -66,7 +66,7 @@ describe("Conversations", () => {
                             post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
                             duration_ms: 3000,
                             started_at: "2025-07-30T23:45:02Z",
-                            voice_id: "grant",
+                            voice_id: "sabrina",
                             audio_speed: 1,
                             system_prompt:
                                 "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
@@ -157,7 +157,7 @@ describe("Conversations", () => {
                             post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
                             duration_ms: 3000,
                             started_at: "2025-07-30T23:45:02Z",
-                            voice_id: "grant",
+                            voice_id: "sabrina",
                             audio_speed: 1,
                             system_prompt:
                                 "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
@@ -260,7 +260,7 @@ describe("Conversations", () => {
                         post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
                         duration_ms: 3000,
                         started_at: "2025-07-30T23:45:02Z",
-                        voice_id: "grant",
+                        voice_id: "sabrina",
                         audio_speed: 1,
                         system_prompt:
                             "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
@@ -351,7 +351,7 @@ describe("Conversations", () => {
                         post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
                         duration_ms: 3000,
                         started_at: "2025-07-30T23:45:02Z",
-                        voice_id: "grant",
+                        voice_id: "sabrina",
                         audio_speed: 1,
                         system_prompt:
                             "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
@@ -525,7 +525,7 @@ describe("Conversations", () => {
                         post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
                         duration_ms: 3000,
                         started_at: "2025-07-30T23:45:02Z",
-                        voice_id: "grant",
+                        voice_id: "sabrina",
                         audio_speed: 1,
                         system_prompt:
                             "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
@@ -616,7 +616,7 @@ describe("Conversations", () => {
                         post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
                         duration_ms: 3000,
                         started_at: "2025-07-30T23:45:02Z",
-                        voice_id: "grant",
+                        voice_id: "sabrina",
                         audio_speed: 1,
                         system_prompt:
                             "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
@@ -1564,7 +1564,7 @@ describe("Conversations", () => {
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: { customer_name: "David", subject: "Chess" },
-                voice_id: "grant",
+                voice_id: "sabrina",
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
@@ -1593,7 +1593,7 @@ describe("Conversations", () => {
                     customer_name: "David",
                     subject: "Chess",
                 },
-                voice_id: "grant",
+                voice_id: "sabrina",
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,

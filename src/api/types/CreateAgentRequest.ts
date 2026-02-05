@@ -46,7 +46,7 @@ export interface CreateAgentRequest {
     languages?: Phonic.LanguageCode[];
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[];
-    /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options. */
+    /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options. */
     configuration_endpoint?: CreateAgentRequest.ConfigurationEndpoint | null;
     /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0. */
     inbound_rollout?: number;
@@ -82,7 +82,7 @@ export namespace CreateAgentRequest {
 
     export namespace TemplateVariables {
         export interface Value {
-            default_value: string | null;
+            default_value: string;
             is_boosted_keyword?: boolean;
         }
     }
@@ -99,7 +99,7 @@ export namespace CreateAgentRequest {
     }
 
     /**
-     * When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+     * When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
      */
     export interface ConfigurationEndpoint {
         /** URL to call */

@@ -144,7 +144,7 @@ export class Agents {
      *         name: "support-agent",
      *         phone_number: "assign-automatically",
      *         timezone: "America/Los_Angeles",
-     *         voice_id: "grant",
+     *         voice_id: "sabrina",
      *         audio_speed: 1,
      *         background_noise_level: 0,
      *         generate_welcome_message: false,
@@ -152,7 +152,7 @@ export class Agents {
      *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
      *         template_variables: {
      *             "customer_name": {
-     *                 default_value: null
+     *                 default_value: "David"
      *             },
      *             "subject": {
      *                 default_value: "Chess"
@@ -272,7 +272,7 @@ export class Agents {
      *         name: "support-agent",
      *         phone_number: "assign-automatically",
      *         timezone: "America/Los_Angeles",
-     *         voice_id: "grant",
+     *         voice_id: "sabrina",
      *         audio_speed: 1,
      *         background_noise_level: 0,
      *         generate_welcome_message: false,
@@ -280,7 +280,7 @@ export class Agents {
      *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
      *         template_variables: {
      *             "customer_name": {
-     *                 default_value: null
+     *                 default_value: "David"
      *             },
      *             "subject": {
      *                 default_value: "Chess"
@@ -570,7 +570,7 @@ export class Agents {
      *         name: "updated-support-agent",
      *         phone_number: "assign-automatically",
      *         timezone: "America/Los_Angeles",
-     *         voice_id: "grant",
+     *         voice_id: "sabrina",
      *         audio_speed: 1,
      *         background_noise_level: 0,
      *         generate_welcome_message: false,
@@ -578,7 +578,7 @@ export class Agents {
      *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
      *         template_variables: {
      *             "customer_name": {
-     *                 default_value: null
+     *                 default_value: "David"
      *             },
      *             "subject": {
      *                 default_value: "Chess"
@@ -693,7 +693,14 @@ export class Agents {
      * @example
      *     await client.agents.addCustomPhoneNumber("nameOrId", {
      *         project: "main",
-     *         phone_number: "+15551234567"
+     *         phone_number: "+15551234567",
+     *         configuration_endpoint: {
+     *             url: "https://api.example.com/config",
+     *             headers: {
+     *                 "Authorization": "Bearer token123"
+     *             },
+     *             timeout_ms: 7000
+     *         }
      *     })
      */
     public addCustomPhoneNumber(
@@ -736,7 +743,7 @@ export class Agents {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `agents/${encodeURIComponent(nameOrId)}/add-custom-phone-number`,
+                `agents/${encodeURIComponent(nameOrId)}/custom-phone-numbers`,
             ),
             method: "POST",
             headers: _headers,
@@ -788,7 +795,7 @@ export class Agents {
                 });
             case "timeout":
                 throw new errors.PhonicTimeoutError(
-                    "Timeout exceeded when calling POST /agents/{nameOrId}/add-custom-phone-number.",
+                    "Timeout exceeded when calling POST /agents/{nameOrId}/custom-phone-numbers.",
                 );
             case "unknown":
                 throw new errors.PhonicError({
@@ -799,10 +806,10 @@ export class Agents {
     }
 
     /**
-     * Removes a custom phone number from an agent.
+     * Deletes a custom phone number from an agent.
      *
      * @param {string} nameOrId - The name or the ID of the agent.
-     * @param {Phonic.AgentsRemoveCustomPhoneNumberRequest} request
+     * @param {Phonic.AgentsDeleteCustomPhoneNumberRequest} request
      * @param {Agents.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.BadRequestError}
@@ -812,24 +819,24 @@ export class Agents {
      * @throws {@link Phonic.ConflictError}
      *
      * @example
-     *     await client.agents.removeCustomPhoneNumber("nameOrId", {
+     *     await client.agents.deleteCustomPhoneNumber("nameOrId", {
      *         project: "main",
      *         phone_number: "+15551234567"
      *     })
      */
-    public removeCustomPhoneNumber(
+    public deleteCustomPhoneNumber(
         nameOrId: string,
-        request: Phonic.AgentsRemoveCustomPhoneNumberRequest,
+        request: Phonic.AgentsDeleteCustomPhoneNumberRequest,
         requestOptions?: Agents.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.AgentsRemoveCustomPhoneNumberResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__removeCustomPhoneNumber(nameOrId, request, requestOptions));
+    ): core.HttpResponsePromise<Phonic.AgentsDeleteCustomPhoneNumberResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__deleteCustomPhoneNumber(nameOrId, request, requestOptions));
     }
 
-    private async __removeCustomPhoneNumber(
+    private async __deleteCustomPhoneNumber(
         nameOrId: string,
-        request: Phonic.AgentsRemoveCustomPhoneNumberRequest,
+        request: Phonic.AgentsDeleteCustomPhoneNumberRequest,
         requestOptions?: Agents.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.AgentsRemoveCustomPhoneNumberResponse>> {
+    ): Promise<core.WithRawResponse<Phonic.AgentsDeleteCustomPhoneNumberResponse>> {
         const { project, ..._body } = request;
         const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
         if (project != null) {
@@ -846,9 +853,9 @@ export class Agents {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `agents/${encodeURIComponent(nameOrId)}/remove-custom-phone-number`,
+                `agents/${encodeURIComponent(nameOrId)}/custom-phone-numbers`,
             ),
-            method: "POST",
+            method: "DELETE",
             headers: _headers,
             contentType: "application/json",
             queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
@@ -860,7 +867,7 @@ export class Agents {
         });
         if (_response.ok) {
             return {
-                data: _response.body as Phonic.AgentsRemoveCustomPhoneNumberResponse,
+                data: _response.body as Phonic.AgentsDeleteCustomPhoneNumberResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -898,7 +905,124 @@ export class Agents {
                 });
             case "timeout":
                 throw new errors.PhonicTimeoutError(
-                    "Timeout exceeded when calling POST /agents/{nameOrId}/remove-custom-phone-number.",
+                    "Timeout exceeded when calling DELETE /agents/{nameOrId}/custom-phone-numbers.",
+                );
+            case "unknown":
+                throw new errors.PhonicError({
+                    message: _response.error.errorMessage,
+                    rawResponse: _response.rawResponse,
+                });
+        }
+    }
+
+    /**
+     * Updates a phone number on an agent.
+     *
+     * @param {string} nameOrId - The name or the ID of the agent.
+     * @param {Phonic.AgentsUpdatePhoneNumberRequest} request
+     * @param {Agents.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
+     *
+     * @example
+     *     await client.agents.updatePhoneNumber("nameOrId", {
+     *         project: "main",
+     *         phone_number: "+15551234567",
+     *         configuration_endpoint: {
+     *             url: "https://api.example.com/config",
+     *             headers: {
+     *                 "Authorization": "Bearer token123"
+     *             },
+     *             timeout_ms: 7000
+     *         }
+     *     })
+     */
+    public updatePhoneNumber(
+        nameOrId: string,
+        request: Phonic.AgentsUpdatePhoneNumberRequest,
+        requestOptions?: Agents.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.AgentsUpdatePhoneNumberResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__updatePhoneNumber(nameOrId, request, requestOptions));
+    }
+
+    private async __updatePhoneNumber(
+        nameOrId: string,
+        request: Phonic.AgentsUpdatePhoneNumberRequest,
+        requestOptions?: Agents.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.AgentsUpdatePhoneNumberResponse>> {
+        const { project, ..._body } = request;
+        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
+        if (project != null) {
+            _queryParams["project"] = project;
+        }
+
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                `agents/${encodeURIComponent(nameOrId)}/phone-numbers`,
+            ),
+            method: "PATCH",
+            headers: _headers,
+            contentType: "application/json",
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            requestType: "json",
+            body: _body,
+            timeoutMs: requestOptions?.timeoutInSeconds != null ? requestOptions.timeoutInSeconds * 1000 : 60000,
+            maxRetries: requestOptions?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as Phonic.AgentsUpdatePhoneNumberResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.PhonicError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                    rawResponse: _response.rawResponse,
+                });
+            case "timeout":
+                throw new errors.PhonicTimeoutError(
+                    "Timeout exceeded when calling PATCH /agents/{nameOrId}/phone-numbers.",
                 );
             case "unknown":
                 throw new errors.PhonicError({

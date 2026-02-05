@@ -98,7 +98,7 @@ await client.agents.create({
     name: "support-agent",
     phone_number: "assign-automatically",
     timezone: "America/Los_Angeles",
-    voice_id: "grant",
+    voice_id: "sabrina",
     audio_speed: 1,
     background_noise_level: 0,
     generate_welcome_message: false,
@@ -106,7 +106,7 @@ await client.agents.create({
     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables: {
         customer_name: {
-            default_value: null,
+            default_value: "David",
         },
         subject: {
             default_value: "Chess",
@@ -192,7 +192,7 @@ await client.agents.upsert({
     name: "support-agent",
     phone_number: "assign-automatically",
     timezone: "America/Los_Angeles",
-    voice_id: "grant",
+    voice_id: "sabrina",
     audio_speed: 1,
     background_noise_level: 0,
     generate_welcome_message: false,
@@ -200,7 +200,7 @@ await client.agents.upsert({
     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables: {
         customer_name: {
-            default_value: null,
+            default_value: "David",
         },
         subject: {
             default_value: "Chess",
@@ -432,7 +432,7 @@ await client.agents.update("nameOrId", {
     name: "updated-support-agent",
     phone_number: "assign-automatically",
     timezone: "America/Los_Angeles",
-    voice_id: "grant",
+    voice_id: "sabrina",
     audio_speed: 1,
     background_noise_level: 0,
     generate_welcome_message: false,
@@ -440,7 +440,7 @@ await client.agents.update("nameOrId", {
     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables: {
         customer_name: {
-            default_value: null,
+            default_value: "David",
         },
         subject: {
             default_value: "Chess",
@@ -532,6 +532,13 @@ Adds a custom phone number to an agent. The user must configure their SIP trunk 
 await client.agents.addCustomPhoneNumber("nameOrId", {
     project: "main",
     phone_number: "+15551234567",
+    configuration_endpoint: {
+        url: "https://api.example.com/config",
+        headers: {
+            Authorization: "Bearer token123",
+        },
+        timeout_ms: 7000,
+    },
 });
 ```
 
@@ -575,7 +582,7 @@ await client.agents.addCustomPhoneNumber("nameOrId", {
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">removeCustomPhoneNumber</a>(nameOrId, { ...params }) -> Phonic.AgentsRemoveCustomPhoneNumberResponse</code></summary>
+<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">deleteCustomPhoneNumber</a>(nameOrId, { ...params }) -> Phonic.AgentsDeleteCustomPhoneNumberResponse</code></summary>
 <dl>
 <dd>
 
@@ -587,7 +594,7 @@ await client.agents.addCustomPhoneNumber("nameOrId", {
 <dl>
 <dd>
 
-Removes a custom phone number from an agent.
+Deletes a custom phone number from an agent.
 
 </dd>
 </dl>
@@ -603,7 +610,7 @@ Removes a custom phone number from an agent.
 <dd>
 
 ```typescript
-await client.agents.removeCustomPhoneNumber("nameOrId", {
+await client.agents.deleteCustomPhoneNumber("nameOrId", {
     project: "main",
     phone_number: "+15551234567",
 });
@@ -630,7 +637,88 @@ await client.agents.removeCustomPhoneNumber("nameOrId", {
 <dl>
 <dd>
 
-**request:** `Phonic.AgentsRemoveCustomPhoneNumberRequest`
+**request:** `Phonic.AgentsDeleteCustomPhoneNumberRequest`
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `Agents.RequestOptions`
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">updatePhoneNumber</a>(nameOrId, { ...params }) -> Phonic.AgentsUpdatePhoneNumberResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates a phone number on an agent.
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.agents.updatePhoneNumber("nameOrId", {
+    project: "main",
+    phone_number: "+15551234567",
+    configuration_endpoint: {
+        url: "https://api.example.com/config",
+        headers: {
+            Authorization: "Bearer token123",
+        },
+        timeout_ms: 7000,
+    },
+});
+```
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**nameOrId:** `string` — The name or the ID of the agent.
+
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Phonic.AgentsUpdatePhoneNumberRequest`
 
 </dd>
 </dl>
@@ -2098,7 +2186,7 @@ await client.conversations.outboundCall({
             customer_name: "David",
             subject: "Chess",
         },
-        voice_id: "grant",
+        voice_id: "sabrina",
         no_input_poke_sec: 30,
         no_input_poke_text: "Are you still there?",
         no_input_end_conversation_sec: 180,

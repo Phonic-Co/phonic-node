@@ -11,7 +11,7 @@ import * as Phonic from "../../../../index.js";
  *         name: "support-agent",
  *         phone_number: "assign-automatically",
  *         timezone: "America/Los_Angeles",
- *         voice_id: "grant",
+ *         voice_id: "sabrina",
  *         audio_speed: 1,
  *         background_noise_level: 0,
  *         generate_welcome_message: false,
@@ -19,7 +19,7 @@ import * as Phonic from "../../../../index.js";
  *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
  *         template_variables: {
  *             "customer_name": {
- *                 default_value: null
+ *                 default_value: "David"
  *             },
  *             "subject": {
  *                 default_value: "Chess"
@@ -44,7 +44,7 @@ export interface AgentsCreateRequest {
     project?: string;
     /** The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
     name: string;
-    phone_number?: Phonic.CreateAgentRequest.PhoneNumber | null;
+    phone_number: Phonic.CreateAgentRequest.PhoneNumber | null;
     /** The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead. */
     custom_phone_number?: string | null;
     /** Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique. */
@@ -83,7 +83,7 @@ export interface AgentsCreateRequest {
     languages?: Phonic.LanguageCode[];
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[];
-    /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options. */
+    /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options. */
     configuration_endpoint?: Phonic.CreateAgentRequest.ConfigurationEndpoint | null;
     /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0. */
     inbound_rollout?: number;
