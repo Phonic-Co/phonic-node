@@ -52,6 +52,10 @@ describe("Agents", () => {
                     },
                     inbound_rollout: 1,
                     inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
+                    vad_prebuffer_duration_ms: 1.1,
+                    vad_min_speech_duration_ms: 1.1,
+                    vad_min_silence_duration_ms: 1.1,
+                    vad_threshold: 1.1,
                 },
             ],
         };
@@ -111,6 +115,10 @@ describe("Agents", () => {
                     },
                     inbound_rollout: 1,
                     inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
+                    vad_prebuffer_duration_ms: 1.1,
+                    vad_min_speech_duration_ms: 1.1,
+                    vad_min_silence_duration_ms: 1.1,
+                    vad_threshold: 1.1,
                 },
             ],
         });
@@ -253,6 +261,10 @@ describe("Agents", () => {
             configuration_endpoint: undefined,
             inbound_rollout: undefined,
             inbound_rollout_forward_phone_number: undefined,
+            vad_prebuffer_duration_ms: undefined,
+            vad_min_speech_duration_ms: undefined,
+            vad_min_silence_duration_ms: undefined,
+            vad_threshold: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -290,6 +302,10 @@ describe("Agents", () => {
                 configuration_endpoint: undefined,
                 inbound_rollout: undefined,
                 inbound_rollout_forward_phone_number: undefined,
+                vad_prebuffer_duration_ms: undefined,
+                vad_min_speech_duration_ms: undefined,
+                vad_min_silence_duration_ms: undefined,
+                vad_threshold: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
@@ -325,6 +341,10 @@ describe("Agents", () => {
             configuration_endpoint: undefined,
             inbound_rollout: undefined,
             inbound_rollout_forward_phone_number: undefined,
+            vad_prebuffer_duration_ms: undefined,
+            vad_min_speech_duration_ms: undefined,
+            vad_min_silence_duration_ms: undefined,
+            vad_threshold: undefined,
         };
         const rawResponseBody = { error: undefined };
         server
@@ -362,6 +382,10 @@ describe("Agents", () => {
                 configuration_endpoint: undefined,
                 inbound_rollout: undefined,
                 inbound_rollout_forward_phone_number: undefined,
+                vad_prebuffer_duration_ms: undefined,
+                vad_min_speech_duration_ms: undefined,
+                vad_min_silence_duration_ms: undefined,
+                vad_threshold: undefined,
             });
         }).rejects.toThrow(Phonic.UnauthorizedError);
     });
@@ -397,6 +421,10 @@ describe("Agents", () => {
             configuration_endpoint: undefined,
             inbound_rollout: undefined,
             inbound_rollout_forward_phone_number: undefined,
+            vad_prebuffer_duration_ms: undefined,
+            vad_min_speech_duration_ms: undefined,
+            vad_min_silence_duration_ms: undefined,
+            vad_threshold: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -434,6 +462,10 @@ describe("Agents", () => {
                 configuration_endpoint: undefined,
                 inbound_rollout: undefined,
                 inbound_rollout_forward_phone_number: undefined,
+                vad_prebuffer_duration_ms: undefined,
+                vad_min_speech_duration_ms: undefined,
+                vad_min_silence_duration_ms: undefined,
+                vad_threshold: undefined,
             });
         }).rejects.toThrow(Phonic.NotFoundError);
     });
@@ -469,6 +501,10 @@ describe("Agents", () => {
             configuration_endpoint: undefined,
             inbound_rollout: undefined,
             inbound_rollout_forward_phone_number: undefined,
+            vad_prebuffer_duration_ms: undefined,
+            vad_min_speech_duration_ms: undefined,
+            vad_min_silence_duration_ms: undefined,
+            vad_threshold: undefined,
         };
         const rawResponseBody = { error: undefined };
         server
@@ -506,6 +542,10 @@ describe("Agents", () => {
                 configuration_endpoint: undefined,
                 inbound_rollout: undefined,
                 inbound_rollout_forward_phone_number: undefined,
+                vad_prebuffer_duration_ms: undefined,
+                vad_min_speech_duration_ms: undefined,
+                vad_min_silence_duration_ms: undefined,
+                vad_threshold: undefined,
             });
         }).rejects.toThrow(Phonic.InternalServerError);
     });
@@ -572,6 +612,10 @@ describe("Agents", () => {
                 },
                 inbound_rollout: 1,
                 inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
+                vad_prebuffer_duration_ms: 1.1,
+                vad_min_speech_duration_ms: 1.1,
+                vad_min_silence_duration_ms: 1.1,
+                vad_threshold: 1.1,
             },
             inserted: true,
             updated: false,
@@ -669,6 +713,10 @@ describe("Agents", () => {
                 },
                 inbound_rollout: 1,
                 inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
+                vad_prebuffer_duration_ms: 1.1,
+                vad_min_speech_duration_ms: 1.1,
+                vad_min_silence_duration_ms: 1.1,
+                vad_threshold: 1.1,
             },
             inserted: true,
             updated: false,
@@ -706,6 +754,10 @@ describe("Agents", () => {
             configuration_endpoint: undefined,
             inbound_rollout: undefined,
             inbound_rollout_forward_phone_number: undefined,
+            vad_prebuffer_duration_ms: undefined,
+            vad_min_speech_duration_ms: undefined,
+            vad_min_silence_duration_ms: undefined,
+            vad_threshold: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -743,6 +795,10 @@ describe("Agents", () => {
                 configuration_endpoint: undefined,
                 inbound_rollout: undefined,
                 inbound_rollout_forward_phone_number: undefined,
+                vad_prebuffer_duration_ms: undefined,
+                vad_min_speech_duration_ms: undefined,
+                vad_min_silence_duration_ms: undefined,
+                vad_threshold: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
@@ -778,6 +834,10 @@ describe("Agents", () => {
             configuration_endpoint: undefined,
             inbound_rollout: undefined,
             inbound_rollout_forward_phone_number: undefined,
+            vad_prebuffer_duration_ms: undefined,
+            vad_min_speech_duration_ms: undefined,
+            vad_min_silence_duration_ms: undefined,
+            vad_threshold: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -815,6 +875,10 @@ describe("Agents", () => {
                 configuration_endpoint: undefined,
                 inbound_rollout: undefined,
                 inbound_rollout_forward_phone_number: undefined,
+                vad_prebuffer_duration_ms: undefined,
+                vad_min_speech_duration_ms: undefined,
+                vad_min_silence_duration_ms: undefined,
+                vad_threshold: undefined,
             });
         }).rejects.toThrow(Phonic.NotFoundError);
     });
@@ -860,6 +924,10 @@ describe("Agents", () => {
                 },
                 inbound_rollout: 1,
                 inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
+                vad_prebuffer_duration_ms: 1.1,
+                vad_min_speech_duration_ms: 1.1,
+                vad_min_silence_duration_ms: 1.1,
+                vad_threshold: 1.1,
             },
         };
         server.mockEndpoint().get("/agents/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
@@ -919,6 +987,10 @@ describe("Agents", () => {
                 },
                 inbound_rollout: 1,
                 inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
+                vad_prebuffer_duration_ms: 1.1,
+                vad_min_speech_duration_ms: 1.1,
+                vad_min_silence_duration_ms: 1.1,
+                vad_threshold: 1.1,
             },
         });
     });
@@ -1125,6 +1197,10 @@ describe("Agents", () => {
             configuration_endpoint: undefined,
             inbound_rollout: undefined,
             inbound_rollout_forward_phone_number: undefined,
+            vad_prebuffer_duration_ms: undefined,
+            vad_min_speech_duration_ms: undefined,
+            vad_min_silence_duration_ms: undefined,
+            vad_threshold: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -1162,6 +1238,10 @@ describe("Agents", () => {
                 configuration_endpoint: undefined,
                 inbound_rollout: undefined,
                 inbound_rollout_forward_phone_number: undefined,
+                vad_prebuffer_duration_ms: undefined,
+                vad_min_speech_duration_ms: undefined,
+                vad_min_silence_duration_ms: undefined,
+                vad_threshold: undefined,
             });
         }).rejects.toThrow(Phonic.BadRequestError);
     });
@@ -1197,6 +1277,10 @@ describe("Agents", () => {
             configuration_endpoint: undefined,
             inbound_rollout: undefined,
             inbound_rollout_forward_phone_number: undefined,
+            vad_prebuffer_duration_ms: undefined,
+            vad_min_speech_duration_ms: undefined,
+            vad_min_silence_duration_ms: undefined,
+            vad_threshold: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -1234,6 +1318,10 @@ describe("Agents", () => {
                 configuration_endpoint: undefined,
                 inbound_rollout: undefined,
                 inbound_rollout_forward_phone_number: undefined,
+                vad_prebuffer_duration_ms: undefined,
+                vad_min_speech_duration_ms: undefined,
+                vad_min_silence_duration_ms: undefined,
+                vad_threshold: undefined,
             });
         }).rejects.toThrow(Phonic.ForbiddenError);
     });
@@ -1269,6 +1357,10 @@ describe("Agents", () => {
             configuration_endpoint: undefined,
             inbound_rollout: undefined,
             inbound_rollout_forward_phone_number: undefined,
+            vad_prebuffer_duration_ms: undefined,
+            vad_min_speech_duration_ms: undefined,
+            vad_min_silence_duration_ms: undefined,
+            vad_threshold: undefined,
         };
         const rawResponseBody = { key: "value" };
         server
@@ -1306,6 +1398,10 @@ describe("Agents", () => {
                 configuration_endpoint: undefined,
                 inbound_rollout: undefined,
                 inbound_rollout_forward_phone_number: undefined,
+                vad_prebuffer_duration_ms: undefined,
+                vad_min_speech_duration_ms: undefined,
+                vad_min_silence_duration_ms: undefined,
+                vad_threshold: undefined,
             });
         }).rejects.toThrow(Phonic.NotFoundError);
     });

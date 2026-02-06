@@ -89,4 +89,12 @@ export interface AgentsCreateRequest {
     inbound_rollout?: number;
     /** E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`. */
     inbound_rollout_forward_phone_number?: string | null;
+    /** Voice activity detection prebuffer duration in milliseconds. */
+    vad_prebuffer_duration_ms?: number;
+    /** Minimum speech duration for voice activity detection in milliseconds. */
+    vad_min_speech_duration_ms?: number;
+    /** Minimum silence duration for voice activity detection in milliseconds. */
+    vad_min_silence_duration_ms?: number;
+    /** Voice activity detection threshold. */
+    vad_threshold?: number;
 }
