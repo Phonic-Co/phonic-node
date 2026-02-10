@@ -44,7 +44,8 @@ export interface AgentsCreateRequest {
     project?: string;
     /** The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
     name: string;
-    phone_number: Phonic.CreateAgentRequest.PhoneNumber | null;
+    /** When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`. */
+    phone_number?: Phonic.CreateAgentRequest.PhoneNumber | null;
     /** The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead. */
     custom_phone_number?: string | null;
     /** Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique. */

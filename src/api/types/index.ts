@@ -35,8 +35,6 @@ export * from "./InputCancelledPayload.js";
 export * from "./AudioChunkResponsePayload.js";
 export * from "./UserStartedSpeakingPayload.js";
 export * from "./UserFinishedSpeakingPayload.js";
-export * from "./AssistantStartedSpeakingPayload.js";
-export * from "./AssistantFinishedSpeakingPayload.js";
 export * from "./IsUserSpeakingPayload.js";
 export * from "./DtmfPayload.js";
 export * from "./ToolCallPayload.js";

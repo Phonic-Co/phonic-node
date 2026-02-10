@@ -416,7 +416,7 @@ export class Projects {
      */
     public update(
         nameOrId: string,
-        request: Phonic.UpdateProjectRequest,
+        request: Phonic.UpdateProjectRequest = {},
         requestOptions?: Projects.RequestOptions,
     ): core.HttpResponsePromise<Phonic.ProjectsUpdateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__update(nameOrId, request, requestOptions));
@@ -424,7 +424,7 @@ export class Projects {
 
     private async __update(
         nameOrId: string,
-        request: Phonic.UpdateProjectRequest,
+        request: Phonic.UpdateProjectRequest = {},
         requestOptions?: Projects.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.ProjectsUpdateResponse>> {
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -704,12 +704,15 @@ export class Projects {
         }
     }
 
-    protected async _getAuthorizationHeader(): Promise<string | undefined> {
+    protected async _getAuthorizationHeader(): Promise<string> {
         const bearer = (await core.Supplier.get(this._options.apiKey)) ?? process?.env["PHONIC_API_KEY"];
-        if (bearer != null) {
-            return `Bearer ${bearer}`;
+        if (bearer == null) {
+            throw new errors.PhonicError({
+                message:
+                    "Please specify a bearer by either passing it in to the constructor or initializing a PHONIC_API_KEY environment variable",
+            });
         }
 
-        return undefined;
+        return `Bearer ${bearer}`;
     }
 }
