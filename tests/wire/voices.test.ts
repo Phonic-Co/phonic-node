@@ -14,7 +14,7 @@ describe("Voices", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
-        const rawResponseBody = { voices: [{ id: "sabrina", name: "Sabrina", description: "description" }] };
+        const rawResponseBody = { voices: [{ id: "sabrina", name: "Sabrina", description: null }] };
         server.mockEndpoint().get("/voices").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.voices.list({
@@ -25,7 +25,7 @@ describe("Voices", () => {
                 {
                     id: "sabrina",
                     name: "Sabrina",
-                    description: "description",
+                    description: null,
                 },
             ],
         });
@@ -89,7 +89,7 @@ describe("Voices", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
-        const rawResponseBody = { voice: { id: "sabrina", name: "Sabrina", description: "description" } };
+        const rawResponseBody = { voice: { id: "sabrina", name: "Sabrina", description: null } };
         server.mockEndpoint().get("/voices/id").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.voices.get("id");
@@ -97,7 +97,7 @@ describe("Voices", () => {
             voice: {
                 id: "sabrina",
                 name: "Sabrina",
-                description: "description",
+                description: null,
             },
         });
     });

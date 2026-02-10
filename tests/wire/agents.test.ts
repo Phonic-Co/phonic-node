@@ -27,7 +27,7 @@ describe("Agents", () => {
                     audio_format: "pcm_44100",
                     audio_speed: 1,
                     background_noise_level: 0,
-                    background_noise: "office",
+                    background_noise: null,
                     generate_welcome_message: false,
                     welcome_message: "Hi {{customer_name}}. How can I help you today?",
                     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -78,7 +78,7 @@ describe("Agents", () => {
                     audio_format: "pcm_44100",
                     audio_speed: 1,
                     background_noise_level: 0,
-                    background_noise: "office",
+                    background_noise: null,
                     generate_welcome_message: false,
                     welcome_message: "Hi {{customer_name}}. How can I help you today?",
                     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -238,7 +238,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: "name",
-            phone_number: null,
+            phone_number: undefined,
             custom_phone_number: undefined,
             custom_phone_numbers: undefined,
             timezone: undefined,
@@ -279,7 +279,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.create({
                 name: "name",
-                phone_number: null,
+                phone_number: undefined,
                 custom_phone_number: undefined,
                 custom_phone_numbers: undefined,
                 timezone: undefined,
@@ -318,7 +318,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: "name",
-            phone_number: null,
+            phone_number: undefined,
             custom_phone_number: undefined,
             custom_phone_numbers: undefined,
             timezone: undefined,
@@ -359,7 +359,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.create({
                 name: "name",
-                phone_number: null,
+                phone_number: undefined,
                 custom_phone_number: undefined,
                 custom_phone_numbers: undefined,
                 timezone: undefined,
@@ -398,7 +398,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: "name",
-            phone_number: null,
+            phone_number: undefined,
             custom_phone_number: undefined,
             custom_phone_numbers: undefined,
             timezone: undefined,
@@ -439,7 +439,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.create({
                 name: "name",
-                phone_number: null,
+                phone_number: undefined,
                 custom_phone_number: undefined,
                 custom_phone_numbers: undefined,
                 timezone: undefined,
@@ -478,7 +478,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: "name",
-            phone_number: null,
+            phone_number: undefined,
             custom_phone_number: undefined,
             custom_phone_numbers: undefined,
             timezone: undefined,
@@ -519,7 +519,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.create({
                 name: "name",
-                phone_number: null,
+                phone_number: undefined,
                 custom_phone_number: undefined,
                 custom_phone_numbers: undefined,
                 timezone: undefined,
@@ -590,7 +590,7 @@ describe("Agents", () => {
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
-                background_noise: "office",
+                background_noise: null,
                 generate_welcome_message: false,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -676,7 +676,7 @@ describe("Agents", () => {
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
-                background_noise: "office",
+                background_noise: null,
                 generate_welcome_message: false,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -731,7 +731,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: "name",
-            phone_number: null,
+            phone_number: undefined,
             custom_phone_number: undefined,
             custom_phone_numbers: undefined,
             timezone: undefined,
@@ -772,7 +772,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.upsert({
                 name: "name",
-                phone_number: null,
+                phone_number: undefined,
                 custom_phone_number: undefined,
                 custom_phone_numbers: undefined,
                 timezone: undefined,
@@ -811,7 +811,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: "name",
-            phone_number: null,
+            phone_number: undefined,
             custom_phone_number: undefined,
             custom_phone_numbers: undefined,
             timezone: undefined,
@@ -852,7 +852,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.upsert({
                 name: "name",
-                phone_number: null,
+                phone_number: undefined,
                 custom_phone_number: undefined,
                 custom_phone_numbers: undefined,
                 timezone: undefined,
@@ -902,7 +902,7 @@ describe("Agents", () => {
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
-                background_noise: "office",
+                background_noise: null,
                 generate_welcome_message: false,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -950,7 +950,7 @@ describe("Agents", () => {
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
-                background_noise: "office",
+                background_noise: null,
                 generate_welcome_message: false,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -1174,7 +1174,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: undefined,
-            phone_number: null,
+            phone_number: undefined,
             custom_phone_number: undefined,
             custom_phone_numbers: undefined,
             timezone: undefined,
@@ -1215,7 +1215,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.update("nameOrId", {
                 name: undefined,
-                phone_number: null,
+                phone_number: undefined,
                 custom_phone_number: undefined,
                 custom_phone_numbers: undefined,
                 timezone: undefined,
@@ -1254,7 +1254,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: undefined,
-            phone_number: null,
+            phone_number: undefined,
             custom_phone_number: undefined,
             custom_phone_numbers: undefined,
             timezone: undefined,
@@ -1295,7 +1295,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.update("nameOrId", {
                 name: undefined,
-                phone_number: null,
+                phone_number: undefined,
                 custom_phone_number: undefined,
                 custom_phone_numbers: undefined,
                 timezone: undefined,
@@ -1334,7 +1334,7 @@ describe("Agents", () => {
         });
         const rawRequestBody = {
             name: undefined,
-            phone_number: null,
+            phone_number: undefined,
             custom_phone_number: undefined,
             custom_phone_numbers: undefined,
             timezone: undefined,
@@ -1375,7 +1375,7 @@ describe("Agents", () => {
         await expect(async () => {
             return await client.agents.update("nameOrId", {
                 name: undefined,
-                phone_number: null,
+                phone_number: undefined,
                 custom_phone_number: undefined,
                 custom_phone_numbers: undefined,
                 timezone: undefined,

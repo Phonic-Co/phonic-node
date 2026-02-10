@@ -92,7 +92,7 @@ describe("Conversations", () => {
                     analysis: { latencies_ms: [1064, 578, 797], interruptions_count: 0 },
                 },
             ],
-            pagination: { prev_cursor: "prev_cursor", next_cursor: "conv_98765432-abcd-1234-5678-abcdef123456" },
+            pagination: { prev_cursor: null, next_cursor: "conv_98765432-abcd-1234-5678-abcdef123456" },
         };
         server.mockEndpoint().get("/conversations").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
@@ -201,7 +201,7 @@ describe("Conversations", () => {
                 },
             ],
             pagination: {
-                prev_cursor: "prev_cursor",
+                prev_cursor: null,
                 next_cursor: "conv_98765432-abcd-1234-5678-abcdef123456",
             },
         });
@@ -228,7 +228,7 @@ describe("Conversations", () => {
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
                 background_noise_level: 0,
-                background_noise: "office",
+                background_noise: null,
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:
@@ -282,11 +282,7 @@ describe("Conversations", () => {
                         ],
                     },
                 ],
-                call_info: {
-                    from_phone_number: "from_phone_number",
-                    to_phone_number: "to_phone_number",
-                    twilio_call_sid: "twilio_call_sid",
-                },
+                call_info: null,
                 analysis: { latencies_ms: [2024, 641], interruptions_count: 0 },
             },
         };
@@ -317,7 +313,7 @@ describe("Conversations", () => {
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
                 background_noise_level: 0,
-                background_noise: "office",
+                background_noise: null,
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:
@@ -384,11 +380,7 @@ describe("Conversations", () => {
                         ],
                     },
                 ],
-                call_info: {
-                    from_phone_number: "from_phone_number",
-                    to_phone_number: "to_phone_number",
-                    twilio_call_sid: "twilio_call_sid",
-                },
+                call_info: null,
                 analysis: {
                     latencies_ms: [2024, 641],
                     interruptions_count: 0,
@@ -493,7 +485,7 @@ describe("Conversations", () => {
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
                 background_noise_level: 0,
-                background_noise: "office",
+                background_noise: null,
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:
@@ -582,7 +574,7 @@ describe("Conversations", () => {
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
                 background_noise_level: 0,
-                background_noise: "office",
+                background_noise: null,
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:
@@ -1000,7 +992,7 @@ describe("Conversations", () => {
                         appointment_date: "2025-04-17",
                         appointment_time: "2:30 PM",
                     },
-                    error: "error",
+                    error: null,
                     created_at: "2025-07-30T23:49:18Z",
                 },
             ],
@@ -1028,7 +1020,7 @@ describe("Conversations", () => {
                         appointment_date: "2025-04-17",
                         appointment_time: "2:30 PM",
                     },
-                    error: "error",
+                    error: null,
                     created_at: "2025-07-30T23:49:18Z",
                 },
             ],
