@@ -159,6 +159,7 @@ export class Agents {
      *             }
      *         },
      *         tools: ["keypad_input"],
+     *         generate_no_input_poke_text: false,
      *         no_input_poke_sec: 30,
      *         no_input_poke_text: "Are you still there?",
      *         languages: ["en", "es"],
@@ -287,6 +288,7 @@ export class Agents {
      *             }
      *         },
      *         tools: ["keypad_input"],
+     *         generate_no_input_poke_text: false,
      *         no_input_poke_sec: 30,
      *         no_input_poke_text: "Are you still there?",
      *         languages: ["en", "es"],
@@ -585,6 +587,7 @@ export class Agents {
      *             }
      *         },
      *         tools: ["keypad_input"],
+     *         generate_no_input_poke_text: false,
      *         no_input_poke_sec: 30,
      *         no_input_poke_text: "Are you still there?",
      *         languages: ["en", "es"],
