@@ -22,7 +22,7 @@ export interface AgentsUpdatePhoneNumberRequest {
     /** The E.164 formatted phone number to add (e.g., "+15551234567"). */
     phone_number: string;
     /** When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number. */
-    configuration_endpoint?: AgentsUpdatePhoneNumberRequest.ConfigurationEndpoint | null;
+    configuration_endpoint?: AgentsUpdatePhoneNumberRequest.ConfigurationEndpoint;
 }
 
 export namespace AgentsUpdatePhoneNumberRequest {

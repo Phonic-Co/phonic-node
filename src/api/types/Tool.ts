@@ -29,9 +29,9 @@ export interface Tool {
     /** Timeout in milliseconds for WebSocket tool responses. */
     tool_call_output_timeout_ms?: number;
     /** The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number. */
-    phone_number?: string | null;
+    phone_number?: string;
     /** DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. */
-    dtmf?: string | null;
+    dtmf?: string;
     /** When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools. */
     use_agent_phone_number?: boolean;
     /** When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true. */

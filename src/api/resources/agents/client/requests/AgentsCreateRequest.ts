@@ -8,97 +8,42 @@ import * as Phonic from "../../../../index.js";
  * @example
  *     {
  *         project: "main",
- *         name: "support-agent",
- *         phone_number: "assign-automatically",
- *         timezone: "America/Los_Angeles",
- *         voice_id: "sabrina",
- *         audio_speed: 1,
- *         background_noise_level: 0,
- *         generate_welcome_message: false,
- *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
- *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
- *         template_variables: {
- *             "customer_name": {
- *                 default_value: "David"
+ *         body: {
+ *             name: "support-agent",
+ *             phone_number: "assign-automatically",
+ *             timezone: "America/Los_Angeles",
+ *             voice_id: "sabrina",
+ *             audio_speed: 1,
+ *             background_noise_level: 0,
+ *             generate_welcome_message: false,
+ *             welcome_message: "Hi {{customer_name}}. How can I help you today?",
+ *             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+ *             template_variables: {
+ *                 "customer_name": {
+ *                     default_value: "David"
+ *                 },
+ *                 "subject": {
+ *                     default_value: "Chess"
+ *                 }
  *             },
- *             "subject": {
- *                 default_value: "Chess"
+ *             tools: ["keypad_input"],
+ *             generate_no_input_poke_text: false,
+ *             no_input_poke_sec: 30,
+ *             no_input_poke_text: "Are you still there?",
+ *             languages: ["en", "es"],
+ *             boosted_keywords: ["Load ID", "dispatch"],
+ *             configuration_endpoint: {
+ *                 url: "https://api.example.com/config",
+ *                 headers: {
+ *                     "Authorization": "Bearer token123"
+ *                 },
+ *                 timeout_ms: 7000
  *             }
- *         },
- *         tools: ["keypad_input"],
- *         generate_no_input_poke_text: false,
- *         no_input_poke_sec: 30,
- *         no_input_poke_text: "Are you still there?",
- *         languages: ["en", "es"],
- *         boosted_keywords: ["Load ID", "dispatch"],
- *         configuration_endpoint: {
- *             url: "https://api.example.com/config",
- *             headers: {
- *                 "Authorization": "Bearer token123"
- *             },
- *             timeout_ms: 7000
  *         }
  *     }
  */
 export interface AgentsCreateRequest {
     /** The name of the project to create the agent in. */
     project?: string;
-    /** The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
-    name: string;
-    /** When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`. */
-    phone_number?: Phonic.CreateAgentRequest.PhoneNumber | null;
-    /** The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead. */
-    custom_phone_number?: string | null;
-    /** Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique. */
-    custom_phone_numbers?: string[];
-    /** The timezone of the agent. Used to format system variables like `{{system_time}}`. */
-    timezone?: string;
-    /** The voice ID to use. */
-    voice_id?: string;
-    /** The audio format of the agent. */
-    audio_format?: Phonic.CreateAgentRequest.AudioFormat;
-    /** The audio speed of the agent. */
-    audio_speed?: number;
-    /** The background noise level of the agent. */
-    background_noise_level?: number;
-    /** The background noise type. Can be "office", "call-center", "coffee-shop", or null. */
-    background_noise?: Phonic.CreateAgentRequest.BackgroundNoise | null;
-    /** When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. */
-    generate_welcome_message?: boolean;
-    /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`. */
-    welcome_message?: string;
-    /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */
-    system_prompt?: string;
-    /** Variables that can be used in the welcome message and the system prompt. */
-    template_variables?: Record<string, Phonic.CreateAgentRequest.TemplateVariables.Value>;
-    /** Array of built-in or custom tool names to use. */
-    tools?: Phonic.CreateAgentRequest.Tools.Item[];
-    /** Array of task objects with `name` and `description` fields. */
-    tasks?: Phonic.Task[];
-    /** Whether to have the no-input poke text be generated by AI. */
-    generate_no_input_poke_text?: boolean;
-    /** Number of seconds of silence before sending a poke message. `null` disables the poke message. */
-    no_input_poke_sec?: number | null;
-    /** The message to send after the specified silence. Ignored when generate_no_input_poke_text is true. */
-    no_input_poke_text?: string;
-    /** Seconds of silence before ending the conversation. */
-    no_input_end_conversation_sec?: number;
-    /** Array of ISO 639-1 language codes that the agent should be able to recognize */
-    languages?: Phonic.LanguageCode[];
-    /** These words, or short phrases, will be more accurately recognized by the agent. */
-    boosted_keywords?: string[];
-    /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options. */
-    configuration_endpoint?: Phonic.CreateAgentRequest.ConfigurationEndpoint | null;
-    /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0. */
-    inbound_rollout?: number;
-    /** E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`. */
-    inbound_rollout_forward_phone_number?: string | null;
-    /** Voice activity detection prebuffer duration in milliseconds. */
-    vad_prebuffer_duration_ms?: number;
-    /** Minimum speech duration for voice activity detection in milliseconds. */
-    vad_min_speech_duration_ms?: number;
-    /** Minimum silence duration for voice activity detection in milliseconds. */
-    vad_min_silence_duration_ms?: number;
-    /** Voice activity detection threshold. */
-    vad_threshold?: number;
+    body: Phonic.CreateAgentRequest;
 }

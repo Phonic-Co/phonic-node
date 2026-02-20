@@ -42,35 +42,37 @@ import { PhonicClient } from "phonic";
 const client = new PhonicClient({ apiKey: "YOUR_API_KEY" });
 await client.agents.create({
     project: "main",
-    name: "support-agent",
-    phone_number: "assign-automatically",
-    timezone: "America/Los_Angeles",
-    voice_id: "sabrina",
-    audio_speed: 1,
-    background_noise_level: 0,
-    generate_welcome_message: false,
-    welcome_message: "Hi {{customer_name}}. How can I help you today?",
-    system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-    template_variables: {
-        customer_name: {
-            default_value: "David",
+    body: {
+        name: "support-agent",
+        phone_number: "assign-automatically",
+        timezone: "America/Los_Angeles",
+        voice_id: "sabrina",
+        audio_speed: 1,
+        background_noise_level: 0,
+        generate_welcome_message: false,
+        welcome_message: "Hi {{customer_name}}. How can I help you today?",
+        system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+        template_variables: {
+            customer_name: {
+                default_value: "David",
+            },
+            subject: {
+                default_value: "Chess",
+            },
         },
-        subject: {
-            default_value: "Chess",
+        tools: ["keypad_input"],
+        generate_no_input_poke_text: false,
+        no_input_poke_sec: 30,
+        no_input_poke_text: "Are you still there?",
+        languages: ["en", "es"],
+        boosted_keywords: ["Load ID", "dispatch"],
+        configuration_endpoint: {
+            url: "https://api.example.com/config",
+            headers: {
+                Authorization: "Bearer token123",
+            },
+            timeout_ms: 7000,
         },
-    },
-    tools: ["keypad_input"],
-    generate_no_input_poke_text: false,
-    no_input_poke_sec: 30,
-    no_input_poke_text: "Are you still there?",
-    languages: ["en", "es"],
-    boosted_keywords: ["Load ID", "dispatch"],
-    configuration_endpoint: {
-        url: "https://api.example.com/config",
-        headers: {
-            Authorization: "Bearer token123",
-        },
-        timeout_ms: 7000,
     },
 });
 ```

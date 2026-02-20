@@ -5,3 +5,4 @@ src/core/websocket/ws.ts
 
 src/api/index.ts
 src/api/types/overrides.ts
+changelog.md

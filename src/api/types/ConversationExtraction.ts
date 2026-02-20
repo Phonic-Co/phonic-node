@@ -11,7 +11,7 @@ export interface ConversationExtraction {
     /** The extracted data. */
     result: Record<string, unknown>;
     /** Error message if extraction failed. */
-    error: string | null;
+    error?: string;
     /** When the extraction was created. */
     created_at: string;
 }

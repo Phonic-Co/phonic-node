@@ -34,7 +34,7 @@ export declare namespace Conversations {
     }
 
     export interface ConnectArgs {
-        downstream_websocket_url?: string | undefined;
+        Authorization: string;
         /** Arbitrary headers to send with the websocket connect request. */
         headers?: Record<string, string>;
         /** Enable debug mode on the websocket. Defaults to false. */
@@ -64,7 +64,17 @@ export class Conversations {
      * @throws {@link Phonic.InternalServerError}
      *
      * @example
-     *     await client.conversations.list()
+     *     await client.conversations.list({
+     *         project: "project",
+     *         external_id: "external_id",
+     *         duration_min: 1,
+     *         duration_max: 1,
+     *         started_at_min: "started_at_min",
+     *         started_at_max: "started_at_max",
+     *         before: "before",
+     *         after: "after",
+     *         limit: 1
+     *     })
      */
     public list(
         request: Phonic.ConversationsListRequest = {},
@@ -994,6 +1004,8 @@ export class Conversations {
      * @example
      *     await client.conversations.sipOutboundCall({
      *         "X-Sip-Address": "X-Sip-Address",
+     *         "X-Sip-Auth-Username": "X-Sip-Auth-Username",
+     *         "X-Sip-Auth-Password": "X-Sip-Auth-Password",
      *         from_phone_number: "from_phone_number",
      *         to_phone_number: "to_phone_number"
      *     })
@@ -1091,15 +1103,13 @@ export class Conversations {
         }
     }
 
-    public async connect(args: Conversations.ConnectArgs = {}): Promise<ConversationsSocket> {
-        const { downstream_websocket_url, headers, debug, reconnectAttempts } = args;
-        const _queryParams: Record<string, string | string[] | object | object[] | null> = {};
-        if (downstream_websocket_url != null) {
-            _queryParams["downstream_websocket_url"] = downstream_websocket_url;
-        }
-
+    public async connect(args: Conversations.ConnectArgs): Promise<ConversationsSocket> {
+        const { headers, debug, reconnectAttempts } = args;
         let _headers: Record<string, unknown> = mergeHeaders(
-            mergeOnlyDefinedHeaders({ Authorization: await this._getAuthorizationHeader() }),
+            mergeOnlyDefinedHeaders({
+                Authorization: await this._getAuthorizationHeader(),
+                Authorization: args["Authorization"],
+            }),
             headers,
         );
         const socket = new core.ReconnectingWebSocket({
@@ -1110,7 +1120,7 @@ export class Conversations {
                 "/v1/sts/ws",
             ),
             protocols: [],
-            queryParameters: _queryParams,
+            queryParameters: {},
             headers: _headers,
             options: { debug: debug ?? false, maxRetries: reconnectAttempts ?? 30 },
         });

@@ -8,7 +8,7 @@ export interface Project {
     /** The name of the project. */
     name: string;
     /** The project's default agent. */
-    default_agent: Project.DefaultAgent | null;
+    default_agent?: Project.DefaultAgent;
 }
 
 export namespace Project {
