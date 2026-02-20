@@ -9,4 +9,6 @@ export interface Voice {
     name: string;
     /** The voice description. */
     description: string | null;
+    /** Presigned URL to the voice sample audio file. Expires in 7 days. */
+    audio_url: string;
 }
