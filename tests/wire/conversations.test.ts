@@ -84,7 +84,7 @@ describe("Conversations", () => {
                                     request_body: { date: "tomorrow", service: "consultation" },
                                     response_body: { available: true, slots: ["09:00", "10:00", "14:00"] },
                                     timed_out: false,
-                                    error_message: null,
+                                    error_message: undefined,
                                 },
                             ],
                         },
@@ -93,11 +93,21 @@ describe("Conversations", () => {
                     analysis: { latencies_ms: [1064, 578, 797], interruptions_count: 0 },
                 },
             ],
-            pagination: { prev_cursor: null, next_cursor: "conv_98765432-abcd-1234-5678-abcdef123456" },
+            pagination: { prev_cursor: undefined, next_cursor: "conv_98765432-abcd-1234-5678-abcdef123456" },
         };
         server.mockEndpoint().get("/conversations").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
-        const response = await client.conversations.list();
+        const response = await client.conversations.list({
+            project: "project",
+            external_id: "external_id",
+            duration_min: 1,
+            duration_max: 1,
+            started_at_min: "started_at_min",
+            started_at_max: "started_at_max",
+            before: "before",
+            after: "after",
+            limit: 1,
+        });
         expect(response).toEqual({
             conversations: [
                 {
@@ -187,7 +197,7 @@ describe("Conversations", () => {
                                         slots: ["09:00", "10:00", "14:00"],
                                     },
                                     timed_out: false,
-                                    error_message: null,
+                                    error_message: undefined,
                                 },
                             ],
                         },
@@ -203,7 +213,7 @@ describe("Conversations", () => {
                 },
             ],
             pagination: {
-                prev_cursor: null,
+                prev_cursor: undefined,
                 next_cursor: "conv_98765432-abcd-1234-5678-abcdef123456",
             },
         });
@@ -230,7 +240,7 @@ describe("Conversations", () => {
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
                 background_noise_level: 0,
-                background_noise: null,
+                background_noise: undefined,
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:
@@ -280,18 +290,28 @@ describe("Conversations", () => {
                                 request_body: { date: "tomorrow", service: "consultation" },
                                 response_body: { available: true, slots: ["09:00", "10:00", "14:00"] },
                                 timed_out: false,
-                                error_message: null,
+                                error_message: undefined,
                             },
                         ],
                     },
                 ],
-                call_info: null,
+                call_info: undefined,
                 analysis: { latencies_ms: [2024, 641], interruptions_count: 0 },
             },
         };
         server.mockEndpoint().get("/conversations").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
-        const response = await client.conversations.list();
+        const response = await client.conversations.list({
+            project: "project",
+            external_id: "external_id",
+            duration_min: 1,
+            duration_max: 1,
+            started_at_min: "started_at_min",
+            started_at_max: "started_at_max",
+            before: "before",
+            after: "after",
+            limit: 1,
+        });
         expect(response).toEqual({
             conversation: {
                 id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -316,7 +336,7 @@ describe("Conversations", () => {
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
                 background_noise_level: 0,
-                background_noise: null,
+                background_noise: undefined,
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:
@@ -379,12 +399,12 @@ describe("Conversations", () => {
                                     slots: ["09:00", "10:00", "14:00"],
                                 },
                                 timed_out: false,
-                                error_message: null,
+                                error_message: undefined,
                             },
                         ],
                     },
                 ],
-                call_info: null,
+                call_info: undefined,
                 analysis: {
                     latencies_ms: [2024, 641],
                     interruptions_count: 0,
@@ -489,7 +509,7 @@ describe("Conversations", () => {
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
                 background_noise_level: 0,
-                background_noise: null,
+                background_noise: undefined,
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:
@@ -539,7 +559,7 @@ describe("Conversations", () => {
                                 request_body: { date: "tomorrow", service: "consultation" },
                                 response_body: { available: true, slots: ["09:00", "10:00", "14:00"] },
                                 timed_out: false,
-                                error_message: null,
+                                error_message: undefined,
                             },
                         ],
                     },
@@ -579,7 +599,7 @@ describe("Conversations", () => {
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
                 background_noise_level: 0,
-                background_noise: null,
+                background_noise: undefined,
                 live_transcript:
                     "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
                 post_call_transcript:
@@ -642,7 +662,7 @@ describe("Conversations", () => {
                                     slots: ["09:00", "10:00", "14:00"],
                                 },
                                 timed_out: false,
-                                error_message: null,
+                                error_message: undefined,
                             },
                         ],
                     },
@@ -998,7 +1018,7 @@ describe("Conversations", () => {
                         appointment_date: "2025-04-17",
                         appointment_time: "2:30 PM",
                     },
-                    error: null,
+                    error: undefined,
                     created_at: "2025-07-30T23:49:18Z",
                 },
             ],
@@ -1026,7 +1046,7 @@ describe("Conversations", () => {
                         appointment_date: "2025-04-17",
                         appointment_time: "2:30 PM",
                     },
-                    error: null,
+                    error: undefined,
                     created_at: "2025-07-30T23:49:18Z",
                 },
             ],
@@ -1719,6 +1739,8 @@ describe("Conversations", () => {
             .mockEndpoint()
             .post("/conversations/sip/outbound_call")
             .header("X-Sip-Address", "X-Sip-Address")
+            .header("X-Sip-Auth-Username", "X-Sip-Auth-Username")
+            .header("X-Sip-Auth-Password", "X-Sip-Auth-Password")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(200)
@@ -1727,6 +1749,8 @@ describe("Conversations", () => {
 
         const response = await client.conversations.sipOutboundCall({
             "X-Sip-Address": "X-Sip-Address",
+            "X-Sip-Auth-Username": "X-Sip-Auth-Username",
+            "X-Sip-Auth-Password": "X-Sip-Auth-Password",
             from_phone_number: "from_phone_number",
             to_phone_number: "to_phone_number",
         });

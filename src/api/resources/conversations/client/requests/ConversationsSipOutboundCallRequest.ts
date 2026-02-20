@@ -8,6 +8,8 @@ import * as Phonic from "../../../../index.js";
  * @example
  *     {
  *         "X-Sip-Address": "X-Sip-Address",
+ *         "X-Sip-Auth-Username": "X-Sip-Auth-Username",
+ *         "X-Sip-Auth-Password": "X-Sip-Auth-Password",
  *         from_phone_number: "from_phone_number",
  *         to_phone_number: "to_phone_number"
  *     }

@@ -5,6 +5,9 @@
 /**
  * @example
  *     {
+ *         "X-Sip-Address": "X-Sip-Address",
+ *         "X-Sip-Auth-Username": "X-Sip-Auth-Username",
+ *         "X-Sip-Auth-Password": "X-Sip-Auth-Password",
  *         project: "main",
  *         phone_number: "+15551234567",
  *         configuration_endpoint: {
@@ -28,7 +31,7 @@ export interface AgentsAddCustomPhoneNumberRequest {
     /** The E.164 formatted phone number to add (e.g., "+15551234567"). */
     phone_number: string;
     /** When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number. */
-    configuration_endpoint?: AgentsAddCustomPhoneNumberRequest.ConfigurationEndpoint | null;
+    configuration_endpoint?: AgentsAddCustomPhoneNumberRequest.ConfigurationEndpoint;
 }
 
 export namespace AgentsAddCustomPhoneNumberRequest {

@@ -8,8 +8,8 @@ export type ConversationsListResponse =
     | {
           conversations: Phonic.Conversation[];
           pagination: {
-              prev_cursor: string | null;
-              next_cursor: string | null;
+              prev_cursor?: string | undefined;
+              next_cursor?: string | undefined;
           };
       }
     | {

@@ -4,7 +4,9 @@
 
 /**
  * @example
- *     {}
+ *     {
+ *         project: "project"
+ *     }
  */
 export interface AgentsListRequest {
     /** The name of the project to list agents for. */

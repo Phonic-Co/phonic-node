@@ -13,5 +13,5 @@ export interface UpdateProjectRequest {
     /** The name of the project. Can only contain lowercase letters, numbers and hyphens. Must be unique within the workspace. */
     name?: string;
     /** The name of the new project's default agent. Set to `null` to remove the default agent. */
-    default_agent?: string | null;
+    default_agent?: string;
 }

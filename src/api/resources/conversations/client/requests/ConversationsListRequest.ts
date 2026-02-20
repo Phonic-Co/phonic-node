@@ -4,10 +4,30 @@
 
 /**
  * @example
- *     {}
+ *     {
+ *         project: "project",
+ *         external_id: "external_id",
+ *         duration_min: 1,
+ *         duration_max: 1,
+ *         started_at_min: "started_at_min",
+ *         started_at_max: "started_at_max",
+ *         before: "before",
+ *         after: "after",
+ *         limit: 1
+ *     }
  *
  * @example
- *     {}
+ *     {
+ *         project: "project",
+ *         external_id: "external_id",
+ *         duration_min: 1,
+ *         duration_max: 1,
+ *         started_at_min: "started_at_min",
+ *         started_at_max: "started_at_max",
+ *         before: "before",
+ *         after: "after",
+ *         limit: 1
+ *     }
  */
 export interface ConversationsListRequest {
     /** The name of the project to list conversations for. */

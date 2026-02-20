@@ -8,7 +8,7 @@ export interface ExtractionField {
     /** The field type. */
     type: ExtractionField.Type;
     /** Description of the field. */
-    description?: string | null;
+    description?: string;
 }
 
 export namespace ExtractionField {
