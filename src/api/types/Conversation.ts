@@ -37,7 +37,7 @@ export interface Conversation {
     post_call_transcript: string | null;
     /** Duration of the conversation in milliseconds. */
     duration_ms: number;
-    /** Presigned URL to the conversation audio file. */
+    /** Presigned URL to the conversation audio file. Expires in 1 day. */
     audio_url: string | null;
     /** When the conversation started. */
     started_at: string;
