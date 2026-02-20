@@ -26,7 +26,6 @@ export * from "./AudioChunkPayload.js";
 export * from "./UpdateSystemPromptPayload.js";
 export * from "./AddSystemMessagePayload.js";
 export * from "./SetExternalIdPayload.js";
-export * from "./SetTwilioCallSidPayload.js";
 export * from "./ToolCallOutputPayload.js";
 export * from "./ReadyToStartConversationPayload.js";
 export * from "./ConversationCreatedPayload.js";
