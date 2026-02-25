@@ -52,8 +52,8 @@ export interface ConfigPayload {
     recognized_languages?: string[];
     /** Keywords to boost in speech recognition */
     boosted_keywords?: string[];
-    /** Tools available to the assistant */
-    tools?: string[];
+    /** Names of tools available to the assistant. */
+    tools?: ConfigPayload.Tools.Item[];
     /** Template variables for system prompt and welcome message */
     template_variables?: Record<string, string>;
 }
@@ -88,4 +88,9 @@ export namespace ConfigPayload {
         Pcm8000: "pcm_8000",
         Mulaw8000: "mulaw_8000",
     } as const;
+    export type Tools = Tools.Item[];
+
+    export namespace Tools {
+        export type Item = string | Record<string, unknown>;
+    }
 }

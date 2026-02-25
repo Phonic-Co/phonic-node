@@ -25,6 +25,8 @@ export declare namespace ConversationsSocket {
         | Phonic.ToolCallInterruptedPayload
         | Phonic.AssistantChoseNotToRespondPayload
         | Phonic.AssistantEndedConversationPayload
+        | Phonic.AssistantStartedSpeakingPayload
+        | Phonic.AssistantFinishedSpeakingPayload
         | Phonic.ErrorPayload;
     type EventHandlers = {
         open?: () => void;
@@ -94,6 +96,10 @@ export class ConversationsSocket {
     }
 
     public sendUpdateSystemPrompt(message: Phonic.UpdateSystemPromptPayload): void {
+        this.sendWithBuffering(() => this.sendJson(message));
+    }
+
+    public sendAddSystemMessage(message: Phonic.AddSystemMessagePayload): void {
         this.sendWithBuffering(() => this.sendJson(message));
     }
 
@@ -201,6 +207,7 @@ export class ConversationsSocket {
             | Phonic.ConfigPayload
             | Phonic.AudioChunkPayload
             | Phonic.UpdateSystemPromptPayload
+            | Phonic.AddSystemMessagePayload
             | Phonic.SetExternalIdPayload
             | Phonic.SetTwilioCallSidPayload
             | Phonic.ToolCallOutputPayload,
