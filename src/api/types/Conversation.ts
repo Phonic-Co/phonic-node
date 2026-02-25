@@ -15,6 +15,8 @@ export interface Conversation {
     project: Conversation.Project;
     /** External ID for conversation tracking. */
     external_id: string | null;
+    /** The origin of the conversation. */
+    origin: Conversation.Origin;
     /** The STS model used. */
     model: string;
     /** Will be `true` if welcome message was automatically generated. */
@@ -37,10 +39,10 @@ export interface Conversation {
     post_call_transcript: string | null;
     /** Duration of the conversation in milliseconds. */
     duration_ms: number;
-    /** Presigned URL to the conversation audio file. */
+    /** Presigned URL to the conversation audio file. Expires in 1 day. */
     audio_url: string | null;
     /** When the conversation started. */
-    started_at: string;
+    started_at: string | null;
     /** When the conversation ended. */
     ended_at: string | null;
     /** Who or what ended the conversation. */
@@ -90,6 +92,17 @@ export namespace Conversation {
         name: string;
     }
 
+    /**
+     * The origin of the conversation.
+     */
+    export type Origin = "web" | "direct" | "inbound" | "outbound" | "replay";
+    export const Origin = {
+        Web: "web",
+        Direct: "direct",
+        Inbound: "inbound",
+        Outbound: "outbound",
+        Replay: "replay",
+    } as const;
     /**
      * The background noise type used in the conversation.
      */
