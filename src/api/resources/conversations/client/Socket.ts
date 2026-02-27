@@ -205,7 +205,6 @@ export class ConversationsSocket {
             | Phonic.UpdateSystemPromptPayload
             | Phonic.AddSystemMessagePayload
             | Phonic.SetExternalIdPayload
-            | Phonic.SetTwilioCallSidPayload
             | Phonic.ToolCallOutputPayload,
     ): void {
         const jsonPayload = toJson(payload);
