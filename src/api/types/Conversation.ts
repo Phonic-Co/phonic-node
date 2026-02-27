@@ -25,6 +25,8 @@ export interface Conversation {
     welcome_message: string | null;
     /** Template variables used in the conversation. */
     template_variables: Record<string, string>;
+    /** System prompt used in the conversation. */
+    system_prompt?: string;
     /** Audio input format. */
     input_format: string;
     /** Audio output format. */
