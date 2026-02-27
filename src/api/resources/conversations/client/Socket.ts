@@ -107,10 +107,6 @@ export class ConversationsSocket {
         this.sendWithBuffering(() => this.sendJson(message));
     }
 
-    public sendSetTwilioCallSid(message: Phonic.SetTwilioCallSidPayload): void {
-        this.sendWithBuffering(() => this.sendJson(message));
-    }
-
     public sendToolCallOutput(message: Phonic.ToolCallOutputPayload): void {
         this.sendWithBuffering(() => this.sendJson(message));
     }
@@ -209,7 +205,6 @@ export class ConversationsSocket {
             | Phonic.UpdateSystemPromptPayload
             | Phonic.AddSystemMessagePayload
             | Phonic.SetExternalIdPayload
-            | Phonic.SetTwilioCallSidPayload
             | Phonic.ToolCallOutputPayload,
     ): void {
         const jsonPayload = toJson(payload);
