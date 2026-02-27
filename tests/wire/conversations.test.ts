@@ -32,6 +32,7 @@ describe("Conversations", () => {
                     welcome_message:
                         "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                     template_variables: { customer_name: "John", department: "Support" },
+                    system_prompt: "system_prompt",
                     input_format: "mulaw_8000",
                     output_format: "mulaw_8000",
                     background_noise_level: 0.01,
@@ -70,8 +71,6 @@ describe("Conversations", () => {
                             started_at: "2025-07-30T23:45:02Z",
                             voice_id: "sabrina",
                             audio_speed: 1,
-                            system_prompt:
-                                "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
                             tool_calls: [
                                 {
                                     id: "tool_call_a3f8e4b2-7c91-4d63-9b2f-8e5a6c9d1f3a",
@@ -123,6 +122,7 @@ describe("Conversations", () => {
                         customer_name: "John",
                         department: "Support",
                     },
+                    system_prompt: "system_prompt",
                     input_format: "mulaw_8000",
                     output_format: "mulaw_8000",
                     background_noise_level: 0.01,
@@ -163,8 +163,6 @@ describe("Conversations", () => {
                             started_at: "2025-07-30T23:45:02Z",
                             voice_id: "sabrina",
                             audio_speed: 1,
-                            system_prompt:
-                                "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
                             tool_calls: [
                                 {
                                     id: "tool_call_a3f8e4b2-7c91-4d63-9b2f-8e5a6c9d1f3a",
@@ -230,6 +228,7 @@ describe("Conversations", () => {
                 generate_welcome_message: true,
                 welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                 template_variables: { customer_name: "John", department: "Support" },
+                system_prompt: "system_prompt",
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
                 background_noise_level: 0,
@@ -268,8 +267,6 @@ describe("Conversations", () => {
                         started_at: "2025-07-30T23:45:02Z",
                         voice_id: "sabrina",
                         audio_speed: 1,
-                        system_prompt:
-                            "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
                         tool_calls: [
                             {
                                 id: "tool_call_f2d5c8a1-9e4b-4a7c-b3d1-6f8e2a9c5b7d",
@@ -317,6 +314,7 @@ describe("Conversations", () => {
                     customer_name: "John",
                     department: "Support",
                 },
+                system_prompt: "system_prompt",
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
                 background_noise_level: 0,
@@ -357,8 +355,6 @@ describe("Conversations", () => {
                         started_at: "2025-07-30T23:45:02Z",
                         voice_id: "sabrina",
                         audio_speed: 1,
-                        system_prompt:
-                            "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
                         tool_calls: [
                             {
                                 id: "tool_call_f2d5c8a1-9e4b-4a7c-b3d1-6f8e2a9c5b7d",
@@ -491,6 +487,7 @@ describe("Conversations", () => {
                 generate_welcome_message: true,
                 welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                 template_variables: { customer_name: "John", department: "Support" },
+                system_prompt: "system_prompt",
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
                 background_noise_level: 0,
@@ -529,8 +526,6 @@ describe("Conversations", () => {
                         started_at: "2025-07-30T23:45:02Z",
                         voice_id: "sabrina",
                         audio_speed: 1,
-                        system_prompt:
-                            "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
                         tool_calls: [
                             {
                                 id: "tool_call_f2d5c8a1-9e4b-4a7c-b3d1-6f8e2a9c5b7d",
@@ -582,6 +577,7 @@ describe("Conversations", () => {
                     customer_name: "John",
                     department: "Support",
                 },
+                system_prompt: "system_prompt",
                 input_format: "mulaw_8000",
                 output_format: "mulaw_8000",
                 background_noise_level: 0,
@@ -622,8 +618,6 @@ describe("Conversations", () => {
                         started_at: "2025-07-30T23:45:02Z",
                         voice_id: "sabrina",
                         audio_speed: 1,
-                        system_prompt:
-                            "You are a helpful {{department}} assistant. The customer's name is {{customer_name}}. Help them book appointments.",
                         tool_calls: [
                             {
                                 id: "tool_call_f2d5c8a1-9e4b-4a7c-b3d1-6f8e2a9c5b7d",
