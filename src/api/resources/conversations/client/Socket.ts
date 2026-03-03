@@ -27,7 +27,8 @@ export declare namespace ConversationsSocket {
         | Phonic.AssistantEndedConversationPayload
         | Phonic.AssistantStartedSpeakingPayload
         | Phonic.AssistantFinishedSpeakingPayload
-        | Phonic.ErrorPayload;
+        | Phonic.ErrorPayload
+        | Phonic.WarningPayload;
     type EventHandlers = {
         open?: () => void;
         message?: (message: Response) => void;

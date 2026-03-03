@@ -43,3 +43,4 @@ export * from "./ToolCallInterruptedPayload.js";
 export * from "./AssistantChoseNotToRespondPayload.js";
 export * from "./AssistantEndedConversationPayload.js";
 export * from "./ErrorPayload.js";
+export * from "./WarningPayload.js";
