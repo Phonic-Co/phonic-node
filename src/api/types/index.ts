@@ -27,6 +27,7 @@ export * from "./UpdateSystemPromptPayload.js";
 export * from "./AddSystemMessagePayload.js";
 export * from "./SetExternalIdPayload.js";
 export * from "./ToolCallOutputPayload.js";
+export * from "./GenerateReplyPayload.js";
 export * from "./ReadyToStartConversationPayload.js";
 export * from "./ConversationCreatedPayload.js";
 export * from "./InputTextPayload.js";
