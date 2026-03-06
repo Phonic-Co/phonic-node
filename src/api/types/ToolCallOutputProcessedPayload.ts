@@ -7,18 +7,12 @@ export interface ToolCallOutputProcessedPayload {
     /** ID of the completed tool call */
     tool_call_id: string;
     tool: ToolCallOutputProcessedPayload.Tool;
-    /** Configuration of the tool that was called */
-    tool_config?: Record<string, unknown> | null;
-    /** HTTP method used for webhook endpoint (null for WebSocket tools) */
-    endpoint_method?: string | null;
     /** Webhook endpoint URL (null for WebSocket tools) */
     endpoint_url?: string | null;
     /** Webhook timeout in milliseconds (null for WebSocket tools) */
     endpoint_timeout_ms?: number | null;
     /** When webhook was called (null for WebSocket tools) */
     endpoint_called_at?: string | null;
-    /** Query string parameters sent to webhook endpoint (null for WebSocket tools) */
-    query_params?: Record<string, string | null> | null;
     /** Webhook request body (null for WebSocket tools) */
     request_body?: Record<string, unknown> | null;
     /** Webhook response body (null for WebSocket tools) */
@@ -29,8 +23,6 @@ export interface ToolCallOutputProcessedPayload {
     output?: unknown | null;
     /** Webhook HTTP status code (null for WebSocket tools) */
     response_status_code?: number | null;
-    /** Duration of the tool call in milliseconds */
-    duration_ms?: number | null;
     /** Whether the tool call timed out */
     timed_out?: boolean | null;
     /** Error message if tool call failed */

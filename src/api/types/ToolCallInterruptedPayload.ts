@@ -8,4 +8,6 @@ export interface ToolCallInterruptedPayload {
     tool_call_id: string;
     /** Name of the interrupted tool */
     tool_name: string;
+    /** Description of why the tool call was interrupted */
+    error_message: string;
 }
