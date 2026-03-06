@@ -112,6 +112,10 @@ export class ConversationsSocket {
         this.sendWithBuffering(() => this.sendJson(message));
     }
 
+    public sendGenerateReply(message: Phonic.GenerateReplyPayload): void {
+        this.sendWithBuffering(() => this.sendJson(message));
+    }
+
     /** Connect to the websocket and register event handlers. */
     public connect(): ConversationsSocket {
         this.socket.reconnect();
@@ -206,7 +210,8 @@ export class ConversationsSocket {
             | Phonic.UpdateSystemPromptPayload
             | Phonic.AddSystemMessagePayload
             | Phonic.SetExternalIdPayload
-            | Phonic.ToolCallOutputPayload,
+            | Phonic.ToolCallOutputPayload
+            | Phonic.GenerateReplyPayload,
     ): void {
         const jsonPayload = toJson(payload);
         this.socket.send(jsonPayload);
