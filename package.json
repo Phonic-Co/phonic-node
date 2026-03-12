@@ -1,15 +1,17 @@
 {
     "name": "phonic",
-    "version": "0.31.2",
+    "version": "0.31.3",
     "private": false,
-    "repository": "github:Phonic-Co/phonic-node",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Phonic-Co/phonic-node.git"
+    },
     "type": "commonjs",
     "main": "./dist/cjs/index.js",
     "module": "./dist/esm/index.mjs",
     "types": "./dist/cjs/index.d.ts",
     "exports": {
         ".": {
-            "types": "./dist/cjs/index.d.ts",
             "import": {
                 "types": "./dist/esm/index.d.mts",
                 "default": "./dist/esm/index.mjs"
@@ -20,6 +22,83 @@
             },
             "default": "./dist/cjs/index.js"
         },
+        "./agents": {
+            "import": {
+                "types": "./dist/esm/api/resources/agents/exports.d.mts",
+                "default": "./dist/esm/api/resources/agents/exports.mjs"
+            },
+            "require": {
+                "types": "./dist/cjs/api/resources/agents/exports.d.ts",
+                "default": "./dist/cjs/api/resources/agents/exports.js"
+            },
+            "default": "./dist/cjs/api/resources/agents/exports.js"
+        },
+        "./tools": {
+            "import": {
+                "types": "./dist/esm/api/resources/tools/exports.d.mts",
+                "default": "./dist/esm/api/resources/tools/exports.mjs"
+            },
+            "require": {
+                "types": "./dist/cjs/api/resources/tools/exports.d.ts",
+                "default": "./dist/cjs/api/resources/tools/exports.js"
+            },
+            "default": "./dist/cjs/api/resources/tools/exports.js"
+        },
+        "./extractionSchemas": {
+            "import": {
+                "types": "./dist/esm/api/resources/extractionSchemas/exports.d.mts",
+                "default": "./dist/esm/api/resources/extractionSchemas/exports.mjs"
+            },
+            "require": {
+                "types": "./dist/cjs/api/resources/extractionSchemas/exports.d.ts",
+                "default": "./dist/cjs/api/resources/extractionSchemas/exports.js"
+            },
+            "default": "./dist/cjs/api/resources/extractionSchemas/exports.js"
+        },
+        "./voices": {
+            "import": {
+                "types": "./dist/esm/api/resources/voices/exports.d.mts",
+                "default": "./dist/esm/api/resources/voices/exports.mjs"
+            },
+            "require": {
+                "types": "./dist/cjs/api/resources/voices/exports.d.ts",
+                "default": "./dist/cjs/api/resources/voices/exports.js"
+            },
+            "default": "./dist/cjs/api/resources/voices/exports.js"
+        },
+        "./conversations": {
+            "import": {
+                "types": "./dist/esm/api/resources/conversations/exports.d.mts",
+                "default": "./dist/esm/api/resources/conversations/exports.mjs"
+            },
+            "require": {
+                "types": "./dist/cjs/api/resources/conversations/exports.d.ts",
+                "default": "./dist/cjs/api/resources/conversations/exports.js"
+            },
+            "default": "./dist/cjs/api/resources/conversations/exports.js"
+        },
+        "./auth": {
+            "import": {
+                "types": "./dist/esm/api/resources/auth/exports.d.mts",
+                "default": "./dist/esm/api/resources/auth/exports.mjs"
+            },
+            "require": {
+                "types": "./dist/cjs/api/resources/auth/exports.d.ts",
+                "default": "./dist/cjs/api/resources/auth/exports.js"
+            },
+            "default": "./dist/cjs/api/resources/auth/exports.js"
+        },
+        "./projects": {
+            "import": {
+                "types": "./dist/esm/api/resources/projects/exports.d.mts",
+                "default": "./dist/esm/api/resources/projects/exports.mjs"
+            },
+            "require": {
+                "types": "./dist/cjs/api/resources/projects/exports.d.ts",
+                "default": "./dist/cjs/api/resources/projects/exports.js"
+            },
+            "default": "./dist/cjs/api/resources/projects/exports.js"
+        },
         "./package.json": "./package.json"
     },
     "files": [
@@ -29,13 +108,17 @@
         "LICENSE"
     ],
     "scripts": {
-        "format": "prettier . --write --ignore-unknown",
+        "format": "biome format --write --skip-parse-errors --no-errors-on-unmatched --max-diagnostics=none",
+        "format:check": "biome format --skip-parse-errors --no-errors-on-unmatched --max-diagnostics=none",
+        "lint": "biome lint --skip-parse-errors --no-errors-on-unmatched --max-diagnostics=none",
+        "lint:fix": "biome lint --fix --unsafe --skip-parse-errors --no-errors-on-unmatched --max-diagnostics=none",
+        "check": "biome check --skip-parse-errors --no-errors-on-unmatched --max-diagnostics=none",
+        "check:fix": "biome check --fix --unsafe --skip-parse-errors --no-errors-on-unmatched --max-diagnostics=none",
         "build": "yarn build:cjs && yarn build:esm",
         "build:cjs": "tsc --project ./tsconfig.cjs.json",
         "build:esm": "tsc --project ./tsconfig.esm.json && node scripts/rename-to-esm-files.js dist/esm",
         "test": "jest --config jest.config.mjs",
         "test:unit": "jest --selectProjects unit",
-        "test:browser": "jest --selectProjects browser",
         "test:wire": "jest --selectProjects wire"
     },
     "dependencies": {
@@ -52,14 +135,15 @@
         "jest-environment-jsdom": "^29.7.0",
         "msw": "2.11.2",
         "@types/node": "^18.19.70",
-        "prettier": "^3.4.2",
-        "typescript": "~5.7.2"
+        "typescript": "~5.7.2",
+        "@biomejs/biome": "2.4.3"
     },
     "browser": {
         "fs": false,
         "os": false,
         "path": false,
-        "stream": false
+        "stream": false,
+        "crypto": false
     },
     "packageManager": "yarn@1.22.22",
     "engines": {

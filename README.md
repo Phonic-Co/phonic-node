@@ -13,13 +13,15 @@ The Phonic TypeScript library provides convenient access to the Phonic APIs from
 - [Request and Response Types](#request-and-response-types)
 - [Exception Handling](#exception-handling)
 - [Advanced](#advanced)
-    - [Additional Headers](#additional-headers)
-    - [Additional Query String Parameters](#additional-query-string-parameters)
-    - [Retries](#retries)
-    - [Timeouts](#timeouts)
-    - [Aborting Requests](#aborting-requests)
-    - [Access Raw Response Data](#access-raw-response-data)
-    - [Runtime Compatibility](#runtime-compatibility)
+  - [Subpackage Exports](#subpackage-exports)
+  - [Additional Headers](#additional-headers)
+  - [Additional Query String Parameters](#additional-query-string-parameters)
+  - [Retries](#retries)
+  - [Timeouts](#timeouts)
+  - [Aborting Requests](#aborting-requests)
+  - [Access Raw Response Data](#access-raw-response-data)
+  - [Logging](#logging)
+  - [Runtime Compatibility](#runtime-compatibility)
 - [Contributing](#contributing)
 
 ## Installation
@@ -52,12 +54,12 @@ await client.agents.create({
     welcome_message: "Hi {{customer_name}}. How can I help you today?",
     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables: {
-        customer_name: {
-            default_value: "David",
+        "customer_name": {
+            default_value: "David"
         },
-        subject: {
-            default_value: "Chess",
-        },
+        "subject": {
+            default_value: "Chess"
+        }
     },
     tools: ["keypad_input"],
     generate_no_input_poke_text: false,
@@ -68,10 +70,10 @@ await client.agents.create({
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
-            Authorization: "Bearer token123",
+            "Authorization": "Bearer token123"
         },
-        timeout_ms: 7000,
-    },
+        timeout_ms: 7000
+    }
 });
 ```
 
@@ -110,11 +112,30 @@ try {
 
 ## Advanced
 
+### Subpackage Exports
+
+This SDK supports direct imports of subpackage clients, which allows JavaScript bundlers to tree-shake and include only the imported subpackage code. This results in much smaller bundle sizes.
+
+```typescript
+import { AgentsClient } from 'phonic/agents';
+
+const client = new AgentsClient({...});
+```
+
 ### Additional Headers
 
 If you would like to send additional headers as part of the request, use the `headers` request option.
 
 ```typescript
+import { PhonicClient } from "phonic";
+
+const client = new PhonicClient({
+    ...
+    headers: {
+        'X-Custom-Header': 'custom value'
+    }
+});
+
 const response = await client.agents.create(..., {
     headers: {
         'X-Custom-Header': 'custom value'
@@ -188,9 +209,75 @@ console.log(data);
 console.log(rawResponse.headers['X-My-Header']);
 ```
 
+### Logging
+
+The SDK supports logging. You can configure the logger by passing in a `logging` object to the client options.
+
+```typescript
+import { PhonicClient, logging } from "phonic";
+
+const client = new PhonicClient({
+    ...
+    logging: {
+        level: logging.LogLevel.Debug, // defaults to logging.LogLevel.Info
+        logger: new logging.ConsoleLogger(), // defaults to ConsoleLogger
+        silent: false, // defaults to true, set to false to enable logging
+    }
+});
+```
+The `logging` object can have the following properties:
+- `level`: The log level to use. Defaults to `logging.LogLevel.Info`.
+- `logger`: The logger to use. Defaults to a `logging.ConsoleLogger`.
+- `silent`: Whether to silence the logger. Defaults to `true`.
+
+The `level` property can be one of the following values:
+- `logging.LogLevel.Debug`
+- `logging.LogLevel.Info`
+- `logging.LogLevel.Warn`
+- `logging.LogLevel.Error`
+
+To provide a custom logger, you can pass in an object that implements the `logging.ILogger` interface.
+
+<details>
+<summary>Custom logger examples</summary>
+
+Here's an example using the popular `winston` logging library.
+```ts
+import winston from 'winston';
+
+const winstonLogger = winston.createLogger({...});
+
+const logger: logging.ILogger = {
+    debug: (msg, ...args) => winstonLogger.debug(msg, ...args),
+    info: (msg, ...args) => winstonLogger.info(msg, ...args),
+    warn: (msg, ...args) => winstonLogger.warn(msg, ...args),
+    error: (msg, ...args) => winstonLogger.error(msg, ...args),
+};
+```
+
+Here's an example using the popular `pino` logging library.
+
+```ts
+import pino from 'pino';
+
+const pinoLogger = pino({...});
+
+const logger: logging.ILogger = {
+  debug: (msg, ...args) => pinoLogger.debug(args, msg),
+  info: (msg, ...args) => pinoLogger.info(args, msg),
+  warn: (msg, ...args) => pinoLogger.warn(args, msg),
+  error: (msg, ...args) => pinoLogger.error(args, msg),
+};
+```
+</details>
+
+
 ### Runtime Compatibility
 
+
 The SDK works in the following runtimes:
+
+
 
 - Node.js 18+
 - Vercel
