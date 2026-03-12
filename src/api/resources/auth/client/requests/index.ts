@@ -1,1 +1,1 @@
-export { type CreateSessionTokenRequest } from "./CreateSessionTokenRequest.js";
+export type { CreateSessionTokenRequest } from "./CreateSessionTokenRequest.js";
