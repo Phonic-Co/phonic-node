@@ -5,7 +5,6 @@ import { toQueryString } from "../url/qs.js";
 import * as Events from "./events.js";
 
 const getGlobalWebSocket = (): WebSocket | undefined => {
-    // Use Node.js 'ws' library for server-side runtimes since native WebSocket doesn't support headers
     if (RUNTIME.type === "node" || RUNTIME.type === "bun" || RUNTIME.type === "deno") {
         return NodeWebSocket as unknown as WebSocket;
     } else if (typeof WebSocket !== "undefined") {
@@ -29,8 +28,9 @@ export declare namespace ReconnectingWebSocket {
         url: string;
         protocols?: string | string[];
         options?: ReconnectingWebSocket.Options;
-        headers?: Record<string, any>;
-        queryParameters?: Record<string, string | string[] | object | object[] | null | undefined>;
+        headers?: Record<string, unknown>;
+        queryParameters?: Record<string, unknown>;
+        abortSignal?: AbortSignal;
     }
 
     export type Options = {
@@ -92,44 +92,33 @@ export class ReconnectingWebSocket {
     private readonly _options: ReconnectingWebSocket.Options;
     private readonly _headers?: Record<string, any>;
     private readonly _queryParameters?: Record<string, any>;
+    private readonly _abortSignal?: AbortSignal;
 
-    constructor({ url, protocols, options, headers, queryParameters }: ReconnectingWebSocket.Args) {
+    constructor({ url, protocols, options, headers, queryParameters, abortSignal }: ReconnectingWebSocket.Args) {
         this._url = url;
         this._protocols = protocols;
         this._options = options ?? DEFAULT_OPTIONS;
         this._headers = headers;
         this._queryParameters = queryParameters;
+        this._abortSignal = abortSignal;
+        if (this._abortSignal) {
+            this._abortSignal.addEventListener("abort", this._handleAbort, { once: true });
+        }
         if (this._options.startClosed) {
             this._shouldReconnect = false;
         }
         this._connect();
     }
 
-    static get CONNECTING() {
-        return 0;
-    }
-    static get OPEN() {
-        return 1;
-    }
-    static get CLOSING() {
-        return 2;
-    }
-    static get CLOSED() {
-        return 3;
-    }
+    public static readonly CONNECTING = 0;
+    public static readonly OPEN = 1;
+    public static readonly CLOSING = 2;
+    public static readonly CLOSED = 3;
 
-    get CONNECTING() {
-        return ReconnectingWebSocket.CONNECTING;
-    }
-    get OPEN() {
-        return ReconnectingWebSocket.OPEN;
-    }
-    get CLOSING() {
-        return ReconnectingWebSocket.CLOSING;
-    }
-    get CLOSED() {
-        return ReconnectingWebSocket.CLOSED;
-    }
+    public readonly CONNECTING: typeof ReconnectingWebSocket.CONNECTING = ReconnectingWebSocket.CONNECTING;
+    public readonly OPEN: typeof ReconnectingWebSocket.OPEN = ReconnectingWebSocket.OPEN;
+    public readonly CLOSING: typeof ReconnectingWebSocket.CLOSING = ReconnectingWebSocket.CLOSING;
+    public readonly CLOSED: typeof ReconnectingWebSocket.CLOSED = ReconnectingWebSocket.CLOSED;
 
     get binaryType() {
         return this._ws ? this._ws.binaryType : this._binaryType;
@@ -228,7 +217,7 @@ export class ReconnectingWebSocket {
      * Closes the WebSocket connection or connection attempt, if any. If the connection is already
      * CLOSED, this method does nothing
      */
-    public close(code = 1000, reason?: string) {
+    public close(code = 1000, reason?: string): void {
         this._closeCalled = true;
         this._shouldReconnect = false;
         this._clearTimeouts();
@@ -247,7 +236,7 @@ export class ReconnectingWebSocket {
      * Closes the WebSocket connection or connection attempt and connects again.
      * Resets retry counter;
      */
-    public reconnect(code?: number, reason?: string) {
+    public reconnect(code?: number, reason?: string): void {
         this._shouldReconnect = true;
         this._closeCalled = false;
         this._retryCount = -1;
@@ -262,7 +251,7 @@ export class ReconnectingWebSocket {
     /**
      * Enqueue specified data to be transmitted to the server over the WebSocket connection
      */
-    public send(data: ReconnectingWebSocket.Message) {
+    public send(data: ReconnectingWebSocket.Message): void {
         if (this._ws && this._ws.readyState === this.OPEN) {
             this._debug("send", data);
             this._ws.send(data);
@@ -331,7 +320,7 @@ export class ReconnectingWebSocket {
         } = this._options;
         let delay = 0;
         if (this._retryCount > 0) {
-            delay = minReconnectionDelay * Math.pow(reconnectionDelayGrowFactor, this._retryCount - 1);
+            delay = minReconnectionDelay * reconnectionDelayGrowFactor ** (this._retryCount - 1);
             if (delay > maxReconnectionDelay) {
                 delay = maxReconnectionDelay;
             }
@@ -367,6 +356,10 @@ export class ReconnectingWebSocket {
         if (this._connectLock || !this._shouldReconnect) {
             return;
         }
+        if (this._abortSignal?.aborted) {
+            this._debug("connect aborted");
+            return;
+        }
         this._connectLock = true;
 
         const {
@@ -390,7 +383,8 @@ export class ReconnectingWebSocket {
         this._wait()
             .then(() => this._getNextUrl(this._url))
             .then((url) => {
-                if (this._closeCalled) {
+                if (this._closeCalled || this._abortSignal?.aborted) {
+                    this._connectLock = false;
                     return;
                 }
                 const options: Record<string, unknown> = {};
@@ -412,6 +406,25 @@ export class ReconnectingWebSocket {
             });
     }
 
+    private _handleAbort = () => {
+        if (this._closeCalled) {
+            return;
+        }
+        this._debug("abort signal fired");
+        this._shouldReconnect = false;
+        this._closeCalled = true;
+        this._clearTimeouts();
+        if (this._ws) {
+            this._removeListeners();
+            try {
+                this._ws.close(1000, "aborted");
+                this._handleClose(new Events.CloseEvent(1000, "aborted", this));
+            } catch (_error) {
+                // ignore
+            }
+        }
+    };
+
     private _handleTimeout() {
         this._debug("timeout event");
         this._handleError(new Events.ErrorEvent(Error("TIMEOUT"), this));
@@ -426,7 +439,7 @@ export class ReconnectingWebSocket {
         try {
             this._ws.close(code, reason);
             this._handleClose(new Events.CloseEvent(code, reason, this));
-        } catch (error) {
+        } catch (_error) {
             // ignore
         }
     }

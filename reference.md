@@ -1,7 +1,5 @@
 # Reference
-
 ## Agents
-
 <details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">list</a>({ ...params }) -> Phonic.AgentsListResponse</code></summary>
 <dl>
 <dd>
@@ -15,7 +13,6 @@
 <dd>
 
 Returns all agents in a project.
-
 </dd>
 </dl>
 </dd>
@@ -31,8 +28,8 @@ Returns all agents in a project.
 
 ```typescript
 await client.agents.list();
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -46,20 +43,21 @@ await client.agents.list();
 <dl>
 <dd>
 
-**request:** `Phonic.AgentsListRequest`
-
+**request:** `Phonic.AgentsListRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Agents.RequestOptions`
+**requestOptions:** `AgentsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -78,7 +76,6 @@ await client.agents.list();
 <dd>
 
 Creates a new agent in a project.
-
 </dd>
 </dl>
 </dd>
@@ -105,12 +102,12 @@ await client.agents.create({
     welcome_message: "Hi {{customer_name}}. How can I help you today?",
     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables: {
-        customer_name: {
-            default_value: "David",
+        "customer_name": {
+            default_value: "David"
         },
-        subject: {
-            default_value: "Chess",
-        },
+        "subject": {
+            default_value: "Chess"
+        }
     },
     tools: ["keypad_input"],
     generate_no_input_poke_text: false,
@@ -121,13 +118,13 @@ await client.agents.create({
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
-            Authorization: "Bearer token123",
+            "Authorization": "Bearer token123"
         },
-        timeout_ms: 7000,
-    },
+        timeout_ms: 7000
+    }
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -141,20 +138,21 @@ await client.agents.create({
 <dl>
 <dd>
 
-**request:** `Phonic.AgentsCreateRequest`
-
+**request:** `Phonic.AgentsCreateRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Agents.RequestOptions`
+**requestOptions:** `AgentsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -173,7 +171,6 @@ await client.agents.create({
 <dd>
 
 Upserts an agent by name. If an agent with the same name already exists, it will be updated. Otherwise, it will be created.
-
 </dd>
 </dl>
 </dd>
@@ -200,12 +197,12 @@ await client.agents.upsert({
     welcome_message: "Hi {{customer_name}}. How can I help you today?",
     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables: {
-        customer_name: {
-            default_value: "David",
+        "customer_name": {
+            default_value: "David"
         },
-        subject: {
-            default_value: "Chess",
-        },
+        "subject": {
+            default_value: "Chess"
+        }
     },
     tools: ["keypad_input"],
     generate_no_input_poke_text: false,
@@ -216,13 +213,13 @@ await client.agents.upsert({
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
-            Authorization: "Bearer token123",
+            "Authorization": "Bearer token123"
         },
-        timeout_ms: 7000,
-    },
+        timeout_ms: 7000
+    }
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -236,20 +233,21 @@ await client.agents.upsert({
 <dl>
 <dd>
 
-**request:** `Phonic.UpsertAgentRequest`
-
+**request:** `Phonic.UpsertAgentRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Agents.RequestOptions`
+**requestOptions:** `AgentsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -268,7 +266,6 @@ await client.agents.upsert({
 <dd>
 
 Returns an agent by name or ID.
-
 </dd>
 </dl>
 </dd>
@@ -284,10 +281,10 @@ Returns an agent by name or ID.
 
 ```typescript
 await client.agents.get("nameOrId", {
-    project: "main",
+    project: "main"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -302,27 +299,28 @@ await client.agents.get("nameOrId", {
 <dd>
 
 **nameOrId:** `string` — The name or the ID of the agent to get.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.AgentsGetRequest`
-
+**request:** `Phonic.AgentsGetRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Agents.RequestOptions`
+**requestOptions:** `AgentsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -341,7 +339,6 @@ await client.agents.get("nameOrId", {
 <dd>
 
 Deletes an agent by name or ID.
-
 </dd>
 </dl>
 </dd>
@@ -357,10 +354,10 @@ Deletes an agent by name or ID.
 
 ```typescript
 await client.agents.delete("nameOrId", {
-    project: "main",
+    project: "main"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -375,27 +372,28 @@ await client.agents.delete("nameOrId", {
 <dd>
 
 **nameOrId:** `string` — The name or the ID of the agent to delete.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.AgentsDeleteRequest`
-
+**request:** `Phonic.AgentsDeleteRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Agents.RequestOptions`
+**requestOptions:** `AgentsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -414,7 +412,6 @@ await client.agents.delete("nameOrId", {
 <dd>
 
 Updates an agent by name or ID.
-
 </dd>
 </dl>
 </dd>
@@ -441,12 +438,12 @@ await client.agents.update("nameOrId", {
     welcome_message: "Hi {{customer_name}}. How can I help you today?",
     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables: {
-        customer_name: {
-            default_value: "David",
+        "customer_name": {
+            default_value: "David"
         },
-        subject: {
-            default_value: "Chess",
-        },
+        "subject": {
+            default_value: "Chess"
+        }
     },
     tools: ["keypad_input"],
     generate_no_input_poke_text: false,
@@ -457,13 +454,13 @@ await client.agents.update("nameOrId", {
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
-            Authorization: "Bearer token123",
+            "Authorization": "Bearer token123"
         },
-        timeout_ms: 7000,
-    },
+        timeout_ms: 7000
+    }
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -478,27 +475,28 @@ await client.agents.update("nameOrId", {
 <dd>
 
 **nameOrId:** `string` — The name or the ID of the agent to update.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.UpdateAgentRequest`
-
+**request:** `Phonic.UpdateAgentRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Agents.RequestOptions`
+**requestOptions:** `AgentsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -517,7 +515,6 @@ await client.agents.update("nameOrId", {
 <dd>
 
 Adds a custom phone number to an agent. The user must configure their SIP trunk to point to Phonic's SIP server.
-
 </dd>
 </dl>
 </dd>
@@ -538,13 +535,13 @@ await client.agents.addCustomPhoneNumber("nameOrId", {
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
-            Authorization: "Bearer token123",
+            "Authorization": "Bearer token123"
         },
-        timeout_ms: 7000,
-    },
+        timeout_ms: 7000
+    }
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -559,27 +556,28 @@ await client.agents.addCustomPhoneNumber("nameOrId", {
 <dd>
 
 **nameOrId:** `string` — The name or the ID of the agent.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.AgentsAddCustomPhoneNumberRequest`
-
+**request:** `Phonic.AgentsAddCustomPhoneNumberRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Agents.RequestOptions`
+**requestOptions:** `AgentsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -598,7 +596,6 @@ await client.agents.addCustomPhoneNumber("nameOrId", {
 <dd>
 
 Deletes a custom phone number from an agent.
-
 </dd>
 </dl>
 </dd>
@@ -615,10 +612,10 @@ Deletes a custom phone number from an agent.
 ```typescript
 await client.agents.deleteCustomPhoneNumber("nameOrId", {
     project: "main",
-    phone_number: "+15551234567",
+    phone_number: "+15551234567"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -633,27 +630,28 @@ await client.agents.deleteCustomPhoneNumber("nameOrId", {
 <dd>
 
 **nameOrId:** `string` — The name or the ID of the agent.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.AgentsDeleteCustomPhoneNumberRequest`
-
+**request:** `Phonic.AgentsDeleteCustomPhoneNumberRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Agents.RequestOptions`
+**requestOptions:** `AgentsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -672,7 +670,6 @@ await client.agents.deleteCustomPhoneNumber("nameOrId", {
 <dd>
 
 Updates a phone number on an agent.
-
 </dd>
 </dl>
 </dd>
@@ -693,13 +690,13 @@ await client.agents.updatePhoneNumber("nameOrId", {
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
-            Authorization: "Bearer token123",
+            "Authorization": "Bearer token123"
         },
-        timeout_ms: 7000,
-    },
+        timeout_ms: 7000
+    }
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -714,34 +711,34 @@ await client.agents.updatePhoneNumber("nameOrId", {
 <dd>
 
 **nameOrId:** `string` — The name or the ID of the agent.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.AgentsUpdatePhoneNumberRequest`
-
+**request:** `Phonic.AgentsUpdatePhoneNumberRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Agents.RequestOptions`
+**requestOptions:** `AgentsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
 </details>
 
 ## Tools
-
 <details><summary><code>client.tools.<a href="/src/api/resources/tools/client/Client.ts">list</a>({ ...params }) -> Phonic.ToolsListResponse</code></summary>
 <dl>
 <dd>
@@ -755,7 +752,6 @@ await client.agents.updatePhoneNumber("nameOrId", {
 <dd>
 
 Returns all custom tools for the organization.
-
 </dd>
 </dl>
 </dd>
@@ -771,10 +767,10 @@ Returns all custom tools for the organization.
 
 ```typescript
 await client.tools.list({
-    project: "main",
+    project: "main"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -788,20 +784,21 @@ await client.tools.list({
 <dl>
 <dd>
 
-**request:** `Phonic.ToolsListRequest`
-
+**request:** `Phonic.ToolsListRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Tools.RequestOptions`
+**requestOptions:** `ToolsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -820,7 +817,6 @@ await client.tools.list({
 <dd>
 
 Creates a new tool in a project.
-
 </dd>
 </dl>
 </dd>
@@ -841,20 +837,18 @@ await client.tools.create({
     description: "Gets the specific context for fixing our printer",
     type: "custom_context",
     execution_mode: "sync",
-    parameters: [
-        {
+    parameters: [{
             type: "string",
             name: "name",
             description: "description",
-            is_required: true,
-        },
-    ],
+            is_required: true
+        }],
     require_speech_before_tool_call: false,
     forbid_speech_after_tool_call: false,
-    allow_tool_chaining: true,
+    allow_tool_chaining: true
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -868,20 +862,21 @@ await client.tools.create({
 <dl>
 <dd>
 
-**request:** `Phonic.CreateToolRequest`
-
+**request:** `Phonic.CreateToolRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Tools.RequestOptions`
+**requestOptions:** `ToolsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -900,7 +895,6 @@ await client.tools.create({
 <dd>
 
 Returns a tool by name or ID.
-
 </dd>
 </dl>
 </dd>
@@ -916,10 +910,10 @@ Returns a tool by name or ID.
 
 ```typescript
 await client.tools.get("nameOrId", {
-    project: "main",
+    project: "main"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -934,27 +928,28 @@ await client.tools.get("nameOrId", {
 <dd>
 
 **nameOrId:** `string` — The name or the ID of the tool to get.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.ToolsGetRequest`
-
+**request:** `Phonic.ToolsGetRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Tools.RequestOptions`
+**requestOptions:** `ToolsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -973,7 +968,6 @@ await client.tools.get("nameOrId", {
 <dd>
 
 Deletes a tool by name or ID.
-
 </dd>
 </dl>
 </dd>
@@ -989,10 +983,10 @@ Deletes a tool by name or ID.
 
 ```typescript
 await client.tools.delete("nameOrId", {
-    project: "main",
+    project: "main"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -1007,27 +1001,28 @@ await client.tools.delete("nameOrId", {
 <dd>
 
 **nameOrId:** `string` — The name or the ID of the tool to delete.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.ToolsDeleteRequest`
-
+**request:** `Phonic.ToolsDeleteRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Tools.RequestOptions`
+**requestOptions:** `ToolsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -1046,7 +1041,6 @@ await client.tools.delete("nameOrId", {
 <dd>
 
 Updates a tool by name or ID.
-
 </dd>
 </dl>
 </dd>
@@ -1065,12 +1059,12 @@ await client.tools.update("nameOrId", {
     project: "main",
     description: "Updated description for booking appointments with enhanced features",
     endpoint_headers: {
-        Authorization: "Bearer updated_token456",
+        "Authorization": "Bearer updated_token456"
     },
-    endpoint_timeout_ms: 7000,
+    endpoint_timeout_ms: 7000
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -1085,34 +1079,34 @@ await client.tools.update("nameOrId", {
 <dd>
 
 **nameOrId:** `string` — The name or the ID of the tool to update.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.UpdateToolRequest`
-
+**request:** `Phonic.UpdateToolRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Tools.RequestOptions`
+**requestOptions:** `ToolsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
 </details>
 
 ## ExtractionSchemas
-
 <details><summary><code>client.extractionSchemas.<a href="/src/api/resources/extractionSchemas/client/Client.ts">list</a>({ ...params }) -> Phonic.ExtractionSchemasListResponse</code></summary>
 <dl>
 <dd>
@@ -1126,7 +1120,6 @@ await client.tools.update("nameOrId", {
 <dd>
 
 Returns all extraction schemas in a project.
-
 </dd>
 </dl>
 </dd>
@@ -1142,10 +1135,10 @@ Returns all extraction schemas in a project.
 
 ```typescript
 await client.extractionSchemas.list({
-    project: "main",
+    project: "main"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -1159,20 +1152,21 @@ await client.extractionSchemas.list({
 <dl>
 <dd>
 
-**request:** `Phonic.ExtractionSchemasListRequest`
-
+**request:** `Phonic.ExtractionSchemasListRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `ExtractionSchemas.RequestOptions`
+**requestOptions:** `ExtractionSchemasClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -1191,7 +1185,6 @@ await client.extractionSchemas.list({
 <dd>
 
 Creates a new extraction schema in a project.
-
 </dd>
 </dl>
 </dd>
@@ -1210,26 +1203,22 @@ await client.extractionSchemas.create({
     project: "main",
     name: "Appointment details",
     prompt: "Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
-    fields: [
-        {
+    fields: [{
             name: "Date",
             type: "string",
-            description: "The date of the appointment",
-        },
-        {
+            description: "The date of the appointment"
+        }, {
             name: "Copay",
             type: "string",
-            description: "Amount of money the patient pays for the appointment",
-        },
-        {
+            description: "Amount of money the patient pays for the appointment"
+        }, {
             name: "Confirmed as booked",
             type: "bool",
-            description: "Is the appointment confirmed as booked?",
-        },
-    ],
+            description: "Is the appointment confirmed as booked?"
+        }]
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -1243,20 +1232,21 @@ await client.extractionSchemas.create({
 <dl>
 <dd>
 
-**request:** `Phonic.CreateExtractionSchemaRequest`
-
+**request:** `Phonic.CreateExtractionSchemaRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `ExtractionSchemas.RequestOptions`
+**requestOptions:** `ExtractionSchemasClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -1275,7 +1265,6 @@ await client.extractionSchemas.create({
 <dd>
 
 Returns an extraction schema by name or ID.
-
 </dd>
 </dl>
 </dd>
@@ -1291,10 +1280,10 @@ Returns an extraction schema by name or ID.
 
 ```typescript
 await client.extractionSchemas.get("nameOrId", {
-    project: "main",
+    project: "main"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -1309,27 +1298,28 @@ await client.extractionSchemas.get("nameOrId", {
 <dd>
 
 **nameOrId:** `string` — The name or the ID of the extraction schema to get.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.ExtractionSchemasGetRequest`
-
+**request:** `Phonic.ExtractionSchemasGetRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `ExtractionSchemas.RequestOptions`
+**requestOptions:** `ExtractionSchemasClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -1348,7 +1338,6 @@ await client.extractionSchemas.get("nameOrId", {
 <dd>
 
 Deletes an extraction schema by name or ID.
-
 </dd>
 </dl>
 </dd>
@@ -1364,10 +1353,10 @@ Deletes an extraction schema by name or ID.
 
 ```typescript
 await client.extractionSchemas.delete("nameOrId", {
-    project: "main",
+    project: "main"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -1382,27 +1371,28 @@ await client.extractionSchemas.delete("nameOrId", {
 <dd>
 
 **nameOrId:** `string` — The name or the ID of the extraction schema to delete.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.ExtractionSchemasDeleteRequest`
-
+**request:** `Phonic.ExtractionSchemasDeleteRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `ExtractionSchemas.RequestOptions`
+**requestOptions:** `ExtractionSchemasClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -1421,7 +1411,6 @@ await client.extractionSchemas.delete("nameOrId", {
 <dd>
 
 Updates an extraction schema by name or ID.
-
 </dd>
 </dl>
 </dd>
@@ -1440,21 +1429,18 @@ await client.extractionSchemas.update("nameOrId", {
     project: "main",
     name: "Updated appointment details",
     prompt: "Updated extraction instructions. Dates should be in `9 Apr 2025` format.",
-    fields: [
-        {
+    fields: [{
             name: "Date",
             type: "string",
-            description: "The date of the appointment",
-        },
-        {
+            description: "The date of the appointment"
+        }, {
             name: "Time",
             type: "string",
-            description: "The time of the appointment",
-        },
-    ],
+            description: "The time of the appointment"
+        }]
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -1469,34 +1455,34 @@ await client.extractionSchemas.update("nameOrId", {
 <dd>
 
 **nameOrId:** `string` — The name or the ID of the extraction schema to update.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.UpdateExtractionSchemaRequest`
-
+**request:** `Phonic.UpdateExtractionSchemaRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `ExtractionSchemas.RequestOptions`
+**requestOptions:** `ExtractionSchemasClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
 </details>
 
 ## Voices
-
 <details><summary><code>client.voices.<a href="/src/api/resources/voices/client/Client.ts">list</a>({ ...params }) -> Phonic.VoicesListResponse</code></summary>
 <dl>
 <dd>
@@ -1510,7 +1496,6 @@ await client.extractionSchemas.update("nameOrId", {
 <dd>
 
 Returns all available voices for a model.
-
 </dd>
 </dl>
 </dd>
@@ -1526,10 +1511,10 @@ Returns all available voices for a model.
 
 ```typescript
 await client.voices.list({
-    model: "merritt",
+    model: "merritt"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -1543,20 +1528,21 @@ await client.voices.list({
 <dl>
 <dd>
 
-**request:** `Phonic.VoicesListRequest`
-
+**request:** `Phonic.VoicesListRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Voices.RequestOptions`
+**requestOptions:** `VoicesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -1575,7 +1561,6 @@ await client.voices.list({
 <dd>
 
 Returns a voice by ID.
-
 </dd>
 </dl>
 </dd>
@@ -1591,8 +1576,8 @@ Returns a voice by ID.
 
 ```typescript
 await client.voices.get("id");
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -1607,26 +1592,26 @@ await client.voices.get("id");
 <dd>
 
 **id:** `string` — The ID of the voice to get.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Voices.RequestOptions`
+**requestOptions:** `VoicesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
 </details>
 
 ## Conversations
-
 <details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">list</a>({ ...params }) -> Phonic.ConversationsListResponse</code></summary>
 <dl>
 <dd>
@@ -1640,7 +1625,6 @@ await client.voices.get("id");
 <dd>
 
 Returns conversations with optional filtering.
-
 </dd>
 </dl>
 </dd>
@@ -1656,8 +1640,8 @@ Returns conversations with optional filtering.
 
 ```typescript
 await client.conversations.list();
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -1671,20 +1655,21 @@ await client.conversations.list();
 <dl>
 <dd>
 
-**request:** `Phonic.ConversationsListRequest`
-
+**request:** `Phonic.ConversationsListRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Conversations.RequestOptions`
+**requestOptions:** `ConversationsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -1703,7 +1688,6 @@ await client.conversations.list();
 <dd>
 
 Returns a conversation by ID.
-
 </dd>
 </dl>
 </dd>
@@ -1719,8 +1703,8 @@ Returns a conversation by ID.
 
 ```typescript
 await client.conversations.get("id");
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -1735,19 +1719,20 @@ await client.conversations.get("id");
 <dd>
 
 **id:** `string` — The ID of the conversation to get.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Conversations.RequestOptions`
+**requestOptions:** `ConversationsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -1766,7 +1751,6 @@ await client.conversations.get("id");
 <dd>
 
 Cancels an active conversation.
-
 </dd>
 </dl>
 </dd>
@@ -1782,8 +1766,8 @@ Cancels an active conversation.
 
 ```typescript
 await client.conversations.cancel("id");
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -1798,19 +1782,20 @@ await client.conversations.cancel("id");
 <dd>
 
 **id:** `string` — The ID of the conversation to cancel.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Conversations.RequestOptions`
+**requestOptions:** `ConversationsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -1829,7 +1814,6 @@ await client.conversations.cancel("id");
 <dd>
 
 Returns an analysis of the specified conversation.
-
 </dd>
 </dl>
 </dd>
@@ -1845,8 +1829,8 @@ Returns an analysis of the specified conversation.
 
 ```typescript
 await client.conversations.getAnalysis("id");
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -1861,19 +1845,20 @@ await client.conversations.getAnalysis("id");
 <dd>
 
 **id:** `string` — The ID of the conversation to analyze.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Conversations.RequestOptions`
+**requestOptions:** `ConversationsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -1892,7 +1877,6 @@ await client.conversations.getAnalysis("id");
 <dd>
 
 Returns all extractions for a conversation.
-
 </dd>
 </dl>
 </dd>
@@ -1908,8 +1892,8 @@ Returns all extractions for a conversation.
 
 ```typescript
 await client.conversations.listExtractions("id");
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -1924,19 +1908,20 @@ await client.conversations.listExtractions("id");
 <dd>
 
 **id:** `string` — The ID of the conversation to get extractions for.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Conversations.RequestOptions`
+**requestOptions:** `ConversationsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -1955,7 +1940,6 @@ await client.conversations.listExtractions("id");
 <dd>
 
 Extracts data from a conversation using a schema.
-
 </dd>
 </dl>
 </dd>
@@ -1971,10 +1955,10 @@ Extracts data from a conversation using a schema.
 
 ```typescript
 await client.conversations.extractData("id", {
-    schema_id: "conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c",
+    schema_id: "conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -1989,27 +1973,28 @@ await client.conversations.extractData("id", {
 <dd>
 
 **id:** `string` — The ID of the conversation to extract data from.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.ExtractDataRequest`
-
+**request:** `Phonic.ExtractDataRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Conversations.RequestOptions`
+**requestOptions:** `ConversationsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -2028,7 +2013,6 @@ await client.conversations.extractData("id", {
 <dd>
 
 Returns all evaluations for a conversation.
-
 </dd>
 </dl>
 </dd>
@@ -2044,8 +2028,8 @@ Returns all evaluations for a conversation.
 
 ```typescript
 await client.conversations.listEvaluations("id");
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -2060,19 +2044,20 @@ await client.conversations.listEvaluations("id");
 <dd>
 
 **id:** `string` — The ID of the conversation to get evaluations for.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Conversations.RequestOptions`
+**requestOptions:** `ConversationsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -2091,7 +2076,6 @@ await client.conversations.listEvaluations("id");
 <dd>
 
 Evaluates a conversation using an evaluation prompt.
-
 </dd>
 </dl>
 </dd>
@@ -2107,10 +2091,10 @@ Evaluates a conversation using an evaluation prompt.
 
 ```typescript
 await client.conversations.evaluate("id", {
-    prompt_id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
+    prompt_id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -2125,27 +2109,28 @@ await client.conversations.evaluate("id", {
 <dd>
 
 **id:** `string` — The ID of the conversation to evaluate.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.EvaluateConversationRequest`
-
+**request:** `Phonic.EvaluateConversationRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Conversations.RequestOptions`
+**requestOptions:** `ConversationsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -2164,7 +2149,6 @@ await client.conversations.evaluate("id", {
 <dd>
 
 Initiates a call to a given phone number using Phonic's Twilio account.
-
 </dd>
 </dl>
 </dd>
@@ -2186,8 +2170,8 @@ await client.conversations.outboundCall({
         welcome_message: "Hi {{customer_name}}. How can I help you today?",
         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
         template_variables: {
-            customer_name: "David",
-            subject: "Chess",
+            "customer_name": "David",
+            "subject": "Chess"
         },
         voice_id: "sabrina",
         generate_no_input_poke_text: false,
@@ -2196,11 +2180,11 @@ await client.conversations.outboundCall({
         no_input_end_conversation_sec: 180,
         languages: ["en", "es"],
         boosted_keywords: ["Load ID", "dispatch"],
-        tools: ["keypad_input"],
-    },
+        tools: ["keypad_input"]
+    }
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -2214,20 +2198,21 @@ await client.conversations.outboundCall({
 <dl>
 <dd>
 
-**request:** `Phonic.OutboundCallRequest`
-
+**request:** `Phonic.OutboundCallRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Conversations.RequestOptions`
+**requestOptions:** `ConversationsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -2246,7 +2231,6 @@ await client.conversations.outboundCall({
 <dd>
 
 Initiates a SIP outbound call using user-supplied SIP credentials in headers.
-
 </dd>
 </dl>
 </dd>
@@ -2264,10 +2248,10 @@ Initiates a SIP outbound call using user-supplied SIP credentials in headers.
 await client.conversations.sipOutboundCall({
     "X-Sip-Address": "X-Sip-Address",
     from_phone_number: "from_phone_number",
-    to_phone_number: "to_phone_number",
+    to_phone_number: "to_phone_number"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -2281,27 +2265,27 @@ await client.conversations.sipOutboundCall({
 <dl>
 <dd>
 
-**request:** `Phonic.ConversationsSipOutboundCallRequest`
-
+**request:** `Phonic.ConversationsSipOutboundCallRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Conversations.RequestOptions`
+**requestOptions:** `ConversationsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
 </details>
 
 ## Auth
-
 <details><summary><code>client.auth.<a href="/src/api/resources/auth/client/Client.ts">createSessionToken</a>({ ...params }) -> Phonic.AuthCreateSessionTokenResponse</code></summary>
 <dl>
 <dd>
@@ -2315,7 +2299,6 @@ await client.conversations.sipOutboundCall({
 <dd>
 
 Creates a short-lived session token that can be used to authenticate WebSocket connections. Session tokens are useful for client-side applications where you don't want to expose your API key.
-
 </dd>
 </dl>
 </dd>
@@ -2331,10 +2314,10 @@ Creates a short-lived session token that can be used to authenticate WebSocket c
 
 ```typescript
 await client.auth.createSessionToken({
-    ttl_seconds: 300,
+    ttl_seconds: 300
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -2348,27 +2331,27 @@ await client.auth.createSessionToken({
 <dl>
 <dd>
 
-**request:** `Phonic.CreateSessionTokenRequest`
-
+**request:** `Phonic.CreateSessionTokenRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Auth.RequestOptions`
+**requestOptions:** `AuthClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
 </details>
 
 ## Projects
-
 <details><summary><code>client.projects.<a href="/src/api/resources/projects/client/Client.ts">list</a>() -> Phonic.ProjectsListResponse</code></summary>
 <dl>
 <dd>
@@ -2382,7 +2365,6 @@ await client.auth.createSessionToken({
 <dd>
 
 Returns all projects in a workspace.
-
 </dd>
 </dl>
 </dd>
@@ -2398,8 +2380,8 @@ Returns all projects in a workspace.
 
 ```typescript
 await client.projects.list();
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -2413,12 +2395,13 @@ await client.projects.list();
 <dl>
 <dd>
 
-**requestOptions:** `Projects.RequestOptions`
+**requestOptions:** `ProjectsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -2437,7 +2420,6 @@ await client.projects.list();
 <dd>
 
 Creates a new project in a workspace.
-
 </dd>
 </dl>
 </dd>
@@ -2453,10 +2435,10 @@ Creates a new project in a workspace.
 
 ```typescript
 await client.projects.create({
-    name: "customer-support",
+    name: "customer-support"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -2470,20 +2452,21 @@ await client.projects.create({
 <dl>
 <dd>
 
-**request:** `Phonic.CreateProjectRequest`
-
+**request:** `Phonic.CreateProjectRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Projects.RequestOptions`
+**requestOptions:** `ProjectsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -2502,7 +2485,6 @@ await client.projects.create({
 <dd>
 
 Returns a project by name or ID.
-
 </dd>
 </dl>
 </dd>
@@ -2518,8 +2500,8 @@ Returns a project by name or ID.
 
 ```typescript
 await client.projects.get("nameOrId");
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -2534,19 +2516,20 @@ await client.projects.get("nameOrId");
 <dd>
 
 **nameOrId:** `string` — The name or the ID of the project to get.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Projects.RequestOptions`
+**requestOptions:** `ProjectsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -2565,7 +2548,6 @@ await client.projects.get("nameOrId");
 <dd>
 
 Deletes a project by name or ID.
-
 </dd>
 </dl>
 </dd>
@@ -2581,8 +2563,8 @@ Deletes a project by name or ID.
 
 ```typescript
 await client.projects.delete("nameOrId");
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -2597,19 +2579,20 @@ await client.projects.delete("nameOrId");
 <dd>
 
 **nameOrId:** `string` — The name or the ID of the project to delete.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Projects.RequestOptions`
+**requestOptions:** `ProjectsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -2628,7 +2611,6 @@ await client.projects.delete("nameOrId");
 <dd>
 
 Updates a project by name or ID.
-
 </dd>
 </dl>
 </dd>
@@ -2645,10 +2627,10 @@ Updates a project by name or ID.
 ```typescript
 await client.projects.update("nameOrId", {
     name: "updated-customer-support",
-    default_agent: "another-agent",
+    default_agent: "another-agent"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -2663,27 +2645,28 @@ await client.projects.update("nameOrId", {
 <dd>
 
 **nameOrId:** `string` — The name or the ID of the project to update.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.UpdateProjectRequest`
-
+**request:** `Phonic.UpdateProjectRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Projects.RequestOptions`
+**requestOptions:** `ProjectsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -2702,7 +2685,6 @@ await client.projects.update("nameOrId", {
 <dd>
 
 Returns all conversation evaluation prompts for a project.
-
 </dd>
 </dl>
 </dd>
@@ -2718,8 +2700,8 @@ Returns all conversation evaluation prompts for a project.
 
 ```typescript
 await client.projects.listEvalPrompts("id");
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -2734,19 +2716,20 @@ await client.projects.listEvalPrompts("id");
 <dd>
 
 **id:** `string` — The ID of the project.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Projects.RequestOptions`
+**requestOptions:** `ProjectsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
@@ -2765,7 +2748,6 @@ await client.projects.listEvalPrompts("id");
 <dd>
 
 Creates a new conversation evaluation prompt for a project.
-
 </dd>
 </dl>
 </dd>
@@ -2782,10 +2764,10 @@ Creates a new conversation evaluation prompt for a project.
 ```typescript
 await client.projects.createEvalPrompt("id", {
     name: "test_prompt",
-    prompt: "The assistant used the word chocolate in the conversation",
+    prompt: "The assistant used the word chocolate in the conversation"
 });
-```
 
+```
 </dd>
 </dl>
 </dd>
@@ -2800,28 +2782,30 @@ await client.projects.createEvalPrompt("id", {
 <dd>
 
 **id:** `string` — The ID of the project.
-
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**request:** `Phonic.CreateConversationEvalPromptRequest`
-
+**request:** `Phonic.CreateConversationEvalPromptRequest` 
+    
 </dd>
 </dl>
 
 <dl>
 <dd>
 
-**requestOptions:** `Projects.RequestOptions`
+**requestOptions:** `ProjectsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
 
-</dd>
-</dl>
-</dd>
-</dl>
 
 </dd>
 </dl>
 </details>
+

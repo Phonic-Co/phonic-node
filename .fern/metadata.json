@@ -1,0 +1,23 @@
+{
+    "cliVersion": "4.26.1",
+    "generatorName": "fernapi/fern-typescript-sdk",
+    "generatorVersion": "3.54.0",
+    "generatorConfig": {
+        "namespaceExport": "Phonic",
+        "allowCustomFetcher": true,
+        "skipResponseValidation": true,
+        "includeApiReference": true,
+        "noSerdeLayer": true,
+        "shouldGenerateWebsocketClients": true,
+        "flattenRequestParameters": true,
+        "packageJson": {
+            "devDependencies": {
+                "msw": "2.11.2"
+            }
+        },
+        "packageManager": "yarn",
+        "testFramework": "jest"
+    },
+    "originGitCommit": "71dfcadb47449e0092b1f68e58fc3cc1f8ed96f4",
+    "sdkVersion": "0.31.3"
+}

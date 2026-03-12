@@ -1,1 +1,1 @@
-export { type VoicesListRequest } from "./VoicesListRequest.js";
+export type { VoicesListRequest } from "./VoicesListRequest.js";
