@@ -46,7 +46,9 @@ describe("ConversationsClient", () => {
                     ended_at: "2025-07-30T23:47:00Z",
                     ended_by: "user",
                     boosted_keywords: ["Load ID", "dispatch"],
-                    languages: ["en", "es"],
+                    default_language: "en",
+                    additional_languages: ["es"],
+                    multilingual_mode: "request",
                     generate_no_input_poke_text: false,
                     no_input_poke_sec: 30,
                     no_input_poke_text: "Are you still there?",
@@ -94,7 +96,6 @@ describe("ConversationsClient", () => {
             ],
             pagination: { prev_cursor: null, next_cursor: "conv_98765432-abcd-1234-5678-abcdef123456" },
         };
-
         server.mockEndpoint().get("/conversations").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.conversations.list();
@@ -137,7 +138,9 @@ describe("ConversationsClient", () => {
                     ended_at: "2025-07-30T23:47:00Z",
                     ended_by: "user",
                     boosted_keywords: ["Load ID", "dispatch"],
-                    languages: ["en", "es"],
+                    default_language: "en",
+                    additional_languages: ["es"],
+                    multilingual_mode: "request",
                     generate_no_input_poke_text: false,
                     no_input_poke_sec: 30,
                     no_input_poke_text: "Are you still there?",
@@ -244,7 +247,9 @@ describe("ConversationsClient", () => {
                 ended_at: "2025-07-30T23:47:00Z",
                 ended_by: "user",
                 boosted_keywords: ["Load ID", "dispatch"],
-                languages: ["en", "es"],
+                default_language: "en",
+                additional_languages: ["es"],
+                multilingual_mode: "request",
                 generate_no_input_poke_text: true,
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
@@ -290,7 +295,6 @@ describe("ConversationsClient", () => {
                 analysis: { latencies_ms: [2024, 641], interruptions_count: 0 },
             },
         };
-
         server.mockEndpoint().get("/conversations").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.conversations.list();
@@ -331,7 +335,9 @@ describe("ConversationsClient", () => {
                 ended_at: "2025-07-30T23:47:00Z",
                 ended_by: "user",
                 boosted_keywords: ["Load ID", "dispatch"],
-                languages: ["en", "es"],
+                default_language: "en",
+                additional_languages: ["es"],
+                multilingual_mode: "request",
                 generate_no_input_poke_text: true,
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
@@ -404,7 +410,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server.mockEndpoint().get("/conversations").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -421,7 +426,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = {};
-
         server.mockEndpoint().get("/conversations").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -438,7 +442,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server.mockEndpoint().get("/conversations").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -455,7 +458,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server.mockEndpoint().get("/conversations").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -472,7 +474,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = {};
-
         server.mockEndpoint().get("/conversations").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -515,7 +516,9 @@ describe("ConversationsClient", () => {
                 ended_at: "2025-07-30T23:47:00Z",
                 ended_by: "user",
                 boosted_keywords: ["Load ID", "dispatch"],
-                languages: ["en", "es"],
+                default_language: "en",
+                additional_languages: ["es"],
+                multilingual_mode: "request",
                 generate_no_input_poke_text: true,
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
@@ -565,7 +568,6 @@ describe("ConversationsClient", () => {
                 analysis: { latencies_ms: [1064, 578, 797], interruptions_count: 0 },
             },
         };
-
         server.mockEndpoint().get("/conversations/id").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.conversations.get("id");
@@ -606,7 +608,9 @@ describe("ConversationsClient", () => {
                 ended_at: "2025-07-30T23:47:00Z",
                 ended_by: "user",
                 boosted_keywords: ["Load ID", "dispatch"],
-                languages: ["en", "es"],
+                default_language: "en",
+                additional_languages: ["es"],
+                multilingual_mode: "request",
                 generate_no_input_poke_text: true,
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
@@ -683,7 +687,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = {};
-
         server.mockEndpoint().get("/conversations/id").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -700,7 +703,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server.mockEndpoint().get("/conversations/id").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -717,7 +719,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server.mockEndpoint().get("/conversations/id").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -734,7 +735,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = {};
-
         server.mockEndpoint().get("/conversations/id").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -751,7 +751,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { success: true };
-
         server
             .mockEndpoint()
             .post("/conversations/id/cancel")
@@ -775,7 +774,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .post("/conversations/id/cancel")
@@ -798,7 +796,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/conversations/id/cancel")
@@ -821,7 +818,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/conversations/id/cancel")
@@ -844,7 +840,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/conversations/id/cancel")
@@ -867,7 +862,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .post("/conversations/id/cancel")
@@ -890,7 +884,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .post("/conversations/id/cancel")
@@ -913,7 +906,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { analysis: { latencies_ms: [456, 654, 564], interruptions_count: 2 } };
-
         server
             .mockEndpoint()
             .get("/conversations/id/analysis")
@@ -940,7 +932,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .get("/conversations/id/analysis")
@@ -963,7 +954,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .get("/conversations/id/analysis")
@@ -986,7 +976,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .get("/conversations/id/analysis")
@@ -1009,7 +998,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .get("/conversations/id/analysis")
@@ -1050,7 +1038,6 @@ describe("ConversationsClient", () => {
                 },
             ],
         };
-
         server
             .mockEndpoint()
             .get("/conversations/id/extractions")
@@ -1090,7 +1077,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .get("/conversations/id/extractions")
@@ -1113,7 +1099,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .get("/conversations/id/extractions")
@@ -1136,7 +1121,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .get("/conversations/id/extractions")
@@ -1159,7 +1143,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .get("/conversations/id/extractions")
@@ -1184,7 +1167,6 @@ describe("ConversationsClient", () => {
         const rawResponseBody = {
             result: { customer_name: "John Smith", appointment_duration: 45, service_types: ["haircut", "beard trim"] },
         };
-
         server
             .mockEndpoint()
             .post("/conversations/id/extractions")
@@ -1215,7 +1197,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { schema_id: "schema_id" };
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/conversations/id/extractions")
@@ -1241,7 +1222,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { schema_id: "schema_id" };
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .post("/conversations/id/extractions")
@@ -1267,7 +1247,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { schema_id: "schema_id" };
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/conversations/id/extractions")
@@ -1293,7 +1272,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { schema_id: "schema_id" };
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/conversations/id/extractions")
@@ -1319,7 +1297,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { schema_id: "schema_id" };
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .post("/conversations/id/extractions")
@@ -1354,7 +1331,6 @@ describe("ConversationsClient", () => {
                 },
             ],
         };
-
         server
             .mockEndpoint()
             .get("/conversations/id/evals")
@@ -1388,7 +1364,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .get("/conversations/id/evals")
@@ -1411,7 +1386,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .get("/conversations/id/evals")
@@ -1434,7 +1408,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .get("/conversations/id/evals")
@@ -1457,7 +1430,6 @@ describe("ConversationsClient", () => {
         });
 
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .get("/conversations/id/evals")
@@ -1485,7 +1457,6 @@ describe("ConversationsClient", () => {
             prompt: { id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0", name: "chocolate_usage" },
             created_at: "2025-07-30T23:49:18Z",
         };
-
         server
             .mockEndpoint()
             .post("/conversations/id/evals")
@@ -1518,7 +1489,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { prompt_id: "prompt_id" };
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/conversations/id/evals")
@@ -1544,7 +1514,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { prompt_id: "prompt_id" };
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .post("/conversations/id/evals")
@@ -1570,7 +1539,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { prompt_id: "prompt_id" };
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/conversations/id/evals")
@@ -1596,7 +1564,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { prompt_id: "prompt_id" };
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/conversations/id/evals")
@@ -1622,7 +1589,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { prompt_id: "prompt_id" };
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .post("/conversations/id/evals")
@@ -1658,13 +1624,14 @@ describe("ConversationsClient", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
-                languages: ["en", "es"],
+                default_language: "en",
+                additional_languages: ["es"],
+                multilingual_mode: "request",
                 boosted_keywords: ["Load ID", "dispatch"],
                 tools: ["keypad_input"],
             },
         };
         const rawResponseBody = { conversation_id: "conv_12cf6e88-c254-233e-a149-b2f1bdd22783" };
-
         server
             .mockEndpoint()
             .post("/conversations/outbound_call")
@@ -1689,7 +1656,9 @@ describe("ConversationsClient", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
-                languages: ["en", "es"],
+                default_language: "en",
+                additional_languages: ["es"],
+                multilingual_mode: "request",
                 boosted_keywords: ["Load ID", "dispatch"],
                 tools: ["keypad_input"],
             },
@@ -1708,7 +1677,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { to_phone_number: "to_phone_number" };
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/conversations/outbound_call")
@@ -1734,7 +1702,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { to_phone_number: "to_phone_number" };
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .post("/conversations/outbound_call")
@@ -1760,7 +1727,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { to_phone_number: "to_phone_number" };
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/conversations/outbound_call")
@@ -1786,7 +1752,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { to_phone_number: "to_phone_number" };
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .post("/conversations/outbound_call")
@@ -1812,7 +1777,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { from_phone_number: "from_phone_number", to_phone_number: "to_phone_number" };
         const rawResponseBody = { conversation_id: "conversation_id", twilio_call_sid: "twilio_call_sid" };
-
         server
             .mockEndpoint()
             .post("/conversations/sip/outbound_call")
@@ -1843,7 +1807,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { from_phone_number: "from_phone_number", to_phone_number: "to_phone_number" };
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/conversations/sip/outbound_call")
@@ -1872,7 +1835,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { from_phone_number: "from_phone_number", to_phone_number: "to_phone_number" };
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .post("/conversations/sip/outbound_call")
@@ -1901,7 +1863,6 @@ describe("ConversationsClient", () => {
         });
         const rawRequestBody = { from_phone_number: "from_phone_number", to_phone_number: "to_phone_number" };
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .post("/conversations/sip/outbound_call")

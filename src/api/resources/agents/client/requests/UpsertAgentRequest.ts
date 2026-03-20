@@ -27,7 +27,9 @@ import type * as Phonic from "../../../../index.js";
  *         generate_no_input_poke_text: false,
  *         no_input_poke_sec: 30,
  *         no_input_poke_text: "Are you still there?",
- *         languages: ["en", "es"],
+ *         default_language: "en",
+ *         additional_languages: ["es"],
+ *         multilingual_mode: "request",
  *         boosted_keywords: ["Load ID", "dispatch"],
  *         configuration_endpoint: {
  *             url: "https://api.example.com/config",

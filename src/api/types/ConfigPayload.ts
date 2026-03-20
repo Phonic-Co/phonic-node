@@ -42,8 +42,12 @@ export interface ConfigPayload {
     no_input_poke_text?: string | undefined;
     /** Seconds of silence before ending conversation */
     no_input_end_conversation_sec?: number | undefined;
-    /** Array of ISO 639-1 language codes that the agent should be able to recognize */
-    recognized_languages?: string[] | undefined;
+    /** ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language. */
+    default_language?: string | undefined;
+    /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. */
+    additional_languages?: string[] | undefined;
+    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
+    multilingual_mode?: ConfigPayload.MultilingualMode | undefined;
     /** Keywords to boost in speech recognition */
     boosted_keywords?: string[] | undefined;
     /** Names of tools available to the assistant. */
@@ -76,6 +80,12 @@ export namespace ConfigPayload {
         Mulaw8000: "mulaw_8000",
     } as const;
     export type OutputFormat = (typeof OutputFormat)[keyof typeof OutputFormat];
+    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
+    export const MultilingualMode = {
+        Auto: "auto",
+        Request: "request",
+    } as const;
+    export type MultilingualMode = (typeof MultilingualMode)[keyof typeof MultilingualMode];
     export type Tools = Tools.Item[];
 
     export namespace Tools {

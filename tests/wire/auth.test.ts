@@ -14,7 +14,6 @@ describe("AuthClient", () => {
         });
         const rawRequestBody = { ttl_seconds: 300 };
         const rawResponseBody = { session_token: "psession_abc123def456...", expires_at: "2025-07-30T23:50:00Z" };
-
         server
             .mockEndpoint()
             .post("/auth/session_token")
@@ -42,7 +41,6 @@ describe("AuthClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/auth/session_token")
@@ -66,7 +64,6 @@ describe("AuthClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .post("/auth/session_token")
@@ -90,7 +87,6 @@ describe("AuthClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/auth/session_token")
@@ -114,7 +110,6 @@ describe("AuthClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = {};
-
         server
             .mockEndpoint()
             .post("/auth/session_token")

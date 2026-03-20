@@ -45,8 +45,14 @@ export interface Agent {
     no_input_poke_text: string;
     /** Seconds of silence before ending the conversation. */
     no_input_end_conversation_sec: number;
-    /** Array of ISO 639-1 language codes that the agent should be able to recognize */
-    languages: Phonic.LanguageCode[];
+    /** ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language. */
+    default_language: Phonic.LanguageCode;
+    /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. */
+    additional_languages: Phonic.LanguageCode[];
+    /** Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead. */
+    languages?: Phonic.LanguageCode[] | undefined;
+    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
+    multilingual_mode: Agent.MultilingualMode;
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords: string[];
     /** When not `null`, the agent will call this endpoint to get configuration options. */
@@ -106,6 +112,13 @@ export namespace Agent {
              * Custom tool */
             | string;
     }
+
+    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
+    export const MultilingualMode = {
+        Auto: "auto",
+        Request: "request",
+    } as const;
+    export type MultilingualMode = (typeof MultilingualMode)[keyof typeof MultilingualMode];
 
     /**
      * When not `null`, the agent will call this endpoint to get configuration options.

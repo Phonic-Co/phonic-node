@@ -159,7 +159,6 @@ describe("ToolsClient", () => {
                 },
             ],
         };
-
         server.mockEndpoint().get("/tools").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.tools.list({
@@ -369,7 +368,6 @@ describe("ToolsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server.mockEndpoint().get("/tools").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -395,7 +393,6 @@ describe("ToolsClient", () => {
             allow_tool_chaining: true,
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
-
         server
             .mockEndpoint()
             .post("/tools")
@@ -467,7 +464,6 @@ describe("ToolsClient", () => {
             allow_tool_chaining: true,
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
-
         server
             .mockEndpoint()
             .post("/tools")
@@ -540,7 +536,6 @@ describe("ToolsClient", () => {
             wait_for_response: false,
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
-
         server
             .mockEndpoint()
             .post("/tools")
@@ -596,7 +591,6 @@ describe("ToolsClient", () => {
             require_speech_before_tool_call: false,
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
-
         server
             .mockEndpoint()
             .post("/tools")
@@ -640,7 +634,6 @@ describe("ToolsClient", () => {
             require_speech_before_tool_call: false,
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
-
         server
             .mockEndpoint()
             .post("/tools")
@@ -679,7 +672,6 @@ describe("ToolsClient", () => {
             execution_mode: "sync",
         };
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/tools")
@@ -713,7 +705,6 @@ describe("ToolsClient", () => {
             execution_mode: "sync",
         };
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/tools")
@@ -747,7 +738,6 @@ describe("ToolsClient", () => {
             execution_mode: "sync",
         };
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/tools")
@@ -801,7 +791,6 @@ describe("ToolsClient", () => {
                 wait_for_response: true,
             },
         };
-
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.tools.get("nameOrId", {
@@ -896,7 +885,6 @@ describe("ToolsClient", () => {
                 wait_for_response: true,
             },
         };
-
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.tools.get("nameOrId", {
@@ -992,7 +980,6 @@ describe("ToolsClient", () => {
                 wait_for_response: false,
             },
         };
-
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.tools.get("nameOrId", {
@@ -1072,7 +1059,6 @@ describe("ToolsClient", () => {
                 wait_for_response: true,
             },
         };
-
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.tools.get("nameOrId", {
@@ -1152,7 +1138,6 @@ describe("ToolsClient", () => {
                 wait_for_response: true,
             },
         };
-
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.tools.get("nameOrId", {
@@ -1207,7 +1192,6 @@ describe("ToolsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -1224,7 +1208,6 @@ describe("ToolsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server.mockEndpoint().get("/tools/nameOrId").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -1241,7 +1224,6 @@ describe("ToolsClient", () => {
         });
 
         const rawResponseBody = { success: true };
-
         server.mockEndpoint().delete("/tools/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.tools.delete("nameOrId", {
@@ -1261,7 +1243,6 @@ describe("ToolsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server.mockEndpoint().delete("/tools/nameOrId").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -1282,7 +1263,6 @@ describe("ToolsClient", () => {
             endpoint_timeout_ms: 7000,
         };
         const rawResponseBody = { success: true };
-
         server
             .mockEndpoint()
             .patch("/tools/nameOrId")
@@ -1314,7 +1294,6 @@ describe("ToolsClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .patch("/tools/nameOrId")
@@ -1338,7 +1317,6 @@ describe("ToolsClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .patch("/tools/nameOrId")
@@ -1362,7 +1340,6 @@ describe("ToolsClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .patch("/tools/nameOrId")
