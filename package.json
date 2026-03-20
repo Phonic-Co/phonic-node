@@ -125,18 +125,18 @@
         "ws": "^8.16.0"
     },
     "devDependencies": {
-        "webpack": "^5.97.1",
-        "ts-loader": "^9.5.1",
-        "@types/ws": "^8.5.10",
-        "jest": "^29.7.0",
+        "@biomejs/biome": "2.4.3",
         "@jest/globals": "^29.7.0",
         "@types/jest": "^29.5.14",
-        "ts-jest": "^29.3.4",
+        "@types/node": "^18.19.70",
+        "@types/ws": "^8.5.10",
+        "jest": "^29.7.0",
         "jest-environment-jsdom": "^29.7.0",
         "msw": "2.11.2",
-        "@types/node": "^18.19.70",
+        "ts-jest": "^29.3.4",
+        "ts-loader": "^9.5.1",
         "typescript": "~5.7.2",
-        "@biomejs/biome": "2.4.3"
+        "webpack": "^5.97.1"
     },
     "browser": {
         "fs": false,
