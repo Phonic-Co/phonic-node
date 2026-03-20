@@ -35,7 +35,6 @@ describe("ExtractionSchemasClient", () => {
                 },
             ],
         };
-
         server
             .mockEndpoint()
             .get("/extraction_schemas")
@@ -84,7 +83,6 @@ describe("ExtractionSchemasClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .get("/extraction_schemas")
@@ -118,7 +116,6 @@ describe("ExtractionSchemasClient", () => {
             id: "conv_extract_schema_c818e617-59f9-4f43-936e-ca8a794f9ccf",
             name: "Appointment details",
         };
-
         server
             .mockEndpoint()
             .post("/extraction_schemas")
@@ -172,7 +169,6 @@ describe("ExtractionSchemasClient", () => {
             ],
         };
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/extraction_schemas")
@@ -216,7 +212,6 @@ describe("ExtractionSchemasClient", () => {
             ],
         };
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/extraction_schemas")
@@ -260,7 +255,6 @@ describe("ExtractionSchemasClient", () => {
             ],
         };
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .post("/extraction_schemas")
@@ -316,7 +310,6 @@ describe("ExtractionSchemasClient", () => {
                 ],
             },
         };
-
         server
             .mockEndpoint()
             .get("/extraction_schemas/nameOrId")
@@ -363,7 +356,6 @@ describe("ExtractionSchemasClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .get("/extraction_schemas/nameOrId")
@@ -386,7 +378,6 @@ describe("ExtractionSchemasClient", () => {
         });
 
         const rawResponseBody = { success: true };
-
         server
             .mockEndpoint()
             .delete("/extraction_schemas/nameOrId")
@@ -412,7 +403,6 @@ describe("ExtractionSchemasClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .delete("/extraction_schemas/nameOrId")
@@ -442,7 +432,6 @@ describe("ExtractionSchemasClient", () => {
             ],
         };
         const rawResponseBody = { success: true };
-
         server
             .mockEndpoint()
             .patch("/extraction_schemas/nameOrId")
@@ -483,7 +472,6 @@ describe("ExtractionSchemasClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .patch("/extraction_schemas/nameOrId")
@@ -507,7 +495,6 @@ describe("ExtractionSchemasClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .patch("/extraction_schemas/nameOrId")
@@ -531,7 +518,6 @@ describe("ExtractionSchemasClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
-
         server
             .mockEndpoint()
             .patch("/extraction_schemas/nameOrId")

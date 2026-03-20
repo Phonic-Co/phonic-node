@@ -773,7 +773,9 @@ export class ConversationsClient {
      *             no_input_poke_sec: 30,
      *             no_input_poke_text: "Are you still there?",
      *             no_input_end_conversation_sec: 180,
-     *             languages: ["en", "es"],
+     *             default_language: "en",
+     *             additional_languages: ["es"],
+     *             multilingual_mode: "request",
      *             boosted_keywords: ["Load ID", "dispatch"],
      *             tools: ["keypad_input"]
      *         }

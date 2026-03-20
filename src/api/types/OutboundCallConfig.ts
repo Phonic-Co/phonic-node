@@ -26,8 +26,14 @@ export interface OutboundCallConfig {
     no_input_poke_text?: string | undefined;
     /** Seconds of silence before ending the conversation. */
     no_input_end_conversation_sec?: number | undefined;
-    /** Array of ISO 639-1 language codes that the agent should be able to recognize */
+    /** ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language. */
+    default_language?: Phonic.LanguageCode | undefined;
+    /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. */
+    additional_languages?: Phonic.LanguageCode[] | undefined;
+    /** Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead. */
     languages?: Phonic.LanguageCode[] | undefined;
+    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
+    multilingual_mode?: OutboundCallConfig.MultilingualMode | undefined;
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[] | undefined;
     /** Array of built-in or custom tool names to use. */
@@ -35,6 +41,12 @@ export interface OutboundCallConfig {
 }
 
 export namespace OutboundCallConfig {
+    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
+    export const MultilingualMode = {
+        Auto: "auto",
+        Request: "request",
+    } as const;
+    export type MultilingualMode = (typeof MultilingualMode)[keyof typeof MultilingualMode];
     export type Tools = Tools.Item[];
 
     export namespace Tools {
