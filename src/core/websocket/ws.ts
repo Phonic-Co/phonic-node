@@ -416,6 +416,7 @@ export class ReconnectingWebSocket {
         this._clearTimeouts();
         if (this._ws) {
             this._removeListeners();
+            this._ws.addEventListener("error", () => {});
             try {
                 this._ws.close(1000, "aborted");
                 this._handleClose(new Events.CloseEvent(1000, "aborted", this));
@@ -436,6 +437,7 @@ export class ReconnectingWebSocket {
             return;
         }
         this._removeListeners();
+        this._ws.addEventListener("error", () => {});
         try {
             this._ws.close(code, reason);
             this._handleClose(new Events.CloseEvent(code, reason, this));
