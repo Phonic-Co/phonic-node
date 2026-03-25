@@ -23,6 +23,7 @@ describe("VoicesClient", () => {
                 },
             ],
         };
+
         server.mockEndpoint().get("/voices").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.voices.list({
@@ -49,6 +50,7 @@ describe("VoicesClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
+
         server.mockEndpoint().get("/voices").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -67,6 +69,7 @@ describe("VoicesClient", () => {
         });
 
         const rawResponseBody = {};
+
         server.mockEndpoint().get("/voices").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -85,6 +88,7 @@ describe("VoicesClient", () => {
         });
 
         const rawResponseBody = {};
+
         server.mockEndpoint().get("/voices").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -110,6 +114,7 @@ describe("VoicesClient", () => {
                 audio_url: "https://example.com/audio/sabrina.wav",
             },
         };
+
         server.mockEndpoint().get("/voices/id").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.voices.get("id");
@@ -132,6 +137,7 @@ describe("VoicesClient", () => {
         });
 
         const rawResponseBody = {};
+
         server.mockEndpoint().get("/voices/id").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -148,6 +154,7 @@ describe("VoicesClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
+
         server.mockEndpoint().get("/voices/id").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
 
         await expect(async () => {

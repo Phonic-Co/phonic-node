@@ -2,3 +2,4 @@
 
 export { ConversationsClient } from "./client/Client.js";
 export * from "./client/index.js";
+export { ConversationsSocket } from "./client/Socket.js";

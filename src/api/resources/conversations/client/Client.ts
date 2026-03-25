@@ -17,6 +17,8 @@ export declare namespace ConversationsClient {
 
     export interface ConnectArgs {
         downstream_websocket_url?: string;
+        /** WebSocket subprotocols to use for the connection. */
+        protocols?: string | string[];
         /** Additional query parameters to send with the websocket connect request. */
         queryParams?: Record<string, unknown>;
         /** Arbitrary headers to send with the websocket connect request. */
@@ -957,6 +959,7 @@ export class ConversationsClient {
     public async connect(args: ConversationsClient.ConnectArgs = {}): Promise<ConversationsSocket> {
         const {
             downstream_websocket_url: downstreamWebsocketUrl,
+            protocols,
             queryParams,
             headers,
             debug,
@@ -975,7 +978,7 @@ export class ConversationsClient {
                         .production,
                 "/v1/sts/ws",
             ),
-            protocols: [],
+            protocols: protocols ?? [],
             queryParameters: { ..._queryParams, ...queryParams },
             headers: _headers,
             options: {

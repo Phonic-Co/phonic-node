@@ -22,6 +22,7 @@ describe("ProjectsClient", () => {
                 },
             ],
         };
+
         server.mockEndpoint().get("/projects").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.projects.list();
@@ -48,6 +49,7 @@ describe("ProjectsClient", () => {
         });
 
         const rawResponseBody = {};
+
         server.mockEndpoint().get("/projects").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -64,6 +66,7 @@ describe("ProjectsClient", () => {
         });
 
         const rawResponseBody = {};
+
         server.mockEndpoint().get("/projects").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -80,6 +83,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = { name: "customer-support" };
         const rawResponseBody = { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" };
+
         server
             .mockEndpoint()
             .post("/projects")
@@ -107,6 +111,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = { name: "name" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .post("/projects")
@@ -132,6 +137,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = { name: "name" };
         const rawResponseBody = {};
+
         server
             .mockEndpoint()
             .post("/projects")
@@ -157,6 +163,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = { name: "name" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .post("/projects")
@@ -182,6 +189,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = { name: "name" };
         const rawResponseBody = {};
+
         server
             .mockEndpoint()
             .post("/projects")
@@ -213,6 +221,7 @@ describe("ProjectsClient", () => {
                 default_agent: { id: "id", name: "name" },
             },
         };
+
         server.mockEndpoint().get("/projects/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.projects.get("nameOrId");
@@ -237,6 +246,7 @@ describe("ProjectsClient", () => {
         });
 
         const rawResponseBody = {};
+
         server.mockEndpoint().get("/projects/nameOrId").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -253,6 +263,7 @@ describe("ProjectsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
+
         server.mockEndpoint().get("/projects/nameOrId").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -269,6 +280,7 @@ describe("ProjectsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
+
         server.mockEndpoint().get("/projects/nameOrId").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -285,6 +297,7 @@ describe("ProjectsClient", () => {
         });
 
         const rawResponseBody = {};
+
         server.mockEndpoint().get("/projects/nameOrId").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -301,6 +314,7 @@ describe("ProjectsClient", () => {
         });
 
         const rawResponseBody = { success: true };
+
         server
             .mockEndpoint()
             .delete("/projects/nameOrId")
@@ -324,6 +338,7 @@ describe("ProjectsClient", () => {
         });
 
         const rawResponseBody = {};
+
         server
             .mockEndpoint()
             .delete("/projects/nameOrId")
@@ -346,6 +361,7 @@ describe("ProjectsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .delete("/projects/nameOrId")
@@ -368,6 +384,7 @@ describe("ProjectsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .delete("/projects/nameOrId")
@@ -390,6 +407,7 @@ describe("ProjectsClient", () => {
         });
 
         const rawResponseBody = {};
+
         server
             .mockEndpoint()
             .delete("/projects/nameOrId")
@@ -412,6 +430,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = { name: "updated-customer-support", default_agent: "another-agent" };
         const rawResponseBody = { success: true };
+
         server
             .mockEndpoint()
             .patch("/projects/nameOrId")
@@ -439,6 +458,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .patch("/projects/nameOrId")
@@ -462,6 +482,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = {};
+
         server
             .mockEndpoint()
             .patch("/projects/nameOrId")
@@ -485,6 +506,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .patch("/projects/nameOrId")
@@ -508,6 +530,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .patch("/projects/nameOrId")
@@ -531,6 +554,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .patch("/projects/nameOrId")
@@ -554,6 +578,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = {};
+
         server
             .mockEndpoint()
             .patch("/projects/nameOrId")
@@ -585,6 +610,7 @@ describe("ProjectsClient", () => {
                 },
             ],
         };
+
         server
             .mockEndpoint()
             .get("/projects/id/conversation_eval_prompts")
@@ -614,6 +640,7 @@ describe("ProjectsClient", () => {
         });
 
         const rawResponseBody = {};
+
         server
             .mockEndpoint()
             .get("/projects/id/conversation_eval_prompts")
@@ -636,6 +663,7 @@ describe("ProjectsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .get("/projects/id/conversation_eval_prompts")
@@ -658,6 +686,7 @@ describe("ProjectsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .get("/projects/id/conversation_eval_prompts")
@@ -680,6 +709,7 @@ describe("ProjectsClient", () => {
         });
 
         const rawResponseBody = {};
+
         server
             .mockEndpoint()
             .get("/projects/id/conversation_eval_prompts")
@@ -705,6 +735,7 @@ describe("ProjectsClient", () => {
             prompt: "The assistant used the word chocolate in the conversation",
         };
         const rawResponseBody = { id: "conv_eval_prompt_c818e617-59f9-4f43-936e-ca8a794f9ccf" };
+
         server
             .mockEndpoint()
             .post("/projects/id/conversation_eval_prompts")
@@ -732,6 +763,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = { name: "name", prompt: "prompt" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .post("/projects/id/conversation_eval_prompts")
@@ -758,6 +790,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = { name: "name", prompt: "prompt" };
         const rawResponseBody = {};
+
         server
             .mockEndpoint()
             .post("/projects/id/conversation_eval_prompts")
@@ -784,6 +817,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = { name: "name", prompt: "prompt" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .post("/projects/id/conversation_eval_prompts")
@@ -810,6 +844,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = { name: "name", prompt: "prompt" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .post("/projects/id/conversation_eval_prompts")
@@ -836,6 +871,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = { name: "name", prompt: "prompt" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .post("/projects/id/conversation_eval_prompts")
@@ -862,6 +898,7 @@ describe("ProjectsClient", () => {
         });
         const rawRequestBody = { name: "name", prompt: "prompt" };
         const rawResponseBody = {};
+
         server
             .mockEndpoint()
             .post("/projects/id/conversation_eval_prompts")
