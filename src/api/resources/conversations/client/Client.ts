@@ -17,6 +17,8 @@ export declare namespace ConversationsClient {
 
     export interface ConnectArgs {
         downstream_websocket_url?: string;
+        /** WebSocket subprotocols to use for the connection. */
+        protocols?: string | string[];
         /** Additional query parameters to send with the websocket connect request. */
         queryParams?: Record<string, unknown>;
         /** Arbitrary headers to send with the websocket connect request. */
@@ -75,6 +77,7 @@ export class ConversationsClient {
             before,
             after,
             limit,
+            audio_container: audioContainer,
         } = request;
         const _queryParams: Record<string, unknown> = {
             project,
@@ -86,6 +89,7 @@ export class ConversationsClient {
             before,
             after,
             limit,
+            audio_container: audioContainer != null ? audioContainer : undefined,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -147,6 +151,7 @@ export class ConversationsClient {
      * Returns a conversation by ID.
      *
      * @param {string} id - The ID of the conversation to get.
+     * @param {Phonic.ConversationsGetRequest} request
      * @param {ConversationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.UnauthorizedError}
@@ -159,15 +164,21 @@ export class ConversationsClient {
      */
     public get(
         id: string,
+        request: Phonic.ConversationsGetRequest = {},
         requestOptions?: ConversationsClient.RequestOptions,
     ): core.HttpResponsePromise<Phonic.ConversationsGetResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__get(id, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__get(id, request, requestOptions));
     }
 
     private async __get(
         id: string,
+        request: Phonic.ConversationsGetRequest = {},
         requestOptions?: ConversationsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.ConversationsGetResponse>> {
+        const { audio_container: audioContainer } = request;
+        const _queryParams: Record<string, unknown> = {
+            audio_container: audioContainer != null ? audioContainer : undefined,
+        };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -183,7 +194,7 @@ export class ConversationsClient {
             ),
             method: "GET",
             headers: _headers,
-            queryParameters: requestOptions?.queryParams,
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -957,6 +968,7 @@ export class ConversationsClient {
     public async connect(args: ConversationsClient.ConnectArgs = {}): Promise<ConversationsSocket> {
         const {
             downstream_websocket_url: downstreamWebsocketUrl,
+            protocols,
             queryParams,
             headers,
             debug,
@@ -975,7 +987,7 @@ export class ConversationsClient {
                         .production,
                 "/v1/sts/ws",
             ),
-            protocols: [],
+            protocols: protocols ?? [],
             queryParameters: { ..._queryParams, ...queryParams },
             headers: _headers,
             options: {

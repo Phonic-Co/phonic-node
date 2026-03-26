@@ -63,7 +63,7 @@ export class ConversationsSocket {
     }
 
     /** The current state of the connection; this is one of the readyState constants. */
-    get readyState(): number {
+    get readyState(): core.ReconnectingWebSocket.ReadyState {
         return this.socket.readyState;
     }
 
@@ -119,6 +119,11 @@ export class ConversationsSocket {
         this.sendJson(message);
     }
 
+    public sendSay(message: Phonic.SayPayload): void {
+        this.assertSocketIsOpen();
+        this.sendJson(message);
+    }
+
     /** Connect to the websocket and register event handlers. */
     public connect(): ConversationsSocket {
         this.socket.reconnect();
@@ -145,7 +150,7 @@ export class ConversationsSocket {
 
     /** Returns a promise that resolves when the websocket is open. */
     public async waitForOpen(): Promise<core.ReconnectingWebSocket> {
-        if (this.socket.readyState === core.ReconnectingWebSocket.OPEN) {
+        if (this.socket.readyState === core.ReconnectingWebSocket.ReadyState.OPEN) {
             return this.socket;
         }
 
@@ -166,7 +171,7 @@ export class ConversationsSocket {
             throw new Error("Socket is not connected.");
         }
 
-        if (this.socket.readyState !== core.ReconnectingWebSocket.OPEN) {
+        if (this.socket.readyState !== core.ReconnectingWebSocket.ReadyState.OPEN) {
             throw new Error("Socket is not open.");
         }
     }
@@ -185,7 +190,8 @@ export class ConversationsSocket {
             | Phonic.AddSystemMessagePayload
             | Phonic.SetExternalIdPayload
             | Phonic.ToolCallOutputPayload
-            | Phonic.GenerateReplyPayload,
+            | Phonic.GenerateReplyPayload
+            | Phonic.SayPayload,
     ): void {
         const jsonPayload = toJson(payload);
         this.socket.send(jsonPayload);
