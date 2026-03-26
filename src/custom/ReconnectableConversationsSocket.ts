@@ -43,6 +43,8 @@ export class ReconnectableConversationsSocket {
     private readonly _maxReconnectAttempts: number;
     private readonly _handlers: EventHandlers = {};
     private _reconnectAttempts = 0;
+    private _isClosed = false;
+    private _pendingReconnect: ReturnType<typeof setTimeout> | undefined;
 
     constructor(args: ReconnectableConversationsSocketArgs) {
         this._createReconnectSocket = args.createReconnectSocket;
@@ -77,6 +79,11 @@ export class ReconnectableConversationsSocket {
     public sendGenerateReply(message: any): void { this._inner.sendGenerateReply(message); }
 
     public close(): void {
+        this._isClosed = true;
+        if (this._pendingReconnect != null) {
+            clearTimeout(this._pendingReconnect);
+            this._pendingReconnect = undefined;
+        }
         this._inner.close();
     }
 
@@ -119,6 +126,9 @@ export class ReconnectableConversationsSocket {
         // The delay gives the network/proxy time to recover before we attempt
         // to connect the new socket.
         rawSocket.addEventListener("close", (event: core.CloseEvent) => {
+            if (this._isClosed) {
+                return;
+            }
             if (event.code !== ABNORMAL_CLOSURE) {
                 return;
             }
@@ -132,7 +142,11 @@ export class ReconnectableConversationsSocket {
             this._reconnectAttempts++;
             const delay = this._getReconnectDelay();
 
-            setTimeout(() => {
+            this._pendingReconnect = setTimeout(() => {
+                this._pendingReconnect = undefined;
+                if (this._isClosed) {
+                    return;
+                }
                 const newRawSocket = this._createReconnectSocket(this._conversationId!);
                 const newInner = new ConversationsSocket({ socket: newRawSocket });
                 this._inner = newInner;

@@ -53,12 +53,14 @@ class ReconnectableConversationsClient extends ConversationsClient {
         };
 
         const createSocket = (reconnectConvId?: string): core.ReconnectingWebSocket => {
-            let url = baseWsUrl;
-            if (reconnectConvId) {
-                const sep = url.includes("?") ? "&" : "?";
-                url = `${url}${sep}reconnect_conv_id=${reconnectConvId}`;
-            }
-            return new core.ReconnectingWebSocket({ ...socketOptions, url });
+            return new core.ReconnectingWebSocket({
+                ...socketOptions,
+                url: baseWsUrl,
+                queryParameters: {
+                    ...socketOptions.queryParameters,
+                    ...(reconnectConvId ? { reconnect_conv_id: reconnectConvId } : {}),
+                },
+            });
         };
 
         const initialSocket = createSocket();

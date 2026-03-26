@@ -186,4 +186,22 @@ describe("ReconnectableConversationsSocket", () => {
         jest.advanceTimersByTime(10000);
         expect(createReconnectSocket).toHaveBeenCalledTimes(1);
     });
+
+    it("close() cancels pending reconnect timer", () => {
+        const { mockSocket, reconnectable, createReconnectSocket } = createSocket();
+
+        mockSocket._fire("message", {
+            data: JSON.stringify({ type: "conversation_created", conversation_id: "conv_123" }),
+        });
+
+        // Trigger 1006 — starts backoff timer
+        mockSocket._fire("close", { code: 1006 });
+
+        // Close before the timer fires
+        reconnectable.close();
+        jest.advanceTimersByTime(10000);
+
+        // Should NOT have created a reconnect socket
+        expect(createReconnectSocket).not.toHaveBeenCalled();
+    });
 });
