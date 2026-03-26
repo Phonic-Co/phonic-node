@@ -31,6 +31,7 @@ export * from "./LanguageCode.js";
 export * from "./OutboundCallConfig.js";
 export * from "./Project.js";
 export * from "./ReadyToStartConversationPayload.js";
+export * from "./SayPayload.js";
 export * from "./SetExternalIdPayload.js";
 export * from "./Task.js";
 export * from "./Tool.js";
