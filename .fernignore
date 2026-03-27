@@ -2,3 +2,4 @@
 
 src/api/index.ts
 src/api/types/overrides.ts
+src/api/resources/conversations/client/Client.ts
