@@ -4,3 +4,4 @@ src/api/index.ts
 src/api/types/overrides.ts
 src/index.ts
 src/custom
+tests/custom.test.ts
