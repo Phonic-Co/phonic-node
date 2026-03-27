@@ -78,6 +78,10 @@ export class ReconnectableConversationsSocket {
     public sendSetExternalId(message: any): void { this._inner.sendSetExternalId(message); }
     public sendGenerateReply(message: any): void { this._inner.sendGenerateReply(message); }
 
+    public connect(): never {
+        throw new Error("connect() is not supported on ReconnectableConversationsSocket. Reconnection is handled automatically.");
+    }
+
     public close(): void {
         this._isClosed = true;
         if (this._pendingReconnect != null) {

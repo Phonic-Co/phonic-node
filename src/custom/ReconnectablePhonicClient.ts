@@ -32,8 +32,8 @@ class ReconnectableConversationsClient extends ConversationsClient {
 
         const baseWsUrl = core.url.join(
             (await core.Supplier.get(this._options.baseUrl)) ??
-                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                    .production,
+            ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                .production,
             "/v1/sts/ws",
         );
 
