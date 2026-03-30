@@ -8,10 +8,18 @@ import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
 import * as Phonic from "../../../index.js";
+import { ReconnectableConversationsSocket } from "../../../../custom/ReconnectableConversationsSocket.js";
 import { ConversationsSocket } from "./Socket.js";
 
 export declare namespace ConversationsClient {
-    export type Options = BaseClientOptions;
+    export type Options = BaseClientOptions & {
+        /**
+         * When `true`, `connect()` uses session-aware reconnection on abnormal
+         * disconnect (1006). Set via `PhonicClient` options as
+         * `reconnectConversationOnAbnormalDisconnect`.
+         */
+        reconnectConversationOnAbnormalDisconnect?: boolean;
+    };
 
     export interface RequestOptions extends BaseRequestOptions {}
 
@@ -985,13 +993,47 @@ export class ConversationsClient {
             ...(this._options?.headers ?? {}),
             ...headers,
         };
+        const baseWsUrl = core.url.join(
+            (await core.Supplier.get(this._options.baseUrl)) ??
+                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                    .production,
+            "/v1/sts/ws",
+        );
+
+        if (this._options.reconnectConversationOnAbnormalDisconnect) {
+            const socketOptions = {
+                protocols: protocols ?? [],
+                queryParameters: { ..._queryParams, ...queryParams },
+                headers: _headers,
+                options: {
+                    debug: debug ?? false,
+                    // Session-aware reconnection is handled by ReconnectableConversationsSocket,
+                    // which opens new sockets with reconnect_conv_id.
+                    maxRetries: 0,
+                    connectionTimeout: connectionTimeoutInSeconds != null ? connectionTimeoutInSeconds * 1000 : undefined,
+                },
+                abortSignal,
+            };
+            const createSocket = (reconnectConvId?: string): core.ReconnectingWebSocket => {
+                return new core.ReconnectingWebSocket({
+                    ...socketOptions,
+                    url: baseWsUrl,
+                    queryParameters: {
+                        ...socketOptions.queryParameters,
+                        ...(reconnectConvId ? { reconnect_conv_id: reconnectConvId } : {}),
+                    },
+                });
+            };
+            const initialSocket = createSocket();
+            return new ReconnectableConversationsSocket({
+                socket: initialSocket,
+                createReconnectSocket: (conversationId) => createSocket(conversationId),
+                maxReconnectAttempts: reconnectAttempts ?? 30,
+            }) as unknown as ConversationsSocket;
+        }
+
         const socket = new core.ReconnectingWebSocket({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                        .production,
-                "/v1/sts/ws",
-            ),
+            url: baseWsUrl,
             protocols: protocols ?? [],
             queryParameters: { ..._queryParams, ...queryParams },
             headers: _headers,
