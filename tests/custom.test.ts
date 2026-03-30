@@ -181,10 +181,28 @@ describe("ReconnectableConversationsSocket", () => {
         jest.advanceTimersByTime(1000);
         expect(createReconnectSocket).toHaveBeenCalledTimes(1);
 
-        // Second 1006 on original socket — should NOT reconnect (exceeded max)
-        mockSocket._fire("close", { code: 1006 });
+        // Second 1006 on the replacement socket — should NOT reconnect (exceeded max)
+        const replacementSocket = createReconnectSocket.mock.results[0].value;
+        replacementSocket._fire("close", { code: 1006 });
         jest.advanceTimersByTime(10000);
         expect(createReconnectSocket).toHaveBeenCalledTimes(1);
+    });
+
+    it("drops sends during reconnect backoff without throwing (no queue)", () => {
+        const { mockSocket, reconnectable } = createSocket();
+
+        mockSocket._fire("message", {
+            data: JSON.stringify({ type: "conversation_created", conversation_id: "conv_123" }),
+        });
+
+        mockSocket._fire("close", { code: 1006 });
+        // In backoff window: pending replacement, inner socket not OPEN
+        mockSocket.readyState = 3; // CLOSED
+
+        expect(() =>
+            reconnectable.sendAudioChunk({ type: "audio_chunk", audio: "dGVzdA==" } as any),
+        ).not.toThrow();
+        expect(() => reconnectable.sendConfig({ type: "config", agent: "a" } as any)).not.toThrow();
     });
 
     it("close() cancels pending reconnect timer", () => {

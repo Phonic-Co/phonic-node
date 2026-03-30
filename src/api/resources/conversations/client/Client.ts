@@ -987,12 +987,6 @@ export class ConversationsClient {
         const _queryParams: Record<string, unknown> = {
             downstream_websocket_url: downstreamWebsocketUrl,
         };
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        const _headers: Record<string, unknown> = {
-            ...(_authRequest.headers ?? {}),
-            ...(this._options?.headers ?? {}),
-            ...headers,
-        };
         const baseWsUrl = core.url.join(
             (await core.Supplier.get(this._options.baseUrl)) ??
                 ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
@@ -1001,30 +995,36 @@ export class ConversationsClient {
         );
 
         if (this._options.reconnectConversationOnAbnormalDisconnect) {
-            const socketOptions = {
-                protocols: protocols ?? [],
-                queryParameters: { ..._queryParams, ...queryParams },
-                headers: _headers,
-                options: {
-                    debug: debug ?? false,
-                    // Session-aware reconnection is handled by ReconnectableConversationsSocket,
-                    // which opens new sockets with reconnect_conv_id.
-                    maxRetries: 0,
-                    connectionTimeout: connectionTimeoutInSeconds != null ? connectionTimeoutInSeconds * 1000 : undefined,
-                },
-                abortSignal,
-            };
-            const createSocket = (reconnectConvId?: string): core.ReconnectingWebSocket => {
+            const connectionTimeoutMs =
+                connectionTimeoutInSeconds != null ? connectionTimeoutInSeconds * 1000 : undefined;
+            const createSocket = async (reconnectConvId?: string): Promise<core.ReconnectingWebSocket> => {
+                const freshAuth: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+                const mergedHeaders: Record<string, unknown> = {
+                    ...(freshAuth.headers ?? {}),
+                    ...(this._options?.headers ?? {}),
+                    ...headers,
+                };
+                const isSessionReconnect = reconnectConvId != null;
                 return new core.ReconnectingWebSocket({
-                    ...socketOptions,
                     url: baseWsUrl,
+                    protocols: protocols ?? [],
                     queryParameters: {
-                        ...socketOptions.queryParameters,
+                        ..._queryParams,
+                        ...queryParams,
                         ...(reconnectConvId ? { reconnect_conv_id: reconnectConvId } : {}),
                     },
+                    headers: mergedHeaders,
+                    options: {
+                        debug: debug ?? false,
+                        // Initial connection keeps transport retries; replacement sockets use 0 so only
+                        // ReconnectableConversationsSocket performs session-level reconnect.
+                        maxRetries: isSessionReconnect ? 0 : reconnectAttempts ?? 30,
+                        connectionTimeout: connectionTimeoutMs,
+                    },
+                    abortSignal,
                 });
             };
-            const initialSocket = createSocket();
+            const initialSocket = await createSocket();
             return new ReconnectableConversationsSocket({
                 socket: initialSocket,
                 createReconnectSocket: (conversationId) => createSocket(conversationId),
@@ -1032,6 +1032,12 @@ export class ConversationsClient {
             }) as unknown as ConversationsSocket;
         }
 
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: Record<string, unknown> = {
+            ...(_authRequest.headers ?? {}),
+            ...(this._options?.headers ?? {}),
+            ...headers,
+        };
         const socket = new core.ReconnectingWebSocket({
             url: baseWsUrl,
             protocols: protocols ?? [],

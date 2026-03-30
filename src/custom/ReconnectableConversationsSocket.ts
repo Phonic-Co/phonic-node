@@ -12,8 +12,8 @@ const BASE_RECONNECT_DELAY_MS = 500;
 const MAX_RECONNECT_DELAY_MS = 5000;
 
 export interface ReconnectableConversationsSocketArgs {
-    /** Called on 1006 to create a new socket with reconnect_conv_id. */
-    createReconnectSocket: (conversationId: string) => core.ReconnectingWebSocket;
+    /** Called on 1006 to create a new socket with reconnect_conv_id. May be async (e.g. fresh auth). */
+    createReconnectSocket: (conversationId: string) => core.ReconnectingWebSocket | Promise<core.ReconnectingWebSocket>;
     /** Initial socket for the first connection. */
     socket: core.ReconnectingWebSocket;
     maxReconnectAttempts?: number;
@@ -35,16 +35,25 @@ type EventHandlers = {
  *
  * Uses composition rather than inheritance to avoid coupling to the parent's
  * private event handler registration or ReconnectingWebSocket internals.
+ *
+ * Outbound sends while disconnected (reconnect backoff, dead socket, or wrapper
+ * closed) are dropped.
  */
 export class ReconnectableConversationsSocket {
     private _conversationId: string | null = null;
     private _inner: ConversationsSocket;
-    private readonly _createReconnectSocket: (conversationId: string) => core.ReconnectingWebSocket;
+    private readonly _createReconnectSocket: (
+        conversationId: string,
+    ) => core.ReconnectingWebSocket | Promise<core.ReconnectingWebSocket>;
     private readonly _maxReconnectAttempts: number;
     private readonly _handlers: EventHandlers = {};
     private _reconnectAttempts = 0;
     private _isClosed = false;
     private _pendingReconnect: ReturnType<typeof setTimeout> | undefined;
+    /** True after 1006 schedules reconnect until the replacement socket is open. */
+    private _pendingReplacement = false;
+    private _nextOpenPromise: Promise<core.ReconnectingWebSocket> | undefined;
+    private _resolveNextOpen: ((socket: core.ReconnectingWebSocket) => void) | undefined;
 
     constructor(args: ReconnectableConversationsSocketArgs) {
         this._createReconnectSocket = args.createReconnectSocket;
@@ -70,14 +79,41 @@ export class ReconnectableConversationsSocket {
         this._handlers[event] = callback;
     }
 
-    public sendConfig(message: Phonic.ConfigPayload): void { this._inner.sendConfig(message); }
-    public sendAudioChunk(message: Phonic.AudioChunkPayload): void { this._inner.sendAudioChunk(message); }
-    public sendToolCallOutput(message: Phonic.ToolCallOutputPayload): void { this._inner.sendToolCallOutput(message); }
-    public sendUpdateSystemPrompt(message: Phonic.UpdateSystemPromptPayload): void { this._inner.sendUpdateSystemPrompt(message); }
-    public sendAddSystemMessage(message: Phonic.AddSystemMessagePayload): void { this._inner.sendAddSystemMessage(message); }
-    public sendSetExternalId(message: Phonic.SetExternalIdPayload): void { this._inner.sendSetExternalId(message); }
-    public sendGenerateReply(message: Phonic.GenerateReplyPayload): void { this._inner.sendGenerateReply(message); }
-    public sendSay(message: Phonic.SayPayload): void { this._inner.sendSay(message); }
+    /** Drop outbound sends when we cannot talk to a live socket (no queue). */
+    private _safeSend(op: (inner: ConversationsSocket) => void): void {
+        if (this._isClosed || this._pendingReplacement) {
+            return;
+        }
+        if (this._inner.readyState !== core.ReconnectingWebSocket.ReadyState.OPEN) {
+            return;
+        }
+        op(this._inner);
+    }
+
+    public sendConfig(message: Phonic.ConfigPayload): void {
+        this._safeSend((inner) => inner.sendConfig(message));
+    }
+    public sendAudioChunk(message: Phonic.AudioChunkPayload): void {
+        this._safeSend((inner) => inner.sendAudioChunk(message));
+    }
+    public sendToolCallOutput(message: Phonic.ToolCallOutputPayload): void {
+        this._safeSend((inner) => inner.sendToolCallOutput(message));
+    }
+    public sendUpdateSystemPrompt(message: Phonic.UpdateSystemPromptPayload): void {
+        this._safeSend((inner) => inner.sendUpdateSystemPrompt(message));
+    }
+    public sendAddSystemMessage(message: Phonic.AddSystemMessagePayload): void {
+        this._safeSend((inner) => inner.sendAddSystemMessage(message));
+    }
+    public sendSetExternalId(message: Phonic.SetExternalIdPayload): void {
+        this._safeSend((inner) => inner.sendSetExternalId(message));
+    }
+    public sendGenerateReply(message: Phonic.GenerateReplyPayload): void {
+        this._safeSend((inner) => inner.sendGenerateReply(message));
+    }
+    public sendSay(message: Phonic.SayPayload): void {
+        this._safeSend((inner) => inner.sendSay(message));
+    }
 
     public connect(): never {
         throw new Error("connect() is not supported on ReconnectableConversationsSocket. Reconnection is handled automatically.");
@@ -85,6 +121,7 @@ export class ReconnectableConversationsSocket {
 
     public close(): void {
         this._isClosed = true;
+        this._pendingReplacement = false;
         if (this._pendingReconnect != null) {
             clearTimeout(this._pendingReconnect);
             this._pendingReconnect = undefined;
@@ -93,6 +130,12 @@ export class ReconnectableConversationsSocket {
     }
 
     public async waitForOpen(): Promise<core.ReconnectingWebSocket> {
+        if (this._pendingReplacement) {
+            this._nextOpenPromise ??= new Promise<core.ReconnectingWebSocket>((resolve) => {
+                this._resolveNextOpen = resolve;
+            });
+            return this._nextOpenPromise;
+        }
         return this._inner.waitForOpen();
     }
 
@@ -147,15 +190,35 @@ export class ReconnectableConversationsSocket {
             this._reconnectAttempts++;
             const delay = this._getReconnectDelay();
 
+            this._pendingReplacement = true;
+
             this._pendingReconnect = setTimeout(() => {
                 this._pendingReconnect = undefined;
                 if (this._isClosed) {
+                    this._pendingReplacement = false;
                     return;
                 }
-                const newRawSocket = this._createReconnectSocket(this._conversationId!);
-                const newInner = new ConversationsSocket({ socket: newRawSocket });
-                this._inner = newInner;
-                this._wireInner(newInner, newRawSocket);
+                void (async () => {
+                    try {
+                        const created = this._createReconnectSocket(this._conversationId!);
+                        const newRawSocket =
+                            created instanceof Promise ? await created : created;
+                        if (this._isClosed) {
+                            this._pendingReplacement = false;
+                            return;
+                        }
+                        const newInner = new ConversationsSocket({ socket: newRawSocket });
+                        this._inner = newInner;
+                        this._wireInner(newInner, newRawSocket);
+                        const ws = await newInner.waitForOpen();
+                        this._pendingReplacement = false;
+                        this._resolveNextOpen?.(ws);
+                        this._resolveNextOpen = undefined;
+                        this._nextOpenPromise = undefined;
+                    } catch {
+                        this._pendingReplacement = false;
+                    }
+                })();
             }, delay);
         });
     }
