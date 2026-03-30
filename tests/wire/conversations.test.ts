@@ -1676,8 +1676,9 @@ describe("ConversationsClient", () => {
                 boosted_keywords: ["Load ID", "dispatch"],
                 tools: ["keypad_input"],
             },
+            dry_run: false,
         };
-        const rawResponseBody = { conversation_id: "conv_12cf6e88-c254-233e-a149-b2f1bdd22783" };
+        const rawResponseBody = { dry_run: true };
 
         server
             .mockEndpoint()
@@ -1709,9 +1710,10 @@ describe("ConversationsClient", () => {
                 boosted_keywords: ["Load ID", "dispatch"],
                 tools: ["keypad_input"],
             },
+            dry_run: false,
         });
         expect(response).toEqual({
-            conversation_id: "conv_12cf6e88-c254-233e-a149-b2f1bdd22783",
+            dry_run: true,
         });
     });
 
@@ -1827,7 +1829,7 @@ describe("ConversationsClient", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { from_phone_number: "from_phone_number", to_phone_number: "to_phone_number" };
-        const rawResponseBody = { conversation_id: "conversation_id", twilio_call_sid: "twilio_call_sid" };
+        const rawResponseBody = { dry_run: true };
 
         server
             .mockEndpoint()
@@ -1845,8 +1847,7 @@ describe("ConversationsClient", () => {
             to_phone_number: "to_phone_number",
         });
         expect(response).toEqual({
-            conversation_id: "conversation_id",
-            twilio_call_sid: "twilio_call_sid",
+            dry_run: true,
         });
     });
 

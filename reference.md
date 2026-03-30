@@ -2197,7 +2197,8 @@ await client.conversations.outboundCall({
         multilingual_mode: "request",
         boosted_keywords: ["Load ID", "dispatch"],
         tools: ["keypad_input"]
-    }
+    },
+    dry_run: false
 });
 
 ```
