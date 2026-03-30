@@ -70,13 +70,14 @@ export class ReconnectableConversationsSocket {
         this._handlers[event] = callback;
     }
 
-    public sendConfig(message: any): void { this._inner.sendConfig(message); }
-    public sendAudioChunk(message: any): void { this._inner.sendAudioChunk(message); }
-    public sendToolCallOutput(message: any): void { this._inner.sendToolCallOutput(message); }
-    public sendUpdateSystemPrompt(message: any): void { this._inner.sendUpdateSystemPrompt(message); }
-    public sendAddSystemMessage(message: any): void { this._inner.sendAddSystemMessage(message); }
-    public sendSetExternalId(message: any): void { this._inner.sendSetExternalId(message); }
-    public sendGenerateReply(message: any): void { this._inner.sendGenerateReply(message); }
+    public sendConfig(message: Phonic.ConfigPayload): void { this._inner.sendConfig(message); }
+    public sendAudioChunk(message: Phonic.AudioChunkPayload): void { this._inner.sendAudioChunk(message); }
+    public sendToolCallOutput(message: Phonic.ToolCallOutputPayload): void { this._inner.sendToolCallOutput(message); }
+    public sendUpdateSystemPrompt(message: Phonic.UpdateSystemPromptPayload): void { this._inner.sendUpdateSystemPrompt(message); }
+    public sendAddSystemMessage(message: Phonic.AddSystemMessagePayload): void { this._inner.sendAddSystemMessage(message); }
+    public sendSetExternalId(message: Phonic.SetExternalIdPayload): void { this._inner.sendSetExternalId(message); }
+    public sendGenerateReply(message: Phonic.GenerateReplyPayload): void { this._inner.sendGenerateReply(message); }
+    public sendSay(message: Phonic.SayPayload): void { this._inner.sendSay(message); }
 
     public connect(): never {
         throw new Error("connect() is not supported on ReconnectableConversationsSocket. Reconnection is handled automatically.");
