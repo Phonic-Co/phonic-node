@@ -5,3 +5,4 @@ src/api/types/overrides.ts
 src/index.ts
 src/custom
 tests/custom.test.ts
+src/api/resources/conversations/client/Client.ts

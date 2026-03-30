@@ -61,6 +61,7 @@ describe("AgentsClient", () => {
                 },
             ],
         };
+
         server.mockEndpoint().get("/agents").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.agents.list();
@@ -138,6 +139,7 @@ describe("AgentsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
+
         server.mockEndpoint().get("/agents").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -154,6 +156,7 @@ describe("AgentsClient", () => {
         });
 
         const rawResponseBody = {};
+
         server.mockEndpoint().get("/agents").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -194,6 +197,7 @@ describe("AgentsClient", () => {
             },
         };
         const rawResponseBody = { id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783", name: "support-agent" };
+
         server
             .mockEndpoint()
             .post("/agents")
@@ -253,6 +257,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { name: "name" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .post("/agents")
@@ -278,6 +283,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { name: "name" };
         const rawResponseBody = {};
+
         server
             .mockEndpoint()
             .post("/agents")
@@ -303,6 +309,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { name: "name" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .post("/agents")
@@ -328,6 +335,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { name: "name" };
         const rawResponseBody = {};
+
         server
             .mockEndpoint()
             .post("/agents")
@@ -421,6 +429,7 @@ describe("AgentsClient", () => {
             inserted: true,
             updated: false,
         };
+
         server
             .mockEndpoint()
             .put("/agents/upsert")
@@ -539,6 +548,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { name: "name" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .put("/agents/upsert")
@@ -564,6 +574,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { name: "name" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .put("/agents/upsert")
@@ -631,6 +642,7 @@ describe("AgentsClient", () => {
                 vad_threshold: 1.1,
             },
         };
+
         server.mockEndpoint().get("/agents/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.agents.get("nameOrId", {
@@ -708,6 +720,7 @@ describe("AgentsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
+
         server.mockEndpoint().get("/agents/nameOrId").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -724,6 +737,7 @@ describe("AgentsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
+
         server.mockEndpoint().get("/agents/nameOrId").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -740,6 +754,7 @@ describe("AgentsClient", () => {
         });
 
         const rawResponseBody = { success: true };
+
         server
             .mockEndpoint()
             .delete("/agents/nameOrId")
@@ -765,6 +780,7 @@ describe("AgentsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .delete("/agents/nameOrId")
@@ -787,6 +803,7 @@ describe("AgentsClient", () => {
         });
 
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .delete("/agents/nameOrId")
@@ -833,6 +850,7 @@ describe("AgentsClient", () => {
             },
         };
         const rawResponseBody = { success: true };
+
         server
             .mockEndpoint()
             .patch("/agents/nameOrId")
@@ -891,6 +909,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .patch("/agents/nameOrId")
@@ -914,6 +933,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .patch("/agents/nameOrId")
@@ -937,6 +957,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .patch("/agents/nameOrId")
@@ -967,6 +988,7 @@ describe("AgentsClient", () => {
             },
         };
         const rawResponseBody = { success: true };
+
         server
             .mockEndpoint()
             .post("/agents/nameOrId/custom-phone-numbers")
@@ -1001,6 +1023,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "phone_number" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .post("/agents/nameOrId/custom-phone-numbers")
@@ -1026,6 +1049,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "phone_number" };
         const rawResponseBody = {};
+
         server
             .mockEndpoint()
             .post("/agents/nameOrId/custom-phone-numbers")
@@ -1051,6 +1075,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "phone_number" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .post("/agents/nameOrId/custom-phone-numbers")
@@ -1076,6 +1101,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "phone_number" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .post("/agents/nameOrId/custom-phone-numbers")
@@ -1101,6 +1127,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "phone_number" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .post("/agents/nameOrId/custom-phone-numbers")
@@ -1126,6 +1153,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "+15551234567" };
         const rawResponseBody = { success: true };
+
         server
             .mockEndpoint()
             .delete("/agents/nameOrId/custom-phone-numbers")
@@ -1153,6 +1181,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "phone_number" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .delete("/agents/nameOrId/custom-phone-numbers")
@@ -1178,6 +1207,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "phone_number" };
         const rawResponseBody = {};
+
         server
             .mockEndpoint()
             .delete("/agents/nameOrId/custom-phone-numbers")
@@ -1203,6 +1233,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "phone_number" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .delete("/agents/nameOrId/custom-phone-numbers")
@@ -1228,6 +1259,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "phone_number" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .delete("/agents/nameOrId/custom-phone-numbers")
@@ -1253,6 +1285,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "phone_number" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .delete("/agents/nameOrId/custom-phone-numbers")
@@ -1285,6 +1318,7 @@ describe("AgentsClient", () => {
             },
         };
         const rawResponseBody = { success: true };
+
         server
             .mockEndpoint()
             .patch("/agents/nameOrId/phone-numbers")
@@ -1319,6 +1353,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "phone_number" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .patch("/agents/nameOrId/phone-numbers")
@@ -1344,6 +1379,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "phone_number" };
         const rawResponseBody = {};
+
         server
             .mockEndpoint()
             .patch("/agents/nameOrId/phone-numbers")
@@ -1369,6 +1405,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "phone_number" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .patch("/agents/nameOrId/phone-numbers")
@@ -1394,6 +1431,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "phone_number" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .patch("/agents/nameOrId/phone-numbers")
@@ -1419,6 +1457,7 @@ describe("AgentsClient", () => {
         });
         const rawRequestBody = { phone_number: "phone_number" };
         const rawResponseBody = { key: "value" };
+
         server
             .mockEndpoint()
             .patch("/agents/nameOrId/phone-numbers")

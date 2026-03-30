@@ -1681,7 +1681,7 @@ await client.conversations.list();
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">get</a>(id) -> Phonic.ConversationsGetResponse</code></summary>
+<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">get</a>(id, { ...params }) -> Phonic.ConversationsGetResponse</code></summary>
 <dl>
 <dd>
 
@@ -1725,6 +1725,14 @@ await client.conversations.get("id");
 <dd>
 
 **id:** `string` — The ID of the conversation to get.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Phonic.ConversationsGetRequest` 
     
 </dd>
 </dl>
