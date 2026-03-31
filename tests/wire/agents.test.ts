@@ -47,6 +47,7 @@ describe("AgentsClient", () => {
                     additional_languages: ["es"],
                     multilingual_mode: "request",
                     boosted_keywords: ["Load ID", "dispatch"],
+                    min_words_to_interrupt: 1,
                     configuration_endpoint: {
                         url: "https://api.example.com/config",
                         headers: { Authorization: "Bearer token123" },
@@ -112,6 +113,7 @@ describe("AgentsClient", () => {
                     additional_languages: ["es"],
                     multilingual_mode: "request",
                     boosted_keywords: ["Load ID", "dispatch"],
+                    min_words_to_interrupt: 1,
                     configuration_endpoint: {
                         url: "https://api.example.com/config",
                         headers: {
@@ -190,6 +192,7 @@ describe("AgentsClient", () => {
             additional_languages: ["es"],
             multilingual_mode: "request",
             boosted_keywords: ["Load ID", "dispatch"],
+            min_words_to_interrupt: 1,
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: { Authorization: "Bearer token123" },
@@ -234,6 +237,7 @@ describe("AgentsClient", () => {
             additional_languages: ["es"],
             multilingual_mode: "request",
             boosted_keywords: ["Load ID", "dispatch"],
+            min_words_to_interrupt: 1,
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: {
@@ -378,6 +382,7 @@ describe("AgentsClient", () => {
             additional_languages: ["es"],
             multilingual_mode: "request",
             boosted_keywords: ["Load ID", "dispatch"],
+            min_words_to_interrupt: 1,
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: { Authorization: "Bearer token123" },
@@ -414,6 +419,7 @@ describe("AgentsClient", () => {
                 additional_languages: ["es"],
                 multilingual_mode: "request",
                 boosted_keywords: ["Load ID", "dispatch"],
+                min_words_to_interrupt: 1,
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
                     headers: { Authorization: "Bearer token123" },
@@ -466,6 +472,7 @@ describe("AgentsClient", () => {
             additional_languages: ["es"],
             multilingual_mode: "request",
             boosted_keywords: ["Load ID", "dispatch"],
+            min_words_to_interrupt: 1,
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: {
@@ -520,6 +527,7 @@ describe("AgentsClient", () => {
                 additional_languages: ["es"],
                 multilingual_mode: "request",
                 boosted_keywords: ["Load ID", "dispatch"],
+                min_words_to_interrupt: 1,
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
                     headers: {
@@ -629,6 +637,7 @@ describe("AgentsClient", () => {
                 additional_languages: ["es"],
                 multilingual_mode: "request",
                 boosted_keywords: ["Load ID", "dispatch"],
+                min_words_to_interrupt: 1,
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
                     headers: { Authorization: "Bearer token123" },
@@ -694,6 +703,7 @@ describe("AgentsClient", () => {
                 additional_languages: ["es"],
                 multilingual_mode: "request",
                 boosted_keywords: ["Load ID", "dispatch"],
+                min_words_to_interrupt: 1,
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
                     headers: {
@@ -843,6 +853,7 @@ describe("AgentsClient", () => {
             additional_languages: ["es"],
             multilingual_mode: "request",
             boosted_keywords: ["Load ID", "dispatch"],
+            min_words_to_interrupt: 1,
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: { Authorization: "Bearer token123" },
@@ -887,6 +898,7 @@ describe("AgentsClient", () => {
             additional_languages: ["es"],
             multilingual_mode: "request",
             boosted_keywords: ["Load ID", "dispatch"],
+            min_words_to_interrupt: 1,
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: {

@@ -22,4 +22,6 @@ export interface ConversationsSipOutboundCallRequest {
     /** Destination phone number in E.164 format. */
     to_phone_number: string;
     config?: Phonic.OutboundCallConfig;
+    /** If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` and `twilio_call_sid` set to null. */
+    dry_run?: boolean;
 }

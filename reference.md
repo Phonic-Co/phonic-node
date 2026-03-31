@@ -117,6 +117,7 @@ await client.agents.create({
     additional_languages: ["es"],
     multilingual_mode: "request",
     boosted_keywords: ["Load ID", "dispatch"],
+    min_words_to_interrupt: 1,
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
@@ -214,6 +215,7 @@ await client.agents.upsert({
     additional_languages: ["es"],
     multilingual_mode: "request",
     boosted_keywords: ["Load ID", "dispatch"],
+    min_words_to_interrupt: 1,
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
@@ -457,6 +459,7 @@ await client.agents.update("nameOrId", {
     additional_languages: ["es"],
     multilingual_mode: "request",
     boosted_keywords: ["Load ID", "dispatch"],
+    min_words_to_interrupt: 1,
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
@@ -2196,8 +2199,10 @@ await client.conversations.outboundCall({
         additional_languages: ["es"],
         multilingual_mode: "request",
         boosted_keywords: ["Load ID", "dispatch"],
+        min_words_to_interrupt: 1,
         tools: ["keypad_input"]
-    }
+    },
+    dry_run: false
 });
 
 ```
