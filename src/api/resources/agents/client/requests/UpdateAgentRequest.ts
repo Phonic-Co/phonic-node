@@ -31,6 +31,7 @@ import type * as Phonic from "../../../../index.js";
  *         additional_languages: ["es"],
  *         multilingual_mode: "request",
  *         boosted_keywords: ["Load ID", "dispatch"],
+ *         min_words_to_interrupt: 1,
  *         configuration_endpoint: {
  *             url: "https://api.example.com/config",
  *             headers: {
@@ -93,6 +94,8 @@ export interface UpdateAgentRequest {
     multilingual_mode?: UpdateAgentRequest.MultilingualMode;
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[];
+    /** Minimum number of words required to interrupt the assistant. */
+    min_words_to_interrupt?: number;
     /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options. */
     configuration_endpoint?: UpdateAgentRequest.ConfigurationEndpoint | null;
     /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Requires `phone_number` to be set when less than 1.0. */

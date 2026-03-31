@@ -49,6 +49,8 @@ export interface Conversation {
     ended_by: Conversation.EndedBy | null;
     /** These words, or short phrases, are more accurately recognized by the model. */
     boosted_keywords: string[] | null;
+    /** Minimum number of words required to interrupt the assistant. */
+    min_words_to_interrupt: number;
     /** ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language. */
     default_language: string;
     /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. */

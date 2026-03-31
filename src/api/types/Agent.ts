@@ -55,6 +55,8 @@ export interface Agent {
     multilingual_mode: Agent.MultilingualMode;
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords: string[];
+    /** Minimum number of words required to interrupt the assistant. */
+    min_words_to_interrupt: number;
     /** When not `null`, the agent will call this endpoint to get configuration options. */
     configuration_endpoint: Agent.ConfigurationEndpoint | null;
     /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Requires `phone_number` to be set when less than 1.0. */

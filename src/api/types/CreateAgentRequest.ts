@@ -53,6 +53,8 @@ export interface CreateAgentRequest {
     multilingual_mode?: CreateAgentRequest.MultilingualMode | undefined;
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[] | undefined;
+    /** Minimum number of words required to interrupt the assistant. */
+    min_words_to_interrupt?: number | undefined;
     /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options. */
     configuration_endpoint?: (CreateAgentRequest.ConfigurationEndpoint | null) | undefined;
     /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0. */
