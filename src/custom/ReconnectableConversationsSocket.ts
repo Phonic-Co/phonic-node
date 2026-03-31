@@ -8,18 +8,12 @@ import { fromJson } from "../core/json.js";
  *  are intentional server-side closes. */
 const ABNORMAL_CLOSURE = 1006;
 
-/** Server close codes that mean the session is gone — stop retrying. */
-const TERMINAL_RECONNECT_CODES = new Set([
-    4800, // reconnect session not found / expired
-    4801, // reconnect invalid state
-]);
-
 const BASE_RECONNECT_DELAY_MS = 500;
 const MAX_RECONNECT_DELAY_MS = 5000;
 /** Safety cap: stop retrying if the server is completely unreachable.
  *  In normal operation the server's terminal codes (4800/4801) stop
  *  retries much sooner (within the 10s grace period). */
-const MAX_RECONNECT_ATTEMPTS = 30;
+const MAX_RECONNECT_ATTEMPTS = 10;
 
 export interface ReconnectableConversationsSocketArgs {
     /** Called on 1006 to create a new socket with reconnect_conv_id. May be async (e.g. fresh auth). */
@@ -58,11 +52,11 @@ export class ReconnectableConversationsSocket {
     private readonly _handlers: EventHandlers = {};
     private _reconnectAttempts = 0;
     private _isClosed = false;
-    private _pendingReconnect: ReturnType<typeof setTimeout> | undefined;
+    private _pendingReconnect: ReturnType<typeof setTimeout> | null = null;
     private _pendingReplacement = false;
-    private _nextOpenPromise: Promise<core.ReconnectingWebSocket> | undefined;
-    private _resolveNextOpen: ((socket: core.ReconnectingWebSocket) => void) | undefined;
-    private _rejectNextOpen: ((err: Error) => void) | undefined;
+    private _nextOpenPromise: Promise<core.ReconnectingWebSocket> | null = null;
+    private _resolveNextOpen: ((socket: core.ReconnectingWebSocket) => void) | null = null;
+    private _rejectNextOpen: ((err: Error) => void) | null = null;
 
     constructor(args: ReconnectableConversationsSocketArgs) {
         this._createReconnectSocket = args.createReconnectSocket;
@@ -132,13 +126,13 @@ export class ReconnectableConversationsSocket {
         this._pendingReplacement = false;
         if (this._pendingReconnect != null) {
             clearTimeout(this._pendingReconnect);
-            this._pendingReconnect = undefined;
+            this._pendingReconnect = null;
         }
-        if (this._rejectNextOpen) {
+        if (this._rejectNextOpen != null) {
             this._rejectNextOpen(new Error("Socket closed during reconnection"));
-            this._resolveNextOpen = undefined;
-            this._rejectNextOpen = undefined;
-            this._nextOpenPromise = undefined;
+            this._resolveNextOpen = null;
+            this._rejectNextOpen = null;
+            this._nextOpenPromise = null;
         }
         this._inner.close();
     }
@@ -174,7 +168,7 @@ export class ReconnectableConversationsSocket {
         this._pendingReplacement = true;
 
         this._pendingReconnect = setTimeout(() => {
-            this._pendingReconnect = undefined;
+            this._pendingReconnect = null;
             if (this._isClosed) {
                 this._pendingReplacement = false;
                 return;
@@ -201,9 +195,9 @@ export class ReconnectableConversationsSocket {
             const ws = await newInner.waitForOpen();
             this._pendingReplacement = false;
             this._resolveNextOpen?.(ws);
-            this._resolveNextOpen = undefined;
-            this._rejectNextOpen = undefined;
-            this._nextOpenPromise = undefined;
+            this._resolveNextOpen = null;
+            this._rejectNextOpen = null;
+            this._nextOpenPromise = null;
         } catch (err) {
             this._pendingReplacement = false;
             // Connection failed — schedule another attempt.
@@ -245,11 +239,6 @@ export class ReconnectableConversationsSocket {
 
         rawSocket.addEventListener("close", (event: core.CloseEvent) => {
             if (this._isClosed) {
-                return;
-            }
-
-            // Terminal server codes — session is gone, stop retrying
-            if (TERMINAL_RECONNECT_CODES.has(event.code)) {
                 return;
             }
 
