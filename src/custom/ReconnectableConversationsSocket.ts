@@ -207,8 +207,13 @@ export class ReconnectableConversationsSocket {
     }
 
     private _wireInner(inner: ConversationsSocket, rawSocket: core.ReconnectingWebSocket): void {
-        // Forward events from the inner ConversationsSocket to user handlers
-        inner.on("open", () => this._handlers.open?.());
+        // Forward events from the inner ConversationsSocket to user handlers.
+        // Clear _pendingReplacement before calling the user's open handler
+        // so that sends inside the handler are not silently dropped.
+        inner.on("open", () => {
+            this._pendingReplacement = false;
+            this._handlers.open?.();
+        });
         inner.on("message", (msg) => this._handlers.message?.(msg));
         inner.on("close", (ev) => this._handlers.close?.(ev));
         inner.on("error", (err) => this._handlers.error?.(err));
