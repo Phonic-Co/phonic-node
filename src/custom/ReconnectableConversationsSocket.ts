@@ -37,8 +37,8 @@ type EventHandlers = {
  * forwarding all events to user-registered handlers.
  *
  * Retries reconnection with exponential backoff until the server responds
- * with a terminal close code (4800 session expired, 4801 invalid state)
- * or the user calls close().
+ * with a terminal close code (4800 session expired, 4801 invalid state),
+ * the safety cap is reached, or the user calls close().
  *
  * Uses composition rather than inheritance to avoid coupling to the parent's
  * private event handler registration or ReconnectingWebSocket internals.
@@ -52,11 +52,9 @@ export class ReconnectableConversationsSocket {
     private readonly _handlers: EventHandlers = {};
     private _reconnectAttempts = 0;
     private _isClosed = false;
+    private _cleanupWireListeners: (() => void) | null = null;
     private _pendingReconnect: ReturnType<typeof setTimeout> | null = null;
     private _pendingReplacement = false;
-    private _nextOpenPromise: Promise<core.ReconnectingWebSocket> | null = null;
-    private _resolveNextOpen: ((socket: core.ReconnectingWebSocket) => void) | null = null;
-    private _rejectNextOpen: ((err: Error) => void) | null = null;
 
     constructor(args: ReconnectableConversationsSocketArgs) {
         this._createReconnectSocket = args.createReconnectSocket;
@@ -128,23 +126,12 @@ export class ReconnectableConversationsSocket {
             clearTimeout(this._pendingReconnect);
             this._pendingReconnect = null;
         }
-        if (this._rejectNextOpen != null) {
-            this._rejectNextOpen(new Error("Socket closed during reconnection"));
-            this._resolveNextOpen = null;
-            this._rejectNextOpen = null;
-            this._nextOpenPromise = null;
-        }
+        this._cleanupWireListeners?.();
+        this._cleanupWireListeners = null;
         this._inner.close();
     }
 
     public async waitForOpen(): Promise<core.ReconnectingWebSocket> {
-        if (this._pendingReplacement) {
-            this._nextOpenPromise ??= new Promise<core.ReconnectingWebSocket>((resolve, reject) => {
-                this._resolveNextOpen = resolve;
-                this._rejectNextOpen = reject;
-            });
-            return this._nextOpenPromise;
-        }
         return this._inner.waitForOpen();
     }
 
@@ -156,11 +143,18 @@ export class ReconnectableConversationsSocket {
 
     /** Schedule a reconnection attempt after backoff delay. */
     private _scheduleReconnect(): void {
-        if (this._isClosed || !this._conversationId) {
+        if (this._isClosed || this._conversationId === null) {
             return;
         }
         if (this._reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
+            this._pendingReplacement = false;
+            this._handlers.error?.(new Error("Max reconnect attempts reached"));
             return;
+        }
+
+        // Clear any existing timer to prevent orphaned timeouts
+        if (this._pendingReconnect != null) {
+            clearTimeout(this._pendingReconnect);
         }
 
         this._reconnectAttempts++;
@@ -189,16 +183,16 @@ export class ReconnectableConversationsSocket {
                 return;
             }
 
+            // Clean up the old socket: remove our custom listeners and close
+            // the ConversationsSocket wrapper (which removes its own listeners).
+            this._cleanupWireListeners?.();
+            this._cleanupWireListeners = null;
+            try { this._inner.close(); } catch { /* already closed from 1006 */ }
+
             const newInner = new ConversationsSocket({ socket: newRawSocket });
             this._inner = newInner;
             this._wireInner(newInner, newRawSocket);
-            const ws = await newInner.waitForOpen();
-            this._pendingReplacement = false;
-            this._resolveNextOpen?.(ws);
-            this._resolveNextOpen = null;
-            this._rejectNextOpen = null;
-            this._nextOpenPromise = null;
-        } catch (err) {
+        } catch {
             this._pendingReplacement = false;
             // Connection failed — schedule another attempt.
             // The server's grace period (10s) is the natural limit;
@@ -220,7 +214,7 @@ export class ReconnectableConversationsSocket {
         inner.on("error", (err) => this._handlers.error?.(err));
 
         // Intercept raw messages to capture conversation_id and reset reconnect counter
-        rawSocket.addEventListener("message", (event: { data: string }) => {
+        const onMessage = (event: { data: string }) => {
             try {
                 const data = fromJson(event.data);
                 if (data && typeof data === "object" && "type" in data) {
@@ -235,9 +229,9 @@ export class ReconnectableConversationsSocket {
             } catch {
                 // ignore — inner socket handles parse errors
             }
-        });
+        };
 
-        rawSocket.addEventListener("close", (event: core.CloseEvent) => {
+        const onClose = (event: core.CloseEvent) => {
             if (this._isClosed) {
                 return;
             }
@@ -254,6 +248,14 @@ export class ReconnectableConversationsSocket {
             }
             // 1006 without conversationId: let RWS handle transport-level
             // reconnect normally (starts a fresh conversation).
-        });
+        };
+
+        rawSocket.addEventListener("message", onMessage);
+        rawSocket.addEventListener("close", onClose);
+
+        this._cleanupWireListeners = () => {
+            rawSocket.removeEventListener("message", onMessage);
+            rawSocket.removeEventListener("close", onClose as any);
+        };
     }
 }
