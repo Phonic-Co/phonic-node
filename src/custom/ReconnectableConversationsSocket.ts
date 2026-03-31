@@ -241,18 +241,18 @@ export class ReconnectableConversationsSocket {
                 return;
             }
 
-            if (event.code === ABNORMAL_CLOSURE) {
-                // Cancel ReconnectingWebSocket's built-in auto-reconnect.
+            if (event.code === ABNORMAL_CLOSURE && this._conversationId !== null) {
+                // We have a conversation to resume — cancel RWS's built-in
+                // auto-reconnect and handle it ourselves with reconnect_conv_id.
                 // _handleClose calls _connect() before notifying listeners,
                 // but _connect() awaits _wait() which is async. Calling
                 // close() synchronously sets _closeCalled = true, which
                 // _connect() checks before opening the new socket.
                 rawSocket.close();
-
-                if (this._conversationId) {
-                    this._scheduleReconnect();
-                }
+                this._scheduleReconnect();
             }
+            // 1006 without conversationId: let RWS handle transport-level
+            // reconnect normally (starts a fresh conversation).
         });
     }
 }
