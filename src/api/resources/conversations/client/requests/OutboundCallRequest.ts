@@ -23,12 +23,16 @@ import type * as Phonic from "../../../../index.js";
  *             additional_languages: ["es"],
  *             multilingual_mode: "request",
  *             boosted_keywords: ["Load ID", "dispatch"],
+ *             min_words_to_interrupt: 1,
  *             tools: ["keypad_input"]
- *         }
+ *         },
+ *         dry_run: false
  *     }
  */
 export interface OutboundCallRequest {
     /** The phone number to call in E.164 format. */
     to_phone_number: string;
     config?: Phonic.OutboundCallConfig;
+    /** If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` set to null. */
+    dry_run?: boolean;
 }

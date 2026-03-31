@@ -36,6 +36,8 @@ export interface OutboundCallConfig {
     multilingual_mode?: OutboundCallConfig.MultilingualMode | undefined;
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[] | undefined;
+    /** Minimum number of words required to interrupt the assistant. */
+    min_words_to_interrupt?: number | undefined;
     /** Array of built-in or custom tool names to use. */
     tools?: OutboundCallConfig.Tools.Item[] | undefined;
 }

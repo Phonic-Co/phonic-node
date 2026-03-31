@@ -46,6 +46,7 @@ describe("ConversationsClient", () => {
                     ended_at: "2025-07-30T23:47:00Z",
                     ended_by: "user",
                     boosted_keywords: ["Load ID", "dispatch"],
+                    min_words_to_interrupt: 1,
                     default_language: "en",
                     additional_languages: ["es"],
                     multilingual_mode: "request",
@@ -139,6 +140,7 @@ describe("ConversationsClient", () => {
                     ended_at: "2025-07-30T23:47:00Z",
                     ended_by: "user",
                     boosted_keywords: ["Load ID", "dispatch"],
+                    min_words_to_interrupt: 1,
                     default_language: "en",
                     additional_languages: ["es"],
                     multilingual_mode: "request",
@@ -248,6 +250,7 @@ describe("ConversationsClient", () => {
                 ended_at: "2025-07-30T23:47:00Z",
                 ended_by: "user",
                 boosted_keywords: ["Load ID", "dispatch"],
+                min_words_to_interrupt: 1,
                 default_language: "en",
                 additional_languages: ["es"],
                 multilingual_mode: "request",
@@ -337,6 +340,7 @@ describe("ConversationsClient", () => {
                 ended_at: "2025-07-30T23:47:00Z",
                 ended_by: "user",
                 boosted_keywords: ["Load ID", "dispatch"],
+                min_words_to_interrupt: 1,
                 default_language: "en",
                 additional_languages: ["es"],
                 multilingual_mode: "request",
@@ -523,6 +527,7 @@ describe("ConversationsClient", () => {
                 ended_at: "2025-07-30T23:47:00Z",
                 ended_by: "user",
                 boosted_keywords: ["Load ID", "dispatch"],
+                min_words_to_interrupt: 1,
                 default_language: "en",
                 additional_languages: ["es"],
                 multilingual_mode: "request",
@@ -616,6 +621,7 @@ describe("ConversationsClient", () => {
                 ended_at: "2025-07-30T23:47:00Z",
                 ended_by: "user",
                 boosted_keywords: ["Load ID", "dispatch"],
+                min_words_to_interrupt: 1,
                 default_language: "en",
                 additional_languages: ["es"],
                 multilingual_mode: "request",
@@ -1674,10 +1680,12 @@ describe("ConversationsClient", () => {
                 additional_languages: ["es"],
                 multilingual_mode: "request",
                 boosted_keywords: ["Load ID", "dispatch"],
+                min_words_to_interrupt: 1,
                 tools: ["keypad_input"],
             },
+            dry_run: false,
         };
-        const rawResponseBody = { conversation_id: "conv_12cf6e88-c254-233e-a149-b2f1bdd22783" };
+        const rawResponseBody = { conversation_id: null, dry_run: true };
 
         server
             .mockEndpoint()
@@ -1707,15 +1715,87 @@ describe("ConversationsClient", () => {
                 additional_languages: ["es"],
                 multilingual_mode: "request",
                 boosted_keywords: ["Load ID", "dispatch"],
+                min_words_to_interrupt: 1,
                 tools: ["keypad_input"],
             },
+            dry_run: false,
         });
         expect(response).toEqual({
-            conversation_id: "conv_12cf6e88-c254-233e-a149-b2f1bdd22783",
+            conversation_id: null,
+            dry_run: true,
         });
     });
 
     test("outbound_call (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            to_phone_number: "+19189397081",
+            config: {
+                agent: "support-agent",
+                welcome_message: "Hi {{customer_name}}. How can I help you today?",
+                system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+                template_variables: { customer_name: "David", subject: "Chess" },
+                voice_id: "sabrina",
+                generate_no_input_poke_text: false,
+                no_input_poke_sec: 30,
+                no_input_poke_text: "Are you still there?",
+                no_input_end_conversation_sec: 180,
+                default_language: "en",
+                additional_languages: ["es"],
+                multilingual_mode: "request",
+                boosted_keywords: ["Load ID", "dispatch"],
+                min_words_to_interrupt: 1,
+                tools: ["keypad_input"],
+            },
+            dry_run: false,
+        };
+        const rawResponseBody = { conversation_id: "conv_12cf6e88-c254-233e-a149-b2f1bdd22783", dry_run: false };
+
+        server
+            .mockEndpoint()
+            .post("/conversations/outbound_call")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.conversations.outboundCall({
+            to_phone_number: "+19189397081",
+            config: {
+                agent: "support-agent",
+                welcome_message: "Hi {{customer_name}}. How can I help you today?",
+                system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+                template_variables: {
+                    customer_name: "David",
+                    subject: "Chess",
+                },
+                voice_id: "sabrina",
+                generate_no_input_poke_text: false,
+                no_input_poke_sec: 30,
+                no_input_poke_text: "Are you still there?",
+                no_input_end_conversation_sec: 180,
+                default_language: "en",
+                additional_languages: ["es"],
+                multilingual_mode: "request",
+                boosted_keywords: ["Load ID", "dispatch"],
+                min_words_to_interrupt: 1,
+                tools: ["keypad_input"],
+            },
+            dry_run: false,
+        });
+        expect(response).toEqual({
+            conversation_id: "conv_12cf6e88-c254-233e-a149-b2f1bdd22783",
+            dry_run: false,
+        });
+    });
+
+    test("outbound_call (3)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -1741,7 +1821,7 @@ describe("ConversationsClient", () => {
         }).rejects.toThrow(Phonic.BadRequestError);
     });
 
-    test("outbound_call (3)", async () => {
+    test("outbound_call (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -1767,7 +1847,7 @@ describe("ConversationsClient", () => {
         }).rejects.toThrow(Phonic.UnauthorizedError);
     });
 
-    test("outbound_call (4)", async () => {
+    test("outbound_call (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -1793,7 +1873,7 @@ describe("ConversationsClient", () => {
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
-    test("outbound_call (5)", async () => {
+    test("outbound_call (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -1827,7 +1907,7 @@ describe("ConversationsClient", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { from_phone_number: "from_phone_number", to_phone_number: "to_phone_number" };
-        const rawResponseBody = { conversation_id: "conversation_id", twilio_call_sid: "twilio_call_sid" };
+        const rawResponseBody = { conversation_id: null, twilio_call_sid: null, dry_run: true };
 
         server
             .mockEndpoint()
@@ -1845,12 +1925,49 @@ describe("ConversationsClient", () => {
             to_phone_number: "to_phone_number",
         });
         expect(response).toEqual({
-            conversation_id: "conversation_id",
-            twilio_call_sid: "twilio_call_sid",
+            conversation_id: null,
+            twilio_call_sid: null,
+            dry_run: true,
         });
     });
 
     test("sip_outbound_call (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { from_phone_number: "from_phone_number", to_phone_number: "to_phone_number" };
+        const rawResponseBody = {
+            conversation_id: "conv_12cf6e88-c254-233e-a149-b2f1bdd22783",
+            twilio_call_sid: "CA1234567890",
+            dry_run: false,
+        };
+
+        server
+            .mockEndpoint()
+            .post("/conversations/sip/outbound_call")
+            .header("X-Sip-Address", "X-Sip-Address")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.conversations.sipOutboundCall({
+            "X-Sip-Address": "X-Sip-Address",
+            from_phone_number: "from_phone_number",
+            to_phone_number: "to_phone_number",
+        });
+        expect(response).toEqual({
+            conversation_id: "conv_12cf6e88-c254-233e-a149-b2f1bdd22783",
+            twilio_call_sid: "CA1234567890",
+            dry_run: false,
+        });
+    });
+
+    test("sip_outbound_call (3)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -1879,7 +1996,7 @@ describe("ConversationsClient", () => {
         }).rejects.toThrow(Phonic.BadRequestError);
     });
 
-    test("sip_outbound_call (3)", async () => {
+    test("sip_outbound_call (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -1908,7 +2025,7 @@ describe("ConversationsClient", () => {
         }).rejects.toThrow(Phonic.UnauthorizedError);
     });
 
-    test("sip_outbound_call (4)", async () => {
+    test("sip_outbound_call (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
