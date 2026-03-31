@@ -16,6 +16,10 @@ const TERMINAL_RECONNECT_CODES = new Set([
 
 const BASE_RECONNECT_DELAY_MS = 500;
 const MAX_RECONNECT_DELAY_MS = 5000;
+/** Safety cap: stop retrying if the server is completely unreachable.
+ *  In normal operation the server's terminal codes (4800/4801) stop
+ *  retries much sooner (within the 10s grace period). */
+const MAX_RECONNECT_ATTEMPTS = 30;
 
 export interface ReconnectableConversationsSocketArgs {
     /** Called on 1006 to create a new socket with reconnect_conv_id. May be async (e.g. fresh auth). */
@@ -159,6 +163,9 @@ export class ReconnectableConversationsSocket {
     /** Schedule a reconnection attempt after backoff delay. */
     private _scheduleReconnect(): void {
         if (this._isClosed || !this._conversationId) {
+            return;
+        }
+        if (this._reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
             return;
         }
 
