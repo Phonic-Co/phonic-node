@@ -92,9 +92,22 @@ describe("ReconnectableConversationsSocket", () => {
         });
 
         mockSocket._fire("close", { code: 1006 });
-        jest.advanceTimersByTime(1000); // advance past reconnect delay
+        jest.advanceTimersByTime(1000);
 
         expect(createReconnectSocket).toHaveBeenCalledWith("conv_123");
+    });
+
+    it("cancels RWS auto-reconnect on 1006 by calling close()", () => {
+        const { mockSocket } = createSocket();
+
+        mockSocket._fire("message", {
+            data: JSON.stringify({ type: "conversation_created", conversation_id: "conv_123" }),
+        });
+
+        mockSocket._fire("close", { code: 1006 });
+
+        // close() should be called on the raw socket to cancel RWS auto-reconnect
+        expect(mockSocket.close).toHaveBeenCalled();
     });
 
     it("does NOT create a new socket on 1006 when no conversation_id", () => {
@@ -106,7 +119,7 @@ describe("ReconnectableConversationsSocket", () => {
         expect(createReconnectSocket).not.toHaveBeenCalled();
     });
 
-    it.each([1000, 4000, 4800, 4801, 4303])(
+    it.each([1000, 4000, 4303])(
         "does NOT create a new socket on non-1006 close code %i",
         (code) => {
             const { mockSocket, createReconnectSocket } = createSocket();
@@ -119,6 +132,30 @@ describe("ReconnectableConversationsSocket", () => {
             jest.advanceTimersByTime(10000);
 
             expect(createReconnectSocket).not.toHaveBeenCalled();
+        },
+    );
+
+    it.each([4800, 4801])(
+        "stops retrying on terminal server code %i",
+        (code) => {
+            const { mockSocket, createReconnectSocket } = createSocket();
+
+            mockSocket._fire("message", {
+                data: JSON.stringify({ type: "conversation_created", conversation_id: "conv_123" }),
+            });
+
+            // Simulate: 1006 → reconnect socket created → server responds with terminal code
+            mockSocket._fire("close", { code: 1006 });
+            jest.advanceTimersByTime(1000);
+            expect(createReconnectSocket).toHaveBeenCalledTimes(1);
+
+            // The reconnect socket gets a terminal close code
+            const reconnectSocket = createReconnectSocket.mock.results[0].value;
+            reconnectSocket._fire("close", { code });
+            jest.advanceTimersByTime(10000);
+
+            // Should NOT have created another socket
+            expect(createReconnectSocket).toHaveBeenCalledTimes(1);
         },
     );
 
@@ -163,32 +200,37 @@ describe("ReconnectableConversationsSocket", () => {
         expect(createReconnectSocket).toHaveBeenCalledTimes(2);
     });
 
-    it("respects maxReconnectAttempts", () => {
+    it("retries reconnection on failure", () => {
         const mockSocket = createMockSocket();
-        const createReconnectSocket = jest.fn(() => createMockSocket() as unknown as ReconnectingWebSocket);
+        let callCount = 0;
+        const createReconnectSocket = jest.fn(() => {
+            callCount++;
+            if (callCount === 1) {
+                // First attempt fails
+                throw new Error("Connection failed");
+            }
+            return createMockSocket() as unknown as ReconnectingWebSocket;
+        });
         new ReconnectableConversationsSocket({
             socket: mockSocket as unknown as ReconnectingWebSocket,
             createReconnectSocket,
-            maxReconnectAttempts: 1,
         });
 
         mockSocket._fire("message", {
             data: JSON.stringify({ type: "conversation_created", conversation_id: "conv_123" }),
         });
 
-        // First 1006 — should reconnect
+        // First 1006 → first attempt (fails)
         mockSocket._fire("close", { code: 1006 });
-        jest.advanceTimersByTime(1000);
+        jest.advanceTimersByTime(500);
         expect(createReconnectSocket).toHaveBeenCalledTimes(1);
 
-        // Second 1006 on the replacement socket — should NOT reconnect (exceeded max)
-        const replacementSocket = createReconnectSocket.mock.results[0].value;
-        replacementSocket._fire("close", { code: 1006 });
-        jest.advanceTimersByTime(10000);
-        expect(createReconnectSocket).toHaveBeenCalledTimes(1);
+        // Should schedule another attempt after backoff
+        jest.advanceTimersByTime(1000);
+        expect(createReconnectSocket).toHaveBeenCalledTimes(2);
     });
 
-    it("drops sends during reconnect backoff without throwing (no queue)", () => {
+    it("drops sends during reconnect backoff without throwing", () => {
         const { mockSocket, reconnectable } = createSocket();
 
         mockSocket._fire("message", {
@@ -196,7 +238,6 @@ describe("ReconnectableConversationsSocket", () => {
         });
 
         mockSocket._fire("close", { code: 1006 });
-        // In backoff window: pending replacement, inner socket not OPEN
         mockSocket.readyState = 3; // CLOSED
 
         expect(() =>
@@ -212,14 +253,10 @@ describe("ReconnectableConversationsSocket", () => {
             data: JSON.stringify({ type: "conversation_created", conversation_id: "conv_123" }),
         });
 
-        // Trigger 1006 — starts backoff timer
         mockSocket._fire("close", { code: 1006 });
-
-        // Close before the timer fires
         reconnectable.close();
         jest.advanceTimersByTime(10000);
 
-        // Should NOT have created a reconnect socket
         expect(createReconnectSocket).not.toHaveBeenCalled();
     });
 });

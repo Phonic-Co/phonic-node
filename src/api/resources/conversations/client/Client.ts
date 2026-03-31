@@ -1028,7 +1028,6 @@ export class ConversationsClient {
             return new ReconnectableConversationsSocket({
                 socket: initialSocket,
                 createReconnectSocket: (conversationId) => createSocket(conversationId),
-                maxReconnectAttempts: reconnectAttempts ?? 30,
             }) as unknown as ConversationsSocket;
         }
 
