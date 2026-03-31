@@ -1021,13 +1021,17 @@ export class ConversationsClient {
                         maxRetries: isSessionReconnect ? 0 : reconnectAttempts ?? 30,
                         connectionTimeout: connectionTimeoutMs,
                     },
-                    abortSignal,
+                    // Only pass abortSignal to the initial socket. Reconnect sockets
+                    // don't get it — each would register a new listener on the signal
+                    // that's never removed, leaking memory over many reconnects.
+                    abortSignal: isSessionReconnect ? undefined : abortSignal,
                 });
             };
             const initialSocket = await createSocket();
             return new ReconnectableConversationsSocket({
                 socket: initialSocket,
                 createReconnectSocket: (conversationId) => createSocket(conversationId),
+                abortSignal,
             }) as unknown as ConversationsSocket;
         }
 

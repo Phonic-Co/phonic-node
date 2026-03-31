@@ -20,6 +20,8 @@ export interface ReconnectableConversationsSocketArgs {
     createReconnectSocket: (conversationId: string) => core.ReconnectingWebSocket | Promise<core.ReconnectingWebSocket>;
     /** Initial socket for the first connection. */
     socket: core.ReconnectingWebSocket;
+    /** If provided, reconnection stops when the signal is aborted. */
+    abortSignal?: AbortSignal;
 }
 
 type EventHandlers = {
@@ -52,12 +54,14 @@ export class ReconnectableConversationsSocket {
     private readonly _handlers: EventHandlers = {};
     private _reconnectAttempts = 0;
     private _isClosed = false;
+    private readonly _abortSignal: AbortSignal | null;
     private _cleanupWireListeners: (() => void) | null = null;
     private _pendingReconnect: ReturnType<typeof setTimeout> | null = null;
     private _pendingReplacement = false;
 
     constructor(args: ReconnectableConversationsSocketArgs) {
         this._createReconnectSocket = args.createReconnectSocket;
+        this._abortSignal = args.abortSignal != undefined ? args.abortSignal : null;
         this._inner = new ConversationsSocket({ socket: args.socket });
         this._wireInner(this._inner, args.socket);
     }
@@ -115,8 +119,16 @@ export class ReconnectableConversationsSocket {
         this._safeSend((inner) => inner.sendSay(message));
     }
 
+    /**
+     * Not supported — reconnection after 1006 is handled automatically.
+     * To start a new conversation, create a new socket via client.conversations.connect().
+     */
     public connect(): never {
-        throw new Error("connect() is not supported on ReconnectableConversationsSocket. Reconnection is handled automatically.");
+        throw new Error(
+            "connect() is not supported on ReconnectableConversationsSocket. "
+            + "Reconnection after 1006 is automatic. To start a new conversation, "
+            + "call client.conversations.connect() again."
+        );
     }
 
     public close(): void {
@@ -143,7 +155,7 @@ export class ReconnectableConversationsSocket {
 
     /** Schedule a reconnection attempt after backoff delay. */
     private _scheduleReconnect(): void {
-        if (this._isClosed || this._conversationId === null) {
+        if (this._isClosed || this._conversationId === null || this._abortSignal?.aborted) {
             return;
         }
         if (this._reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
@@ -177,7 +189,7 @@ export class ReconnectableConversationsSocket {
             const created = this._createReconnectSocket(this._conversationId!);
             const newRawSocket = created instanceof Promise ? await created : created;
 
-            if (this._isClosed) {
+            if (this._isClosed || this._abortSignal?.aborted) {
                 this._pendingReplacement = false;
                 newRawSocket.close();
                 return;
