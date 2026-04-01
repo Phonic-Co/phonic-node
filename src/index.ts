@@ -4,3 +4,4 @@ export { PhonicClient } from "./Client.js";
 export { PhonicEnvironment, type PhonicEnvironmentUrls } from "./environments.js";
 export { PhonicError, PhonicTimeoutError } from "./errors/index.js";
 export * from "./exports.js";
+export { ReconnectableConversationsSocket } from "./custom/index.js";

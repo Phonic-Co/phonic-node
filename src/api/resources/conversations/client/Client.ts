@@ -8,10 +8,18 @@ import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
 import * as Phonic from "../../../index.js";
+import { ReconnectableConversationsSocket } from "../../../../custom/ReconnectableConversationsSocket.js";
 import { ConversationsSocket } from "./Socket.js";
 
 export declare namespace ConversationsClient {
-    export type Options = BaseClientOptions;
+    export type Options = BaseClientOptions & {
+        /**
+         * When `true`, `connect()` uses session-aware reconnection on abnormal
+         * disconnect (1006). Set via `PhonicClient` options as
+         * `reconnectConversationOnAbnormalDisconnect`.
+         */
+        reconnectConversationOnAbnormalDisconnect?: boolean;
+    };
 
     export interface RequestOptions extends BaseRequestOptions {}
 
@@ -979,6 +987,54 @@ export class ConversationsClient {
         const _queryParams: Record<string, unknown> = {
             downstream_websocket_url: downstreamWebsocketUrl,
         };
+        const baseWsUrl = core.url.join(
+            (await core.Supplier.get(this._options.baseUrl)) ??
+                ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                    .production,
+            "/v1/sts/ws",
+        );
+
+        if (this._options.reconnectConversationOnAbnormalDisconnect) {
+            const connectionTimeoutMs =
+                connectionTimeoutInSeconds != null ? connectionTimeoutInSeconds * 1000 : undefined;
+            const createSocket = async (reconnectConvId?: string): Promise<core.ReconnectingWebSocket> => {
+                const freshAuth: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+                const mergedHeaders: Record<string, unknown> = {
+                    ...(freshAuth.headers ?? {}),
+                    ...(this._options?.headers ?? {}),
+                    ...headers,
+                };
+                const isSessionReconnect = reconnectConvId != null;
+                return new core.ReconnectingWebSocket({
+                    url: baseWsUrl,
+                    protocols: protocols ?? [],
+                    queryParameters: {
+                        ..._queryParams,
+                        ...queryParams,
+                        ...(reconnectConvId ? { reconnect_conv_id: reconnectConvId } : {}),
+                    },
+                    headers: mergedHeaders,
+                    options: {
+                        debug: debug ?? false,
+                        // Initial connection keeps transport retries; replacement sockets use 0 so only
+                        // ReconnectableConversationsSocket performs session-level reconnect.
+                        maxRetries: isSessionReconnect ? 0 : reconnectAttempts ?? 30,
+                        connectionTimeout: connectionTimeoutMs,
+                    },
+                    // Only pass abortSignal to the initial socket. Reconnect sockets
+                    // don't get it — each would register a new listener on the signal
+                    // that's never removed, leaking memory over many reconnects.
+                    abortSignal: isSessionReconnect ? undefined : abortSignal,
+                });
+            };
+            const initialSocket = await createSocket();
+            return new ReconnectableConversationsSocket({
+                socket: initialSocket,
+                createReconnectSocket: (conversationId) => createSocket(conversationId),
+                abortSignal,
+            }) as unknown as ConversationsSocket;
+        }
+
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: Record<string, unknown> = {
             ...(_authRequest.headers ?? {}),
@@ -986,12 +1042,7 @@ export class ConversationsClient {
             ...headers,
         };
         const socket = new core.ReconnectingWebSocket({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
-                        .production,
-                "/v1/sts/ws",
-            ),
+            url: baseWsUrl,
             protocols: protocols ?? [],
             queryParameters: { ..._queryParams, ...queryParams },
             headers: _headers,

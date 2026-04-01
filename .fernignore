@@ -1,5 +1,9 @@
 # Specify files that shouldn't be modified by Fern
 
+src/Client.ts
 src/api/index.ts
 src/api/types/overrides.ts
+src/index.ts
+src/custom
+tests/custom.test.ts
 src/api/resources/conversations/client/Client.ts
