@@ -2,6 +2,7 @@
 
 import type * as Phonic from "../index.js";
 
-export interface ConfigPayload extends Phonic.ConfigOptions {
-    type: "config";
+export interface ResetPayload {
+    type: "reset";
+    config: Phonic.ConfigOptions;
 }

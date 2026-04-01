@@ -124,6 +124,11 @@ export class ConversationsSocket {
         this.sendJson(message);
     }
 
+    public sendReset(message: Phonic.ResetPayload): void {
+        this.assertSocketIsOpen();
+        this.sendJson(message);
+    }
+
     /** Connect to the websocket and register event handlers. */
     public connect(): ConversationsSocket {
         this.socket.reconnect();
@@ -191,7 +196,8 @@ export class ConversationsSocket {
             | Phonic.SetExternalIdPayload
             | Phonic.ToolCallOutputPayload
             | Phonic.GenerateReplyPayload
-            | Phonic.SayPayload,
+            | Phonic.SayPayload
+            | Phonic.ResetPayload,
     ): void {
         const jsonPayload = toJson(payload);
         this.socket.send(jsonPayload);
