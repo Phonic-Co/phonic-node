@@ -19,5 +19,5 @@
         "testFramework": "jest"
     },
     "originGitCommit": "f163cc2f94a7bb9121ea02a284efe823a45f664a",
-    "sdkVersion": "0.31.10"
+    "sdkVersion": "0.31.11"
 }
