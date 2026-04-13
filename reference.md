@@ -116,6 +116,7 @@ await client.agents.create({
     default_language: "en",
     additional_languages: ["es"],
     multilingual_mode: "request",
+    push_to_talk: false,
     boosted_keywords: ["Load ID", "dispatch"],
     min_words_to_interrupt: 1,
     configuration_endpoint: {
@@ -214,6 +215,7 @@ await client.agents.upsert({
     default_language: "en",
     additional_languages: ["es"],
     multilingual_mode: "request",
+    push_to_talk: false,
     boosted_keywords: ["Load ID", "dispatch"],
     min_words_to_interrupt: 1,
     configuration_endpoint: {
@@ -458,6 +460,7 @@ await client.agents.update("nameOrId", {
     default_language: "en",
     additional_languages: ["es"],
     multilingual_mode: "request",
+    push_to_talk: false,
     boosted_keywords: ["Load ID", "dispatch"],
     min_words_to_interrupt: 1,
     configuration_endpoint: {
@@ -2198,6 +2201,7 @@ await client.conversations.outboundCall({
         default_language: "en",
         additional_languages: ["es"],
         multilingual_mode: "request",
+        push_to_talk: false,
         boosted_keywords: ["Load ID", "dispatch"],
         min_words_to_interrupt: 1,
         tools: ["keypad_input"]
