@@ -52,6 +52,8 @@ export interface ConfigOptions {
     additional_languages?: string[] | undefined;
     /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
     multilingual_mode?: ConfigOptions.MultilingualMode | undefined;
+    /** Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false. */
+    push_to_talk?: boolean | undefined;
     /** Keywords to boost in speech recognition */
     boosted_keywords?: string[] | undefined;
     /** Names of tools available to the assistant. */

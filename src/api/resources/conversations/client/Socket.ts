@@ -114,6 +114,16 @@ export class ConversationsSocket {
         this.sendJson(message);
     }
 
+    public sendUnmute(message: Phonic.UnmutePayload): void {
+        this.assertSocketIsOpen();
+        this.sendJson(message);
+    }
+
+    public sendMute(message: Phonic.MutePayload): void {
+        this.assertSocketIsOpen();
+        this.sendJson(message);
+    }
+
     public sendGenerateReply(message: Phonic.GenerateReplyPayload): void {
         this.assertSocketIsOpen();
         this.sendJson(message);
@@ -195,6 +205,8 @@ export class ConversationsSocket {
             | Phonic.AddSystemMessagePayload
             | Phonic.SetExternalIdPayload
             | Phonic.ToolCallOutputPayload
+            | Phonic.UnmutePayload
+            | Phonic.MutePayload
             | Phonic.GenerateReplyPayload
             | Phonic.SayPayload
             | Phonic.ResetPayload,

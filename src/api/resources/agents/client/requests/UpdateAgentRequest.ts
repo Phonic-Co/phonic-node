@@ -30,6 +30,7 @@ import type * as Phonic from "../../../../index.js";
  *         default_language: "en",
  *         additional_languages: ["es"],
  *         multilingual_mode: "request",
+ *         push_to_talk: false,
  *         boosted_keywords: ["Load ID", "dispatch"],
  *         min_words_to_interrupt: 1,
  *         configuration_endpoint: {
@@ -92,6 +93,8 @@ export interface UpdateAgentRequest {
     languages?: Phonic.LanguageCode[];
     /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
     multilingual_mode?: UpdateAgentRequest.MultilingualMode;
+    /** Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false. */
+    push_to_talk?: boolean;
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[];
     /** Minimum number of words required to interrupt the assistant. */

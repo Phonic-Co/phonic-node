@@ -22,6 +22,7 @@ import type * as Phonic from "../../../../index.js";
  *             default_language: "en",
  *             additional_languages: ["es"],
  *             multilingual_mode: "request",
+ *             push_to_talk: false,
  *             boosted_keywords: ["Load ID", "dispatch"],
  *             min_words_to_interrupt: 1,
  *             tools: ["keypad_input"]

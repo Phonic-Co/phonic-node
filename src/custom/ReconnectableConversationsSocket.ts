@@ -121,6 +121,12 @@ export class ReconnectableConversationsSocket {
     public sendReset(message: Phonic.ResetPayload): void {
         this._safeSend((inner) => inner.sendReset(message));
     }
+    public sendMute(message: Phonic.MutePayload): void {
+        this._safeSend((inner) => inner.sendMute(message));
+    }
+    public sendUnmute(message: Phonic.UnmutePayload): void {
+        this._safeSend((inner) => inner.sendUnmute(message));
+    }
 
     /**
      * Not supported — reconnection after 1006 is handled automatically.

@@ -46,6 +46,7 @@ describe("AgentsClient", () => {
                     default_language: "en",
                     additional_languages: ["es"],
                     multilingual_mode: "request",
+                    push_to_talk: false,
                     boosted_keywords: ["Load ID", "dispatch"],
                     min_words_to_interrupt: 1,
                     configuration_endpoint: {
@@ -112,6 +113,7 @@ describe("AgentsClient", () => {
                     default_language: "en",
                     additional_languages: ["es"],
                     multilingual_mode: "request",
+                    push_to_talk: false,
                     boosted_keywords: ["Load ID", "dispatch"],
                     min_words_to_interrupt: 1,
                     configuration_endpoint: {
@@ -191,6 +193,7 @@ describe("AgentsClient", () => {
             default_language: "en",
             additional_languages: ["es"],
             multilingual_mode: "request",
+            push_to_talk: false,
             boosted_keywords: ["Load ID", "dispatch"],
             min_words_to_interrupt: 1,
             configuration_endpoint: {
@@ -236,6 +239,7 @@ describe("AgentsClient", () => {
             default_language: "en",
             additional_languages: ["es"],
             multilingual_mode: "request",
+            push_to_talk: false,
             boosted_keywords: ["Load ID", "dispatch"],
             min_words_to_interrupt: 1,
             configuration_endpoint: {
@@ -381,6 +385,7 @@ describe("AgentsClient", () => {
             default_language: "en",
             additional_languages: ["es"],
             multilingual_mode: "request",
+            push_to_talk: false,
             boosted_keywords: ["Load ID", "dispatch"],
             min_words_to_interrupt: 1,
             configuration_endpoint: {
@@ -418,6 +423,7 @@ describe("AgentsClient", () => {
                 default_language: "en",
                 additional_languages: ["es"],
                 multilingual_mode: "request",
+                push_to_talk: false,
                 boosted_keywords: ["Load ID", "dispatch"],
                 min_words_to_interrupt: 1,
                 configuration_endpoint: {
@@ -471,6 +477,7 @@ describe("AgentsClient", () => {
             default_language: "en",
             additional_languages: ["es"],
             multilingual_mode: "request",
+            push_to_talk: false,
             boosted_keywords: ["Load ID", "dispatch"],
             min_words_to_interrupt: 1,
             configuration_endpoint: {
@@ -526,6 +533,7 @@ describe("AgentsClient", () => {
                 default_language: "en",
                 additional_languages: ["es"],
                 multilingual_mode: "request",
+                push_to_talk: false,
                 boosted_keywords: ["Load ID", "dispatch"],
                 min_words_to_interrupt: 1,
                 configuration_endpoint: {
@@ -636,6 +644,7 @@ describe("AgentsClient", () => {
                 default_language: "en",
                 additional_languages: ["es"],
                 multilingual_mode: "request",
+                push_to_talk: false,
                 boosted_keywords: ["Load ID", "dispatch"],
                 min_words_to_interrupt: 1,
                 configuration_endpoint: {
@@ -702,6 +711,7 @@ describe("AgentsClient", () => {
                 default_language: "en",
                 additional_languages: ["es"],
                 multilingual_mode: "request",
+                push_to_talk: false,
                 boosted_keywords: ["Load ID", "dispatch"],
                 min_words_to_interrupt: 1,
                 configuration_endpoint: {
@@ -852,6 +862,7 @@ describe("AgentsClient", () => {
             default_language: "en",
             additional_languages: ["es"],
             multilingual_mode: "request",
+            push_to_talk: false,
             boosted_keywords: ["Load ID", "dispatch"],
             min_words_to_interrupt: 1,
             configuration_endpoint: {
@@ -897,6 +908,7 @@ describe("AgentsClient", () => {
             default_language: "en",
             additional_languages: ["es"],
             multilingual_mode: "request",
+            push_to_talk: false,
             boosted_keywords: ["Load ID", "dispatch"],
             min_words_to_interrupt: 1,
             configuration_endpoint: {
