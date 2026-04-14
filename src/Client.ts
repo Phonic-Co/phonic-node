@@ -7,6 +7,7 @@ import { ExtractionSchemasClient } from "./api/resources/extractionSchemas/clien
 import { ProjectsClient } from "./api/resources/projects/client/Client.js";
 import { ToolsClient } from "./api/resources/tools/client/Client.js";
 import { VoicesClient } from "./api/resources/voices/client/Client.js";
+import { WorkspaceClient } from "./api/resources/workspace/client/Client.js";
 import type { BaseClientOptions, BaseRequestOptions } from "./BaseClient.js";
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "./BaseClient.js";
 import * as core from "./core/index.js";
@@ -35,6 +36,7 @@ export class PhonicClient {
     protected _conversations: ConversationsClient | undefined;
     protected _auth: AuthClient | undefined;
     protected _projects: ProjectsClient | undefined;
+    protected _workspace: WorkspaceClient | undefined;
 
     constructor(options: PhonicClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -66,6 +68,10 @@ export class PhonicClient {
 
     public get projects(): ProjectsClient {
         return (this._projects ??= new ProjectsClient(this._options));
+    }
+
+    public get workspace(): WorkspaceClient {
+        return (this._workspace ??= new WorkspaceClient(this._options));
     }
 
     /**
