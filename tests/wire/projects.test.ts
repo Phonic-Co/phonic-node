@@ -26,18 +26,7 @@ describe("ProjectsClient", () => {
         server.mockEndpoint().get("/projects").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.projects.list();
-        expect(response).toEqual({
-            projects: [
-                {
-                    id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
-                    name: "customer-support",
-                    default_agent: {
-                        id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-                        name: "support-agent",
-                    },
-                },
-            ],
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("list (2)", async () => {
@@ -96,10 +85,7 @@ describe("ProjectsClient", () => {
         const response = await client.projects.create({
             name: "customer-support",
         });
-        expect(response).toEqual({
-            id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
-            name: "customer-support",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create (2)", async () => {
@@ -218,23 +204,14 @@ describe("ProjectsClient", () => {
             project: {
                 id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
                 name: "customer-support",
-                default_agent: { id: "id", name: "name" },
+                default_agent: { id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783", name: "support-agent" },
             },
         };
 
         server.mockEndpoint().get("/projects/nameOrId").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.projects.get("nameOrId");
-        expect(response).toEqual({
-            project: {
-                id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
-                name: "customer-support",
-                default_agent: {
-                    id: "id",
-                    name: "name",
-                },
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (2)", async () => {
@@ -324,9 +301,7 @@ describe("ProjectsClient", () => {
             .build();
 
         const response = await client.projects.delete("nameOrId");
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("delete (2)", async () => {
@@ -444,9 +419,7 @@ describe("ProjectsClient", () => {
             name: "updated-customer-support",
             default_agent: "another-agent",
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("update (2)", async () => {
@@ -620,15 +593,7 @@ describe("ProjectsClient", () => {
             .build();
 
         const response = await client.projects.listEvalPrompts("id");
-        expect(response).toEqual({
-            conversation_eval_prompts: [
-                {
-                    id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
-                    name: "chocolate_usage",
-                    prompt: "The assistant used the word chocolate in the conversation",
-                },
-            ],
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("list_eval_prompts (2)", async () => {
@@ -749,9 +714,7 @@ describe("ProjectsClient", () => {
             name: "test_prompt",
             prompt: "The assistant used the word chocolate in the conversation",
         });
-        expect(response).toEqual({
-            id: "conv_eval_prompt_c818e617-59f9-4f43-936e-ca8a794f9ccf",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create_eval_prompt (2)", async () => {

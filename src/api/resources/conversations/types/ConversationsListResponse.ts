@@ -3,13 +3,5 @@
 import type * as Phonic from "../../../index.js";
 
 export type ConversationsListResponse =
-    | {
-          conversations: Phonic.Conversation[];
-          pagination: {
-              prev_cursor: string | null;
-              next_cursor: string | null;
-          };
-      }
-    | {
-          conversation: Phonic.Conversation;
-      };
+    | Phonic.ConversationsListResponseConversations
+    | Phonic.ConversationsListResponseConversation;

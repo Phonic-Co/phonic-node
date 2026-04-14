@@ -47,32 +47,7 @@ describe("ExtractionSchemasClient", () => {
         const response = await client.extractionSchemas.list({
             project: "main",
         });
-        expect(response).toEqual({
-            extraction_schemas: [
-                {
-                    id: "conv_extract_schema_c818e617-59f9-4f43-936e-ca8a794f9ccf",
-                    name: "Appointment details",
-                    prompt: "Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
-                    fields: [
-                        {
-                            name: "Date",
-                            type: "string",
-                            description: "The date of the appointment",
-                        },
-                        {
-                            name: "Copay",
-                            type: "string",
-                            description: "Amount of money the patient pays for the appointment",
-                        },
-                        {
-                            name: "Confirmed as booked",
-                            type: "bool",
-                            description: "Is the appointment confirmed as booked?",
-                        },
-                    ],
-                },
-            ],
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("list (2)", async () => {
@@ -150,10 +125,7 @@ describe("ExtractionSchemasClient", () => {
                 },
             ],
         });
-        expect(response).toEqual({
-            id: "conv_extract_schema_c818e617-59f9-4f43-936e-ca8a794f9ccf",
-            name: "Appointment details",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create (2)", async () => {
@@ -328,30 +300,7 @@ describe("ExtractionSchemasClient", () => {
         const response = await client.extractionSchemas.get("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            extraction_schema: {
-                id: "conv_extract_schema_c818e617-59f9-4f43-936e-ca8a794f9ccf",
-                name: "Appointment details",
-                prompt: "Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
-                fields: [
-                    {
-                        name: "Date",
-                        type: "string",
-                        description: "The date of the appointment",
-                    },
-                    {
-                        name: "Copay",
-                        type: "string",
-                        description: "Amount of money the patient pays for the appointment",
-                    },
-                    {
-                        name: "Confirmed as booked",
-                        type: "bool",
-                        description: "Is the appointment confirmed as booked?",
-                    },
-                ],
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (2)", async () => {
@@ -398,9 +347,7 @@ describe("ExtractionSchemasClient", () => {
         const response = await client.extractionSchemas.delete("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("delete (2)", async () => {
@@ -469,9 +416,7 @@ describe("ExtractionSchemasClient", () => {
                 },
             ],
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("update (2)", async () => {

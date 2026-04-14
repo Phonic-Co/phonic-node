@@ -29,16 +29,7 @@ describe("VoicesClient", () => {
         const response = await client.voices.list({
             model: "merritt",
         });
-        expect(response).toEqual({
-            voices: [
-                {
-                    id: "sabrina",
-                    name: "Sabrina",
-                    description: null,
-                    audio_url: "https://example.com/audio/sabrina.wav",
-                },
-            ],
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("list (2)", async () => {
@@ -118,14 +109,7 @@ describe("VoicesClient", () => {
         server.mockEndpoint().get("/voices/id").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.voices.get("id");
-        expect(response).toEqual({
-            voice: {
-                id: "sabrina",
-                name: "Sabrina",
-                description: null,
-                audio_url: "https://example.com/audio/sabrina.wav",
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (2)", async () => {

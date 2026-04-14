@@ -10,6 +10,7 @@ The Phonic TypeScript library provides convenient access to the Phonic APIs from
 - [Installation](#installation)
 - [Reference](#reference)
 - [Usage](#usage)
+- [Environments](#environments)
 - [Request and Response Types](#request-and-response-types)
 - [Exception Handling](#exception-handling)
 - [Advanced](#advanced)
@@ -80,6 +81,18 @@ await client.agents.create({
         },
         timeout_ms: 7000
     }
+});
+```
+
+## Environments
+
+This SDK allows you to configure different environments for API requests.
+
+```typescript
+import { PhonicClient, PhonicEnvironment } from "phonic";
+
+const client = new PhonicClient({
+    environment: PhonicEnvironment.Default,
 });
 ```
 

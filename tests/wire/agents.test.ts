@@ -19,7 +19,7 @@ describe("AgentsClient", () => {
                     id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
                     name: "support-agent",
                     phone_number: "+1234567890",
-                    phone_numbers: ["phone_numbers"],
+                    phone_numbers: ["+1234567890"],
                     project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                     timezone: "America/Los_Angeles",
                     voice_id: "sabrina",
@@ -67,71 +67,7 @@ describe("AgentsClient", () => {
         server.mockEndpoint().get("/agents").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.agents.list();
-        expect(response).toEqual({
-            agents: [
-                {
-                    id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-                    name: "support-agent",
-                    phone_number: "+1234567890",
-                    phone_numbers: ["phone_numbers"],
-                    project: {
-                        id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
-                        name: "customer-support",
-                    },
-                    timezone: "America/Los_Angeles",
-                    voice_id: "sabrina",
-                    audio_format: "pcm_44100",
-                    audio_speed: 1,
-                    background_noise_level: 0,
-                    background_noise: null,
-                    generate_welcome_message: false,
-                    welcome_message: "Hi {{customer_name}}. How can I help you today?",
-                    system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-                    template_variables: {
-                        customer_name: {
-                            default_value: "Sean",
-                        },
-                        subject: {
-                            default_value: "Chess",
-                        },
-                    },
-                    tools: ["keypad_input"],
-                    tasks: [
-                        {
-                            name: "Check Availability",
-                            description: "Check if the appointment is available",
-                        },
-                        {
-                            name: "Book Appointment",
-                            description: "Book the appointment",
-                        },
-                    ],
-                    generate_no_input_poke_text: false,
-                    no_input_poke_sec: 30,
-                    no_input_poke_text: "Are you still there?",
-                    no_input_end_conversation_sec: 180,
-                    default_language: "en",
-                    additional_languages: ["es"],
-                    multilingual_mode: "request",
-                    push_to_talk: false,
-                    boosted_keywords: ["Load ID", "dispatch"],
-                    min_words_to_interrupt: 1,
-                    configuration_endpoint: {
-                        url: "https://api.example.com/config",
-                        headers: {
-                            Authorization: "Bearer token123",
-                        },
-                        timeout_ms: 7000,
-                    },
-                    inbound_rollout: 1,
-                    inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
-                    vad_prebuffer_duration_ms: 1,
-                    vad_min_speech_duration_ms: 1,
-                    vad_min_silence_duration_ms: 1,
-                    vad_threshold: 1.1,
-                },
-            ],
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("list (2)", async () => {
@@ -250,10 +186,7 @@ describe("AgentsClient", () => {
                 timeout_ms: 7000,
             },
         });
-        expect(response).toEqual({
-            id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-            name: "support-agent",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create (2)", async () => {
@@ -399,7 +332,7 @@ describe("AgentsClient", () => {
                 id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
                 name: "support-agent",
                 phone_number: "+1234567890",
-                phone_numbers: ["phone_numbers"],
+                phone_numbers: ["+1234567890"],
                 project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 timezone: "America/Los_Angeles",
                 voice_id: "sabrina",
@@ -416,7 +349,7 @@ describe("AgentsClient", () => {
                     { name: "Check Availability", description: "Check if the appointment is available" },
                     { name: "Book Appointment", description: "Book the appointment" },
                 ],
-                generate_no_input_poke_text: true,
+                generate_no_input_poke_text: false,
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
@@ -488,71 +421,7 @@ describe("AgentsClient", () => {
                 timeout_ms: 7000,
             },
         });
-        expect(response).toEqual({
-            agent: {
-                id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-                name: "support-agent",
-                phone_number: "+1234567890",
-                phone_numbers: ["phone_numbers"],
-                project: {
-                    id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
-                    name: "customer-support",
-                },
-                timezone: "America/Los_Angeles",
-                voice_id: "sabrina",
-                audio_format: "pcm_44100",
-                audio_speed: 1,
-                background_noise_level: 0,
-                background_noise: null,
-                generate_welcome_message: false,
-                welcome_message: "Hi {{customer_name}}. How can I help you today?",
-                system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-                template_variables: {
-                    customer_name: {
-                        default_value: "Sean",
-                    },
-                    subject: {
-                        default_value: "Chess",
-                    },
-                },
-                tools: ["keypad_input"],
-                tasks: [
-                    {
-                        name: "Check Availability",
-                        description: "Check if the appointment is available",
-                    },
-                    {
-                        name: "Book Appointment",
-                        description: "Book the appointment",
-                    },
-                ],
-                generate_no_input_poke_text: true,
-                no_input_poke_sec: 30,
-                no_input_poke_text: "Are you still there?",
-                no_input_end_conversation_sec: 180,
-                default_language: "en",
-                additional_languages: ["es"],
-                multilingual_mode: "request",
-                push_to_talk: false,
-                boosted_keywords: ["Load ID", "dispatch"],
-                min_words_to_interrupt: 1,
-                configuration_endpoint: {
-                    url: "https://api.example.com/config",
-                    headers: {
-                        Authorization: "Bearer token123",
-                    },
-                    timeout_ms: 7000,
-                },
-                inbound_rollout: 1,
-                inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
-                vad_prebuffer_duration_ms: 1,
-                vad_min_speech_duration_ms: 1,
-                vad_min_silence_duration_ms: 1,
-                vad_threshold: 1.1,
-            },
-            inserted: true,
-            updated: false,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("upsert (2)", async () => {
@@ -620,7 +489,7 @@ describe("AgentsClient", () => {
                 id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
                 name: "support-agent",
                 phone_number: "+1234567890",
-                phone_numbers: ["phone_numbers"],
+                phone_numbers: ["+1234567890"],
                 project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 timezone: "America/Los_Angeles",
                 voice_id: "sabrina",
@@ -637,7 +506,7 @@ describe("AgentsClient", () => {
                     { name: "Check Availability", description: "Check if the appointment is available" },
                     { name: "Book Appointment", description: "Book the appointment" },
                 ],
-                generate_no_input_poke_text: true,
+                generate_no_input_poke_text: false,
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
@@ -666,69 +535,7 @@ describe("AgentsClient", () => {
         const response = await client.agents.get("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            agent: {
-                id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-                name: "support-agent",
-                phone_number: "+1234567890",
-                phone_numbers: ["phone_numbers"],
-                project: {
-                    id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
-                    name: "customer-support",
-                },
-                timezone: "America/Los_Angeles",
-                voice_id: "sabrina",
-                audio_format: "pcm_44100",
-                audio_speed: 1,
-                background_noise_level: 0,
-                background_noise: null,
-                generate_welcome_message: false,
-                welcome_message: "Hi {{customer_name}}. How can I help you today?",
-                system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-                template_variables: {
-                    customer_name: {
-                        default_value: "Sean",
-                    },
-                    subject: {
-                        default_value: "Chess",
-                    },
-                },
-                tools: ["keypad_input"],
-                tasks: [
-                    {
-                        name: "Check Availability",
-                        description: "Check if the appointment is available",
-                    },
-                    {
-                        name: "Book Appointment",
-                        description: "Book the appointment",
-                    },
-                ],
-                generate_no_input_poke_text: true,
-                no_input_poke_sec: 30,
-                no_input_poke_text: "Are you still there?",
-                no_input_end_conversation_sec: 180,
-                default_language: "en",
-                additional_languages: ["es"],
-                multilingual_mode: "request",
-                push_to_talk: false,
-                boosted_keywords: ["Load ID", "dispatch"],
-                min_words_to_interrupt: 1,
-                configuration_endpoint: {
-                    url: "https://api.example.com/config",
-                    headers: {
-                        Authorization: "Bearer token123",
-                    },
-                    timeout_ms: 7000,
-                },
-                inbound_rollout: 1,
-                inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
-                vad_prebuffer_duration_ms: 1,
-                vad_min_speech_duration_ms: 1,
-                vad_min_silence_duration_ms: 1,
-                vad_threshold: 1.1,
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (2)", async () => {
@@ -786,9 +593,7 @@ describe("AgentsClient", () => {
         const response = await client.agents.delete("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("delete (2)", async () => {
@@ -919,9 +724,7 @@ describe("AgentsClient", () => {
                 timeout_ms: 7000,
             },
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("update (2)", async () => {
@@ -1033,9 +836,7 @@ describe("AgentsClient", () => {
                 timeout_ms: 7000,
             },
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("add_custom_phone_number (2)", async () => {
@@ -1191,9 +992,7 @@ describe("AgentsClient", () => {
             project: "main",
             phone_number: "+15551234567",
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("delete_custom_phone_number (2)", async () => {
@@ -1363,9 +1162,7 @@ describe("AgentsClient", () => {
                 timeout_ms: 7000,
             },
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("update_phone_number (2)", async () => {
