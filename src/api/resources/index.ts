@@ -19,3 +19,5 @@ export * from "./tools/types/index.js";
 export * from "./voices/client/requests/index.js";
 export * as voices from "./voices/index.js";
 export * from "./voices/types/index.js";
+export * as workspace from "./workspace/index.js";
+export * from "./workspace/types/index.js";

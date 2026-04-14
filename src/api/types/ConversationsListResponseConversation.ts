@@ -2,4 +2,6 @@
 
 import type * as Phonic from "../index.js";
 
-export type BadRequestErrorBody = Phonic.ValidationError | Phonic.BasicError | Phonic.SipCallError;
+export interface ConversationsListResponseConversation {
+    conversation: Phonic.Conversation;
+}

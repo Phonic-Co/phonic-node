@@ -879,6 +879,7 @@ export class ConversationsClient {
      *
      * @throws {@link Phonic.BadRequestError}
      * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ConflictError}
      * @throws {@link Phonic.InternalServerError}
      *
      * @example
@@ -951,6 +952,8 @@ export class ConversationsClient {
                         _response.error.body as Phonic.BasicError,
                         _response.rawResponse,
                     );
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new Phonic.InternalServerError(
                         _response.error.body as Phonic.BasicError,
