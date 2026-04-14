@@ -218,7 +218,7 @@ describe("ProjectsClient", () => {
             project: {
                 id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
                 name: "customer-support",
-                default_agent: { id: "id", name: "name" },
+                default_agent: { id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783", name: "support-agent" },
             },
         };
 
@@ -230,8 +230,8 @@ describe("ProjectsClient", () => {
                 id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
                 name: "customer-support",
                 default_agent: {
-                    id: "id",
-                    name: "name",
+                    id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+                    name: "support-agent",
                 },
             },
         });

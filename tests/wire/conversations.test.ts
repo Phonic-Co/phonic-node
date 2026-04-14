@@ -234,7 +234,7 @@ describe("ConversationsClient", () => {
                 external_id: "call-123",
                 origin: "web",
                 model: "merritt",
-                generate_welcome_message: true,
+                generate_welcome_message: false,
                 welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                 template_variables: { customer_name: "John", department: "Support" },
                 system_prompt: "system_prompt",
@@ -257,7 +257,7 @@ describe("ConversationsClient", () => {
                 additional_languages: ["es"],
                 multilingual_mode: "request",
                 push_to_talk: false,
-                generate_no_input_poke_text: true,
+                generate_no_input_poke_text: false,
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
@@ -322,7 +322,7 @@ describe("ConversationsClient", () => {
                 external_id: "call-123",
                 origin: "web",
                 model: "merritt",
-                generate_welcome_message: true,
+                generate_welcome_message: false,
                 welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                 template_variables: {
                     customer_name: "John",
@@ -348,7 +348,7 @@ describe("ConversationsClient", () => {
                 additional_languages: ["es"],
                 multilingual_mode: "request",
                 push_to_talk: false,
-                generate_no_input_poke_text: true,
+                generate_no_input_poke_text: false,
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
@@ -513,7 +513,7 @@ describe("ConversationsClient", () => {
                 external_id: "call-123",
                 origin: "inbound",
                 model: "merritt",
-                generate_welcome_message: true,
+                generate_welcome_message: false,
                 welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                 template_variables: { customer_name: "John", department: "Support" },
                 system_prompt: "system_prompt",
@@ -605,7 +605,7 @@ describe("ConversationsClient", () => {
                 external_id: "call-123",
                 origin: "inbound",
                 model: "merritt",
-                generate_welcome_message: true,
+                generate_welcome_message: false,
                 welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                 template_variables: {
                     customer_name: "John",
@@ -2036,6 +2036,35 @@ describe("ConversationsClient", () => {
     });
 
     test("sip_outbound_call (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { from_phone_number: "from_phone_number", to_phone_number: "to_phone_number" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/conversations/sip/outbound_call")
+            .header("X-Sip-Address", "sipAddress")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.sipOutboundCall({
+                "X-Sip-Address": "sipAddress",
+                from_phone_number: "from_phone_number",
+                to_phone_number: "to_phone_number",
+            });
+        }).rejects.toThrow(Phonic.ConflictError);
+    });
+
+    test("sip_outbound_call (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
