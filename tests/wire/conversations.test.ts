@@ -58,6 +58,7 @@ describe("ConversationsClient", () => {
                     task_results: { key: "value" },
                     items: [
                         {
+                            id: "id",
                             item_idx: 0,
                             role: "user",
                             live_transcript: "Hi, I need help with booking an appointment.",
@@ -66,6 +67,7 @@ describe("ConversationsClient", () => {
                             started_at: "2025-07-30T23:45:00Z",
                         },
                         {
+                            id: "id",
                             item_idx: 1,
                             role: "assistant",
                             live_transcript: "Of course! I'd be happy to help you book an appointment.",
@@ -155,6 +157,7 @@ describe("ConversationsClient", () => {
                     },
                     items: [
                         {
+                            id: "id",
                             item_idx: 0,
                             role: "user",
                             live_transcript: "Hi, I need help with booking an appointment.",
@@ -163,6 +166,7 @@ describe("ConversationsClient", () => {
                             started_at: "2025-07-30T23:45:00Z",
                         },
                         {
+                            id: "id",
                             item_idx: 1,
                             role: "assistant",
                             live_transcript: "Of course! I'd be happy to help you book an appointment.",
@@ -264,6 +268,7 @@ describe("ConversationsClient", () => {
                 task_results: { key: "value" },
                 items: [
                     {
+                        id: "id",
                         item_idx: 0,
                         role: "user",
                         live_transcript: "Hi, I need help with booking an appointment.",
@@ -272,6 +277,7 @@ describe("ConversationsClient", () => {
                         started_at: "2025-07-30T23:45:00Z",
                     },
                     {
+                        id: "id",
                         item_idx: 1,
                         role: "assistant",
                         live_transcript: "Of course! I'd be happy to help you book an appointment.",
@@ -357,6 +363,7 @@ describe("ConversationsClient", () => {
                 },
                 items: [
                     {
+                        id: "id",
                         item_idx: 0,
                         role: "user",
                         live_transcript: "Hi, I need help with booking an appointment.",
@@ -365,6 +372,7 @@ describe("ConversationsClient", () => {
                         started_at: "2025-07-30T23:45:00Z",
                     },
                     {
+                        id: "id",
                         item_idx: 1,
                         role: "assistant",
                         live_transcript: "Of course! I'd be happy to help you book an appointment.",
@@ -543,6 +551,7 @@ describe("ConversationsClient", () => {
                 task_results: { key: "value" },
                 items: [
                     {
+                        id: "id",
                         item_idx: 0,
                         role: "user",
                         live_transcript: "Hi, I need help with booking an appointment.",
@@ -551,6 +560,7 @@ describe("ConversationsClient", () => {
                         started_at: "2025-07-30T23:45:00Z",
                     },
                     {
+                        id: "id",
                         item_idx: 1,
                         role: "assistant",
                         live_transcript: "Of course! I'd be happy to help you book an appointment.",
@@ -640,6 +650,7 @@ describe("ConversationsClient", () => {
                 },
                 items: [
                     {
+                        id: "id",
                         item_idx: 0,
                         role: "user",
                         live_transcript: "Hi, I need help with booking an appointment.",
@@ -648,6 +659,7 @@ describe("ConversationsClient", () => {
                         started_at: "2025-07-30T23:45:00Z",
                     },
                     {
+                        id: "id",
                         item_idx: 1,
                         role: "assistant",
                         live_transcript: "Of course! I'd be happy to help you book an appointment.",

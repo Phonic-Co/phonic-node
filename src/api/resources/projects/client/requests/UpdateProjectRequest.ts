@@ -12,4 +12,6 @@ export interface UpdateProjectRequest {
     name?: string;
     /** The name of the new project's default agent. Set to `null` to remove the default agent. */
     default_agent?: string | null;
+    /** Maximum number of concurrent conversations allowed for this project. When `null`, the workspace `max_active_conversations` limit is used. */
+    max_active_conversations?: number | null;
 }
