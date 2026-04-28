@@ -7,6 +7,10 @@ export interface Project {
     name: string;
     /** The project's default agent. */
     default_agent: Project.DefaultAgent | null;
+    /** Number of conversations currently in progress for this project. */
+    active_conversations: number;
+    /** Maximum number of concurrent conversations allowed for this project. When `null`, the workspace `max_active_conversations` limit is used. */
+    max_active_conversations: number | null;
 }
 
 export namespace Project {
