@@ -19,6 +19,8 @@ describe("ProjectsClient", () => {
                     id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
                     name: "customer-support",
                     default_agent: { id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783", name: "support-agent" },
+                    active_conversations: 3,
+                    max_active_conversations: 50,
                 },
             ],
         };
@@ -35,6 +37,8 @@ describe("ProjectsClient", () => {
                         id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
                         name: "support-agent",
                     },
+                    active_conversations: 3,
+                    max_active_conversations: 50,
                 },
             ],
         });
@@ -219,6 +223,8 @@ describe("ProjectsClient", () => {
                 id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
                 name: "customer-support",
                 default_agent: { id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783", name: "support-agent" },
+                active_conversations: 3,
+                max_active_conversations: 50,
             },
         };
 
@@ -233,6 +239,8 @@ describe("ProjectsClient", () => {
                     id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
                     name: "support-agent",
                 },
+                active_conversations: 3,
+                max_active_conversations: 50,
             },
         });
     });
