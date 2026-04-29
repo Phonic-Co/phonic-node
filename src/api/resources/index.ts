@@ -4,6 +4,8 @@ export * from "./agents/types/index.js";
 export * from "./auth/client/requests/index.js";
 export * as auth from "./auth/index.js";
 export * from "./auth/types/index.js";
+export * from "./conversationItems/client/requests/index.js";
+export * as conversationItems from "./conversationItems/index.js";
 export * from "./conversations/client/requests/index.js";
 export * as conversations from "./conversations/index.js";
 export * from "./conversations/types/index.js";

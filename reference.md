@@ -1679,6 +1679,84 @@ await client.workspace.get();
 </dl>
 </details>
 
+## ConversationItems
+<details><summary><code>client.conversationItems.<a href="/src/api/resources/conversationItems/client/Client.ts">replay</a>(id, { ...params }) -> Phonic.ReplayConversationItemResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns the alternative response(s) the assistant would have
+produced for this conversation turn given changes to the agent system prompt.
+
+Only assistant items from ended conversations can be replayed. The
+conversation must have an associated agent.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.conversationItems.replay("id", {
+    system_prompt: "system_prompt"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` — The ID of the conversation item to replay.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Phonic.ReplayConversationItemRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ConversationItemsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Conversations
 <details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">list</a>({ ...params }) -> Phonic.ConversationsListResponse</code></summary>
 <dl>
