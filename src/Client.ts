@@ -2,6 +2,7 @@
 
 import { AgentsClient } from "./api/resources/agents/client/Client.js";
 import { AuthClient } from "./api/resources/auth/client/Client.js";
+import { ConversationItemsClient } from "./api/resources/conversationItems/client/Client.js";
 import { ConversationsClient } from "./api/resources/conversations/client/Client.js";
 import { ExtractionSchemasClient } from "./api/resources/extractionSchemas/client/Client.js";
 import { ProjectsClient } from "./api/resources/projects/client/Client.js";
@@ -34,6 +35,7 @@ export class PhonicClient {
     protected _extractionSchemas: ExtractionSchemasClient | undefined;
     protected _voices: VoicesClient | undefined;
     protected _conversations: ConversationsClient | undefined;
+    protected _conversationItems: ConversationItemsClient | undefined;
     protected _auth: AuthClient | undefined;
     protected _projects: ProjectsClient | undefined;
     protected _workspace: WorkspaceClient | undefined;
@@ -60,6 +62,10 @@ export class PhonicClient {
 
     public get conversations(): ConversationsClient {
         return (this._conversations ??= new ConversationsClient(this._options));
+    }
+
+    public get conversationItems(): ConversationItemsClient {
+        return (this._conversationItems ??= new ConversationItemsClient(this._options));
     }
 
     public get auth(): AuthClient {
