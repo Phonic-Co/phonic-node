@@ -69,6 +69,14 @@ export interface Conversation {
     no_input_poke_text: string | null;
     /** Seconds of silence before the conversation is ended. */
     no_input_end_conversation_sec: number | null;
+    /** Voice activity detection prebuffer duration in milliseconds. `null` when not applicable or unknown (e.g. push-to-talk, or legacy stored conversations). */
+    vad_prebuffer_duration_ms?: (number | null) | undefined;
+    /** Minimum speech duration for voice activity detection in milliseconds. `null` when not applicable or unknown. */
+    vad_min_speech_duration_ms?: (number | null) | undefined;
+    /** Minimum silence duration for voice activity detection in milliseconds. `null` when not applicable or unknown. */
+    vad_min_silence_duration_ms?: (number | null) | undefined;
+    /** Voice activity detection threshold. `null` when not applicable or unknown. */
+    vad_threshold?: (number | null) | undefined;
     /** Results from conversation evaluations and extractions. */
     task_results: Record<string, unknown>;
     /** Array of conversation items (turns). */
