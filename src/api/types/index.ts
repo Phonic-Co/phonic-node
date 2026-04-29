@@ -38,6 +38,8 @@ export * from "./OutboundCallInitiatedResponse.js";
 export * from "./OutboundDryRunResponse.js";
 export * from "./Project.js";
 export * from "./ReadyToStartConversationPayload.js";
+export * from "./ReplayConversationItemResponse.js";
+export * from "./ReplayToolCall.js";
 export * from "./ResetPayload.js";
 export * from "./SayPayload.js";
 export * from "./SetExternalIdPayload.js";
