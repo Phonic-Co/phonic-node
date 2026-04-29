@@ -55,6 +55,10 @@ describe("ConversationsClient", () => {
                     no_input_poke_sec: 30,
                     no_input_poke_text: "Are you still there?",
                     no_input_end_conversation_sec: 180,
+                    vad_prebuffer_duration_ms: 500,
+                    vad_min_speech_duration_ms: 50,
+                    vad_min_silence_duration_ms: 800,
+                    vad_threshold: 0.38,
                     task_results: { key: "value" },
                     items: [
                         {
@@ -152,6 +156,10 @@ describe("ConversationsClient", () => {
                     no_input_poke_sec: 30,
                     no_input_poke_text: "Are you still there?",
                     no_input_end_conversation_sec: 180,
+                    vad_prebuffer_duration_ms: 500,
+                    vad_min_speech_duration_ms: 50,
+                    vad_min_silence_duration_ms: 800,
+                    vad_threshold: 0.38,
                     task_results: {
                         key: "value",
                     },
@@ -265,6 +273,10 @@ describe("ConversationsClient", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
+                vad_prebuffer_duration_ms: 500,
+                vad_min_speech_duration_ms: 50,
+                vad_min_silence_duration_ms: 800,
+                vad_threshold: 0.38,
                 task_results: { key: "value" },
                 items: [
                     {
@@ -358,6 +370,10 @@ describe("ConversationsClient", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
+                vad_prebuffer_duration_ms: 500,
+                vad_min_speech_duration_ms: 50,
+                vad_min_silence_duration_ms: 800,
+                vad_threshold: 0.38,
                 task_results: {
                     key: "value",
                 },
@@ -548,6 +564,10 @@ describe("ConversationsClient", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
+                vad_prebuffer_duration_ms: 500,
+                vad_min_speech_duration_ms: 50,
+                vad_min_silence_duration_ms: 800,
+                vad_threshold: 0.38,
                 task_results: { key: "value" },
                 items: [
                     {
@@ -645,6 +665,10 @@ describe("ConversationsClient", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
+                vad_prebuffer_duration_ms: 500,
+                vad_min_speech_duration_ms: 50,
+                vad_min_silence_duration_ms: 800,
+                vad_threshold: 0.38,
                 task_results: {
                     key: "value",
                 },
