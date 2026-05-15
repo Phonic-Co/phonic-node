@@ -49,6 +49,8 @@ export interface Conversation {
     ended_by: Conversation.EndedBy | null;
     /** These words, or short phrases, are more accurately recognized by the model. */
     boosted_keywords: string[] | null;
+    /** Array of `{ word, pronunciation }` entries. Words must be unique. */
+    pronunciation_dictionary: Conversation.PronunciationDictionary.Item[];
     /** Minimum number of words required to interrupt the assistant. */
     min_words_to_interrupt: number;
     /** ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language. */
@@ -135,6 +137,15 @@ export namespace Conversation {
         Error: "error",
     } as const;
     export type EndedBy = (typeof EndedBy)[keyof typeof EndedBy];
+    export type PronunciationDictionary = PronunciationDictionary.Item[];
+
+    export namespace PronunciationDictionary {
+        export interface Item {
+            word: string;
+            pronunciation: string;
+        }
+    }
+
     /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
     export const MultilingualMode = {
         Auto: "auto",

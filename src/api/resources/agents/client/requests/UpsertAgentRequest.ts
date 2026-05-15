@@ -32,6 +32,10 @@ import type * as Phonic from "../../../../index.js";
  *         multilingual_mode: "request",
  *         push_to_talk: false,
  *         boosted_keywords: ["Load ID", "dispatch"],
+ *         pronunciation_dictionary: [{
+ *                 word: "Phuket",
+ *                 pronunciation: "Poo-ket"
+ *             }],
  *         min_words_to_interrupt: 1,
  *         configuration_endpoint: {
  *             url: "https://api.example.com/config",

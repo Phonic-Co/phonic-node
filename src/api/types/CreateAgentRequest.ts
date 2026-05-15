@@ -55,6 +55,8 @@ export interface CreateAgentRequest {
     push_to_talk?: boolean | undefined;
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[] | undefined;
+    /** Array of `{ word, pronunciation }` entries. Words must be unique. */
+    pronunciation_dictionary?: CreateAgentRequest.PronunciationDictionary.Item[] | undefined;
     /** Minimum number of words required to interrupt the assistant. */
     min_words_to_interrupt?: number | undefined;
     /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options. */
@@ -119,6 +121,14 @@ export namespace CreateAgentRequest {
         Request: "request",
     } as const;
     export type MultilingualMode = (typeof MultilingualMode)[keyof typeof MultilingualMode];
+    export type PronunciationDictionary = PronunciationDictionary.Item[];
+
+    export namespace PronunciationDictionary {
+        export interface Item {
+            word: string;
+            pronunciation: string;
+        }
+    }
 
     /**
      * When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.

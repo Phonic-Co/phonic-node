@@ -18,6 +18,6 @@
         "packageManager": "yarn",
         "testFramework": "jest"
     },
-    "originGitCommit": "40f3e2b1f8730995fb32cf4bd66ac5e092647023",
-    "sdkVersion": "0.31.13"
+    "originGitCommit": "941785d61f8c626396743629b09d3d6627f0eb55",
+    "sdkVersion": "0.31.16"
 }
