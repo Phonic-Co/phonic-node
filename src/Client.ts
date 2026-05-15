@@ -7,6 +7,7 @@ import { ConversationsClient } from "./api/resources/conversations/client/Client
 import { ExtractionSchemasClient } from "./api/resources/extractionSchemas/client/Client.js";
 import { ProjectsClient } from "./api/resources/projects/client/Client.js";
 import { ToolsClient } from "./api/resources/tools/client/Client.js";
+import { TtsClient } from "./api/resources/tts/client/Client.js";
 import { VoicesClient } from "./api/resources/voices/client/Client.js";
 import { WorkspaceClient } from "./api/resources/workspace/client/Client.js";
 import type { BaseClientOptions, BaseRequestOptions } from "./BaseClient.js";
@@ -33,6 +34,7 @@ export class PhonicClient {
     protected _agents: AgentsClient | undefined;
     protected _tools: ToolsClient | undefined;
     protected _extractionSchemas: ExtractionSchemasClient | undefined;
+    protected _tts: TtsClient | undefined;
     protected _voices: VoicesClient | undefined;
     protected _conversations: ConversationsClient | undefined;
     protected _conversationItems: ConversationItemsClient | undefined;
@@ -54,6 +56,10 @@ export class PhonicClient {
 
     public get extractionSchemas(): ExtractionSchemasClient {
         return (this._extractionSchemas ??= new ExtractionSchemasClient(this._options));
+    }
+
+    public get tts(): TtsClient {
+        return (this._tts ??= new TtsClient(this._options));
     }
 
     public get voices(): VoicesClient {
