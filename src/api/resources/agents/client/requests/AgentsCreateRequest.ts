@@ -32,6 +32,10 @@ import type * as Phonic from "../../../../index.js";
  *         multilingual_mode: "request",
  *         push_to_talk: false,
  *         boosted_keywords: ["Load ID", "dispatch"],
+ *         pronunciation_dictionary: [{
+ *                 word: "Phuket",
+ *                 pronunciation: "Poo-ket"
+ *             }],
  *         min_words_to_interrupt: 1,
  *         configuration_endpoint: {
  *             url: "https://api.example.com/config",
@@ -97,6 +101,8 @@ export interface AgentsCreateRequest {
     push_to_talk?: boolean;
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[];
+    /** Array of `{ word, pronunciation }` entries. Words must be unique. */
+    pronunciation_dictionary?: Phonic.CreateAgentRequest.PronunciationDictionary.Item[];
     /** Minimum number of words required to interrupt the assistant. */
     min_words_to_interrupt?: number;
     /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options. */

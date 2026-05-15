@@ -118,6 +118,10 @@ await client.agents.create({
     multilingual_mode: "request",
     push_to_talk: false,
     boosted_keywords: ["Load ID", "dispatch"],
+    pronunciation_dictionary: [{
+            word: "Phuket",
+            pronunciation: "Poo-ket"
+        }],
     min_words_to_interrupt: 1,
     configuration_endpoint: {
         url: "https://api.example.com/config",
@@ -217,6 +221,10 @@ await client.agents.upsert({
     multilingual_mode: "request",
     push_to_talk: false,
     boosted_keywords: ["Load ID", "dispatch"],
+    pronunciation_dictionary: [{
+            word: "Phuket",
+            pronunciation: "Poo-ket"
+        }],
     min_words_to_interrupt: 1,
     configuration_endpoint: {
         url: "https://api.example.com/config",
@@ -462,6 +470,10 @@ await client.agents.update("nameOrId", {
     multilingual_mode: "request",
     push_to_talk: false,
     boosted_keywords: ["Load ID", "dispatch"],
+    pronunciation_dictionary: [{
+            word: "Phuket",
+            pronunciation: "Poo-ket"
+        }],
     min_words_to_interrupt: 1,
     configuration_endpoint: {
         url: "https://api.example.com/config",
@@ -2337,6 +2349,10 @@ await client.conversations.outboundCall({
         multilingual_mode: "request",
         push_to_talk: false,
         boosted_keywords: ["Load ID", "dispatch"],
+        pronunciation_dictionary: [{
+                word: "Phuket",
+                pronunciation: "Poo-ket"
+            }],
         min_words_to_interrupt: 1,
         tools: ["keypad_input"]
     },
@@ -2499,6 +2515,72 @@ await client.auth.createSessionToken({
 <dd>
 
 **requestOptions:** `AuthClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Tts
+<details><summary><code>client.tts.<a href="/src/api/resources/tts/client/Client.ts">stream</a>({ ...params }) -> core.BinaryResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Streams generated speech audio for the provided text.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.tts.stream({
+    text: "x"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Phonic.StreamTtsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `TtsClient.RequestOptions` 
     
 </dd>
 </dl>

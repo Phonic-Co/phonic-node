@@ -38,6 +38,8 @@ export interface OutboundCallConfig {
     push_to_talk?: boolean | undefined;
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[] | undefined;
+    /** Array of `{ word, pronunciation }` entries. Words must be unique. */
+    pronunciation_dictionary?: OutboundCallConfig.PronunciationDictionary.Item[] | undefined;
     /** Minimum number of words required to interrupt the assistant. */
     min_words_to_interrupt?: number | undefined;
     /** Array of built-in or custom tool names to use. */
@@ -51,6 +53,15 @@ export namespace OutboundCallConfig {
         Request: "request",
     } as const;
     export type MultilingualMode = (typeof MultilingualMode)[keyof typeof MultilingualMode];
+    export type PronunciationDictionary = PronunciationDictionary.Item[];
+
+    export namespace PronunciationDictionary {
+        export interface Item {
+            word: string;
+            pronunciation: string;
+        }
+    }
+
     export type Tools = Tools.Item[];
 
     export namespace Tools {

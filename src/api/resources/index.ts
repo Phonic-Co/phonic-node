@@ -18,6 +18,8 @@ export * from "./projects/types/index.js";
 export * from "./tools/client/requests/index.js";
 export * as tools from "./tools/index.js";
 export * from "./tools/types/index.js";
+export * from "./tts/client/requests/index.js";
+export * as tts from "./tts/index.js";
 export * from "./voices/client/requests/index.js";
 export * as voices from "./voices/index.js";
 export * from "./voices/types/index.js";
