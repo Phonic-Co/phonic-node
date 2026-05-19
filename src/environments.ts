@@ -7,8 +7,8 @@ export interface PhonicEnvironmentUrls {
 
 export const PhonicEnvironment = {
     Default: {
-        base: "https://api.phonic.co/v1",
-        production: "wss://api.phonic.co",
+        base: "https://api.phonic.ai/v1",
+        production: "wss://api.phonic.ai",
     },
 } as const;
 
