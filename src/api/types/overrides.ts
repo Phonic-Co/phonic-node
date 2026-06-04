@@ -1,3 +1,4 @@
+import type { Phonic } from "../..";
 import type { Conversation } from "./Conversation";
 
 type PhonicTool = "keypad_input" | "natural_conversation_ending" | (string & {});
@@ -26,6 +27,8 @@ export type PhonicConfigurationEndpointResponsePayload = {
     template_variables?: Record<string, string>;
     tools?: Array<PhonicTool>;
     boosted_keywords?: string[];
+    default_language?: Phonic.LanguageCode;
+    additional_languages?: Phonic.LanguageCode[];
     metadata?: unknown;
 };
 
