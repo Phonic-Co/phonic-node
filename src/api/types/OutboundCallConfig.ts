@@ -10,7 +10,11 @@ export interface OutboundCallConfig {
     agent?: string | undefined;
     /** The name of the project to use for the call. */
     project?: string | undefined;
-    /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. */
+    /** When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. */
+    generate_welcome_message?: boolean | undefined;
+    /** When `false`, the welcome message will not be interruptible by the user. */
+    is_welcome_message_interruptible?: boolean | undefined;
+    /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`. */
     welcome_message?: (string | null) | undefined;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */
     system_prompt?: string | undefined;
