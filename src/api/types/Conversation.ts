@@ -19,6 +19,8 @@ export interface Conversation {
     model: string;
     /** Will be `true` if welcome message was automatically generated. */
     generate_welcome_message: boolean;
+    /** When `false`, the welcome message will not be interruptible by the user. */
+    is_welcome_message_interruptible: boolean;
     /** Welcome message played at start. Will be `null` when `generate_welcome_message` is `true`. */
     welcome_message: string | null;
     /** Template variables used in the conversation. */
@@ -54,10 +56,10 @@ export interface Conversation {
     /** Minimum number of words required to interrupt the assistant. */
     min_words_to_interrupt: number;
     /** ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language. */
-    default_language: string;
+    default_language: Phonic.LanguageCode;
     /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. */
-    additional_languages: string[] | null;
-    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
+    additional_languages: Phonic.LanguageCode[] | null;
+    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation. */
     multilingual_mode: Conversation.MultilingualMode;
     /** Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false. */
     push_to_talk: boolean;
@@ -146,10 +148,11 @@ export namespace Conversation {
         }
     }
 
-    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
+    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation. */
     export const MultilingualMode = {
         Auto: "auto",
         Request: "request",
+        Initial: "initial",
     } as const;
     export type MultilingualMode = (typeof MultilingualMode)[keyof typeof MultilingualMode];
 

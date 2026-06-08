@@ -25,6 +25,8 @@ export interface CreateAgentRequest {
     background_noise?: (CreateAgentRequest.BackgroundNoise | null) | undefined;
     /** When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. */
     generate_welcome_message?: boolean | undefined;
+    /** When `false`, the welcome message will not be interruptible by the user. */
+    is_welcome_message_interruptible?: boolean | undefined;
     /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`. */
     welcome_message?: string | undefined;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */
@@ -49,7 +51,7 @@ export interface CreateAgentRequest {
     additional_languages?: Phonic.LanguageCode[] | undefined;
     /** Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead. */
     languages?: Phonic.LanguageCode[] | undefined;
-    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
+    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation. */
     multilingual_mode?: CreateAgentRequest.MultilingualMode | undefined;
     /** Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false. */
     push_to_talk?: boolean | undefined;
@@ -73,6 +75,8 @@ export interface CreateAgentRequest {
     vad_min_silence_duration_ms?: number | undefined;
     /** Voice activity detection threshold. */
     vad_threshold?: number | undefined;
+    /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends. */
+    enable_redaction?: boolean | undefined;
 }
 
 export namespace CreateAgentRequest {
@@ -115,10 +119,11 @@ export namespace CreateAgentRequest {
             | string;
     }
 
-    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
+    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation. */
     export const MultilingualMode = {
         Auto: "auto",
         Request: "request",
+        Initial: "initial",
     } as const;
     export type MultilingualMode = (typeof MultilingualMode)[keyof typeof MultilingualMode];
     export type PronunciationDictionary = PronunciationDictionary.Item[];

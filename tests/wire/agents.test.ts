@@ -28,6 +28,7 @@ describe("AgentsClient", () => {
                     background_noise_level: 0,
                     background_noise: null,
                     generate_welcome_message: false,
+                    is_welcome_message_interruptible: true,
                     welcome_message: "Hi {{customer_name}}. How can I help you today?",
                     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                     template_variables: {
@@ -61,6 +62,7 @@ describe("AgentsClient", () => {
                     vad_min_speech_duration_ms: 1,
                     vad_min_silence_duration_ms: 1,
                     vad_threshold: 1.1,
+                    enable_redaction: true,
                 },
             ],
         };
@@ -86,6 +88,7 @@ describe("AgentsClient", () => {
                     background_noise_level: 0,
                     background_noise: null,
                     generate_welcome_message: false,
+                    is_welcome_message_interruptible: true,
                     welcome_message: "Hi {{customer_name}}. How can I help you today?",
                     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                     template_variables: {
@@ -136,6 +139,7 @@ describe("AgentsClient", () => {
                     vad_min_speech_duration_ms: 1,
                     vad_min_silence_duration_ms: 1,
                     vad_threshold: 1.1,
+                    enable_redaction: true,
                 },
             ],
         });
@@ -190,6 +194,7 @@ describe("AgentsClient", () => {
             audio_speed: 1,
             background_noise_level: 0,
             generate_welcome_message: false,
+            is_welcome_message_interruptible: true,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables: { customer_name: { default_value: "David" }, subject: { default_value: "Chess" } },
@@ -230,6 +235,7 @@ describe("AgentsClient", () => {
             audio_speed: 1,
             background_noise_level: 0,
             generate_welcome_message: false,
+            is_welcome_message_interruptible: true,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables: {
@@ -389,6 +395,7 @@ describe("AgentsClient", () => {
             audio_speed: 1,
             background_noise_level: 0,
             generate_welcome_message: false,
+            is_welcome_message_interruptible: true,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables: { customer_name: { default_value: "David" }, subject: { default_value: "Chess" } },
@@ -423,6 +430,7 @@ describe("AgentsClient", () => {
                 background_noise_level: 0,
                 background_noise: null,
                 generate_welcome_message: false,
+                is_welcome_message_interruptible: true,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: { customer_name: { default_value: "Sean" }, subject: { default_value: "Chess" } },
@@ -453,6 +461,7 @@ describe("AgentsClient", () => {
                 vad_min_speech_duration_ms: 1,
                 vad_min_silence_duration_ms: 1,
                 vad_threshold: 1.1,
+                enable_redaction: true,
             },
             inserted: true,
             updated: false,
@@ -476,6 +485,7 @@ describe("AgentsClient", () => {
             audio_speed: 1,
             background_noise_level: 0,
             generate_welcome_message: false,
+            is_welcome_message_interruptible: true,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables: {
@@ -527,6 +537,7 @@ describe("AgentsClient", () => {
                 background_noise_level: 0,
                 background_noise: null,
                 generate_welcome_message: false,
+                is_welcome_message_interruptible: true,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: {
@@ -577,6 +588,7 @@ describe("AgentsClient", () => {
                 vad_min_speech_duration_ms: 1,
                 vad_min_silence_duration_ms: 1,
                 vad_threshold: 1.1,
+                enable_redaction: true,
             },
             inserted: true,
             updated: false,
@@ -657,6 +669,7 @@ describe("AgentsClient", () => {
                 background_noise_level: 0,
                 background_noise: null,
                 generate_welcome_message: false,
+                is_welcome_message_interruptible: true,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: { customer_name: { default_value: "Sean" }, subject: { default_value: "Chess" } },
@@ -687,6 +700,7 @@ describe("AgentsClient", () => {
                 vad_min_speech_duration_ms: 1,
                 vad_min_silence_duration_ms: 1,
                 vad_threshold: 1.1,
+                enable_redaction: true,
             },
         };
 
@@ -712,6 +726,7 @@ describe("AgentsClient", () => {
                 background_noise_level: 0,
                 background_noise: null,
                 generate_welcome_message: false,
+                is_welcome_message_interruptible: true,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: {
@@ -762,6 +777,7 @@ describe("AgentsClient", () => {
                 vad_min_speech_duration_ms: 1,
                 vad_min_silence_duration_ms: 1,
                 vad_threshold: 1.1,
+                enable_redaction: true,
             },
         });
     });
@@ -887,6 +903,7 @@ describe("AgentsClient", () => {
             audio_speed: 1,
             background_noise_level: 0,
             generate_welcome_message: false,
+            is_welcome_message_interruptible: true,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables: { customer_name: { default_value: "David" }, subject: { default_value: "Chess" } },
@@ -927,6 +944,7 @@ describe("AgentsClient", () => {
             audio_speed: 1,
             background_noise_level: 0,
             generate_welcome_message: false,
+            is_welcome_message_interruptible: true,
             welcome_message: "Hi {{customer_name}}. How can I help you today?",
             system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables: {

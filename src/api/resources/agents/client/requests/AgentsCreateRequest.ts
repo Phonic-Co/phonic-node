@@ -13,6 +13,7 @@ import type * as Phonic from "../../../../index.js";
  *         audio_speed: 1,
  *         background_noise_level: 0,
  *         generate_welcome_message: false,
+ *         is_welcome_message_interruptible: true,
  *         welcome_message: "Hi {{customer_name}}. How can I help you today?",
  *         system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
  *         template_variables: {
@@ -71,6 +72,8 @@ export interface AgentsCreateRequest {
     background_noise?: Phonic.CreateAgentRequest.BackgroundNoise | null;
     /** When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. */
     generate_welcome_message?: boolean;
+    /** When `false`, the welcome message will not be interruptible by the user. */
+    is_welcome_message_interruptible?: boolean;
     /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`. */
     welcome_message?: string;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */
@@ -95,7 +98,7 @@ export interface AgentsCreateRequest {
     additional_languages?: Phonic.LanguageCode[];
     /** Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead. */
     languages?: Phonic.LanguageCode[];
-    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
+    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation. */
     multilingual_mode?: Phonic.CreateAgentRequest.MultilingualMode;
     /** Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false. */
     push_to_talk?: boolean;
@@ -119,4 +122,6 @@ export interface AgentsCreateRequest {
     vad_min_silence_duration_ms?: number;
     /** Voice activity detection threshold. */
     vad_threshold?: number;
+    /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends. */
+    enable_redaction?: boolean;
 }

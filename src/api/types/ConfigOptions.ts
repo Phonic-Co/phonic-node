@@ -22,6 +22,8 @@ export interface ConfigOptions {
     background_noise?: (ConfigOptions.BackgroundNoise | null) | undefined;
     /** When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. */
     generate_welcome_message?: boolean | undefined;
+    /** When `false`, the welcome message will not be interruptible by the user. */
+    is_welcome_message_interruptible?: boolean | undefined;
     /** Message to play when conversation starts. Ignored when `generate_welcome_message` is `true`. */
     welcome_message?: (string | null) | undefined;
     /** Voice ID to use for speech synthesis */
@@ -52,7 +54,7 @@ export interface ConfigOptions {
     default_language?: string | undefined;
     /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. */
     additional_languages?: string[] | undefined;
-    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
+    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation. */
     multilingual_mode?: ConfigOptions.MultilingualMode | undefined;
     /** Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false. */
     push_to_talk?: boolean | undefined;
@@ -64,6 +66,8 @@ export interface ConfigOptions {
     tools?: Phonic.ToolDefinition[] | undefined;
     /** Template variables for system prompt and welcome message */
     template_variables?: Record<string, string> | undefined;
+    /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends. */
+    enable_redaction?: boolean | undefined;
 }
 
 export namespace ConfigOptions {
@@ -90,10 +94,11 @@ export namespace ConfigOptions {
         Mulaw8000: "mulaw_8000",
     } as const;
     export type OutputFormat = (typeof OutputFormat)[keyof typeof OutputFormat];
-    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). */
+    /** If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation. */
     export const MultilingualMode = {
         Auto: "auto",
         Request: "request",
+        Initial: "initial",
     } as const;
     export type MultilingualMode = (typeof MultilingualMode)[keyof typeof MultilingualMode];
     export type PronunciationDictionary = PronunciationDictionary.Item[];
