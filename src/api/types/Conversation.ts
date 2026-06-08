@@ -136,6 +136,10 @@ export namespace Conversation {
         UserCanceled: "user_canceled",
         UserValidationFailed: "user_validation_failed",
         Assistant: "assistant",
+        AssistantSilenceLimitReached: "assistant_silence_limit_reached",
+        ConfigurationEndpointTimedOut: "configuration_endpoint_timed_out",
+        ConfigurationEndpointError: "configuration_endpoint_error",
+        ConfigurationEndpointInvalidResponse: "configuration_endpoint_invalid_response",
         Error: "error",
     } as const;
     export type EndedBy = (typeof EndedBy)[keyof typeof EndedBy];
