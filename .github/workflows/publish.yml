@@ -1,0 +1,65 @@
+name: Publish to npm
+
+# Publishes the package to npm when a PR is merged into main (i.e. when the SDK PR that
+# fern-config opened gets reviewed and merged). The version is whatever is in package.json,
+# which fern-config bakes in when it opens the PR.
+#
+# Kept in .fernignore so Fern's regeneration doesn't remove it.
+#
+# Requires repo secret: NPM_TOKEN
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: publish-npm
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+        with:
+          # We never push from this job, so don't leave the token in git config.
+          persist-credentials: false
+
+      - name: Set up node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+
+      - name: Read package version
+        id: v
+        run: echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
+
+      # Don't fail on unrelated merges to main — only publish a version that isn't live yet.
+      # Version is passed via env (not inlined with ${{ }}) to avoid shell injection.
+      - name: Check if already published
+        id: check
+        env:
+          VERSION: ${{ steps.v.outputs.version }}
+        run: |
+          if npm view "phonic@${VERSION}" version >/dev/null 2>&1; then
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "phonic@${VERSION} already on npm — skipping."
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install dependencies
+        if: steps.check.outputs.publish == 'true'
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        if: steps.check.outputs.publish == 'true'
+        run: yarn build
+
+      - name: Publish
+        if: steps.check.outputs.publish == 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
