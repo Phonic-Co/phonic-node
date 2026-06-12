@@ -697,7 +697,7 @@ export class ConversationsClient {
         id: string,
         request: Phonic.EvaluateConversationRequest,
         requestOptions?: ConversationsClient.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.ConversationEvaluationResult> {
+    ): core.HttpResponsePromise<Phonic.ConversationsEvaluateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__evaluate(id, request, requestOptions));
     }
 
@@ -705,7 +705,7 @@ export class ConversationsClient {
         id: string,
         request: Phonic.EvaluateConversationRequest,
         requestOptions?: ConversationsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.ConversationEvaluationResult>> {
+    ): Promise<core.WithRawResponse<Phonic.ConversationsEvaluateResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -732,7 +732,7 @@ export class ConversationsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.ConversationEvaluationResult, rawResponse: _response.rawResponse };
+            return { data: _response.body as Phonic.ConversationsEvaluateResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -763,6 +763,113 @@ export class ConversationsClient {
         }
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/conversations/{id}/evals");
+    }
+
+    /**
+     * Replays an ended conversation by re-running its recorded audio through an agent. Requires API key or access
+     * token authentication. The conversation must have audio recordings available and an associated agent (or one
+     * specified in the request body).
+     *
+     * @param {string} id - The ID of the conversation to replay.
+     * @param {Phonic.ReplayConversationRequest} request
+     * @param {ConversationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
+     * @throws {@link Phonic.UnprocessableEntityError}
+     * @throws {@link Phonic.TooManyRequestsError}
+     * @throws {@link Phonic.InternalServerError}
+     *
+     * @example
+     *     await client.conversations.replay("id", {
+     *         agent: "support-agent"
+     *     })
+     */
+    public replay(
+        id: string,
+        request: Phonic.ReplayConversationRequest = {},
+        requestOptions?: ConversationsClient.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.ConversationsReplayResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__replay(id, request, requestOptions));
+    }
+
+    private async __replay(
+        id: string,
+        request: Phonic.ReplayConversationRequest = {},
+        requestOptions?: ConversationsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.ConversationsReplayResponse>> {
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                `conversations/${core.url.encodePathParam(id)}/replay`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
+            requestType: "json",
+            body: request,
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Phonic.ConversationsReplayResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                case 422:
+                    throw new Phonic.UnprocessableEntityError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new Phonic.TooManyRequestsError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/conversations/{id}/replay");
     }
 
     /**
