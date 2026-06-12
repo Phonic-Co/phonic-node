@@ -4,3 +4,4 @@ export type { ConversationsSipOutboundCallRequest } from "./ConversationsSipOutb
 export type { EvaluateConversationRequest } from "./EvaluateConversationRequest.js";
 export type { ExtractDataRequest } from "./ExtractDataRequest.js";
 export type { OutboundCallRequest } from "./OutboundCallRequest.js";
+export type { ReplayConversationRequest } from "./ReplayConversationRequest.js";

@@ -3,13 +3,9 @@
 export interface ConversationExtraction {
     /** The extraction ID. */
     id: string;
-    /** The conversation ID. */
-    conversation_id?: string | undefined;
     schema: ConversationExtraction.Schema;
     /** The extracted data. */
     result: Record<string, unknown>;
-    /** Error message if extraction failed. */
-    error: string | null;
     /** When the extraction was created. */
     created_at: string;
 }
@@ -18,5 +14,7 @@ export namespace ConversationExtraction {
     export interface Schema {
         id: string;
         name: string;
+        /** Whether the extraction schema has been deleted. */
+        isDeleted: boolean;
     }
 }

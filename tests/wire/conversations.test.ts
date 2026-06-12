@@ -102,6 +102,13 @@ describe("ConversationsClient", () => {
                     ],
                     call_info: { from_phone_number: "+15551234567", to_phone_number: "+15559876543" },
                     analysis: { latencies_ms: [1064, 578, 797], interruptions_count: 0 },
+                    is_redacted: true,
+                    redacted_transcript: "redacted_transcript",
+                    metadata: { key: "value" },
+                    data_retention_policy: { zero_data_retention: true },
+                    deletion_info: { transcripts_deleted_at: null, audio_recordings_deleted_at: null },
+                    enable_assistant_backchannel: true,
+                    assistant_backchannel_aggressiveness: 1.1,
                 },
             ],
             pagination: { prev_cursor: null, next_cursor: "conv_98765432-abcd-1234-5678-abcdef123456" },
@@ -229,6 +236,20 @@ describe("ConversationsClient", () => {
                         latencies_ms: [1064, 578, 797],
                         interruptions_count: 0,
                     },
+                    is_redacted: true,
+                    redacted_transcript: "redacted_transcript",
+                    metadata: {
+                        key: "value",
+                    },
+                    data_retention_policy: {
+                        zero_data_retention: true,
+                    },
+                    deletion_info: {
+                        transcripts_deleted_at: null,
+                        audio_recordings_deleted_at: null,
+                    },
+                    enable_assistant_backchannel: true,
+                    assistant_backchannel_aggressiveness: 1.1,
                 },
             ],
             pagination: {
@@ -329,6 +350,16 @@ describe("ConversationsClient", () => {
                 ],
                 call_info: null,
                 analysis: { latencies_ms: [2024, 641], interruptions_count: 0 },
+                is_redacted: true,
+                redacted_transcript: "redacted_transcript",
+                metadata: { key: "value" },
+                data_retention_policy: { zero_data_retention: true },
+                deletion_info: {
+                    transcripts_deleted_at: "2024-01-15T09:30:00Z",
+                    audio_recordings_deleted_at: "2024-01-15T09:30:00Z",
+                },
+                enable_assistant_backchannel: true,
+                assistant_backchannel_aggressiveness: 1.1,
             },
         };
 
@@ -449,6 +480,20 @@ describe("ConversationsClient", () => {
                     latencies_ms: [2024, 641],
                     interruptions_count: 0,
                 },
+                is_redacted: true,
+                redacted_transcript: "redacted_transcript",
+                metadata: {
+                    key: "value",
+                },
+                data_retention_policy: {
+                    zero_data_retention: true,
+                },
+                deletion_info: {
+                    transcripts_deleted_at: "2024-01-15T09:30:00Z",
+                    audio_recordings_deleted_at: "2024-01-15T09:30:00Z",
+                },
+                enable_assistant_backchannel: true,
+                assistant_backchannel_aggressiveness: 1.1,
             },
         });
     });
@@ -633,6 +678,16 @@ describe("ConversationsClient", () => {
                     twilio_call_sid: "twilio_call_sid",
                 },
                 analysis: { latencies_ms: [1064, 578, 797], interruptions_count: 0 },
+                is_redacted: true,
+                redacted_transcript: "redacted_transcript",
+                metadata: { key: "value" },
+                data_retention_policy: { zero_data_retention: true },
+                deletion_info: {
+                    transcripts_deleted_at: "2024-01-15T09:30:00Z",
+                    audio_recordings_deleted_at: "2024-01-15T09:30:00Z",
+                },
+                enable_assistant_backchannel: true,
+                assistant_backchannel_aggressiveness: 1.1,
             },
         };
 
@@ -757,6 +812,20 @@ describe("ConversationsClient", () => {
                     latencies_ms: [1064, 578, 797],
                     interruptions_count: 0,
                 },
+                is_redacted: true,
+                redacted_transcript: "redacted_transcript",
+                metadata: {
+                    key: "value",
+                },
+                data_retention_policy: {
+                    zero_data_retention: true,
+                },
+                deletion_info: {
+                    transcripts_deleted_at: "2024-01-15T09:30:00Z",
+                    audio_recordings_deleted_at: "2024-01-15T09:30:00Z",
+                },
+                enable_assistant_backchannel: true,
+                assistant_backchannel_aggressiveness: 1.1,
             },
         });
     });
@@ -1122,17 +1191,16 @@ describe("ConversationsClient", () => {
             extractions: [
                 {
                     id: "conv_extract_f825-4d3e-a149-ddf1bdd2254c",
-                    conversation_id: "conversation_id",
                     schema: {
                         id: "conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c",
                         name: "appointment-details",
+                        isDeleted: false,
                     },
                     result: {
                         customer_name: "John Smith",
                         appointment_date: "2025-04-17",
                         appointment_time: "2:30 PM",
                     },
-                    error: null,
                     created_at: "2025-07-30T23:49:18Z",
                 },
             ],
@@ -1151,17 +1219,16 @@ describe("ConversationsClient", () => {
             extractions: [
                 {
                     id: "conv_extract_f825-4d3e-a149-ddf1bdd2254c",
-                    conversation_id: "conversation_id",
                     schema: {
                         id: "conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c",
                         name: "appointment-details",
+                        isDeleted: false,
                     },
                     result: {
                         customer_name: "John Smith",
                         appointment_date: "2025-04-17",
                         appointment_time: "2:30 PM",
                     },
-                    error: null,
                     created_at: "2025-07-30T23:49:18Z",
                 },
             ],
@@ -1566,12 +1633,7 @@ describe("ConversationsClient", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { prompt_id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0" };
-        const rawResponseBody = {
-            id: "conv_eval_12345678-abcd-efgh-ijkl-mnopqrstuvwx",
-            result: "successful",
-            prompt: { id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0", name: "chocolate_usage" },
-            created_at: "2025-07-30T23:49:18Z",
-        };
+        const rawResponseBody = { evaluation: { result: "successful" } };
 
         server
             .mockEndpoint()
@@ -1586,13 +1648,9 @@ describe("ConversationsClient", () => {
             prompt_id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
         });
         expect(response).toEqual({
-            id: "conv_eval_12345678-abcd-efgh-ijkl-mnopqrstuvwx",
-            result: "successful",
-            prompt: {
-                id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
-                name: "chocolate_usage",
+            evaluation: {
+                result: "successful",
             },
-            created_at: "2025-07-30T23:49:18Z",
         });
     });
 
@@ -2167,6 +2225,225 @@ describe("ConversationsClient", () => {
                 from_phone_number: "from_phone_number",
                 to_phone_number: "to_phone_number",
             });
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
+
+    test("replay (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { agent: "support-agent" };
+        const rawResponseBody = { message: "Replay started" };
+
+        server
+            .mockEndpoint()
+            .post("/conversations/id/replay")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.conversations.replay("id", {
+            agent: "support-agent",
+        });
+        expect(response).toEqual({
+            message: "Replay started",
+        });
+    });
+
+    test("replay (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/conversations/id/replay")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.replay("id");
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("replay (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
+        const rawResponseBody = {};
+
+        server
+            .mockEndpoint()
+            .post("/conversations/id/replay")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.replay("id");
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("replay (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/conversations/id/replay")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.replay("id");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("replay (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/conversations/id/replay")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.replay("id");
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("replay (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/conversations/id/replay")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.replay("id");
+        }).rejects.toThrow(Phonic.ConflictError);
+    });
+
+    test("replay (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
+        const rawResponseBody = {};
+
+        server
+            .mockEndpoint()
+            .post("/conversations/id/replay")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(422)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.replay("id");
+        }).rejects.toThrow(Phonic.UnprocessableEntityError);
+    });
+
+    test("replay (8)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
+        const rawResponseBody = {};
+
+        server
+            .mockEndpoint()
+            .post("/conversations/id/replay")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(429)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.replay("id");
+        }).rejects.toThrow(Phonic.TooManyRequestsError);
+    });
+
+    test("replay (9)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
+        const rawResponseBody = {};
+
+        server
+            .mockEndpoint()
+            .post("/conversations/id/replay")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.replay("id");
         }).rejects.toThrow(Phonic.InternalServerError);
     });
 });

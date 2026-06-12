@@ -52,6 +52,8 @@ export interface UpdateAgentRequest {
     project?: string;
     /** The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
     name?: string;
+    /** URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
+    slug?: string;
     /** When set to `null`, the agent will not be associated with a phone number anymore. When set to `"assign-automatically"`, the agent will be assigned a random phone number if it doesn't have one yet. If the agent already has a phone number, `"assign-automatically"` has no effect. When set to `"custom"`, you must provide `custom_phone_numbers`. */
     phone_number?: UpdateAgentRequest.PhoneNumber | null;
     /** The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead. */
@@ -92,6 +94,18 @@ export interface UpdateAgentRequest {
     no_input_poke_text?: string;
     /** Seconds of silence before ending the conversation. */
     no_input_end_conversation_sec?: number;
+    /** When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking. */
+    enable_assistant_backchannel?: boolean;
+    /** How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`. */
+    assistant_backchannel_aggressiveness?: number;
+    /** Controls how long transcripts and audio recordings are retained before deletion. */
+    data_retention_policy?: Phonic.DataRetentionPolicy;
+    /** Pool of phone numbers used for outbound calls. Set to `null` to remove the pool. */
+    outbound_number_pool?: Phonic.OutboundNumberPool | null;
+    /** Array of procedure IDs associated with the agent. */
+    procedure_ids?: string[];
+    /** Array of third-party integrations enabled for the agent. */
+    integrations?: Phonic.AgentIntegration[];
     /** ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language. */
     default_language?: Phonic.LanguageCode;
     /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. */

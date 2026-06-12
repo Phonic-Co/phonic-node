@@ -4,4 +4,6 @@ export interface DtmfPayload {
     type: "dtmf";
     /** DTMF digits to play */
     digits: string;
+    /** Optional latency-breakdown metrics for the message, expressed as named millisecond durations. */
+    timings?: Record<string, number> | undefined;
 }

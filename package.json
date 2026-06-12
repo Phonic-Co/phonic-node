@@ -1,6 +1,6 @@
 {
     "name": "phonic",
-    "version": "0.32.2",
+    "version": "0.32.3",
     "private": false,
     "repository": {
         "type": "git",
@@ -77,6 +77,17 @@
                 "default": "./dist/cjs/api/resources/workspace/exports.js"
             },
             "default": "./dist/cjs/api/resources/workspace/exports.js"
+        },
+        "./apiKeys": {
+            "import": {
+                "types": "./dist/esm/api/resources/apiKeys/exports.d.mts",
+                "default": "./dist/esm/api/resources/apiKeys/exports.mjs"
+            },
+            "require": {
+                "types": "./dist/cjs/api/resources/apiKeys/exports.d.ts",
+                "default": "./dist/cjs/api/resources/apiKeys/exports.js"
+            },
+            "default": "./dist/cjs/api/resources/apiKeys/exports.js"
         },
         "./conversationItems": {
             "import": {

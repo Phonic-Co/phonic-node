@@ -63,6 +63,18 @@ describe("AgentsClient", () => {
                     vad_min_silence_duration_ms: 1,
                     vad_threshold: 1.1,
                     enable_redaction: true,
+                    slug: "slug",
+                    enable_assistant_backchannel: true,
+                    assistant_backchannel_aggressiveness: 1.1,
+                    integrations: [
+                        {
+                            account_id: "account_id",
+                            account_name: null,
+                            action_names: ["action_names"],
+                            app_slug: "app_slug",
+                        },
+                    ],
+                    data_retention_policy: { zero_data_retention: true },
                 },
             ],
         };
@@ -140,6 +152,20 @@ describe("AgentsClient", () => {
                     vad_min_silence_duration_ms: 1,
                     vad_threshold: 1.1,
                     enable_redaction: true,
+                    slug: "slug",
+                    enable_assistant_backchannel: true,
+                    assistant_backchannel_aggressiveness: 1.1,
+                    integrations: [
+                        {
+                            account_id: "account_id",
+                            account_name: null,
+                            action_names: ["action_names"],
+                            app_slug: "app_slug",
+                        },
+                    ],
+                    data_retention_policy: {
+                        zero_data_retention: true,
+                    },
                 },
             ],
         });
@@ -462,6 +488,18 @@ describe("AgentsClient", () => {
                 vad_min_silence_duration_ms: 1,
                 vad_threshold: 1.1,
                 enable_redaction: true,
+                slug: "slug",
+                enable_assistant_backchannel: true,
+                assistant_backchannel_aggressiveness: 1.1,
+                integrations: [
+                    {
+                        account_id: "account_id",
+                        account_name: null,
+                        action_names: ["action_names"],
+                        app_slug: "app_slug",
+                    },
+                ],
+                data_retention_policy: { zero_data_retention: true },
             },
             inserted: true,
             updated: false,
@@ -589,6 +627,20 @@ describe("AgentsClient", () => {
                 vad_min_silence_duration_ms: 1,
                 vad_threshold: 1.1,
                 enable_redaction: true,
+                slug: "slug",
+                enable_assistant_backchannel: true,
+                assistant_backchannel_aggressiveness: 1.1,
+                integrations: [
+                    {
+                        account_id: "account_id",
+                        account_name: null,
+                        action_names: ["action_names"],
+                        app_slug: "app_slug",
+                    },
+                ],
+                data_retention_policy: {
+                    zero_data_retention: true,
+                },
             },
             inserted: true,
             updated: false,
@@ -701,6 +753,18 @@ describe("AgentsClient", () => {
                 vad_min_silence_duration_ms: 1,
                 vad_threshold: 1.1,
                 enable_redaction: true,
+                slug: "slug",
+                enable_assistant_backchannel: true,
+                assistant_backchannel_aggressiveness: 1.1,
+                integrations: [
+                    {
+                        account_id: "account_id",
+                        account_name: null,
+                        action_names: ["action_names"],
+                        app_slug: "app_slug",
+                    },
+                ],
+                data_retention_policy: { zero_data_retention: true },
             },
         };
 
@@ -778,6 +842,20 @@ describe("AgentsClient", () => {
                 vad_min_silence_duration_ms: 1,
                 vad_threshold: 1.1,
                 enable_redaction: true,
+                slug: "slug",
+                enable_assistant_backchannel: true,
+                assistant_backchannel_aggressiveness: 1.1,
+                integrations: [
+                    {
+                        account_id: "account_id",
+                        account_name: null,
+                        action_names: ["action_names"],
+                        app_slug: "app_slug",
+                    },
+                ],
+                data_retention_policy: {
+                    zero_data_retention: true,
+                },
             },
         });
     });
@@ -924,7 +1002,65 @@ describe("AgentsClient", () => {
                 timeout_ms: 7000,
             },
         };
-        const rawResponseBody = { success: true };
+        const rawResponseBody = {
+            success: true,
+            version_number: 2,
+            agent: {
+                id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+                name: "updated-support-agent",
+                phone_number: "+1234567890",
+                phone_numbers: ["+1234567890"],
+                project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
+                timezone: "America/Los_Angeles",
+                voice_id: "sabrina",
+                audio_format: "pcm_44100",
+                audio_speed: 1,
+                background_noise_level: 0,
+                background_noise: null,
+                generate_welcome_message: false,
+                is_welcome_message_interruptible: true,
+                welcome_message: "Hi {{customer_name}}. How can I help you today?",
+                system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+                template_variables: { customer_name: { default_value: "Sean" }, subject: { default_value: "Chess" } },
+                tools: ["keypad_input"],
+                tasks: [{ name: "Check Availability", description: "Check if the appointment is available" }],
+                generate_no_input_poke_text: false,
+                no_input_poke_sec: 30,
+                no_input_poke_text: "Are you still there?",
+                no_input_end_conversation_sec: 180,
+                default_language: "en",
+                additional_languages: ["es"],
+                multilingual_mode: "request",
+                push_to_talk: false,
+                boosted_keywords: ["Load ID", "dispatch"],
+                pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
+                min_words_to_interrupt: 1,
+                configuration_endpoint: {
+                    url: "https://api.example.com/config",
+                    headers: { Authorization: "Bearer token123" },
+                    timeout_ms: 7000,
+                },
+                inbound_rollout: 1,
+                inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
+                vad_prebuffer_duration_ms: 1,
+                vad_min_speech_duration_ms: 1,
+                vad_min_silence_duration_ms: 1,
+                vad_threshold: 1.1,
+                enable_redaction: true,
+                slug: "slug",
+                enable_assistant_backchannel: true,
+                assistant_backchannel_aggressiveness: 1.1,
+                integrations: [
+                    {
+                        account_id: "account_id",
+                        account_name: null,
+                        action_names: ["action_names"],
+                        app_slug: "app_slug",
+                    },
+                ],
+                data_retention_policy: { zero_data_retention: true },
+            },
+        };
 
         server
             .mockEndpoint()
@@ -981,6 +1117,86 @@ describe("AgentsClient", () => {
         });
         expect(response).toEqual({
             success: true,
+            version_number: 2,
+            agent: {
+                id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+                name: "updated-support-agent",
+                phone_number: "+1234567890",
+                phone_numbers: ["+1234567890"],
+                project: {
+                    id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
+                    name: "customer-support",
+                },
+                timezone: "America/Los_Angeles",
+                voice_id: "sabrina",
+                audio_format: "pcm_44100",
+                audio_speed: 1,
+                background_noise_level: 0,
+                background_noise: null,
+                generate_welcome_message: false,
+                is_welcome_message_interruptible: true,
+                welcome_message: "Hi {{customer_name}}. How can I help you today?",
+                system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+                template_variables: {
+                    customer_name: {
+                        default_value: "Sean",
+                    },
+                    subject: {
+                        default_value: "Chess",
+                    },
+                },
+                tools: ["keypad_input"],
+                tasks: [
+                    {
+                        name: "Check Availability",
+                        description: "Check if the appointment is available",
+                    },
+                ],
+                generate_no_input_poke_text: false,
+                no_input_poke_sec: 30,
+                no_input_poke_text: "Are you still there?",
+                no_input_end_conversation_sec: 180,
+                default_language: "en",
+                additional_languages: ["es"],
+                multilingual_mode: "request",
+                push_to_talk: false,
+                boosted_keywords: ["Load ID", "dispatch"],
+                pronunciation_dictionary: [
+                    {
+                        word: "Phuket",
+                        pronunciation: "Poo-ket",
+                    },
+                ],
+                min_words_to_interrupt: 1,
+                configuration_endpoint: {
+                    url: "https://api.example.com/config",
+                    headers: {
+                        Authorization: "Bearer token123",
+                    },
+                    timeout_ms: 7000,
+                },
+                inbound_rollout: 1,
+                inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
+                vad_prebuffer_duration_ms: 1,
+                vad_min_speech_duration_ms: 1,
+                vad_min_silence_duration_ms: 1,
+                vad_threshold: 1.1,
+                enable_redaction: true,
+                slug: "slug",
+                enable_assistant_backchannel: true,
+                assistant_backchannel_aggressiveness: 1.1,
+                integrations: [
+                    {
+                        account_id: "account_id",
+                        account_name: null,
+                        action_names: ["action_names"],
+                        app_slug: "app_slug",
+                    },
+                ],
+                data_retention_policy: {
+                    zero_data_retention: true,
+                },
+            },
         });
     });
 

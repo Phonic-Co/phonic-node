@@ -5,4 +5,10 @@ export interface WorkspaceGetResponse {
     active_conversations: number;
     /** Maximum number of concurrent conversations allowed for this workspace. */
     max_active_conversations: number;
+    /** URL of the workspace logo (PNG or SVG), or null if not set. */
+    logo_url: string | null;
+    /** Email domains allowed to join the workspace via invite link. */
+    invite_link_allowed_domains: string[];
+    /** IP addresses or CIDR ranges allowed to access the workspace. */
+    ip_allowlist: string[];
 }

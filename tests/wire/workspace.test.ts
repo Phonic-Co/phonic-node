@@ -13,7 +13,13 @@ describe("WorkspaceClient", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
-        const rawResponseBody = { active_conversations: 3, max_active_conversations: 10 };
+        const rawResponseBody = {
+            active_conversations: 3,
+            max_active_conversations: 10,
+            logo_url: "https://example.com/logo.png",
+            invite_link_allowed_domains: ["example.com"],
+            ip_allowlist: ["203.0.113.0/24"],
+        };
 
         server.mockEndpoint().get("/workspace").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
@@ -21,6 +27,9 @@ describe("WorkspaceClient", () => {
         expect(response).toEqual({
             active_conversations: 3,
             max_active_conversations: 10,
+            logo_url: "https://example.com/logo.png",
+            invite_link_allowed_domains: ["example.com"],
+            ip_allowlist: ["203.0.113.0/24"],
         });
     });
 
@@ -55,6 +64,135 @@ describe("WorkspaceClient", () => {
 
         await expect(async () => {
             return await client.workspace.get();
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
+
+    test("update (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            logo_url: "https://example.com/logo.png",
+            invite_link_allowed_domains: ["example.com"],
+            ip_allowlist: ["203.0.113.0/24"],
+        };
+        const rawResponseBody = { success: true };
+
+        server
+            .mockEndpoint()
+            .patch("/workspace")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.workspace.update({
+            logo_url: "https://example.com/logo.png",
+            invite_link_allowed_domains: ["example.com"],
+            ip_allowlist: ["203.0.113.0/24"],
+        });
+        expect(response).toEqual({
+            success: true,
+        });
+    });
+
+    test("update (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .patch("/workspace")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workspace.update();
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("update (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
+        const rawResponseBody = {};
+
+        server
+            .mockEndpoint()
+            .patch("/workspace")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workspace.update();
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("update (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .patch("/workspace")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workspace.update();
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("update (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
+        const rawResponseBody = {};
+
+        server
+            .mockEndpoint()
+            .patch("/workspace")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.workspace.update();
         }).rejects.toThrow(Phonic.InternalServerError);
     });
 });

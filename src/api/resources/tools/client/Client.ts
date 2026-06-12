@@ -117,7 +117,8 @@ export class ToolsClient {
      *             }],
      *         require_speech_before_tool_call: false,
      *         forbid_speech_after_tool_call: false,
-     *         allow_tool_chaining: true
+     *         allow_tool_chaining: true,
+     *         context: "Press the A button 5 times then gently shake the printer."
      *     })
      *
      * @example

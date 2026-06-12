@@ -20,13 +20,13 @@ export interface UpdateToolRequest {
     name?: string;
     /** A description of what the tool does. */
     description?: string;
-    /** The type of tool. */
-    type?: UpdateToolRequest.Type;
     /** Mode of operation. */
     execution_mode?: UpdateToolRequest.ExecutionMode;
+    /** The static context returned to the agent. Only applicable to custom_context tools. */
+    context?: string;
     /**
      * Array of parameter definitions.
-     * When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
+     * When updating `endpoint_method`, all parameters must include explicit `location` values.
      * For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
      * For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools: `location` must not be specified.
      */
@@ -34,7 +34,8 @@ export interface UpdateToolRequest {
     /** HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values. */
     endpoint_method?: UpdateToolRequest.EndpointMethod;
     endpoint_url?: string;
-    endpoint_headers?: Record<string, string>;
+    /** Headers for webhook tools. Set to null to clear existing headers. */
+    endpoint_headers?: Record<string, string | null> | null;
     endpoint_timeout_ms?: number;
     tool_call_output_timeout_ms?: number;
     /** The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number. */
@@ -60,15 +61,6 @@ export interface UpdateToolRequest {
 }
 
 export namespace UpdateToolRequest {
-    /** The type of tool. */
-    export const Type = {
-        CustomContext: "custom_context",
-        CustomWebhook: "custom_webhook",
-        CustomWebsocket: "custom_websocket",
-        BuiltInTransferToPhoneNumber: "built_in_transfer_to_phone_number",
-        BuiltInTransferToAgent: "built_in_transfer_to_agent",
-    } as const;
-    export type Type = (typeof Type)[keyof typeof Type];
     /** Mode of operation. */
     export const ExecutionMode = {
         Sync: "sync",

@@ -5,6 +5,8 @@ import type * as Phonic from "../index.js";
 export interface CreateAgentRequest {
     /** The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
     name: string;
+    /** URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
+    slug?: string | undefined;
     /** When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`. */
     phone_number?: (CreateAgentRequest.PhoneNumber | null) | undefined;
     /** The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead. */
@@ -45,6 +47,12 @@ export interface CreateAgentRequest {
     no_input_poke_text?: string | undefined;
     /** Seconds of silence before ending the conversation. */
     no_input_end_conversation_sec?: number | undefined;
+    /** When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking. */
+    enable_assistant_backchannel?: boolean | undefined;
+    /** How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`. */
+    assistant_backchannel_aggressiveness?: number | undefined;
+    /** Controls how long transcripts and audio recordings are retained before deletion. */
+    data_retention_policy?: Phonic.DataRetentionPolicy | undefined;
     /** ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language. */
     default_language?: Phonic.LanguageCode | undefined;
     /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. */

@@ -923,4 +923,141 @@ describe("ProjectsClient", () => {
             });
         }).rejects.toThrow(Phonic.InternalServerError);
     });
+
+    test("list_evals (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = {
+            evals: [
+                {
+                    id: "conv_eval_8f2c1d3e-4a5b-6c7d-8e9f-0a1b2c3d4e5f",
+                    conversation_id: "conv_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+                    prompt: { id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0", name: "chocolate_usage" },
+                    result: "successful",
+                    created_at: "2025-07-30T23:50:00Z",
+                },
+            ],
+        };
+
+        server
+            .mockEndpoint()
+            .get("/projects/id/conversation_evals")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.projects.listEvals("id");
+        expect(response).toEqual({
+            evals: [
+                {
+                    id: "conv_eval_8f2c1d3e-4a5b-6c7d-8e9f-0a1b2c3d4e5f",
+                    conversation_id: "conv_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+                    prompt: {
+                        id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
+                        name: "chocolate_usage",
+                    },
+                    result: "successful",
+                    created_at: "2025-07-30T23:50:00Z",
+                },
+            ],
+        });
+    });
+
+    test("list_evals (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = {};
+
+        server
+            .mockEndpoint()
+            .get("/projects/id/conversation_evals")
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.projects.listEvals("id");
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("list_evals (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .get("/projects/id/conversation_evals")
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.projects.listEvals("id");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("list_evals (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .get("/projects/id/conversation_evals")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.projects.listEvals("id");
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("list_evals (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = {};
+
+        server
+            .mockEndpoint()
+            .get("/projects/id/conversation_evals")
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.projects.listEvals("id");
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
 });

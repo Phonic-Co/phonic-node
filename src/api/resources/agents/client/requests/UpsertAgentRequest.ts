@@ -50,4 +50,10 @@ import type * as Phonic from "../../../../index.js";
 export interface UpsertAgentRequest extends Phonic.CreateAgentRequest {
     /** The name of the project containing the agent. */
     project?: string;
+    /** Pool of phone numbers used for outbound calls. Set to `null` to remove the pool. */
+    outbound_number_pool?: Phonic.OutboundNumberPool | null;
+    /** Array of procedure IDs associated with the agent. */
+    procedure_ids?: string[];
+    /** Array of third-party integrations enabled for the agent. */
+    integrations?: Phonic.AgentIntegration[];
 }

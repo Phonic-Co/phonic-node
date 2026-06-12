@@ -167,8 +167,8 @@ describe("ExtractionSchemasClient", () => {
             name: "name",
             prompt: "prompt",
             fields: [
-                { name: "name", type: "string" },
-                { name: "name", type: "string" },
+                { name: "name", type: "string", description: null },
+                { name: "name", type: "string", description: null },
             ],
         };
         const rawResponseBody = { key: "value" };
@@ -190,10 +190,12 @@ describe("ExtractionSchemasClient", () => {
                     {
                         name: "name",
                         type: "string",
+                        description: null,
                     },
                     {
                         name: "name",
                         type: "string",
+                        description: null,
                     },
                 ],
             });
@@ -211,8 +213,8 @@ describe("ExtractionSchemasClient", () => {
             name: "name",
             prompt: "prompt",
             fields: [
-                { name: "name", type: "string" },
-                { name: "name", type: "string" },
+                { name: "name", type: "string", description: null },
+                { name: "name", type: "string", description: null },
             ],
         };
         const rawResponseBody = { key: "value" };
@@ -234,10 +236,12 @@ describe("ExtractionSchemasClient", () => {
                     {
                         name: "name",
                         type: "string",
+                        description: null,
                     },
                     {
                         name: "name",
                         type: "string",
+                        description: null,
                     },
                 ],
             });
@@ -255,8 +259,8 @@ describe("ExtractionSchemasClient", () => {
             name: "name",
             prompt: "prompt",
             fields: [
-                { name: "name", type: "string" },
-                { name: "name", type: "string" },
+                { name: "name", type: "string", description: null },
+                { name: "name", type: "string", description: null },
             ],
         };
         const rawResponseBody = { key: "value" };
@@ -278,10 +282,12 @@ describe("ExtractionSchemasClient", () => {
                     {
                         name: "name",
                         type: "string",
+                        description: null,
                     },
                     {
                         name: "name",
                         type: "string",
+                        description: null,
                     },
                 ],
             });
