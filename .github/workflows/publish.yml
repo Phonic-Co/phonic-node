@@ -22,6 +22,9 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
+        with:
+          # We never push from this job, so don't leave the token in git config.
+          persist-credentials: false
 
       - name: Set up node
         uses: actions/setup-node@v6
@@ -34,12 +37,15 @@ jobs:
         run: echo "version=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
 
       # Don't fail on unrelated merges to main — only publish a version that isn't live yet.
+      # Version is passed via env (not inlined with ${{ }}) to avoid shell injection.
       - name: Check if already published
         id: check
+        env:
+          VERSION: ${{ steps.v.outputs.version }}
         run: |
-          if npm view "phonic@${{ steps.v.outputs.version }}" version >/dev/null 2>&1; then
+          if npm view "phonic@${VERSION}" version >/dev/null 2>&1; then
             echo "publish=false" >> "$GITHUB_OUTPUT"
-            echo "phonic@${{ steps.v.outputs.version }} already on npm — skipping."
+            echo "phonic@${VERSION} already on npm — skipping."
           else
             echo "publish=true" >> "$GITHUB_OUTPUT"
           fi
