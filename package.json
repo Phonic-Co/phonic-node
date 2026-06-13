@@ -164,7 +164,8 @@
         "build:esm": "tsc --project ./tsconfig.esm.json && node scripts/rename-to-esm-files.js dist/esm",
         "test": "jest --config jest.config.mjs",
         "test:unit": "jest --selectProjects unit",
-        "test:wire": "jest --selectProjects wire"
+        "test:wire": "jest --selectProjects wire",
+        "test:integration": "jest --config jest.integration.config.mjs"
     },
     "dependencies": {
         "ws": "^8.20.0"
