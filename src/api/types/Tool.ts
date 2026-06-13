@@ -13,7 +13,7 @@ export interface Tool {
     /** The type of tool. */
     type: Tool.Type;
     /** Mode of operation - sync waits for response, async continues without waiting. */
-    execution_mode: Tool.ExecutionMode;
+    execution_mode?: Tool.ExecutionMode | undefined;
     /** Array of parameter definitions for the tool. */
     parameters: Phonic.ToolParameter[];
     /** HTTP method for webhook tools. */
@@ -46,6 +46,8 @@ export interface Tool {
     allow_tool_chaining?: boolean | undefined;
     /** The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools. */
     wait_for_response?: boolean | undefined;
+    /** The static context returned to the agent. Only present for custom_context tools. */
+    context?: string | undefined;
 }
 
 export namespace Tool {

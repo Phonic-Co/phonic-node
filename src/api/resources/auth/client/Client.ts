@@ -108,4 +108,95 @@ export class AuthClient {
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/auth/session_token");
     }
+
+    /**
+     * Creates a short-lived conversation token scoped to a specific agent. Conversation tokens are useful for client-side applications that start a conversation with a single agent without exposing your API key.
+     *
+     * @param {Phonic.CreateConversationTokenRequest} request
+     * @param {AuthClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.InternalServerError}
+     *
+     * @example
+     *     await client.auth.createConversationToken({
+     *         agent_id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+     *         ttl_seconds: 30
+     *     })
+     */
+    public createConversationToken(
+        request: Phonic.CreateConversationTokenRequest,
+        requestOptions?: AuthClient.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.AuthCreateConversationTokenResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__createConversationToken(request, requestOptions));
+    }
+
+    private async __createConversationToken(
+        request: Phonic.CreateConversationTokenRequest,
+        requestOptions?: AuthClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.AuthCreateConversationTokenResponse>> {
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                "auth/conversation_token",
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
+            requestType: "json",
+            body: request,
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as Phonic.AuthCreateConversationTokenResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/auth/conversation_token");
+    }
 }

@@ -79,6 +79,15 @@ export interface Agent {
     vad_threshold?: number | undefined;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean | undefined;
+    /** The URL-friendly slug of the agent. */
+    slug?: string | undefined;
+    /** When `true`, the assistant emits backchannel cues (e.g. "mm-hmm") while the user is speaking. */
+    enable_assistant_backchannel?: boolean | undefined;
+    /** How aggressively the assistant backchannels, from 0 to 1. */
+    assistant_backchannel_aggressiveness?: number | undefined;
+    /** Third-party integrations enabled for the agent. */
+    integrations?: Phonic.AgentIntegration[] | undefined;
+    data_retention_policy?: Phonic.DataRetentionPolicy | undefined;
 }
 
 export namespace Agent {

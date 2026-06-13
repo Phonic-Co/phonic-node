@@ -6,4 +6,6 @@ export interface AudioChunkResponsePayload {
     audio: string;
     /** Text corresponding to audio chunk */
     text: string;
+    /** Optional latency-breakdown metrics for the audio chunk, expressed as named millisecond durations. Only present on the first audio chunk of a turn. */
+    timings?: Record<string, number> | undefined;
 }

@@ -7,10 +7,12 @@ export interface ConversationItem {
     item_idx: number;
     /** Who spoke in this turn. */
     role: ConversationItem.Role;
-    /** Live transcript of this turn. */
-    live_transcript: string;
+    /** Live transcript of this turn. `null` when the turn has been redacted. */
+    live_transcript: string | null;
     /** Post-call processed transcript. */
     post_call_transcript: string | null;
+    /** The redacted transcript of this turn. `null` when the turn is not redacted. */
+    redacted_transcript?: (string | null) | undefined;
     /** Duration of this turn in milliseconds. */
     duration_ms: number;
     /** When this turn started. */

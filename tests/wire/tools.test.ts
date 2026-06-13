@@ -38,6 +38,7 @@ describe("ToolsClient", () => {
                     forbid_speech_after_tool_call: false,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    context: "Press the A button 5 times then gently shake the printer.",
                 },
                 {
                     id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -77,6 +78,7 @@ describe("ToolsClient", () => {
                     forbid_speech_after_tool_call: false,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    context: "context",
                 },
                 {
                     id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
@@ -108,6 +110,7 @@ describe("ToolsClient", () => {
                     forbid_speech_after_tool_call: false,
                     allow_tool_chaining: true,
                     wait_for_response: false,
+                    context: "context",
                 },
                 {
                     id: "tool_11111111-2222-3333-4444-555555555555",
@@ -132,6 +135,7 @@ describe("ToolsClient", () => {
                     forbid_speech_after_tool_call: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    context: "context",
                 },
                 {
                     id: "tool_22222222-3333-4444-5555-666666666666",
@@ -156,6 +160,7 @@ describe("ToolsClient", () => {
                     forbid_speech_after_tool_call: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    context: "context",
                 },
             ],
         };
@@ -202,6 +207,7 @@ describe("ToolsClient", () => {
                     forbid_speech_after_tool_call: false,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    context: "Press the A button 5 times then gently shake the printer.",
                 },
                 {
                     id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -247,6 +253,7 @@ describe("ToolsClient", () => {
                     forbid_speech_after_tool_call: false,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    context: "context",
                 },
                 {
                     id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
@@ -283,6 +290,7 @@ describe("ToolsClient", () => {
                     forbid_speech_after_tool_call: false,
                     allow_tool_chaining: true,
                     wait_for_response: false,
+                    context: "context",
                 },
                 {
                     id: "tool_11111111-2222-3333-4444-555555555555",
@@ -319,6 +327,7 @@ describe("ToolsClient", () => {
                     forbid_speech_after_tool_call: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    context: "context",
                 },
                 {
                     id: "tool_22222222-3333-4444-5555-666666666666",
@@ -355,6 +364,7 @@ describe("ToolsClient", () => {
                     forbid_speech_after_tool_call: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    context: "context",
                 },
             ],
         });
@@ -393,6 +403,7 @@ describe("ToolsClient", () => {
             require_speech_before_tool_call: false,
             forbid_speech_after_tool_call: false,
             allow_tool_chaining: true,
+            context: "Press the A button 5 times then gently shake the printer.",
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
 
@@ -422,6 +433,7 @@ describe("ToolsClient", () => {
             require_speech_before_tool_call: false,
             forbid_speech_after_tool_call: false,
             allow_tool_chaining: true,
+            context: "Press the A button 5 times then gently shake the printer.",
         });
         expect(response).toEqual({
             id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
@@ -799,6 +811,7 @@ describe("ToolsClient", () => {
                 forbid_speech_after_tool_call: false,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                context: "Press the A button 5 times then gently shake the printer.",
             },
         };
 
@@ -843,6 +856,7 @@ describe("ToolsClient", () => {
                 forbid_speech_after_tool_call: false,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                context: "Press the A button 5 times then gently shake the printer.",
             },
         });
     });
@@ -894,6 +908,7 @@ describe("ToolsClient", () => {
                 forbid_speech_after_tool_call: false,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                context: "context",
             },
         };
 
@@ -947,6 +962,7 @@ describe("ToolsClient", () => {
                 forbid_speech_after_tool_call: false,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                context: "context",
             },
         });
     });
@@ -990,6 +1006,7 @@ describe("ToolsClient", () => {
                 forbid_speech_after_tool_call: false,
                 allow_tool_chaining: true,
                 wait_for_response: false,
+                context: "context",
             },
         };
 
@@ -1034,6 +1051,7 @@ describe("ToolsClient", () => {
                 forbid_speech_after_tool_call: false,
                 allow_tool_chaining: true,
                 wait_for_response: false,
+                context: "context",
             },
         });
     });
@@ -1070,6 +1088,7 @@ describe("ToolsClient", () => {
                 forbid_speech_after_tool_call: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                context: "context",
             },
         };
 
@@ -1114,6 +1133,7 @@ describe("ToolsClient", () => {
                 forbid_speech_after_tool_call: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                context: "context",
             },
         });
     });
@@ -1150,6 +1170,7 @@ describe("ToolsClient", () => {
                 forbid_speech_after_tool_call: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                context: "context",
             },
         };
 
@@ -1194,6 +1215,7 @@ describe("ToolsClient", () => {
                 forbid_speech_after_tool_call: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                context: "context",
             },
         });
     });

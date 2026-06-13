@@ -18,7 +18,8 @@ import type * as Phonic from "../../../../index.js";
  *             }],
  *         require_speech_before_tool_call: false,
  *         forbid_speech_after_tool_call: false,
- *         allow_tool_chaining: true
+ *         allow_tool_chaining: true,
+ *         context: "Press the A button 5 times then gently shake the printer."
  *     }
  *
  * @example
@@ -148,6 +149,8 @@ export interface CreateToolRequest {
     allow_tool_chaining?: boolean;
     /** The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools. */
     wait_for_response?: boolean;
+    /** The static context returned to the agent. Required for custom_context tools. */
+    context?: string;
 }
 
 export namespace CreateToolRequest {

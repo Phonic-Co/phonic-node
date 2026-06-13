@@ -1,6 +1,9 @@
 export * from "./agents/client/requests/index.js";
 export * as agents from "./agents/index.js";
 export * from "./agents/types/index.js";
+export * from "./apiKeys/client/requests/index.js";
+export * as apiKeys from "./apiKeys/index.js";
+export * from "./apiKeys/types/index.js";
 export * from "./auth/client/requests/index.js";
 export * as auth from "./auth/index.js";
 export * from "./auth/types/index.js";
@@ -23,5 +26,6 @@ export * as tts from "./tts/index.js";
 export * from "./voices/client/requests/index.js";
 export * as voices from "./voices/index.js";
 export * from "./voices/types/index.js";
+export * from "./workspace/client/requests/index.js";
 export * as workspace from "./workspace/index.js";
 export * from "./workspace/types/index.js";

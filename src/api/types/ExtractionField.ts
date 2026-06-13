@@ -5,8 +5,8 @@ export interface ExtractionField {
     name: string;
     /** The field type. */
     type: ExtractionField.Type;
-    /** Description of the field. */
-    description?: (string | null) | undefined;
+    /** Description of the field. May be null, but the property must be present. */
+    description: string | null;
 }
 
 export namespace ExtractionField {

@@ -50,6 +50,28 @@ export interface OutboundCallConfig {
     tools?: OutboundCallConfig.Tools.Item[] | undefined;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean | undefined;
+    /** The speech-to-speech model to use. */
+    model?: "merritt" | undefined;
+    /** The audio speed of the agent. */
+    audio_speed?: number | undefined;
+    /** The background noise type. Can be "office", "call-center", "coffee-shop", or null. */
+    background_noise?: (OutboundCallConfig.BackgroundNoise | null) | undefined;
+    /** The background noise level of the agent. */
+    background_noise_level?: number | undefined;
+    /** Array of MCP server names to use. */
+    mcp_servers?: string[] | undefined;
+    /** Array of task objects with `name` and `description` fields. */
+    tasks?: Phonic.Task[] | undefined;
+    /** Pool of phone numbers used for outbound calls. */
+    outbound_number_pool?: (Phonic.OutboundNumberPool | null) | undefined;
+    /** When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking. */
+    enable_assistant_backchannel?: boolean | undefined;
+    /** How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`. */
+    assistant_backchannel_aggressiveness?: number | undefined;
+    /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options. */
+    configuration_endpoint?: (OutboundCallConfig.ConfigurationEndpoint | null) | undefined;
+    /** Controls how long transcripts and audio recordings are retained before deletion. */
+    data_retention_policy?: Phonic.DataRetentionPolicy | undefined;
 }
 
 export namespace OutboundCallConfig {
@@ -78,5 +100,25 @@ export namespace OutboundCallConfig {
             /**
              * Custom tool */
             | string;
+    }
+
+    /** The background noise type. Can be "office", "call-center", "coffee-shop", or null. */
+    export const BackgroundNoise = {
+        Office: "office",
+        CallCenter: "call-center",
+        CoffeeShop: "coffee-shop",
+    } as const;
+    export type BackgroundNoise = (typeof BackgroundNoise)[keyof typeof BackgroundNoise];
+
+    /**
+     * When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
+     */
+    export interface ConfigurationEndpoint {
+        /** URL to call */
+        url: string;
+        /** Object of key-value pairs. */
+        headers?: Record<string, string> | undefined;
+        /** Timeout in milliseconds for the endpoint call. */
+        timeout_ms?: number | undefined;
     }
 }

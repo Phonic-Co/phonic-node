@@ -1,4 +1,5 @@
 export * from "./ConversationsCancelResponse.js";
+export * from "./ConversationsEvaluateResponse.js";
 export * from "./ConversationsExtractDataResponse.js";
 export * from "./ConversationsGetAnalysisResponse.js";
 export * from "./ConversationsGetRequestAudioContainer.js";
@@ -8,4 +9,5 @@ export * from "./ConversationsListExtractionsResponse.js";
 export * from "./ConversationsListRequestAudioContainer.js";
 export * from "./ConversationsListResponse.js";
 export * from "./ConversationsOutboundCallResponse.js";
+export * from "./ConversationsReplayResponse.js";
 export * from "./ConversationsSipOutboundCallResponse.js";

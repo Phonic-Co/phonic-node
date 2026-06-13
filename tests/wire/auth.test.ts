@@ -128,4 +128,166 @@ describe("AuthClient", () => {
             return await client.auth.createSessionToken();
         }).rejects.toThrow(Phonic.InternalServerError);
     });
+
+    test("create_conversation_token (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { agent_id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783", ttl_seconds: 30 };
+        const rawResponseBody = {
+            conversation_token: "ph_conversation_abc123def456...",
+            expires_at: "2025-07-30T23:50:00Z",
+        };
+
+        server
+            .mockEndpoint()
+            .post("/auth/conversation_token")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.auth.createConversationToken({
+            agent_id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+            ttl_seconds: 30,
+        });
+        expect(response).toEqual({
+            conversation_token: "ph_conversation_abc123def456...",
+            expires_at: "2025-07-30T23:50:00Z",
+        });
+    });
+
+    test("create_conversation_token (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { agent_id: "agent_id" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/auth/conversation_token")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.auth.createConversationToken({
+                agent_id: "agent_id",
+            });
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("create_conversation_token (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { agent_id: "agent_id" };
+        const rawResponseBody = {};
+
+        server
+            .mockEndpoint()
+            .post("/auth/conversation_token")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.auth.createConversationToken({
+                agent_id: "agent_id",
+            });
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("create_conversation_token (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { agent_id: "agent_id" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/auth/conversation_token")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.auth.createConversationToken({
+                agent_id: "agent_id",
+            });
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("create_conversation_token (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { agent_id: "agent_id" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/auth/conversation_token")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.auth.createConversationToken({
+                agent_id: "agent_id",
+            });
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("create_conversation_token (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { agent_id: "agent_id" };
+        const rawResponseBody = {};
+
+        server
+            .mockEndpoint()
+            .post("/auth/conversation_token")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.auth.createConversationToken({
+                agent_id: "agent_id",
+            });
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
 });

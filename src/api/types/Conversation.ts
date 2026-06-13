@@ -89,6 +89,20 @@ export interface Conversation {
     call_info: Conversation.CallInfo | null;
     /** Analysis of the conversation including latencies and interruptions. */
     analysis: Phonic.ConversationAnalysis;
+    /** Whether PII and PHI have been redacted from the conversation. */
+    is_redacted?: boolean | undefined;
+    /** The redacted transcript of the conversation. `null` when the conversation is not redacted. */
+    redacted_transcript?: (string | null) | undefined;
+    /** Arbitrary metadata associated with the conversation. */
+    metadata?: (Record<string, unknown> | null) | undefined;
+    /** Controls how long transcripts and audio recordings are retained before deletion. */
+    data_retention_policy?: Phonic.DataRetentionPolicy | undefined;
+    /** Information about when transcripts and audio recordings are or were scheduled to be deleted. */
+    deletion_info?: Conversation.DeletionInfo | undefined;
+    /** Whether the assistant produced backchannel responses during the conversation. */
+    enable_assistant_backchannel?: boolean | undefined;
+    /** How aggressively the assistant produced backchannel responses during the conversation. */
+    assistant_backchannel_aggressiveness?: number | undefined;
 }
 
 export namespace Conversation {
@@ -170,5 +184,15 @@ export namespace Conversation {
         to_phone_number: string;
         /** Twilio Call SID. Only present for user SIP trunking calls. */
         twilio_call_sid?: string | undefined;
+    }
+
+    /**
+     * Information about when transcripts and audio recordings are or were scheduled to be deleted.
+     */
+    export interface DeletionInfo {
+        /** When the transcripts were deleted. `null` if not deleted. */
+        transcripts_deleted_at: string | null;
+        /** When the audio recordings were deleted. `null` if not deleted. */
+        audio_recordings_deleted_at: string | null;
     }
 }

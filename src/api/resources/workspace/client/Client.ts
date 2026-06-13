@@ -89,4 +89,90 @@ export class WorkspaceClient {
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/workspace");
     }
+
+    /**
+     * Updates the workspace.
+     *
+     * @param {Phonic.UpdateWorkspaceRequest} request
+     * @param {WorkspaceClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.InternalServerError}
+     *
+     * @example
+     *     await client.workspace.update({
+     *         logo_url: "https://example.com/logo.png",
+     *         invite_link_allowed_domains: ["example.com"],
+     *         ip_allowlist: ["203.0.113.0/24"]
+     *     })
+     */
+    public update(
+        request: Phonic.UpdateWorkspaceRequest = {},
+        requestOptions?: WorkspaceClient.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.WorkspaceUpdateResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
+    }
+
+    private async __update(
+        request: Phonic.UpdateWorkspaceRequest = {},
+        requestOptions?: WorkspaceClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.WorkspaceUpdateResponse>> {
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                "workspace",
+            ),
+            method: "PATCH",
+            headers: _headers,
+            contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
+            requestType: "json",
+            body: request,
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Phonic.WorkspaceUpdateResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "PATCH", "/workspace");
+    }
 }

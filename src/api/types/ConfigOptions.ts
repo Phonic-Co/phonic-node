@@ -68,6 +68,23 @@ export interface ConfigOptions {
     template_variables?: Record<string, string> | undefined;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean | undefined;
+    /** Names of pre-configured MCP servers to make available to the assistant. Names must be unique. */
+    mcp_servers?: string[] | undefined;
+    /** Tasks the assistant should accomplish during the conversation. */
+    tasks?: ConfigOptions.Tasks.Item[] | undefined;
+    /** Pool of phone numbers to use as the caller ID for outbound calls. */
+    outbound_number_pool?: (ConfigOptions.OutboundNumberPool | null) | undefined;
+    /** When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm", "yeah") while the user is speaking. */
+    enable_assistant_backchannel?: boolean | undefined;
+    /** How aggressively the assistant produces backchannel responses. Only applies when `enable_assistant_backchannel` is `true`. */
+    assistant_backchannel_aggressiveness?: number | undefined;
+    /** When not `null`, the agent will call this endpoint to get configuration options for the conversation. */
+    configuration_endpoint?: (ConfigOptions.ConfigurationEndpoint | null) | undefined;
+    /**
+     * Policy controlling how long transcripts and audio recordings are retained before being deleted.
+     * When `zero_data_retention` is `true`, nothing is retained and `transcripts`/`audio_recordings` are omitted.
+     */
+    data_retention_policy?: ConfigOptions.DataRetentionPolicy | undefined;
 }
 
 export namespace ConfigOptions {
@@ -109,4 +126,59 @@ export namespace ConfigOptions {
             pronunciation: string;
         }
     }
+
+    export type Tasks = Tasks.Item[];
+
+    export namespace Tasks {
+        export interface Item {
+            /** Name of the task. */
+            name: string;
+            /** Description of the task. */
+            description: string;
+        }
+    }
+
+    /**
+     * Pool of phone numbers to use as the caller ID for outbound calls.
+     */
+    export interface OutboundNumberPool {
+        /** Active E.164 phone numbers to use for outbound calls. Numbers must be unique. */
+        active: string[];
+        /** Blocked E.164 phone numbers that should not be used for outbound calls. */
+        blocked: string[];
+    }
+
+    /**
+     * When not `null`, the agent will call this endpoint to get configuration options for the conversation.
+     */
+    export interface ConfigurationEndpoint {
+        /** URL to call. */
+        url: string;
+        /** Object of key-value pairs sent as headers when calling the endpoint. */
+        headers?: Record<string, string> | undefined;
+        /** Timeout in milliseconds for the endpoint call. */
+        timeout_ms?: number | undefined;
+    }
+
+    /**
+     * Policy controlling how long transcripts and audio recordings are retained before being deleted.
+     * When `zero_data_retention` is `true`, nothing is retained and `transcripts`/`audio_recordings` are omitted.
+     */
+    export type DataRetentionPolicy =
+        /**
+         * Zero data retention mode. No transcripts or audio recordings are retained. */
+        | {
+              zero_data_retention: true;
+          }
+        /**
+         * Standard data retention with configurable deletion windows. */
+        | {
+              zero_data_retention: false;
+              transcripts: {
+                  delete_after_hours: number | null;
+              };
+              audio_recordings: {
+                  delete_after_hours: number | null;
+              };
+          };
 }
