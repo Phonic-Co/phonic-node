@@ -5,9 +5,7 @@ name: Publish to npm
 # which fern-config bakes in when it opens the PR.
 #
 # Kept in .fernignore so Fern's regeneration doesn't remove it.
-#
-# Authenticates via npm OIDC trusted publishing (configured on the npm package),
-# so no NPM_TOKEN secret is needed. Requires `id-token: write` and npm >= 11.5.1.
+# Authenticates via npm OIDC trusted publishing, so no NPM_TOKEN is needed.
 
 on:
   push:
