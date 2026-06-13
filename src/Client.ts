@@ -1,6 +1,7 @@
 // Maintained manually (listed in .fernignore). Fern does not overwrite this file.
 
 import { AgentsClient } from "./api/resources/agents/client/Client.js";
+import { ApiKeysClient } from "./api/resources/apiKeys/client/Client.js";
 import { AuthClient } from "./api/resources/auth/client/Client.js";
 import { ConversationItemsClient } from "./api/resources/conversationItems/client/Client.js";
 import { ConversationsClient } from "./api/resources/conversations/client/Client.js";
@@ -32,6 +33,7 @@ export declare namespace PhonicClient {
 export class PhonicClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<PhonicClient.Options>;
     protected _agents: AgentsClient | undefined;
+    protected _apiKeys: ApiKeysClient | undefined;
     protected _tools: ToolsClient | undefined;
     protected _extractionSchemas: ExtractionSchemasClient | undefined;
     protected _tts: TtsClient | undefined;
@@ -48,6 +50,10 @@ export class PhonicClient {
 
     public get agents(): AgentsClient {
         return (this._agents ??= new AgentsClient(this._options));
+    }
+
+    public get apiKeys(): ApiKeysClient {
+        return (this._apiKeys ??= new ApiKeysClient(this._options));
     }
 
     public get tools(): ToolsClient {
