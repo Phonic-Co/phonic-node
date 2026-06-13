@@ -5,8 +5,7 @@ name: Publish to npm
 # which fern-config bakes in when it opens the PR.
 #
 # Kept in .fernignore so Fern's regeneration doesn't remove it.
-#
-# Requires repo secret: NPM_TOKEN
+# Authenticates via npm OIDC trusted publishing, so no NPM_TOKEN is needed.
 
 on:
   push:
@@ -19,6 +18,9 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Checkout repo
         uses: actions/checkout@v6
@@ -31,6 +33,10 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org
+
+      # OIDC trusted publishing requires npm >= 11.5.1; node 20 ships npm 10.
+      - name: Upgrade npm
+        run: npm install -g npm@latest
 
       - name: Read package version
         id: v
@@ -60,6 +66,4 @@ jobs:
 
       - name: Publish
         if: steps.check.outputs.publish == 'true'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access public
