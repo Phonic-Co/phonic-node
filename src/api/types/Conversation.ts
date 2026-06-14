@@ -131,9 +131,17 @@ export namespace Conversation {
     /** The origin of the conversation. */
     export const Origin = {
         Web: "web",
+        WebPlayground: "web-playground",
+        WebDemo: "web-demo",
         Direct: "direct",
+        LivekitAgentsPy: "livekit-agents-py",
+        LivekitAgentsJs: "livekit-agents-js",
+        SdkPy: "sdk-py",
+        SdkJs: "sdk-js",
         Inbound: "inbound",
+        TelephonyInbound: "telephony-inbound",
         Outbound: "outbound",
+        TelephonyOutbound: "telephony-outbound",
         Replay: "replay",
     } as const;
     export type Origin = (typeof Origin)[keyof typeof Origin];
