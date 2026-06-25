@@ -1,5 +1,6 @@
 // Maintained manually (listed in .fernignore). Fern does not overwrite this file.
 
+import * as Phonic from "./api/index.js";
 import { AgentsClient } from "./api/resources/agents/client/Client.js";
 import { ApiKeysClient } from "./api/resources/apiKeys/client/Client.js";
 import { AuthClient } from "./api/resources/auth/client/Client.js";
@@ -13,8 +14,11 @@ import { VoicesClient } from "./api/resources/voices/client/Client.js";
 import { WorkspaceClient } from "./api/resources/workspace/client/Client.js";
 import type { BaseClientOptions, BaseRequestOptions } from "./BaseClient.js";
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "./BaseClient.js";
+import { mergeHeaders } from "./core/headers.js";
 import * as core from "./core/index.js";
 import * as environments from "./environments.js";
+import { handleNonStatusCodeError } from "./errors/handleNonStatusCodeError.js";
+import * as errors from "./errors/index.js";
 
 export declare namespace PhonicClient {
     export type Options = BaseClientOptions & {
@@ -90,6 +94,88 @@ export class PhonicClient {
 
     public get workspace(): WorkspaceClient {
         return (this._workspace ??= new WorkspaceClient(this._options));
+    }
+
+    /**
+     * Deletes a conversation, scheduling its transcripts and audio recordings for deletion. The conversation must have ended.
+     *
+     * @param {string} id - The ID of the conversation to delete.
+     * @param {PhonicClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
+     * @throws {@link Phonic.InternalServerError}
+     *
+     * @example
+     *     await client.deleteConversationsId("id")
+     */
+    public deleteConversationsId(
+        id: string,
+        requestOptions?: PhonicClient.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.DeleteConversationsIdResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__deleteConversationsId(id, requestOptions));
+    }
+
+    private async __deleteConversationsId(
+        id: string,
+        requestOptions?: PhonicClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.DeleteConversationsIdResponse>> {
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                `conversations/${core.url.encodePathParam(id)}`,
+            ),
+            method: "DELETE",
+            headers: _headers,
+            queryParameters: requestOptions?.queryParams,
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Phonic.DeleteConversationsIdResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "DELETE", "/conversations/{id}");
     }
 
     /**
