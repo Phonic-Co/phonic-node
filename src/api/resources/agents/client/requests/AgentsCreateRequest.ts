@@ -76,6 +76,8 @@ export interface AgentsCreateRequest {
     generate_welcome_message?: boolean;
     /** When `false`, the welcome message will not be interruptible by the user. */
     is_welcome_message_interruptible?: boolean;
+    /** Number of seconds of inactivity before the conversation WebSocket is closed. */
+    websocket_timeout_sec?: number;
     /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`. */
     welcome_message?: string;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */
@@ -132,4 +134,8 @@ export interface AgentsCreateRequest {
     vad_threshold?: number;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean;
+    /** Array of MCP server IDs to make available to the agent. */
+    mcp_server_ids?: string[];
+    /** Names of observability integrations to enable for the agent. Each must be one of the supported providers. */
+    observability_integrations?: "braintrust"[];
 }

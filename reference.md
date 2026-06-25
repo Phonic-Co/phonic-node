@@ -1,4 +1,67 @@
 # Reference
+<details><summary><code>client.<a href="/src/Client.ts">deleteConversationsId</a>(id) -> Phonic.DeleteConversationsIdResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a conversation, scheduling its transcripts and audio recordings for deletion. The conversation must have ended.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.deleteConversationsId("id");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` — The ID of the conversation to delete.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `PhonicClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Agents
 <details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">list</a>({ ...params }) -> Phonic.AgentsListResponse</code></summary>
 <dl>

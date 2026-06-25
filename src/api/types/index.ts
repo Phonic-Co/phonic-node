@@ -27,6 +27,7 @@ export * from "./ConversationsListResponseConversations.js";
 export * from "./ConversationsListResponseConversationsPagination.js";
 export * from "./CreateAgentRequest.js";
 export * from "./DataRetentionPolicy.js";
+export * from "./DeleteConversationsIdResponse.js";
 export * from "./DtmfPayload.js";
 export * from "./Error_.js";
 export * from "./ErrorPayload.js";
