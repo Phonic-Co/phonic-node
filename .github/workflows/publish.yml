@@ -19,7 +19,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       id-token: write
     steps:
       - name: Checkout repo
@@ -67,3 +67,10 @@ jobs:
       - name: Publish
         if: steps.check.outputs.publish == 'true'
         run: npm publish --access public
+
+      - name: Create GitHub release
+        if: steps.check.outputs.publish == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.v.outputs.version }}
+        run: gh release view "v${VERSION}" >/dev/null 2>&1 || gh release create "v${VERSION}" --title "v${VERSION}" --target "${GITHUB_SHA}" --generate-notes
