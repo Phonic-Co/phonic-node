@@ -29,6 +29,7 @@ describe("AgentsClient", () => {
                     background_noise: null,
                     generate_welcome_message: false,
                     is_welcome_message_interruptible: true,
+                    websocket_timeout_sec: 1,
                     welcome_message: "Hi {{customer_name}}. How can I help you today?",
                     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                     template_variables: {
@@ -49,6 +50,7 @@ describe("AgentsClient", () => {
                     multilingual_mode: "request",
                     push_to_talk: false,
                     boosted_keywords: ["Load ID", "dispatch"],
+                    observability_integrations: ["braintrust"],
                     pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                     min_words_to_interrupt: 1,
                     configuration_endpoint: {
@@ -101,6 +103,7 @@ describe("AgentsClient", () => {
                     background_noise: null,
                     generate_welcome_message: false,
                     is_welcome_message_interruptible: true,
+                    websocket_timeout_sec: 1,
                     welcome_message: "Hi {{customer_name}}. How can I help you today?",
                     system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                     template_variables: {
@@ -131,6 +134,7 @@ describe("AgentsClient", () => {
                     multilingual_mode: "request",
                     push_to_talk: false,
                     boosted_keywords: ["Load ID", "dispatch"],
+                    observability_integrations: ["braintrust"],
                     pronunciation_dictionary: [
                         {
                             word: "Phuket",
@@ -457,6 +461,7 @@ describe("AgentsClient", () => {
                 background_noise: null,
                 generate_welcome_message: false,
                 is_welcome_message_interruptible: true,
+                websocket_timeout_sec: 1,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: { customer_name: { default_value: "Sean" }, subject: { default_value: "Chess" } },
@@ -474,6 +479,7 @@ describe("AgentsClient", () => {
                 multilingual_mode: "request",
                 push_to_talk: false,
                 boosted_keywords: ["Load ID", "dispatch"],
+                observability_integrations: ["braintrust"],
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                 min_words_to_interrupt: 1,
                 configuration_endpoint: {
@@ -576,6 +582,7 @@ describe("AgentsClient", () => {
                 background_noise: null,
                 generate_welcome_message: false,
                 is_welcome_message_interruptible: true,
+                websocket_timeout_sec: 1,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: {
@@ -606,6 +613,7 @@ describe("AgentsClient", () => {
                 multilingual_mode: "request",
                 push_to_talk: false,
                 boosted_keywords: ["Load ID", "dispatch"],
+                observability_integrations: ["braintrust"],
                 pronunciation_dictionary: [
                     {
                         word: "Phuket",
@@ -722,6 +730,7 @@ describe("AgentsClient", () => {
                 background_noise: null,
                 generate_welcome_message: false,
                 is_welcome_message_interruptible: true,
+                websocket_timeout_sec: 1,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: { customer_name: { default_value: "Sean" }, subject: { default_value: "Chess" } },
@@ -739,6 +748,7 @@ describe("AgentsClient", () => {
                 multilingual_mode: "request",
                 push_to_talk: false,
                 boosted_keywords: ["Load ID", "dispatch"],
+                observability_integrations: ["braintrust"],
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                 min_words_to_interrupt: 1,
                 configuration_endpoint: {
@@ -791,6 +801,7 @@ describe("AgentsClient", () => {
                 background_noise: null,
                 generate_welcome_message: false,
                 is_welcome_message_interruptible: true,
+                websocket_timeout_sec: 1,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: {
@@ -821,6 +832,7 @@ describe("AgentsClient", () => {
                 multilingual_mode: "request",
                 push_to_talk: false,
                 boosted_keywords: ["Load ID", "dispatch"],
+                observability_integrations: ["braintrust"],
                 pronunciation_dictionary: [
                     {
                         word: "Phuket",
@@ -1019,6 +1031,7 @@ describe("AgentsClient", () => {
                 background_noise: null,
                 generate_welcome_message: false,
                 is_welcome_message_interruptible: true,
+                websocket_timeout_sec: 1,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: { customer_name: { default_value: "Sean" }, subject: { default_value: "Chess" } },
@@ -1033,6 +1046,7 @@ describe("AgentsClient", () => {
                 multilingual_mode: "request",
                 push_to_talk: false,
                 boosted_keywords: ["Load ID", "dispatch"],
+                observability_integrations: ["braintrust"],
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                 min_words_to_interrupt: 1,
                 configuration_endpoint: {
@@ -1135,6 +1149,7 @@ describe("AgentsClient", () => {
                 background_noise: null,
                 generate_welcome_message: false,
                 is_welcome_message_interruptible: true,
+                websocket_timeout_sec: 1,
                 welcome_message: "Hi {{customer_name}}. How can I help you today?",
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: {
@@ -1161,6 +1176,7 @@ describe("AgentsClient", () => {
                 multilingual_mode: "request",
                 push_to_talk: false,
                 boosted_keywords: ["Load ID", "dispatch"],
+                observability_integrations: ["braintrust"],
                 pronunciation_dictionary: [
                     {
                         word: "Phuket",
