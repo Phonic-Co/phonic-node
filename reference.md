@@ -2240,6 +2240,69 @@ await client.conversations.get("id");
 </dl>
 </details>
 
+<details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">delete</a>(id) -> Phonic.ConversationsDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a conversation, scheduling its transcripts and audio recordings for deletion. The conversation must have ended.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.conversations.delete("id");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` — The ID of the conversation to delete.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ConversationsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.conversations.<a href="/src/api/resources/conversations/client/Client.ts">cancel</a>(id) -> Phonic.ConversationsCancelResponse</code></summary>
 <dl>
 <dd>

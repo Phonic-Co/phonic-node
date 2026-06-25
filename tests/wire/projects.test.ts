@@ -166,32 +166,6 @@ describe("ProjectsClient", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { name: "name" };
-        const rawResponseBody = { key: "value" };
-
-        server
-            .mockEndpoint()
-            .post("/projects")
-            .jsonBody(rawRequestBody)
-            .respondWith()
-            .statusCode(409)
-            .jsonBody(rawResponseBody)
-            .build();
-
-        await expect(async () => {
-            return await client.projects.create({
-                name: "name",
-            });
-        }).rejects.toThrow(Phonic.ConflictError);
-    });
-
-    test("create (5)", async () => {
-        const server = mockServerPool.createServer();
-        const client = new PhonicClient({
-            maxRetries: 0,
-            apiKey: "test",
-            environment: { base: server.baseUrl, production: server.baseUrl },
-        });
-        const rawRequestBody = { name: "name" };
         const rawResponseBody = {};
 
         server
@@ -414,6 +388,29 @@ describe("ProjectsClient", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .delete("/projects/nameOrId")
+            .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.projects.delete("nameOrId");
+        }).rejects.toThrow(Phonic.ConflictError);
+    });
+
+    test("delete (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
         const rawResponseBody = {};
 
         server
@@ -554,30 +551,6 @@ describe("ProjectsClient", () => {
     });
 
     test("update (6)", async () => {
-        const server = mockServerPool.createServer();
-        const client = new PhonicClient({
-            maxRetries: 0,
-            apiKey: "test",
-            environment: { base: server.baseUrl, production: server.baseUrl },
-        });
-        const rawRequestBody = {};
-        const rawResponseBody = { key: "value" };
-
-        server
-            .mockEndpoint()
-            .patch("/projects/nameOrId")
-            .jsonBody(rawRequestBody)
-            .respondWith()
-            .statusCode(409)
-            .jsonBody(rawResponseBody)
-            .build();
-
-        await expect(async () => {
-            return await client.projects.update("nameOrId");
-        }).rejects.toThrow(Phonic.ConflictError);
-    });
-
-    test("update (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -871,33 +844,6 @@ describe("ProjectsClient", () => {
     });
 
     test("create_eval_prompt (6)", async () => {
-        const server = mockServerPool.createServer();
-        const client = new PhonicClient({
-            maxRetries: 0,
-            apiKey: "test",
-            environment: { base: server.baseUrl, production: server.baseUrl },
-        });
-        const rawRequestBody = { name: "name", prompt: "prompt" };
-        const rawResponseBody = { key: "value" };
-
-        server
-            .mockEndpoint()
-            .post("/projects/id/conversation_eval_prompts")
-            .jsonBody(rawRequestBody)
-            .respondWith()
-            .statusCode(409)
-            .jsonBody(rawResponseBody)
-            .build();
-
-        await expect(async () => {
-            return await client.projects.createEvalPrompt("id", {
-                name: "name",
-                prompt: "prompt",
-            });
-        }).rejects.toThrow(Phonic.ConflictError);
-    });
-
-    test("create_eval_prompt (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,

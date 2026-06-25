@@ -1,4 +1,5 @@
 export * from "./ConversationsCancelResponse.js";
+export * from "./ConversationsDeleteResponse.js";
 export * from "./ConversationsEvaluateResponse.js";
 export * from "./ConversationsExtractDataResponse.js";
 export * from "./ConversationsGetAnalysisResponse.js";
