@@ -24,6 +24,8 @@ export interface ConfigOptions {
     generate_welcome_message?: boolean | undefined;
     /** When `false`, the welcome message will not be interruptible by the user. */
     is_welcome_message_interruptible?: boolean | undefined;
+    /** Number of seconds of inactivity before the conversation WebSocket is closed. */
+    websocket_timeout_sec?: number | undefined;
     /** Message to play when conversation starts. Ignored when `generate_welcome_message` is `true`. */
     welcome_message?: (string | null) | undefined;
     /** Voice ID to use for speech synthesis */
@@ -58,6 +60,8 @@ export interface ConfigOptions {
     multilingual_mode?: ConfigOptions.MultilingualMode | undefined;
     /** Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false. */
     push_to_talk?: boolean | undefined;
+    /** When `true`, assistant audio is streamed to the client as fast as it is generated, rather than paced to real time. Defaults to false. */
+    stream_ahead_of_real_time?: boolean | undefined;
     /** Keywords to boost in speech recognition */
     boosted_keywords?: string[] | undefined;
     /** Array of `{ word, pronunciation }` entries. Words must be unique. */
@@ -70,6 +74,8 @@ export interface ConfigOptions {
     enable_redaction?: boolean | undefined;
     /** Names of pre-configured MCP servers to make available to the assistant. Names must be unique. */
     mcp_servers?: string[] | undefined;
+    /** Names of observability integrations to enable for the conversation. Each must be one of the supported providers. */
+    observability_integrations?: "braintrust"[] | undefined;
     /** Tasks the assistant should accomplish during the conversation. */
     tasks?: ConfigOptions.Tasks.Item[] | undefined;
     /** Pool of phone numbers to use as the caller ID for outbound calls. */
@@ -98,6 +104,7 @@ export namespace ConfigOptions {
     /** Audio input format */
     export const InputFormat = {
         Pcm44100: "pcm_44100",
+        Pcm24000: "pcm_24000",
         Pcm16000: "pcm_16000",
         Pcm8000: "pcm_8000",
         Mulaw8000: "mulaw_8000",
@@ -106,6 +113,7 @@ export namespace ConfigOptions {
     /** Audio output format */
     export const OutputFormat = {
         Pcm44100: "pcm_44100",
+        Pcm24000: "pcm_24000",
         Pcm16000: "pcm_16000",
         Pcm8000: "pcm_8000",
         Mulaw8000: "mulaw_8000",

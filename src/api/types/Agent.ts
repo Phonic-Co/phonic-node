@@ -29,6 +29,8 @@ export interface Agent {
     generate_welcome_message: boolean;
     /** When `false`, the welcome message will not be interruptible by the user. */
     is_welcome_message_interruptible: boolean;
+    /** Number of seconds of inactivity before the conversation WebSocket is closed. */
+    websocket_timeout_sec?: number | undefined;
     /** Message to play when the conversation starts. Ignored when `generate_welcome_message` is `true`. */
     welcome_message: string | null;
     /** Instructions for the conversation. */
@@ -59,6 +61,8 @@ export interface Agent {
     push_to_talk: boolean;
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords: string[];
+    /** Names of observability integrations enabled for the agent. Each must be one of the supported providers. */
+    observability_integrations?: "braintrust"[] | undefined;
     /** Array of `{ word, pronunciation }` entries. Words must be unique. */
     pronunciation_dictionary: Agent.PronunciationDictionary.Item[];
     /** Minimum number of words required to interrupt the assistant. */
