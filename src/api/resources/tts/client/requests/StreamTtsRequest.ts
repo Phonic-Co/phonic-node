@@ -23,6 +23,7 @@ export namespace StreamTtsRequest {
     /** The audio format to stream. */
     export const OutputFormat = {
         Pcm44100: "pcm_44100",
+        Pcm24000: "pcm_24000",
         Pcm16000: "pcm_16000",
         Pcm8000: "pcm_8000",
         Mulaw8000: "mulaw_8000",

@@ -104,6 +104,11 @@ export class ConversationsSocket {
         this.sendJson(message);
     }
 
+    public sendUpdateToolsSubset(message: Phonic.UpdateToolsSubsetPayload): void {
+        this.assertSocketIsOpen();
+        this.sendJson(message);
+    }
+
     public sendSetExternalId(message: Phonic.SetExternalIdPayload): void {
         this.assertSocketIsOpen();
         this.sendJson(message);
@@ -203,6 +208,7 @@ export class ConversationsSocket {
             | Phonic.AudioChunkPayload
             | Phonic.UpdateSystemPromptPayload
             | Phonic.AddSystemMessagePayload
+            | Phonic.UpdateToolsSubsetPayload
             | Phonic.SetExternalIdPayload
             | Phonic.ToolCallOutputPayload
             | Phonic.UnmutePayload

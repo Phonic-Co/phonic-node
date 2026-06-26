@@ -66,6 +66,7 @@ export * from "./ToolName.js";
 export * from "./ToolParameter.js";
 export * from "./UnmutePayload.js";
 export * from "./UpdateSystemPromptPayload.js";
+export * from "./UpdateToolsSubsetPayload.js";
 export * from "./UserFinishedSpeakingPayload.js";
 export * from "./UserStartedSpeakingPayload.js";
 export * from "./ValidationError.js";
