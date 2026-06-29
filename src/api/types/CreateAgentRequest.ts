@@ -32,7 +32,7 @@ export interface CreateAgentRequest {
     /** Number of seconds of inactivity before the conversation WebSocket is closed. */
     websocket_timeout_sec?: number | undefined;
     /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`. */
-    welcome_message?: string | undefined;
+    welcome_message?: (string | null) | undefined;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */
     system_prompt?: string | undefined;
     /** Variables that can be used in the welcome message and the system prompt. */
@@ -57,7 +57,7 @@ export interface CreateAgentRequest {
     data_retention_policy?: Phonic.DataRetentionPolicy | undefined;
     /** ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language. */
     default_language?: Phonic.LanguageCode | undefined;
-    /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. */
+    /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed. */
     additional_languages?: Phonic.LanguageCode[] | undefined;
     /** Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead. */
     languages?: Phonic.LanguageCode[] | undefined;
@@ -102,6 +102,7 @@ export namespace CreateAgentRequest {
     /** The audio format of the agent. */
     export const AudioFormat = {
         Pcm44100: "pcm_44100",
+        Pcm24000: "pcm_24000",
         Pcm16000: "pcm_16000",
         Pcm8000: "pcm_8000",
         Mulaw8000: "mulaw_8000",

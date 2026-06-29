@@ -54,6 +54,4 @@ export interface UpsertAgentRequest extends Phonic.CreateAgentRequest {
     outbound_number_pool?: Phonic.OutboundNumberPool | null;
     /** Array of procedure IDs associated with the agent. */
     procedure_ids?: string[];
-    /** Array of third-party integrations enabled for the agent. */
-    integrations?: Phonic.AgentIntegration[];
 }

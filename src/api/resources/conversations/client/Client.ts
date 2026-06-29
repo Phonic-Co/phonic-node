@@ -864,6 +864,7 @@ export class ConversationsClient {
      * @throws {@link Phonic.UnprocessableEntityError}
      * @throws {@link Phonic.TooManyRequestsError}
      * @throws {@link Phonic.InternalServerError}
+     * @throws {@link Phonic.ServiceUnavailableError}
      *
      * @example
      *     await client.conversations.replay("id", {
@@ -939,6 +940,11 @@ export class ConversationsClient {
                     );
                 case 500:
                     throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 503:
+                    throw new Phonic.ServiceUnavailableError(
                         _response.error.body as Phonic.BasicError,
                         _response.rawResponse,
                     );

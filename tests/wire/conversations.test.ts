@@ -57,6 +57,7 @@ describe("ConversationsClient", () => {
                     no_input_poke_sec: 30,
                     no_input_poke_text: "Are you still there?",
                     no_input_end_conversation_sec: 180,
+                    websocket_timeout_sec: 1.1,
                     vad_prebuffer_duration_ms: 500,
                     vad_min_speech_duration_ms: 50,
                     vad_min_silence_duration_ms: 800,
@@ -101,7 +102,7 @@ describe("ConversationsClient", () => {
                         },
                     ],
                     call_info: { from_phone_number: "+15551234567", to_phone_number: "+15559876543" },
-                    analysis: { latencies_ms: [1064, 578, 797], interruptions_count: 0 },
+                    analysis: { id: "id", latencies_ms: [1064, 578, 797], interruptions_count: 0 },
                     is_redacted: true,
                     redacted_transcript: "redacted_transcript",
                     metadata: { key: "value" },
@@ -172,6 +173,7 @@ describe("ConversationsClient", () => {
                     no_input_poke_sec: 30,
                     no_input_poke_text: "Are you still there?",
                     no_input_end_conversation_sec: 180,
+                    websocket_timeout_sec: 1.1,
                     vad_prebuffer_duration_ms: 500,
                     vad_min_speech_duration_ms: 50,
                     vad_min_silence_duration_ms: 800,
@@ -233,6 +235,7 @@ describe("ConversationsClient", () => {
                         to_phone_number: "+15559876543",
                     },
                     analysis: {
+                        id: "id",
                         latencies_ms: [1064, 578, 797],
                         interruptions_count: 0,
                     },
@@ -305,6 +308,7 @@ describe("ConversationsClient", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
+                websocket_timeout_sec: 1.1,
                 vad_prebuffer_duration_ms: 500,
                 vad_min_speech_duration_ms: 50,
                 vad_min_silence_duration_ms: 800,
@@ -349,7 +353,7 @@ describe("ConversationsClient", () => {
                     },
                 ],
                 call_info: null,
-                analysis: { latencies_ms: [2024, 641], interruptions_count: 0 },
+                analysis: { id: "id", latencies_ms: [2024, 641], interruptions_count: 0 },
                 is_redacted: true,
                 redacted_transcript: "redacted_transcript",
                 metadata: { key: "value" },
@@ -419,6 +423,7 @@ describe("ConversationsClient", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
+                websocket_timeout_sec: 1.1,
                 vad_prebuffer_duration_ms: 500,
                 vad_min_speech_duration_ms: 50,
                 vad_min_silence_duration_ms: 800,
@@ -477,6 +482,7 @@ describe("ConversationsClient", () => {
                 ],
                 call_info: null,
                 analysis: {
+                    id: "id",
                     latencies_ms: [2024, 641],
                     interruptions_count: 0,
                 },
@@ -629,6 +635,7 @@ describe("ConversationsClient", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
+                websocket_timeout_sec: 1.1,
                 vad_prebuffer_duration_ms: 500,
                 vad_min_speech_duration_ms: 50,
                 vad_min_silence_duration_ms: 800,
@@ -677,7 +684,7 @@ describe("ConversationsClient", () => {
                     to_phone_number: "+15559876543",
                     twilio_call_sid: "twilio_call_sid",
                 },
-                analysis: { latencies_ms: [1064, 578, 797], interruptions_count: 0 },
+                analysis: { id: "id", latencies_ms: [1064, 578, 797], interruptions_count: 0 },
                 is_redacted: true,
                 redacted_transcript: "redacted_transcript",
                 metadata: { key: "value" },
@@ -747,6 +754,7 @@ describe("ConversationsClient", () => {
                 no_input_poke_sec: 30,
                 no_input_poke_text: "Are you still there?",
                 no_input_end_conversation_sec: 180,
+                websocket_timeout_sec: 1.1,
                 vad_prebuffer_duration_ms: 500,
                 vad_min_speech_duration_ms: 50,
                 vad_min_silence_duration_ms: 800,
@@ -809,6 +817,7 @@ describe("ConversationsClient", () => {
                     twilio_call_sid: "twilio_call_sid",
                 },
                 analysis: {
+                    id: "id",
                     latencies_ms: [1064, 578, 797],
                     interruptions_count: 0,
                 },
@@ -1207,7 +1216,7 @@ describe("ConversationsClient", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
-        const rawResponseBody = { analysis: { latencies_ms: [456, 654, 564], interruptions_count: 2 } };
+        const rawResponseBody = { analysis: { id: "id", latencies_ms: [456, 654, 564], interruptions_count: 2 } };
 
         server
             .mockEndpoint()
@@ -1220,6 +1229,7 @@ describe("ConversationsClient", () => {
         const response = await client.conversations.getAnalysis("id");
         expect(response).toEqual({
             analysis: {
+                id: "id",
                 latencies_ms: [456, 654, 564],
                 interruptions_count: 2,
             },
@@ -2584,5 +2594,29 @@ describe("ConversationsClient", () => {
         await expect(async () => {
             return await client.conversations.replay("id");
         }).rejects.toThrow(Phonic.InternalServerError);
+    });
+
+    test("replay (10)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
+        const rawResponseBody = {};
+
+        server
+            .mockEndpoint()
+            .post("/conversations/id/replay")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(503)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.replay("id");
+        }).rejects.toThrow(Phonic.ServiceUnavailableError);
     });
 });

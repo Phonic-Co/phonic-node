@@ -50,6 +50,7 @@ export type ConversationAnalysisWebhookPayload = {
     created_at: ISODateTime;
     data: {
         conversation: {
+            id: string;
             latencies_ms: number[];
             interruptions_count: number;
         };

@@ -51,7 +51,7 @@ export interface Agent {
     no_input_end_conversation_sec: number;
     /** ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language. */
     default_language: Phonic.LanguageCode;
-    /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. */
+    /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed. */
     additional_languages: Phonic.LanguageCode[];
     /** Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead. */
     languages?: Phonic.LanguageCode[] | undefined;
@@ -106,6 +106,7 @@ export namespace Agent {
     /** The audio format of the agent. If the agent has a phone number, the audio format will be `mulaw_8000`. */
     export const AudioFormat = {
         Pcm44100: "pcm_44100",
+        Pcm24000: "pcm_24000",
         Pcm16000: "pcm_16000",
         Pcm8000: "pcm_8000",
         Mulaw8000: "mulaw_8000",
