@@ -79,7 +79,7 @@ export interface AgentsCreateRequest {
     /** Number of seconds of inactivity before the conversation WebSocket is closed. */
     websocket_timeout_sec?: number;
     /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`. */
-    welcome_message?: string;
+    welcome_message?: string | null;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */
     system_prompt?: string;
     /** Variables that can be used in the welcome message and the system prompt. */
@@ -104,7 +104,7 @@ export interface AgentsCreateRequest {
     data_retention_policy?: Phonic.DataRetentionPolicy;
     /** ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language. */
     default_language?: Phonic.LanguageCode;
-    /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. */
+    /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed. */
     additional_languages?: Phonic.LanguageCode[];
     /** Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead. */
     languages?: Phonic.LanguageCode[];

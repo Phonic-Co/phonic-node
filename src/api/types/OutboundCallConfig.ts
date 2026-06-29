@@ -32,7 +32,7 @@ export interface OutboundCallConfig {
     no_input_end_conversation_sec?: number | undefined;
     /** ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language. */
     default_language?: Phonic.LanguageCode | undefined;
-    /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. */
+    /** Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed. */
     additional_languages?: Phonic.LanguageCode[] | undefined;
     /** Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead. */
     languages?: Phonic.LanguageCode[] | undefined;

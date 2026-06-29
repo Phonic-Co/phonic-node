@@ -41,6 +41,8 @@ export namespace ConversationItem {
             /** The tool call ID. */
             id: string;
             tool: Item.Tool;
+            /** The integration associated with the tool, if any. */
+            integration?: (string | null) | undefined;
             /** HTTP method for webhook tool calls. */
             endpoint_method?: (string | null) | undefined;
             /** URL for webhook tool calls. */
