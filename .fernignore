@@ -11,3 +11,6 @@ src/api/resources/conversations/client/Client.ts
 .fern/replay.yml
 .gitattributes
 .github/workflows/publish.yml
+.github/workflows/integration.yml
+jest.integration.config.mjs
+tests-integration
