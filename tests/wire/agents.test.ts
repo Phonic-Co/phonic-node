@@ -49,6 +49,7 @@ describe("AgentsClient", () => {
                     additional_languages: ["es"],
                     multilingual_mode: "request",
                     push_to_talk: false,
+                    intelligence_level: "standard",
                     boosted_keywords: ["Load ID", "dispatch"],
                     observability_integrations: ["braintrust"],
                     pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
@@ -133,6 +134,7 @@ describe("AgentsClient", () => {
                     additional_languages: ["es"],
                     multilingual_mode: "request",
                     push_to_talk: false,
+                    intelligence_level: "standard",
                     boosted_keywords: ["Load ID", "dispatch"],
                     observability_integrations: ["braintrust"],
                     pronunciation_dictionary: [
@@ -478,6 +480,7 @@ describe("AgentsClient", () => {
                 additional_languages: ["es"],
                 multilingual_mode: "request",
                 push_to_talk: false,
+                intelligence_level: "standard",
                 boosted_keywords: ["Load ID", "dispatch"],
                 observability_integrations: ["braintrust"],
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
@@ -612,6 +615,7 @@ describe("AgentsClient", () => {
                 additional_languages: ["es"],
                 multilingual_mode: "request",
                 push_to_talk: false,
+                intelligence_level: "standard",
                 boosted_keywords: ["Load ID", "dispatch"],
                 observability_integrations: ["braintrust"],
                 pronunciation_dictionary: [
@@ -747,6 +751,7 @@ describe("AgentsClient", () => {
                 additional_languages: ["es"],
                 multilingual_mode: "request",
                 push_to_talk: false,
+                intelligence_level: "standard",
                 boosted_keywords: ["Load ID", "dispatch"],
                 observability_integrations: ["braintrust"],
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
@@ -831,6 +836,7 @@ describe("AgentsClient", () => {
                 additional_languages: ["es"],
                 multilingual_mode: "request",
                 push_to_talk: false,
+                intelligence_level: "standard",
                 boosted_keywords: ["Load ID", "dispatch"],
                 observability_integrations: ["braintrust"],
                 pronunciation_dictionary: [
@@ -1045,6 +1051,7 @@ describe("AgentsClient", () => {
                 additional_languages: ["es"],
                 multilingual_mode: "request",
                 push_to_talk: false,
+                intelligence_level: "standard",
                 boosted_keywords: ["Load ID", "dispatch"],
                 observability_integrations: ["braintrust"],
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
@@ -1175,6 +1182,7 @@ describe("AgentsClient", () => {
                 additional_languages: ["es"],
                 multilingual_mode: "request",
                 push_to_talk: false,
+                intelligence_level: "standard",
                 boosted_keywords: ["Load ID", "dispatch"],
                 observability_integrations: ["braintrust"],
                 pronunciation_dictionary: [

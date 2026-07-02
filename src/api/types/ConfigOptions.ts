@@ -62,6 +62,8 @@ export interface ConfigOptions {
     push_to_talk?: boolean | undefined;
     /** When `true`, assistant audio is streamed to the client as fast as it is generated, rather than paced to real time. Defaults to false. */
     stream_ahead_of_real_time?: boolean | undefined;
+    /** The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency. */
+    intelligence_level?: ConfigOptions.IntelligenceLevel | undefined;
     /** Keywords to boost in speech recognition */
     boosted_keywords?: string[] | undefined;
     /** Array of `{ word, pronunciation }` entries. Words must be unique. */
@@ -126,6 +128,12 @@ export namespace ConfigOptions {
         Initial: "initial",
     } as const;
     export type MultilingualMode = (typeof MultilingualMode)[keyof typeof MultilingualMode];
+    /** The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency. */
+    export const IntelligenceLevel = {
+        Standard: "standard",
+        High: "high",
+    } as const;
+    export type IntelligenceLevel = (typeof IntelligenceLevel)[keyof typeof IntelligenceLevel];
     export type PronunciationDictionary = PronunciationDictionary.Item[];
 
     export namespace PronunciationDictionary {

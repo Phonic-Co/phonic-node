@@ -85,6 +85,7 @@ import type * as Phonic from "../../../../index.js";
  *         execution_mode: "sync",
  *         phone_number: "+15551234567",
  *         dtmf: "1234",
+ *         dynamic_dtmf: false,
  *         use_agent_phone_number: true,
  *         detect_voicemail: false,
  *         require_speech_before_tool_call: false
@@ -131,8 +132,10 @@ export interface CreateToolRequest {
     tool_call_output_timeout_ms?: number;
     /** The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number. */
     phone_number?: string | null;
-    /** DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. */
+    /** DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. Ignored when dynamic_dtmf is true. */
     dtmf?: string | null;
+    /** When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer). */
+    dynamic_dtmf?: boolean;
     /** When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools. */
     use_agent_phone_number?: boolean;
     /** When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true. */
