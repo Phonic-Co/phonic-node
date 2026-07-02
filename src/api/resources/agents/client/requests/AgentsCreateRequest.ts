@@ -112,6 +112,8 @@ export interface AgentsCreateRequest {
     multilingual_mode?: Phonic.CreateAgentRequest.MultilingualMode;
     /** Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false. */
     push_to_talk?: boolean;
+    /** The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency. */
+    intelligence_level?: Phonic.CreateAgentRequest.IntelligenceLevel;
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[];
     /** Array of `{ word, pronunciation }` entries. Words must be unique. */

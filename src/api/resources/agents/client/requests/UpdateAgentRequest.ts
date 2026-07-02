@@ -118,6 +118,8 @@ export interface UpdateAgentRequest {
     multilingual_mode?: UpdateAgentRequest.MultilingualMode;
     /** Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false. */
     push_to_talk?: boolean;
+    /** The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency. */
+    intelligence_level?: UpdateAgentRequest.IntelligenceLevel;
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[];
     /** Array of `{ word, pronunciation }` entries. Words must be unique. */
@@ -194,6 +196,12 @@ export namespace UpdateAgentRequest {
         Initial: "initial",
     } as const;
     export type MultilingualMode = (typeof MultilingualMode)[keyof typeof MultilingualMode];
+    /** The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency. */
+    export const IntelligenceLevel = {
+        Standard: "standard",
+        High: "high",
+    } as const;
+    export type IntelligenceLevel = (typeof IntelligenceLevel)[keyof typeof IntelligenceLevel];
     export type PronunciationDictionary = PronunciationDictionary.Item[];
 
     export namespace PronunciationDictionary {
