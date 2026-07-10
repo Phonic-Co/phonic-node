@@ -31,10 +31,10 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 26
           registry-url: https://registry.npmjs.org
 
-      # OIDC trusted publishing requires npm >= 11.5.1; node 20 ships npm 10.
+      # OIDC trusted publishing requires npm >= 11.5.1.
       - name: Upgrade npm
         run: npm install -g npm@latest
 
