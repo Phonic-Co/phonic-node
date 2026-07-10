@@ -72,6 +72,8 @@ export interface OutboundCallConfig {
     assistant_backchannel_aggressiveness?: number | undefined;
     /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options. */
     configuration_endpoint?: (OutboundCallConfig.ConfigurationEndpoint | null) | undefined;
+    /** Additional runtime parameters. */
+    additional_params?: Record<string, unknown> | undefined;
     /** Controls how long transcripts and audio recordings are retained before deletion. */
     data_retention_policy?: Phonic.DataRetentionPolicy | undefined;
 }
