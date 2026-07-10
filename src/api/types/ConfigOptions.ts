@@ -88,6 +88,8 @@ export interface ConfigOptions {
     assistant_backchannel_aggressiveness?: number | undefined;
     /** When not `null`, the agent will call this endpoint to get configuration options for the conversation. */
     configuration_endpoint?: (ConfigOptions.ConfigurationEndpoint | null) | undefined;
+    /** Additional runtime parameters. */
+    additional_params?: Record<string, unknown> | undefined;
     /**
      * Policy controlling how long transcripts and audio recordings are retained before being deleted.
      * When `zero_data_retention` is `true`, nothing is retained and `transcripts`/`audio_recordings` are omitted.
