@@ -144,7 +144,7 @@ export class ReconnectableConversationsSocket {
     }
 
     /**
-     * Not supported — reconnection after 1006 is handled automatically.
+     * Not supported — reconnection after a dropped connection is handled automatically.
      * To start a new conversation, create a new socket via client.conversations.connect().
      */
     public connect(): never {
