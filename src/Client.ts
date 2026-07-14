@@ -19,9 +19,9 @@ import * as environments from "./environments.js";
 export declare namespace PhonicClient {
     export type Options = BaseClientOptions & {
         /**
-         * When `true`, conversation WebSockets automatically reconnect and resume
-         * after a non-deliberate disconnect (WebSocket close codes 1006, 1012, or
-         * 1001/"restarting") using `reconnect_conv_id`.
+         * **Experimental.** When `true`, conversation WebSockets automatically
+         * reconnect and resume after a non-deliberate disconnect (WebSocket close
+         * codes 1006, 1012, or 1001/"restarting") using `reconnect_conv_id`.
          * Defaults to `false` until the behavior is broadly validated in production;
          * set to `true` to opt in early.
          */
