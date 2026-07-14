@@ -97,6 +97,45 @@ describe("ReconnectableConversationsSocket", () => {
         expect(createReconnectSocket).toHaveBeenCalledWith("conv_123");
     });
 
+    it("creates a new socket on 1012 (fly proxy redeploy) when conversation_id is captured", () => {
+        const { mockSocket, createReconnectSocket } = createSocket();
+
+        mockSocket._fire("message", {
+            data: JSON.stringify({ type: "conversation_created", conversation_id: "conv_123" }),
+        });
+
+        mockSocket._fire("close", { code: 1012, reason: "restarting" });
+        jest.advanceTimersByTime(1000);
+
+        expect(createReconnectSocket).toHaveBeenCalledWith("conv_123");
+    });
+
+    it("creates a new socket on 1001 when reason is restarting", () => {
+        const { mockSocket, createReconnectSocket } = createSocket();
+
+        mockSocket._fire("message", {
+            data: JSON.stringify({ type: "conversation_created", conversation_id: "conv_123" }),
+        });
+
+        mockSocket._fire("close", { code: 1001, reason: "restarting" });
+        jest.advanceTimersByTime(1000);
+
+        expect(createReconnectSocket).toHaveBeenCalledWith("conv_123");
+    });
+
+    it("does NOT create a new socket on a bare 1001 (going away — user closed/ended)", () => {
+        const { mockSocket, createReconnectSocket } = createSocket();
+
+        mockSocket._fire("message", {
+            data: JSON.stringify({ type: "conversation_created", conversation_id: "conv_123" }),
+        });
+
+        mockSocket._fire("close", { code: 1001, reason: "" });
+        jest.advanceTimersByTime(10000);
+
+        expect(createReconnectSocket).not.toHaveBeenCalled();
+    });
+
     it("cancels RWS auto-reconnect on 1006 by calling close()", () => {
         const { mockSocket } = createSocket();
 
@@ -119,8 +158,8 @@ describe("ReconnectableConversationsSocket", () => {
         expect(createReconnectSocket).not.toHaveBeenCalled();
     });
 
-    it.each([1000, 4000, 4303])(
-        "does NOT create a new socket on non-1006 close code %i",
+    it.each([1000, 1001, 4000, 4303])(
+        "does NOT create a new socket on non-reconnectable close code %i",
         (code) => {
             const { mockSocket, createReconnectSocket } = createSocket();
 
