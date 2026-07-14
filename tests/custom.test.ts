@@ -97,7 +97,7 @@ describe("ReconnectableConversationsSocket", () => {
         expect(createReconnectSocket).toHaveBeenCalledWith("conv_123");
     });
 
-    it("creates a new socket on 1012 (fly proxy redeploy) when conversation_id is captured", () => {
+    it("creates a new socket on 1012 (service restart) when conversation_id is captured", () => {
         const { mockSocket, createReconnectSocket } = createSocket();
 
         mockSocket._fire("message", {
@@ -158,8 +158,23 @@ describe("ReconnectableConversationsSocket", () => {
         expect(createReconnectSocket).not.toHaveBeenCalled();
     });
 
-    it.each([1000, 1001, 4000, 4303])(
-        "does NOT create a new socket on non-reconnectable close code %i",
+    // Real close codes observed in production (BetterStack) — every code the
+    // backend actually emits, except the reconnectable ones (1006/1012/
+    // 1001-"restarting"), must NOT trigger a reconnect.
+    it.each<[number, string]>([
+        [1000, "normal closure"],
+        [1001, "going away — bare (user/caller ended)"],
+        [1005, "no status received"],
+        [1011, "server internal error"],
+        [4000, "downstream websocket closed"],
+        [4004, "insufficient capacity"],
+        [4010, "concurrency limit reached"],
+        [4200, "end conversation clicked"],
+        [4500, "no input received timeout"],
+        [4600, "assistant ended conversation"],
+        [4700, "component unmounted"],
+    ])(
+        "does NOT create a new socket on non-reconnectable close code %i (%s)",
         (code) => {
             const { mockSocket, createReconnectSocket } = createSocket();
 

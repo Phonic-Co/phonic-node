@@ -10,14 +10,14 @@ const GOING_AWAY = 1001;
 /** Whether a close means the disconnect was NOT a deliberate end of the
  *  conversation, so the SDK should transparently reconnect and resume it:
  *   - 1006 abnormal closure (socket died with no close frame)
- *   - 1012 service restart — a Fly proxy redeploy closes the client with
- *     1012/"restarting"; the conversation is still alive server-side within
- *     the grace window
+ *   - 1012 service restart — an edge proxy/load-balancer restart closes the
+ *     client with 1012/"restarting"; the conversation is still alive
+ *     server-side within the grace window
  *   - 1001 "going away" ONLY when the reason is "restarting" — a proxy drain
  *     can surface to the client as 1001/"restarting" instead of 1012. A bare
  *     1001 (empty/other reason) is a deliberate close (the caller ended the
  *     conversation, tab closed/suspended) and must NOT reconnect.
- *  Mirrors phonic-api's isReconnectableClose. All other codes (1000, 4000,
+ *  Matches the server's reconnect policy. All other codes (1000, 4000,
  *  4800, ...) are intentional closes. */
 const isReconnectableClose = (code: number, reason: string): boolean =>
     code === ABNORMAL_CLOSURE || code === SERVICE_RESTART || (code === GOING_AWAY && reason === "restarting");
