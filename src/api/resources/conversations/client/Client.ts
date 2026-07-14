@@ -14,9 +14,9 @@ import { ConversationsSocket } from "./Socket.js";
 export declare namespace ConversationsClient {
     export type Options = BaseClientOptions & {
         /**
-         * When `true`, `connect()` uses session-aware reconnection on abnormal
-         * disconnect (1006). Set via `PhonicClient` options as
-         * `reconnectConversationOnAbnormalDisconnect`.
+         * **Experimental.** When `true`, `connect()` uses session-aware reconnection
+         * on a non-deliberate disconnect (close codes 1006, 1012, or 1001/"restarting").
+         * Set via `PhonicClient` options as `reconnectConversationOnAbnormalDisconnect`.
          */
         reconnectConversationOnAbnormalDisconnect?: boolean;
     };

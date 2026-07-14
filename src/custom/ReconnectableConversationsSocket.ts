@@ -3,20 +3,34 @@ import type * as Phonic from "../api/index.js";
 import { ConversationsSocket } from "../api/resources/conversations/client/Socket.js";
 import { fromJson } from "../core/json.js";
 
-/** 1006 is the only close code that indicates an unexpected disconnect
- *  worth reconnecting for. All other codes (1000, 4000, 4800, etc.)
- *  are intentional server-side closes. */
 const ABNORMAL_CLOSURE = 1006;
+const SERVICE_RESTART = 1012;
+const GOING_AWAY = 1001;
+
+/** Whether a close means the disconnect was NOT a deliberate end of the
+ *  conversation, so the SDK should transparently reconnect and resume it:
+ *   - 1006 abnormal closure (socket died with no close frame)
+ *   - 1012 service restart — an edge proxy/load-balancer restart closes the
+ *     client with 1012/"restarting"; the conversation is still alive
+ *     server-side within the grace window
+ *   - 1001 "going away" ONLY when the reason is "restarting" — a proxy drain
+ *     can surface to the client as 1001/"restarting" instead of 1012. A bare
+ *     1001 (empty/other reason) is a deliberate close (the caller ended the
+ *     conversation, tab closed/suspended) and must NOT reconnect.
+ *  Matches the server's reconnect policy. All other codes (1000, 4000,
+ *  4800, ...) are intentional closes. */
+const isReconnectableClose = (code: number, reason: string): boolean =>
+    code === ABNORMAL_CLOSURE || code === SERVICE_RESTART || (code === GOING_AWAY && reason === "restarting");
 
 const BASE_RECONNECT_DELAY_MS = 500;
 const MAX_RECONNECT_DELAY_MS = 5000;
 /** Safety cap: stop retrying if the server is completely unreachable.
  *  In normal operation the server's terminal codes (4800/4801) stop
- *  retries much sooner (within the 10s grace period). */
+ *  retries much sooner (within the 30s grace period). */
 const MAX_RECONNECT_ATTEMPTS = 10;
 
 export interface ReconnectableConversationsSocketArgs {
-    /** Called on 1006 to create a new socket with reconnect_conv_id. May be async (e.g. fresh auth). */
+    /** Called on a reconnectable close to create a new socket with reconnect_conv_id. May be async (e.g. fresh auth). */
     createReconnectSocket: (conversationId: string) => core.ReconnectingWebSocket | Promise<core.ReconnectingWebSocket>;
     /** Initial socket for the first connection. */
     socket: core.ReconnectingWebSocket;
@@ -32,9 +46,10 @@ type EventHandlers = {
 };
 
 /**
- * Wraps ConversationsSocket with automatic reconnection on 1006.
+ * Wraps ConversationsSocket with automatic reconnection on a reconnectable
+ * close (1006, 1012, or 1001/"restarting" — see isReconnectableClose).
  *
- * On abnormal closure, creates a brand new ReconnectingWebSocket (via the
+ * On such a close, creates a brand new ReconnectingWebSocket (via the
  * createReconnectSocket factory) and wraps it in a fresh ConversationsSocket,
  * forwarding all events to user-registered handlers.
  *
@@ -129,13 +144,13 @@ export class ReconnectableConversationsSocket {
     }
 
     /**
-     * Not supported — reconnection after 1006 is handled automatically.
+     * Not supported — reconnection after a dropped connection is handled automatically.
      * To start a new conversation, create a new socket via client.conversations.connect().
      */
     public connect(): never {
         throw new Error(
             "connect() is not supported on ReconnectableConversationsSocket. "
-            + "Reconnection after 1006 is automatic. To start a new conversation, "
+            + "Reconnection after an abnormal close is automatic. To start a new conversation, "
             + "call client.conversations.connect() again."
         );
     }
@@ -216,7 +231,7 @@ export class ReconnectableConversationsSocket {
         } catch {
             this._pendingReplacement = false;
             // Connection failed — schedule another attempt.
-            // The server's grace period (10s) is the natural limit;
+            // The server's grace period (30s) is the natural limit;
             // once it expires, the next attempt will get 4800 and stop.
             this._scheduleReconnect();
         }
@@ -257,7 +272,7 @@ export class ReconnectableConversationsSocket {
                 return;
             }
 
-            if (event.code === ABNORMAL_CLOSURE && this._conversationId !== null) {
+            if (isReconnectableClose(event.code, event.reason) && this._conversationId !== null) {
                 // We have a conversation to resume — cancel RWS's built-in
                 // auto-reconnect and handle it ourselves with reconnect_conv_id.
                 // _handleClose calls _connect() before notifying listeners,
@@ -267,8 +282,8 @@ export class ReconnectableConversationsSocket {
                 rawSocket.close();
                 this._scheduleReconnect();
             }
-            // 1006 without conversationId: let RWS handle transport-level
-            // reconnect normally (starts a fresh conversation).
+            // Reconnectable close without conversationId: let RWS handle
+            // transport-level reconnect normally (starts a fresh conversation).
         };
 
         rawSocket.addEventListener("message", onMessage);
