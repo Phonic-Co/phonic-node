@@ -12,5 +12,346 @@ generations:
     cli_version: unknown
     generator_versions:
       fernapi/fern-typescript-sdk: 3.59.11
-current_generation: 36bb1237b74443f66d71980ff4a5f5593724ca8c
-patches: []
+  - commit_sha: a2cda7d53e55d58801ffc366b2aaa8dd8ec7b41c
+    tree_hash: 17fd8ea7f7e709af77f2cb736f71773a6b2f3912
+    timestamp: 2026-07-22T04:34:22.563Z
+    cli_version: unknown
+    generator_versions:
+      fernapi/fern-typescript-sdk: 3.59.11
+current_generation: a2cda7d53e55d58801ffc366b2aaa8dd8ec7b41c
+patches:
+  - id: patch-2cea08b9
+    content_hash: sha256:759636a94f96bd82761d753460c44e2cc13fa15e2fa34b8e47e25a8d8be9236b
+    original_commit: 2cea08b9873158265af0250bd620c2f99aee678e
+    original_message: Reconnect on 1012 / 1001-restarting, not just 1006 (PHO-2278) (#209)
+    original_author: elizabeth-phonic <elizabeth@phonic.co>
+    base_generation: 2bb8e1d7a8d4818f25cc12d668567c5e9a8bcdf2
+    files:
+      - package.json
+      - src/BaseClient.ts
+      - src/version.ts
+    patch_content: |
+      diff --git a/package.json b/package.json
+      index 3186599..2376343 100644
+      --- a/package.json
+      +++ b/package.json
+      @@ -1,6 +1,6 @@
+       {
+           "name": "phonic",
+      -    "version": "0.32.9",
+      +    "version": "0.32.10",
+           "private": false,
+           "repository": {
+               "type": "git",
+      diff --git a/src/BaseClient.ts b/src/BaseClient.ts
+      index 3af0b77..f08a91e 100644
+      --- a/src/BaseClient.ts
+      +++ b/src/BaseClient.ts
+      @@ -52,8 +52,8 @@ export function normalizeClientOptions<T extends BaseClientOptions = BaseClientO
+               {
+                   "X-Fern-Language": "JavaScript",
+                   "X-Fern-SDK-Name": "phonic",
+      -            "X-Fern-SDK-Version": "0.32.9",
+      -            "User-Agent": "phonic/0.32.9",
+      +            "X-Fern-SDK-Version": "0.32.10",
+      +            "User-Agent": "phonic/0.32.10",
+                   "X-Fern-Runtime": core.RUNTIME.type,
+                   "X-Fern-Runtime-Version": core.RUNTIME.version,
+               },
+      diff --git a/src/version.ts b/src/version.ts
+      index 03b9a6c..4ebad90 100644
+      --- a/src/version.ts
+      +++ b/src/version.ts
+      @@ -1 +1 @@
+      -export const SDK_VERSION = "0.32.9";
+      +export const SDK_VERSION = "0.32.10";
+    theirs_snapshot:
+      package.json: |
+        {
+            "name": "phonic",
+            "version": "0.32.10",
+            "private": false,
+            "repository": {
+                "type": "git",
+                "url": "git+https://github.com/Phonic-Co/phonic-node.git"
+            },
+            "license": "MIT",
+            "type": "commonjs",
+            "main": "./dist/cjs/index.js",
+            "module": "./dist/esm/index.mjs",
+            "types": "./dist/cjs/index.d.ts",
+            "exports": {
+                ".": {
+                    "import": {
+                        "types": "./dist/esm/index.d.mts",
+                        "default": "./dist/esm/index.mjs"
+                    },
+                    "require": {
+                        "types": "./dist/cjs/index.d.ts",
+                        "default": "./dist/cjs/index.js"
+                    },
+                    "default": "./dist/cjs/index.js"
+                },
+                "./agents": {
+                    "import": {
+                        "types": "./dist/esm/api/resources/agents/exports.d.mts",
+                        "default": "./dist/esm/api/resources/agents/exports.mjs"
+                    },
+                    "require": {
+                        "types": "./dist/cjs/api/resources/agents/exports.d.ts",
+                        "default": "./dist/cjs/api/resources/agents/exports.js"
+                    },
+                    "default": "./dist/cjs/api/resources/agents/exports.js"
+                },
+                "./tools": {
+                    "import": {
+                        "types": "./dist/esm/api/resources/tools/exports.d.mts",
+                        "default": "./dist/esm/api/resources/tools/exports.mjs"
+                    },
+                    "require": {
+                        "types": "./dist/cjs/api/resources/tools/exports.d.ts",
+                        "default": "./dist/cjs/api/resources/tools/exports.js"
+                    },
+                    "default": "./dist/cjs/api/resources/tools/exports.js"
+                },
+                "./extractionSchemas": {
+                    "import": {
+                        "types": "./dist/esm/api/resources/extractionSchemas/exports.d.mts",
+                        "default": "./dist/esm/api/resources/extractionSchemas/exports.mjs"
+                    },
+                    "require": {
+                        "types": "./dist/cjs/api/resources/extractionSchemas/exports.d.ts",
+                        "default": "./dist/cjs/api/resources/extractionSchemas/exports.js"
+                    },
+                    "default": "./dist/cjs/api/resources/extractionSchemas/exports.js"
+                },
+                "./voices": {
+                    "import": {
+                        "types": "./dist/esm/api/resources/voices/exports.d.mts",
+                        "default": "./dist/esm/api/resources/voices/exports.mjs"
+                    },
+                    "require": {
+                        "types": "./dist/cjs/api/resources/voices/exports.d.ts",
+                        "default": "./dist/cjs/api/resources/voices/exports.js"
+                    },
+                    "default": "./dist/cjs/api/resources/voices/exports.js"
+                },
+                "./workspace": {
+                    "import": {
+                        "types": "./dist/esm/api/resources/workspace/exports.d.mts",
+                        "default": "./dist/esm/api/resources/workspace/exports.mjs"
+                    },
+                    "require": {
+                        "types": "./dist/cjs/api/resources/workspace/exports.d.ts",
+                        "default": "./dist/cjs/api/resources/workspace/exports.js"
+                    },
+                    "default": "./dist/cjs/api/resources/workspace/exports.js"
+                },
+                "./apiKeys": {
+                    "import": {
+                        "types": "./dist/esm/api/resources/apiKeys/exports.d.mts",
+                        "default": "./dist/esm/api/resources/apiKeys/exports.mjs"
+                    },
+                    "require": {
+                        "types": "./dist/cjs/api/resources/apiKeys/exports.d.ts",
+                        "default": "./dist/cjs/api/resources/apiKeys/exports.js"
+                    },
+                    "default": "./dist/cjs/api/resources/apiKeys/exports.js"
+                },
+                "./conversationItems": {
+                    "import": {
+                        "types": "./dist/esm/api/resources/conversationItems/exports.d.mts",
+                        "default": "./dist/esm/api/resources/conversationItems/exports.mjs"
+                    },
+                    "require": {
+                        "types": "./dist/cjs/api/resources/conversationItems/exports.d.ts",
+                        "default": "./dist/cjs/api/resources/conversationItems/exports.js"
+                    },
+                    "default": "./dist/cjs/api/resources/conversationItems/exports.js"
+                },
+                "./conversations": {
+                    "import": {
+                        "types": "./dist/esm/api/resources/conversations/exports.d.mts",
+                        "default": "./dist/esm/api/resources/conversations/exports.mjs"
+                    },
+                    "require": {
+                        "types": "./dist/cjs/api/resources/conversations/exports.d.ts",
+                        "default": "./dist/cjs/api/resources/conversations/exports.js"
+                    },
+                    "default": "./dist/cjs/api/resources/conversations/exports.js"
+                },
+                "./auth": {
+                    "import": {
+                        "types": "./dist/esm/api/resources/auth/exports.d.mts",
+                        "default": "./dist/esm/api/resources/auth/exports.mjs"
+                    },
+                    "require": {
+                        "types": "./dist/cjs/api/resources/auth/exports.d.ts",
+                        "default": "./dist/cjs/api/resources/auth/exports.js"
+                    },
+                    "default": "./dist/cjs/api/resources/auth/exports.js"
+                },
+                "./tts": {
+                    "import": {
+                        "types": "./dist/esm/api/resources/tts/exports.d.mts",
+                        "default": "./dist/esm/api/resources/tts/exports.mjs"
+                    },
+                    "require": {
+                        "types": "./dist/cjs/api/resources/tts/exports.d.ts",
+                        "default": "./dist/cjs/api/resources/tts/exports.js"
+                    },
+                    "default": "./dist/cjs/api/resources/tts/exports.js"
+                },
+                "./projects": {
+                    "import": {
+                        "types": "./dist/esm/api/resources/projects/exports.d.mts",
+                        "default": "./dist/esm/api/resources/projects/exports.mjs"
+                    },
+                    "require": {
+                        "types": "./dist/cjs/api/resources/projects/exports.d.ts",
+                        "default": "./dist/cjs/api/resources/projects/exports.js"
+                    },
+                    "default": "./dist/cjs/api/resources/projects/exports.js"
+                },
+                "./package.json": "./package.json"
+            },
+            "files": [
+                "dist",
+                "reference.md",
+                "README.md",
+                "LICENSE"
+            ],
+            "scripts": {
+                "format": "biome format --write --skip-parse-errors --no-errors-on-unmatched --max-diagnostics=none",
+                "format:check": "biome format --skip-parse-errors --no-errors-on-unmatched --max-diagnostics=none",
+                "lint": "biome lint --skip-parse-errors --no-errors-on-unmatched --max-diagnostics=none",
+                "lint:fix": "biome lint --fix --unsafe --skip-parse-errors --no-errors-on-unmatched --max-diagnostics=none",
+                "check": "biome check --skip-parse-errors --no-errors-on-unmatched --max-diagnostics=none",
+                "check:fix": "biome check --fix --unsafe --skip-parse-errors --no-errors-on-unmatched --max-diagnostics=none",
+                "build": "yarn build:cjs && yarn build:esm",
+                "build:cjs": "tsc --project ./tsconfig.cjs.json",
+                "build:esm": "tsc --project ./tsconfig.esm.json && node scripts/rename-to-esm-files.js dist/esm",
+                "test": "jest --config jest.config.mjs",
+                "test:unit": "jest --selectProjects unit",
+                "test:wire": "jest --selectProjects wire"
+            },
+            "dependencies": {
+                "ws": "^8.20.0"
+            },
+            "devDependencies": {
+                "webpack": "^5.105.4",
+                "ts-loader": "^9.5.4",
+                "@types/ws": "^8.18.1",
+                "jest": "^29.7.0",
+                "@jest/globals": "^29.7.0",
+                "@types/jest": "^29.5.14",
+                "ts-jest": "^29.3.4",
+                "jest-environment-jsdom": "^29.7.0",
+                "msw": "2.11.2",
+                "@types/node": "^18.19.70",
+                "typescript": "~5.9.3",
+                "@biomejs/biome": "2.4.9"
+            },
+            "browser": {
+                "fs": false,
+                "os": false,
+                "path": false,
+                "stream": false,
+                "crypto": false
+            },
+            "packageManager": "yarn@1.22.22",
+            "engines": {
+                "node": ">=18.0.0"
+            },
+            "sideEffects": false
+        }
+      src/BaseClient.ts: |
+        // This file was auto-generated by Fern from our API Definition.
+
+        import { BearerAuthProvider } from "./auth/BearerAuthProvider.js";
+        import { mergeHeaders } from "./core/headers.js";
+        import * as core from "./core/index.js";
+        import type * as environments from "./environments.js";
+
+        export type BaseClientOptions = {
+            environment?: core.Supplier<environments.PhonicEnvironment | environments.PhonicEnvironmentUrls>;
+            /** Specify a custom URL to connect the client to. */
+            baseUrl?: core.Supplier<string>;
+            /** Additional headers to include in requests. */
+            headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
+            /** The default maximum time to wait for a response in seconds. */
+            timeoutInSeconds?: number;
+            /** The default number of times to retry the request. Defaults to 2. */
+            maxRetries?: number;
+            /** Provide a custom fetch implementation. Useful for platforms that don't have a built-in fetch or need a custom implementation. */
+            fetch?: typeof fetch;
+            fetcher?: core.FetchFunction;
+            /** Configure logging for the client. */
+            logging?: core.logging.LogConfig | core.logging.Logger;
+        } & BearerAuthProvider.AuthOptions;
+
+        export interface BaseRequestOptions {
+            /** The maximum time to wait for a response in seconds. */
+            timeoutInSeconds?: number;
+            /** The number of times to retry the request. Defaults to 2. */
+            maxRetries?: number;
+            /** A hook to abort the request. */
+            abortSignal?: AbortSignal;
+            /** Additional query string parameters to include in the request. */
+            queryParams?: Record<string, unknown>;
+            /** Additional headers to include in the request. */
+            headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
+        }
+
+        export type NormalizedClientOptions<T extends BaseClientOptions = BaseClientOptions> = T & {
+            logging: core.logging.Logger;
+            authProvider?: core.AuthProvider;
+        };
+
+        export type NormalizedClientOptionsWithAuth<T extends BaseClientOptions = BaseClientOptions> =
+            NormalizedClientOptions<T> & {
+                authProvider: core.AuthProvider;
+            };
+
+        export function normalizeClientOptions<T extends BaseClientOptions = BaseClientOptions>(
+            options: T,
+        ): NormalizedClientOptions<T> {
+            const headers = mergeHeaders(
+                {
+                    "X-Fern-Language": "JavaScript",
+                    "X-Fern-SDK-Name": "phonic",
+                    "X-Fern-SDK-Version": "0.32.10",
+                    "User-Agent": "phonic/0.32.10",
+                    "X-Fern-Runtime": core.RUNTIME.type,
+                    "X-Fern-Runtime-Version": core.RUNTIME.version,
+                },
+                options?.headers,
+            );
+
+            return {
+                ...options,
+                logging: core.logging.createLogger(options?.logging),
+                headers,
+            } as NormalizedClientOptions<T>;
+        }
+
+        export function normalizeClientOptionsWithAuth<T extends BaseClientOptions = BaseClientOptions>(
+            options: T,
+        ): NormalizedClientOptionsWithAuth<T> {
+            const normalized = normalizeClientOptions(options) as NormalizedClientOptionsWithAuth<T>;
+            const normalizedWithNoOpAuthProvider = withNoOpAuthProvider(normalized);
+            normalized.authProvider ??= new BearerAuthProvider(normalizedWithNoOpAuthProvider);
+            return normalized;
+        }
+
+        function withNoOpAuthProvider<T extends BaseClientOptions = BaseClientOptions>(
+            options: NormalizedClientOptions<T>,
+        ): NormalizedClientOptionsWithAuth<T> {
+            return {
+                ...options,
+                authProvider: new core.NoOpAuthProvider(),
+            };
+        }
+      src/version.ts: |
+        export const SDK_VERSION = "0.32.10";
+    status: unresolved
