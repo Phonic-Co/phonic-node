@@ -4,4 +4,6 @@ export interface GenerateReplyPayload {
     type: "generate_reply";
     /** Optional system message to guide the assistant's reply */
     system_message?: (string | null) | undefined;
+    /** Optional user message for the assistant to reply to */
+    user_message?: (string | null) | undefined;
 }
