@@ -2,4 +2,4 @@
 
 import type * as Phonic from "../index.js";
 
-export type ToolDefinition = Phonic.ToolName | Phonic.InlineWebSocketTool;
+export type ToolDefinition = Phonic.ToolName | Phonic.BuiltInToolDefinition | Phonic.InlineWebSocketTool;

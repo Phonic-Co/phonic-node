@@ -52,6 +52,8 @@ export interface UpdateToolRequest {
     agents_to_transfer_to?: string[];
     /** When true, forces the agent to speak before executing the tool. */
     require_speech_before_tool_call?: boolean;
+    /** For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types. */
+    speech_before_tool_call?: UpdateToolRequest.SpeechBeforeToolCall;
     /** If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools. */
     wait_for_speech_before_tool_call?: boolean;
     /** When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
@@ -75,4 +77,11 @@ export namespace UpdateToolRequest {
         Post: "POST",
     } as const;
     export type EndpointMethod = (typeof EndpointMethod)[keyof typeof EndpointMethod];
+    /** For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types. */
+    export const SpeechBeforeToolCall = {
+        Required: "required",
+        Optional: "optional",
+        Suppressed: "suppressed",
+    } as const;
+    export type SpeechBeforeToolCall = (typeof SpeechBeforeToolCall)[keyof typeof SpeechBeforeToolCall];
 }

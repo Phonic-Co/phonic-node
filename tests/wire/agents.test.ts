@@ -37,6 +37,9 @@ describe("AgentsClient", () => {
                         subject: { default_value: "Chess" },
                     },
                     tools: ["keypad_input"],
+                    built_in_tool_configs: {
+                        tool_natural_conversation_ending: { speech_before_tool_call: "suppressed" },
+                    },
                     tasks: [
                         { name: "Check Availability", description: "Check if the appointment is available" },
                         { name: "Book Appointment", description: "Book the appointment" },
@@ -116,6 +119,11 @@ describe("AgentsClient", () => {
                         },
                     },
                     tools: ["keypad_input"],
+                    built_in_tool_configs: {
+                        tool_natural_conversation_ending: {
+                            speech_before_tool_call: "suppressed",
+                        },
+                    },
                     tasks: [
                         {
                             name: "Check Availability",
@@ -468,6 +476,7 @@ describe("AgentsClient", () => {
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: { customer_name: { default_value: "Sean" }, subject: { default_value: "Chess" } },
                 tools: ["keypad_input"],
+                built_in_tool_configs: { tool_natural_conversation_ending: { speech_before_tool_call: "suppressed" } },
                 tasks: [
                     { name: "Check Availability", description: "Check if the appointment is available" },
                     { name: "Book Appointment", description: "Book the appointment" },
@@ -597,6 +606,11 @@ describe("AgentsClient", () => {
                     },
                 },
                 tools: ["keypad_input"],
+                built_in_tool_configs: {
+                    tool_natural_conversation_ending: {
+                        speech_before_tool_call: "suppressed",
+                    },
+                },
                 tasks: [
                     {
                         name: "Check Availability",
@@ -739,6 +753,7 @@ describe("AgentsClient", () => {
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: { customer_name: { default_value: "Sean" }, subject: { default_value: "Chess" } },
                 tools: ["keypad_input"],
+                built_in_tool_configs: { tool_natural_conversation_ending: { speech_before_tool_call: "suppressed" } },
                 tasks: [
                     { name: "Check Availability", description: "Check if the appointment is available" },
                     { name: "Book Appointment", description: "Book the appointment" },
@@ -818,6 +833,11 @@ describe("AgentsClient", () => {
                     },
                 },
                 tools: ["keypad_input"],
+                built_in_tool_configs: {
+                    tool_natural_conversation_ending: {
+                        speech_before_tool_call: "suppressed",
+                    },
+                },
                 tasks: [
                     {
                         name: "Check Availability",
@@ -1042,6 +1062,7 @@ describe("AgentsClient", () => {
                 system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables: { customer_name: { default_value: "Sean" }, subject: { default_value: "Chess" } },
                 tools: ["keypad_input"],
+                built_in_tool_configs: { tool_natural_conversation_ending: { speech_before_tool_call: "suppressed" } },
                 tasks: [{ name: "Check Availability", description: "Check if the appointment is available" }],
                 generate_no_input_poke_text: false,
                 no_input_poke_sec: 30,
@@ -1168,6 +1189,11 @@ describe("AgentsClient", () => {
                     },
                 },
                 tools: ["keypad_input"],
+                built_in_tool_configs: {
+                    tool_natural_conversation_ending: {
+                        speech_before_tool_call: "suppressed",
+                    },
+                },
                 tasks: [
                     {
                         name: "Check Availability",
