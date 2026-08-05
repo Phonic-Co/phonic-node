@@ -33,6 +33,7 @@ export * from "./DataRetentionPolicy.js";
 export * from "./DtmfPayload.js";
 export * from "./Error_.js";
 export * from "./ErrorPayload.js";
+export * from "./ExternalStoragePolicy.js";
 export * from "./ExtractionField.js";
 export * from "./ExtractionSchema.js";
 export * from "./GenerateReplyPayload.js";

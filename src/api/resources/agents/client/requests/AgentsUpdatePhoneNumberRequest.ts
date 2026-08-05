@@ -28,7 +28,7 @@ export namespace AgentsUpdatePhoneNumberRequest {
      * When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
      */
     export interface ConfigurationEndpoint {
-        /** URL to call */
+        /** URL to call. Must be a publicly routable HTTPS URL without embedded credentials. */
         url: string;
         /** Object of key-value pairs. */
         headers?: Record<string, string> | undefined;

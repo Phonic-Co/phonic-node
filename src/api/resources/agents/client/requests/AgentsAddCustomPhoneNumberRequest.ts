@@ -3,6 +3,9 @@
 /**
  * @example
  *     {
+ *         "X-Sip-Address": "X-Sip-Address",
+ *         "X-Sip-Auth-Username": "X-Sip-Auth-Username",
+ *         "X-Sip-Auth-Password": "X-Sip-Auth-Password",
  *         project: "main",
  *         phone_number: "+15551234567",
  *         configuration_endpoint: {
@@ -17,12 +20,12 @@
 export interface AgentsAddCustomPhoneNumberRequest {
     /** The name of the project containing the agent. Only used when `nameOrId` is a name. */
     project?: string;
-    /** SIP address of the user's SIP trunk. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details. */
-    "X-Sip-Address"?: string;
-    /** SIP auth username. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details. */
-    "X-Sip-Auth-Username"?: string;
-    /** SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details. */
-    "X-Sip-Auth-Password"?: string;
+    /** SIP address of the user's SIP trunk. Required. All three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. They are used for outbound calls and call transfers from the agent. */
+    "X-Sip-Address": string;
+    /** SIP auth username. Required. All three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. They are used for outbound calls and call transfers from the agent. */
+    "X-Sip-Auth-Username": string;
+    /** SIP auth password. Required. All three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. They are used for outbound calls and call transfers from the agent. */
+    "X-Sip-Auth-Password": string;
     /** The E.164 formatted phone number to add (e.g., "+15551234567"). */
     phone_number: string;
     /** When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number. */
@@ -34,7 +37,7 @@ export namespace AgentsAddCustomPhoneNumberRequest {
      * When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
      */
     export interface ConfigurationEndpoint {
-        /** URL to call */
+        /** URL to call. Must be a publicly routable HTTPS URL without embedded credentials. */
         url: string;
         /** Object of key-value pairs. */
         headers?: Record<string, string> | undefined;

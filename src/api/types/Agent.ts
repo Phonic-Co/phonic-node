@@ -67,6 +67,8 @@ export interface Agent {
     boosted_keywords: string[];
     /** Names of observability integrations enabled for the agent. Each must be one of the supported providers. */
     observability_integrations?: "braintrust"[] | undefined;
+    /** Name of the external storage policy that conversation artifacts are delivered to. `null` when the agent doesn't deliver artifacts to external storage. */
+    external_storage_policy?: (string | null) | undefined;
     /** Array of `{ word, pronunciation }` entries. Words must be unique. */
     pronunciation_dictionary: Agent.PronunciationDictionary.Item[];
     /** Minimum number of words required to interrupt the assistant. */
