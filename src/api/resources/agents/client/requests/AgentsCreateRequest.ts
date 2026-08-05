@@ -142,4 +142,6 @@ export interface AgentsCreateRequest {
     mcp_server_ids?: string[];
     /** Names of observability integrations to enable for the agent. Each must be one of the supported providers. */
     observability_integrations?: "braintrust"[];
+    /** Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`. */
+    external_storage_policy?: string | null;
 }

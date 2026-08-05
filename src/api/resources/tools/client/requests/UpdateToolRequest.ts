@@ -33,6 +33,7 @@ export interface UpdateToolRequest {
     parameters?: Phonic.ToolParameter[];
     /** HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values. */
     endpoint_method?: UpdateToolRequest.EndpointMethod;
+    /** URL for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials. */
     endpoint_url?: string;
     /** Headers for webhook tools. Set to null to clear existing headers. */
     endpoint_headers?: Record<string, string | null> | null;

@@ -78,6 +78,8 @@ export interface ConfigOptions {
     mcp_servers?: string[] | undefined;
     /** Names of observability integrations to enable for the conversation. Each must be one of the supported providers. */
     observability_integrations?: "braintrust"[] | undefined;
+    /** Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires `data_retention_policy.zero_data_retention` to be `true` and cannot be combined with `enable_redaction`. Set to `null` to disable external delivery. */
+    external_storage_policy?: (string | null) | undefined;
     /** Tasks the assistant should accomplish during the conversation. */
     tasks?: ConfigOptions.Tasks.Item[] | undefined;
     /** Pool of phone numbers to use as the caller ID for outbound calls. */
@@ -170,7 +172,7 @@ export namespace ConfigOptions {
      * When not `null`, the agent will call this endpoint to get configuration options for the conversation.
      */
     export interface ConfigurationEndpoint {
-        /** URL to call. */
+        /** URL to call. Must be a publicly routable HTTPS URL without embedded credentials. */
         url: string;
         /** Object of key-value pairs sent as headers when calling the endpoint. */
         headers?: Record<string, string> | undefined;

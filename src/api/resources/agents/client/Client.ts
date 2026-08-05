@@ -626,6 +626,9 @@ export class AgentsClient {
      *
      * @example
      *     await client.agents.addCustomPhoneNumber("nameOrId", {
+     *         "X-Sip-Address": "X-Sip-Address",
+     *         "X-Sip-Auth-Username": "X-Sip-Auth-Username",
+     *         "X-Sip-Auth-Password": "X-Sip-Auth-Password",
      *         project: "main",
      *         phone_number: "+15551234567",
      *         configuration_endpoint: {

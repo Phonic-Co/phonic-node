@@ -557,6 +557,9 @@ Adds a custom phone number to an agent. The user must configure their SIP trunk 
 
 ```typescript
 await client.agents.addCustomPhoneNumber("nameOrId", {
+    "X-Sip-Address": "X-Sip-Address",
+    "X-Sip-Auth-Username": "X-Sip-Auth-Username",
+    "X-Sip-Auth-Password": "X-Sip-Auth-Password",
     project: "main",
     phone_number: "+15551234567",
     configuration_endpoint: {
@@ -1123,6 +1126,366 @@ await client.tools.update("nameOrId", {
 <dd>
 
 **requestOptions:** `ToolsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## ExternalStoragePolicies
+<details><summary><code>client.externalStoragePolicies.<a href="/src/api/resources/externalStoragePolicies/client/Client.ts">list</a>({ ...params }) -> Phonic.ExternalStoragePoliciesListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns all external storage policies in a project.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.externalStoragePolicies.list({
+    project: "main"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Phonic.ExternalStoragePoliciesListRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ExternalStoragePoliciesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.externalStoragePolicies.<a href="/src/api/resources/externalStoragePolicies/client/Client.ts">create</a>({ ...params }) -> Phonic.ExternalStoragePoliciesCreateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a new external storage policy in a project. Agents referencing the policy deliver their conversation artifacts to the configured S3-compatible bucket.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.externalStoragePolicies.create({
+    project: "main",
+    name: "conversation_archive",
+    endpoint_url: "https://storage.example.com",
+    bucket: "conversation-audio",
+    region: "us-east-1",
+    key_prefix: "phonic/conversations",
+    addressing_style: "auto",
+    access_key_id: "AKIAIOSFODNN7EXAMPLE",
+    secret_access_key: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Phonic.CreateExternalStoragePolicyRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ExternalStoragePoliciesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.externalStoragePolicies.<a href="/src/api/resources/externalStoragePolicies/client/Client.ts">get</a>(nameOrId, { ...params }) -> Phonic.ExternalStoragePoliciesGetResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns an external storage policy by name or ID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.externalStoragePolicies.get("nameOrId", {
+    project: "main"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**nameOrId:** `string` — The name or the ID of the external storage policy to get.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Phonic.ExternalStoragePoliciesGetRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ExternalStoragePoliciesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.externalStoragePolicies.<a href="/src/api/resources/externalStoragePolicies/client/Client.ts">delete</a>(nameOrId, { ...params }) -> Phonic.ExternalStoragePoliciesDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes an external storage policy by name or ID. The policy must not be referenced by any agent.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.externalStoragePolicies.delete("nameOrId", {
+    project: "main"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**nameOrId:** `string` — The name or the ID of the external storage policy to delete.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Phonic.ExternalStoragePoliciesDeleteRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ExternalStoragePoliciesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.externalStoragePolicies.<a href="/src/api/resources/externalStoragePolicies/client/Client.ts">update</a>(nameOrId, { ...params }) -> Phonic.ExternalStoragePoliciesUpdateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates an external storage policy by name or ID. Credentials can only be rotated by providing both `access_key_id` and `secret_access_key`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.externalStoragePolicies.update("nameOrId", {
+    project: "main",
+    bucket: "conversation-audio-archive",
+    key_prefix: "phonic/archive"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**nameOrId:** `string` — The name or the ID of the external storage policy to update.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Phonic.UpdateExternalStoragePolicyRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ExternalStoragePoliciesClient.RequestOptions` 
     
 </dd>
 </dl>

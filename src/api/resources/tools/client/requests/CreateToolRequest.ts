@@ -122,7 +122,7 @@ export interface CreateToolRequest {
     parameters?: Phonic.ToolParameter[];
     /** Required for webhook tools. HTTP method for the webhook endpoint. */
     endpoint_method?: CreateToolRequest.EndpointMethod;
-    /** Required for webhook tools. */
+    /** Required for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials. */
     endpoint_url?: string;
     /** Optional headers for webhook tools. */
     endpoint_headers?: Record<string, string>;

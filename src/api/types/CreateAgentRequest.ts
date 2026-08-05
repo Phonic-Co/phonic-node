@@ -95,6 +95,8 @@ export interface CreateAgentRequest {
     mcp_server_ids?: string[] | undefined;
     /** Names of observability integrations to enable for the agent. Each must be one of the supported providers. */
     observability_integrations?: "braintrust"[] | undefined;
+    /** Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`. */
+    external_storage_policy?: (string | null) | undefined;
 }
 
 export namespace CreateAgentRequest {
@@ -164,7 +166,7 @@ export namespace CreateAgentRequest {
      * When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
      */
     export interface ConfigurationEndpoint {
-        /** URL to call */
+        /** URL to call. Must be a publicly routable HTTPS URL without embedded credentials. */
         url: string;
         /** Object of key-value pairs. */
         headers?: Record<string, string> | undefined;

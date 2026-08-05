@@ -5,6 +5,7 @@ import { ApiKeysClient } from "./api/resources/apiKeys/client/Client.js";
 import { AuthClient } from "./api/resources/auth/client/Client.js";
 import { ConversationItemsClient } from "./api/resources/conversationItems/client/Client.js";
 import { ConversationsClient } from "./api/resources/conversations/client/Client.js";
+import { ExternalStoragePoliciesClient } from "./api/resources/externalStoragePolicies/client/Client.js";
 import { ExtractionSchemasClient } from "./api/resources/extractionSchemas/client/Client.js";
 import { ProjectsClient } from "./api/resources/projects/client/Client.js";
 import { ToolsClient } from "./api/resources/tools/client/Client.js";
@@ -44,6 +45,7 @@ export class PhonicClient {
     protected _auth: AuthClient | undefined;
     protected _projects: ProjectsClient | undefined;
     protected _workspace: WorkspaceClient | undefined;
+    protected _externalStoragePolicies: ExternalStoragePoliciesClient | undefined;
 
     constructor(options: PhonicClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -91,6 +93,10 @@ export class PhonicClient {
 
     public get workspace(): WorkspaceClient {
         return (this._workspace ??= new WorkspaceClient(this._options));
+    }
+
+    public get externalStoragePolicies(): ExternalStoragePoliciesClient {
+        return (this._externalStoragePolicies ??= new ExternalStoragePoliciesClient(this._options));
     }
 
     /**
