@@ -360,4 +360,4 @@ patches:
         }
       src/version.ts: |
         export const SDK_VERSION = "0.32.10";
-    status: unresolved
+    status: resolving
