@@ -124,7 +124,7 @@ export namespace OutboundCallConfig {
      * When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
      */
     export interface ConfigurationEndpoint {
-        /** URL to call */
+        /** URL to call. Must be a publicly routable HTTPS URL without embedded credentials. */
         url: string;
         /** Object of key-value pairs. */
         headers?: Record<string, string> | undefined;

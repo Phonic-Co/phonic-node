@@ -55,6 +55,7 @@ describe("AgentsClient", () => {
                     intelligence_level: "standard",
                     boosted_keywords: ["Load ID", "dispatch"],
                     observability_integrations: ["braintrust"],
+                    external_storage_policy: "conversation_archive",
                     pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                     min_words_to_interrupt: 1,
                     configuration_endpoint: {
@@ -145,6 +146,7 @@ describe("AgentsClient", () => {
                     intelligence_level: "standard",
                     boosted_keywords: ["Load ID", "dispatch"],
                     observability_integrations: ["braintrust"],
+                    external_storage_policy: "conversation_archive",
                     pronunciation_dictionary: [
                         {
                             word: "Phuket",
@@ -492,6 +494,7 @@ describe("AgentsClient", () => {
                 intelligence_level: "standard",
                 boosted_keywords: ["Load ID", "dispatch"],
                 observability_integrations: ["braintrust"],
+                external_storage_policy: "conversation_archive",
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                 min_words_to_interrupt: 1,
                 configuration_endpoint: {
@@ -632,6 +635,7 @@ describe("AgentsClient", () => {
                 intelligence_level: "standard",
                 boosted_keywords: ["Load ID", "dispatch"],
                 observability_integrations: ["braintrust"],
+                external_storage_policy: "conversation_archive",
                 pronunciation_dictionary: [
                     {
                         word: "Phuket",
@@ -769,6 +773,7 @@ describe("AgentsClient", () => {
                 intelligence_level: "standard",
                 boosted_keywords: ["Load ID", "dispatch"],
                 observability_integrations: ["braintrust"],
+                external_storage_policy: "conversation_archive",
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                 min_words_to_interrupt: 1,
                 configuration_endpoint: {
@@ -859,6 +864,7 @@ describe("AgentsClient", () => {
                 intelligence_level: "standard",
                 boosted_keywords: ["Load ID", "dispatch"],
                 observability_integrations: ["braintrust"],
+                external_storage_policy: "conversation_archive",
                 pronunciation_dictionary: [
                     {
                         word: "Phuket",
@@ -1075,6 +1081,7 @@ describe("AgentsClient", () => {
                 intelligence_level: "standard",
                 boosted_keywords: ["Load ID", "dispatch"],
                 observability_integrations: ["braintrust"],
+                external_storage_policy: "conversation_archive",
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                 min_words_to_interrupt: 1,
                 configuration_endpoint: {
@@ -1211,6 +1218,7 @@ describe("AgentsClient", () => {
                 intelligence_level: "standard",
                 boosted_keywords: ["Load ID", "dispatch"],
                 observability_integrations: ["braintrust"],
+                external_storage_policy: "conversation_archive",
                 pronunciation_dictionary: [
                     {
                         word: "Phuket",
@@ -1342,6 +1350,9 @@ describe("AgentsClient", () => {
         server
             .mockEndpoint()
             .post("/agents/nameOrId/custom-phone-numbers")
+            .header("X-Sip-Address", "X-Sip-Address")
+            .header("X-Sip-Auth-Username", "X-Sip-Auth-Username")
+            .header("X-Sip-Auth-Password", "X-Sip-Auth-Password")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(200)
@@ -1349,6 +1360,9 @@ describe("AgentsClient", () => {
             .build();
 
         const response = await client.agents.addCustomPhoneNumber("nameOrId", {
+            "X-Sip-Address": "X-Sip-Address",
+            "X-Sip-Auth-Username": "X-Sip-Auth-Username",
+            "X-Sip-Auth-Password": "X-Sip-Auth-Password",
             project: "main",
             phone_number: "+15551234567",
             configuration_endpoint: {
@@ -1377,6 +1391,9 @@ describe("AgentsClient", () => {
         server
             .mockEndpoint()
             .post("/agents/nameOrId/custom-phone-numbers")
+            .header("X-Sip-Address", "sipAddress")
+            .header("X-Sip-Auth-Username", "sipAuthUsername")
+            .header("X-Sip-Auth-Password", "sipAuthPassword")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(400)
@@ -1385,6 +1402,9 @@ describe("AgentsClient", () => {
 
         await expect(async () => {
             return await client.agents.addCustomPhoneNumber("nameOrId", {
+                "X-Sip-Address": "sipAddress",
+                "X-Sip-Auth-Username": "sipAuthUsername",
+                "X-Sip-Auth-Password": "sipAuthPassword",
                 phone_number: "phone_number",
             });
         }).rejects.toThrow(Phonic.BadRequestError);
@@ -1403,6 +1423,9 @@ describe("AgentsClient", () => {
         server
             .mockEndpoint()
             .post("/agents/nameOrId/custom-phone-numbers")
+            .header("X-Sip-Address", "sipAddress")
+            .header("X-Sip-Auth-Username", "sipAuthUsername")
+            .header("X-Sip-Auth-Password", "sipAuthPassword")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(401)
@@ -1411,6 +1434,9 @@ describe("AgentsClient", () => {
 
         await expect(async () => {
             return await client.agents.addCustomPhoneNumber("nameOrId", {
+                "X-Sip-Address": "sipAddress",
+                "X-Sip-Auth-Username": "sipAuthUsername",
+                "X-Sip-Auth-Password": "sipAuthPassword",
                 phone_number: "phone_number",
             });
         }).rejects.toThrow(Phonic.UnauthorizedError);
@@ -1429,6 +1455,9 @@ describe("AgentsClient", () => {
         server
             .mockEndpoint()
             .post("/agents/nameOrId/custom-phone-numbers")
+            .header("X-Sip-Address", "sipAddress")
+            .header("X-Sip-Auth-Username", "sipAuthUsername")
+            .header("X-Sip-Auth-Password", "sipAuthPassword")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(403)
@@ -1437,6 +1466,9 @@ describe("AgentsClient", () => {
 
         await expect(async () => {
             return await client.agents.addCustomPhoneNumber("nameOrId", {
+                "X-Sip-Address": "sipAddress",
+                "X-Sip-Auth-Username": "sipAuthUsername",
+                "X-Sip-Auth-Password": "sipAuthPassword",
                 phone_number: "phone_number",
             });
         }).rejects.toThrow(Phonic.ForbiddenError);
@@ -1455,6 +1487,9 @@ describe("AgentsClient", () => {
         server
             .mockEndpoint()
             .post("/agents/nameOrId/custom-phone-numbers")
+            .header("X-Sip-Address", "sipAddress")
+            .header("X-Sip-Auth-Username", "sipAuthUsername")
+            .header("X-Sip-Auth-Password", "sipAuthPassword")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(404)
@@ -1463,6 +1498,9 @@ describe("AgentsClient", () => {
 
         await expect(async () => {
             return await client.agents.addCustomPhoneNumber("nameOrId", {
+                "X-Sip-Address": "sipAddress",
+                "X-Sip-Auth-Username": "sipAuthUsername",
+                "X-Sip-Auth-Password": "sipAuthPassword",
                 phone_number: "phone_number",
             });
         }).rejects.toThrow(Phonic.NotFoundError);
@@ -1481,6 +1519,9 @@ describe("AgentsClient", () => {
         server
             .mockEndpoint()
             .post("/agents/nameOrId/custom-phone-numbers")
+            .header("X-Sip-Address", "sipAddress")
+            .header("X-Sip-Auth-Username", "sipAuthUsername")
+            .header("X-Sip-Auth-Password", "sipAuthPassword")
             .jsonBody(rawRequestBody)
             .respondWith()
             .statusCode(409)
@@ -1489,6 +1530,9 @@ describe("AgentsClient", () => {
 
         await expect(async () => {
             return await client.agents.addCustomPhoneNumber("nameOrId", {
+                "X-Sip-Address": "sipAddress",
+                "X-Sip-Auth-Username": "sipAuthUsername",
+                "X-Sip-Auth-Password": "sipAuthPassword",
                 phone_number: "phone_number",
             });
         }).rejects.toThrow(Phonic.ConflictError);
