@@ -157,6 +157,71 @@ export class ToolsClient {
      * @example
      *     await client.tools.create({
      *         project: "main",
+     *         name: "create_order",
+     *         description: "Creates an order in the fulfillment system",
+     *         type: "custom_webhook",
+     *         execution_mode: "sync",
+     *         parameters: {
+     *             type: "object",
+     *             properties: {
+     *                 "customer": {
+     *                     "type": "object",
+     *                     "description": "The customer placing the order",
+     *                     "properties": {
+     *                         "name": {
+     *                             "type": "string",
+     *                             "description": "The customer's full name"
+     *                         },
+     *                         "tier": {
+     *                             "type": "string",
+     *                             "enum": [
+     *                                 "free",
+     *                                 "pro"
+     *                             ],
+     *                             "description": "The customer's subscription tier"
+     *                         }
+     *                     },
+     *                     "required": [
+     *                         "name"
+     *                     ]
+     *                 },
+     *                 "items": {
+     *                     "type": "array",
+     *                     "description": "The items being ordered",
+     *                     "items": {
+     *                         "type": "object",
+     *                         "properties": {
+     *                             "sku": {
+     *                                 "type": "string",
+     *                                 "description": "The item's SKU"
+     *                             },
+     *                             "quantity": {
+     *                                 "type": "integer",
+     *                                 "description": "How many of the item to order"
+     *                             }
+     *                         },
+     *                         "required": [
+     *                             "sku",
+     *                             "quantity"
+     *                         ]
+     *                     }
+     *                 }
+     *             },
+     *             required: ["customer", "items"],
+     *             additionalProperties: false
+     *         },
+     *         parameter_locations: {
+     *             "customer": "request_body",
+     *             "items": "request_body"
+     *         },
+     *         endpoint_method: "POST",
+     *         endpoint_url: "https://api.example.com/orders",
+     *         endpoint_timeout_ms: 5000
+     *     })
+     *
+     * @example
+     *     await client.tools.create({
+     *         project: "main",
      *         name: "check_inventory",
      *         description: "Checks product inventory levels",
      *         type: "custom_websocket",

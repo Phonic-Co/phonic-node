@@ -5,6 +5,8 @@ export interface ToolParameter {
     type: ToolParameter.Type;
     /** Required only when type is "array". The type of items in the array. */
     item_type?: ToolParameter.ItemType | undefined;
+    /** Required only when type is "enum". The fixed set of allowed string values for the parameter. Values must be unique and non-empty. */
+    enum_values?: string[] | undefined;
     /** The parameter name. */
     name: string;
     /** Description of the parameter. */
@@ -16,7 +18,7 @@ export interface ToolParameter {
      * - For GET webhooks: defaults to `"query_string"` and `"request_body"` is not allowed.
      * - For POST webhooks: required, can be either `"request_body"` or `"query_string"`.
      * - Not allowed for `custom_websocket`, `built_in_transfer_to_phone_number`, or `built_in_transfer_to_agent` tools.
-     * When updating a tool's type or endpoint_method, all parameters must include explicit `location` values.
+     * When switching a webhook tool's `endpoint_method` from POST to GET, its request body parameters must be re-sent with `"query_string"` locations.
      */
     location?: ToolParameter.Location | undefined;
 }
@@ -29,6 +31,7 @@ export namespace ToolParameter {
         Number: "number",
         Boolean: "boolean",
         Array: "array",
+        Enum: "enum",
     } as const;
     export type Type = (typeof Type)[keyof typeof Type];
     /** Required only when type is "array". The type of items in the array. */
@@ -44,7 +47,7 @@ export namespace ToolParameter {
      * - For GET webhooks: defaults to `"query_string"` and `"request_body"` is not allowed.
      * - For POST webhooks: required, can be either `"request_body"` or `"query_string"`.
      * - Not allowed for `custom_websocket`, `built_in_transfer_to_phone_number`, or `built_in_transfer_to_agent` tools.
-     * When updating a tool's type or endpoint_method, all parameters must include explicit `location` values.
+     * When switching a webhook tool's `endpoint_method` from POST to GET, its request body parameters must be re-sent with `"query_string"` locations.
      */
     export const Location = {
         RequestBody: "request_body",

@@ -136,7 +136,7 @@ export interface AgentsCreateRequest {
     vad_min_silence_duration_ms?: number;
     /** Voice activity detection threshold. */
     vad_threshold?: number;
-    /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends. */
+    /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean;
     /** Array of MCP server IDs to make available to the agent. */
     mcp_server_ids?: string[];

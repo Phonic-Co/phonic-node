@@ -58,6 +58,71 @@ import type * as Phonic from "../../../../index.js";
  * @example
  *     {
  *         project: "main",
+ *         name: "create_order",
+ *         description: "Creates an order in the fulfillment system",
+ *         type: "custom_webhook",
+ *         execution_mode: "sync",
+ *         parameters: {
+ *             type: "object",
+ *             properties: {
+ *                 "customer": {
+ *                     "type": "object",
+ *                     "description": "The customer placing the order",
+ *                     "properties": {
+ *                         "name": {
+ *                             "type": "string",
+ *                             "description": "The customer's full name"
+ *                         },
+ *                         "tier": {
+ *                             "type": "string",
+ *                             "enum": [
+ *                                 "free",
+ *                                 "pro"
+ *                             ],
+ *                             "description": "The customer's subscription tier"
+ *                         }
+ *                     },
+ *                     "required": [
+ *                         "name"
+ *                     ]
+ *                 },
+ *                 "items": {
+ *                     "type": "array",
+ *                     "description": "The items being ordered",
+ *                     "items": {
+ *                         "type": "object",
+ *                         "properties": {
+ *                             "sku": {
+ *                                 "type": "string",
+ *                                 "description": "The item's SKU"
+ *                             },
+ *                             "quantity": {
+ *                                 "type": "integer",
+ *                                 "description": "How many of the item to order"
+ *                             }
+ *                         },
+ *                         "required": [
+ *                             "sku",
+ *                             "quantity"
+ *                         ]
+ *                     }
+ *                 }
+ *             },
+ *             required: ["customer", "items"],
+ *             additionalProperties: false
+ *         },
+ *         parameter_locations: {
+ *             "customer": "request_body",
+ *             "items": "request_body"
+ *         },
+ *         endpoint_method: "POST",
+ *         endpoint_url: "https://api.example.com/orders",
+ *         endpoint_timeout_ms: 5000
+ *     }
+ *
+ * @example
+ *     {
+ *         project: "main",
  *         name: "check_inventory",
  *         description: "Checks product inventory levels",
  *         type: "custom_websocket",
@@ -114,12 +179,21 @@ export interface CreateToolRequest {
     /** Mode of operation. */
     execution_mode: CreateToolRequest.ExecutionMode;
     /**
-     * Array of parameter definitions.
-     * For `custom_webhook` tools with POST method, each parameter must include a `location` field.
-     * For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
-     * For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools, `location` must not be specified.
+     * The tool's parameters, either as a flat array of parameter definitions or as a raw JSON Schema object (use the object form for nested parameters).
+     * When sending an array:
+     * - For `custom_webhook` tools with POST method, each parameter must include a `location` field.
+     * - For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
+     * - For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools, `location` must not be specified.
+     * - `parameter_locations` must not be sent, since placement is carried inline on each parameter.
+     * When sending a JSON Schema object, `custom_webhook` tools supply parameter placement in `parameter_locations` instead.
+     * Tools that cannot have parameters (`custom_context` and the `built_in_*` types) must send an empty array or omit the field.
      */
-    parameters?: Phonic.ToolParameter[];
+    parameters?: CreateToolRequest.Parameters;
+    /**
+     * Where each top-level parameter is sent in the webhook request, as a map from parameter name to location. Only for `custom_webhook` tools whose `parameters` are a raw JSON Schema object.
+     * Every key must name a top-level parameter. For POST webhooks, every parameter needs an entry. For GET webhooks, entries default to `"query_string"` and `"request_body"` is not allowed.
+     */
+    parameter_locations?: Record<string, CreateToolRequest.ParameterLocations.Value>;
     /** Required for webhook tools. HTTP method for the webhook endpoint. */
     endpoint_method?: CreateToolRequest.EndpointMethod;
     /** Required for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials. */
@@ -150,6 +224,8 @@ export interface CreateToolRequest {
     wait_for_speech_before_tool_call?: boolean;
     /** When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
     forbid_speech_after_tool_call?: boolean;
+    /** When true, forbids the agent from calling the tool right after it has spoken. Available for custom_webhook and custom_websocket tools. */
+    forbid_tool_call_after_speech?: boolean;
     /** When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
     allow_tool_chaining?: boolean;
     /** The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools. */
@@ -177,6 +253,26 @@ export namespace CreateToolRequest {
         Async: "async",
     } as const;
     export type ExecutionMode = (typeof ExecutionMode)[keyof typeof ExecutionMode];
+    /**
+     * The tool's parameters, either as a flat array of parameter definitions or as a raw JSON Schema object (use the object form for nested parameters).
+     * When sending an array:
+     * - For `custom_webhook` tools with POST method, each parameter must include a `location` field.
+     * - For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
+     * - For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools, `location` must not be specified.
+     * - `parameter_locations` must not be sent, since placement is carried inline on each parameter.
+     * When sending a JSON Schema object, `custom_webhook` tools supply parameter placement in `parameter_locations` instead.
+     * Tools that cannot have parameters (`custom_context` and the `built_in_*` types) must send an empty array or omit the field.
+     */
+    export type Parameters = Phonic.ToolParameter[] | Phonic.ToolParametersJsonSchema;
+
+    export namespace ParameterLocations {
+        export const Value = {
+            RequestBody: "request_body",
+            QueryString: "query_string",
+        } as const;
+        export type Value = (typeof Value)[keyof typeof Value];
+    }
+
     /** Required for webhook tools. HTTP method for the webhook endpoint. */
     export const EndpointMethod = {
         Get: "GET",
