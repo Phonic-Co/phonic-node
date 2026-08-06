@@ -23,6 +23,7 @@ describe("ToolsClient", () => {
                     type: "custom_context",
                     execution_mode: "sync",
                     parameters: [{ type: "string", name: "name", description: "description", is_required: true }],
+                    parameter_locations: { key: "request_body" },
                     endpoint_method: "GET",
                     endpoint_url: "endpoint_url",
                     endpoint_headers: { key: "value" },
@@ -38,6 +39,7 @@ describe("ToolsClient", () => {
                     speech_before_tool_call: "required",
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: false,
+                    forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
                     context: "Press the A button 5 times then gently shake the printer.",
@@ -65,6 +67,7 @@ describe("ToolsClient", () => {
                             location: "request_body",
                         },
                     ],
+                    parameter_locations: { key: "request_body" },
                     endpoint_method: "POST",
                     endpoint_url: "https://api.example.com/book-appointment",
                     endpoint_headers: { Authorization: "Bearer token123", "Content-Type": "application/json" },
@@ -80,6 +83,7 @@ describe("ToolsClient", () => {
                     speech_before_tool_call: "required",
                     wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
+                    forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
                     context: "context",
@@ -99,6 +103,7 @@ describe("ToolsClient", () => {
                             is_required: true,
                         },
                     ],
+                    parameter_locations: { key: "request_body" },
                     endpoint_method: "GET",
                     endpoint_url: "endpoint_url",
                     endpoint_headers: { key: "value" },
@@ -114,6 +119,7 @@ describe("ToolsClient", () => {
                     speech_before_tool_call: "required",
                     wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
+                    forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: false,
                     context: "context",
@@ -126,6 +132,7 @@ describe("ToolsClient", () => {
                     type: "built_in_transfer_to_phone_number",
                     execution_mode: "sync",
                     parameters: [{ type: "string", name: "name", description: "description", is_required: true }],
+                    parameter_locations: { key: "request_body" },
                     endpoint_method: "GET",
                     endpoint_url: "endpoint_url",
                     endpoint_headers: { key: "value" },
@@ -141,6 +148,7 @@ describe("ToolsClient", () => {
                     speech_before_tool_call: "required",
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
+                    forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
                     context: "context",
@@ -153,6 +161,7 @@ describe("ToolsClient", () => {
                     type: "built_in_transfer_to_agent",
                     execution_mode: "sync",
                     parameters: [{ type: "string", name: "name", description: "description", is_required: true }],
+                    parameter_locations: { key: "request_body" },
                     endpoint_method: "GET",
                     endpoint_url: "endpoint_url",
                     endpoint_headers: { key: "value" },
@@ -168,6 +177,7 @@ describe("ToolsClient", () => {
                     speech_before_tool_call: "required",
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
+                    forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
                     context: "context",
@@ -200,6 +210,9 @@ describe("ToolsClient", () => {
                             is_required: true,
                         },
                     ],
+                    parameter_locations: {
+                        key: "request_body",
+                    },
                     endpoint_method: "GET",
                     endpoint_url: "endpoint_url",
                     endpoint_headers: {
@@ -217,6 +230,7 @@ describe("ToolsClient", () => {
                     speech_before_tool_call: "required",
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: false,
+                    forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
                     context: "Press the A button 5 times then gently shake the printer.",
@@ -247,6 +261,9 @@ describe("ToolsClient", () => {
                             location: "request_body",
                         },
                     ],
+                    parameter_locations: {
+                        key: "request_body",
+                    },
                     endpoint_method: "POST",
                     endpoint_url: "https://api.example.com/book-appointment",
                     endpoint_headers: {
@@ -265,6 +282,7 @@ describe("ToolsClient", () => {
                     speech_before_tool_call: "required",
                     wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
+                    forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
                     context: "context",
@@ -287,6 +305,9 @@ describe("ToolsClient", () => {
                             is_required: true,
                         },
                     ],
+                    parameter_locations: {
+                        key: "request_body",
+                    },
                     endpoint_method: "GET",
                     endpoint_url: "endpoint_url",
                     endpoint_headers: {
@@ -304,6 +325,7 @@ describe("ToolsClient", () => {
                     speech_before_tool_call: "required",
                     wait_for_speech_before_tool_call: false,
                     forbid_speech_after_tool_call: false,
+                    forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: false,
                     context: "context",
@@ -326,6 +348,9 @@ describe("ToolsClient", () => {
                             is_required: true,
                         },
                     ],
+                    parameter_locations: {
+                        key: "request_body",
+                    },
                     endpoint_method: "GET",
                     endpoint_url: "endpoint_url",
                     endpoint_headers: {
@@ -343,6 +368,7 @@ describe("ToolsClient", () => {
                     speech_before_tool_call: "required",
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
+                    forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
                     context: "context",
@@ -365,6 +391,9 @@ describe("ToolsClient", () => {
                             is_required: true,
                         },
                     ],
+                    parameter_locations: {
+                        key: "request_body",
+                    },
                     endpoint_method: "GET",
                     endpoint_url: "endpoint_url",
                     endpoint_headers: {
@@ -382,6 +411,7 @@ describe("ToolsClient", () => {
                     speech_before_tool_call: "required",
                     wait_for_speech_before_tool_call: true,
                     forbid_speech_after_tool_call: true,
+                    forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
                     context: "context",
@@ -557,6 +587,127 @@ describe("ToolsClient", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {
+            name: "create_order",
+            description: "Creates an order in the fulfillment system",
+            type: "custom_webhook",
+            execution_mode: "sync",
+            parameters: {
+                type: "object",
+                properties: {
+                    customer: {
+                        type: "object",
+                        description: "The customer placing the order",
+                        properties: {
+                            name: { type: "string", description: "The customer's full name" },
+                            tier: {
+                                type: "string",
+                                enum: ["free", "pro"],
+                                description: "The customer's subscription tier",
+                            },
+                        },
+                        required: ["name"],
+                    },
+                    items: {
+                        type: "array",
+                        description: "The items being ordered",
+                        items: {
+                            type: "object",
+                            properties: {
+                                sku: { type: "string", description: "The item's SKU" },
+                                quantity: { type: "integer", description: "How many of the item to order" },
+                            },
+                            required: ["sku", "quantity"],
+                        },
+                    },
+                },
+                required: ["customer", "items"],
+                additionalProperties: false,
+            },
+            parameter_locations: { customer: "request_body", items: "request_body" },
+            endpoint_method: "POST",
+            endpoint_url: "https://api.example.com/orders",
+            endpoint_timeout_ms: 5000,
+        };
+        const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
+
+        server
+            .mockEndpoint()
+            .post("/tools")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.tools.create({
+            project: "main",
+            name: "create_order",
+            description: "Creates an order in the fulfillment system",
+            type: "custom_webhook",
+            execution_mode: "sync",
+            parameters: {
+                type: "object",
+                properties: {
+                    customer: {
+                        type: "object",
+                        description: "The customer placing the order",
+                        properties: {
+                            name: {
+                                type: "string",
+                                description: "The customer's full name",
+                            },
+                            tier: {
+                                type: "string",
+                                enum: ["free", "pro"],
+                                description: "The customer's subscription tier",
+                            },
+                        },
+                        required: ["name"],
+                    },
+                    items: {
+                        type: "array",
+                        description: "The items being ordered",
+                        items: {
+                            type: "object",
+                            properties: {
+                                sku: {
+                                    type: "string",
+                                    description: "The item's SKU",
+                                },
+                                quantity: {
+                                    type: "integer",
+                                    description: "How many of the item to order",
+                                },
+                            },
+                            required: ["sku", "quantity"],
+                        },
+                    },
+                },
+                required: ["customer", "items"],
+                additionalProperties: false,
+            },
+            parameter_locations: {
+                customer: "request_body",
+                items: "request_body",
+            },
+            endpoint_method: "POST",
+            endpoint_url: "https://api.example.com/orders",
+            endpoint_timeout_ms: 5000,
+        });
+        expect(response).toEqual({
+            id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+            name: "book_appointment",
+        });
+    });
+
+    test("create (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
             name: "check_inventory",
             description: "Checks product inventory levels",
             type: "custom_websocket",
@@ -609,55 +760,6 @@ describe("ToolsClient", () => {
         });
     });
 
-    test("create (4)", async () => {
-        const server = mockServerPool.createServer();
-        const client = new PhonicClient({
-            maxRetries: 0,
-            apiKey: "test",
-            environment: { base: server.baseUrl, production: server.baseUrl },
-        });
-        const rawRequestBody = {
-            name: "transfer_to_support",
-            description: "Transfers the caller to the support team",
-            type: "built_in_transfer_to_phone_number",
-            execution_mode: "sync",
-            phone_number: "+15551234567",
-            dtmf: "1234",
-            dynamic_dtmf: false,
-            use_agent_phone_number: true,
-            detect_voicemail: false,
-            require_speech_before_tool_call: false,
-        };
-        const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
-
-        server
-            .mockEndpoint()
-            .post("/tools")
-            .jsonBody(rawRequestBody)
-            .respondWith()
-            .statusCode(200)
-            .jsonBody(rawResponseBody)
-            .build();
-
-        const response = await client.tools.create({
-            project: "main",
-            name: "transfer_to_support",
-            description: "Transfers the caller to the support team",
-            type: "built_in_transfer_to_phone_number",
-            execution_mode: "sync",
-            phone_number: "+15551234567",
-            dtmf: "1234",
-            dynamic_dtmf: false,
-            use_agent_phone_number: true,
-            detect_voicemail: false,
-            require_speech_before_tool_call: false,
-        });
-        expect(response).toEqual({
-            id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-            name: "book_appointment",
-        });
-    });
-
     test("create (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
@@ -666,11 +768,15 @@ describe("ToolsClient", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {
-            name: "transfer_to_specialist",
-            description: "Transfers the caller to a specialist agent",
-            type: "built_in_transfer_to_agent",
+            name: "transfer_to_support",
+            description: "Transfers the caller to the support team",
+            type: "built_in_transfer_to_phone_number",
             execution_mode: "sync",
-            agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
+            phone_number: "+15551234567",
+            dtmf: "1234",
+            dynamic_dtmf: false,
+            use_agent_phone_number: true,
+            detect_voicemail: false,
             require_speech_before_tool_call: false,
         };
         const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
@@ -686,11 +792,15 @@ describe("ToolsClient", () => {
 
         const response = await client.tools.create({
             project: "main",
-            name: "transfer_to_specialist",
-            description: "Transfers the caller to a specialist agent",
-            type: "built_in_transfer_to_agent",
+            name: "transfer_to_support",
+            description: "Transfers the caller to the support team",
+            type: "built_in_transfer_to_phone_number",
             execution_mode: "sync",
-            agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
+            phone_number: "+15551234567",
+            dtmf: "1234",
+            dynamic_dtmf: false,
+            use_agent_phone_number: true,
+            detect_voicemail: false,
             require_speech_before_tool_call: false,
         });
         expect(response).toEqual({
@@ -700,6 +810,47 @@ describe("ToolsClient", () => {
     });
 
     test("create (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "transfer_to_specialist",
+            description: "Transfers the caller to a specialist agent",
+            type: "built_in_transfer_to_agent",
+            execution_mode: "sync",
+            agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
+            require_speech_before_tool_call: false,
+        };
+        const rawResponseBody = { id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c", name: "book_appointment" };
+
+        server
+            .mockEndpoint()
+            .post("/tools")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.tools.create({
+            project: "main",
+            name: "transfer_to_specialist",
+            description: "Transfers the caller to a specialist agent",
+            type: "built_in_transfer_to_agent",
+            execution_mode: "sync",
+            agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
+            require_speech_before_tool_call: false,
+        });
+        expect(response).toEqual({
+            id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+            name: "book_appointment",
+        });
+    });
+
+    test("create (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -733,7 +884,7 @@ describe("ToolsClient", () => {
         }).rejects.toThrow(Phonic.BadRequestError);
     });
 
-    test("create (7)", async () => {
+    test("create (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -767,7 +918,7 @@ describe("ToolsClient", () => {
         }).rejects.toThrow(Phonic.ForbiddenError);
     });
 
-    test("create (8)", async () => {
+    test("create (9)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -818,6 +969,7 @@ describe("ToolsClient", () => {
                 type: "custom_context",
                 execution_mode: "sync",
                 parameters: [{ type: "string", name: "name", description: "description", is_required: true }],
+                parameter_locations: { key: "request_body" },
                 endpoint_method: "GET",
                 endpoint_url: "endpoint_url",
                 endpoint_headers: { key: "value" },
@@ -833,6 +985,7 @@ describe("ToolsClient", () => {
                 speech_before_tool_call: "required",
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: false,
+                forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
                 context: "Press the A button 5 times then gently shake the printer.",
@@ -863,6 +1016,9 @@ describe("ToolsClient", () => {
                         is_required: true,
                     },
                 ],
+                parameter_locations: {
+                    key: "request_body",
+                },
                 endpoint_method: "GET",
                 endpoint_url: "endpoint_url",
                 endpoint_headers: {
@@ -880,6 +1036,7 @@ describe("ToolsClient", () => {
                 speech_before_tool_call: "required",
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: false,
+                forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
                 context: "Press the A button 5 times then gently shake the printer.",
@@ -919,6 +1076,7 @@ describe("ToolsClient", () => {
                         location: "request_body",
                     },
                 ],
+                parameter_locations: { key: "request_body" },
                 endpoint_method: "POST",
                 endpoint_url: "https://api.example.com/book-appointment",
                 endpoint_headers: { Authorization: "Bearer token123", "Content-Type": "application/json" },
@@ -934,6 +1092,7 @@ describe("ToolsClient", () => {
                 speech_before_tool_call: "required",
                 wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
+                forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
                 context: "context",
@@ -972,6 +1131,9 @@ describe("ToolsClient", () => {
                         location: "request_body",
                     },
                 ],
+                parameter_locations: {
+                    key: "request_body",
+                },
                 endpoint_method: "POST",
                 endpoint_url: "https://api.example.com/book-appointment",
                 endpoint_headers: {
@@ -990,6 +1152,7 @@ describe("ToolsClient", () => {
                 speech_before_tool_call: "required",
                 wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
+                forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
                 context: "context",
@@ -1021,6 +1184,7 @@ describe("ToolsClient", () => {
                         is_required: true,
                     },
                 ],
+                parameter_locations: { key: "request_body" },
                 endpoint_method: "GET",
                 endpoint_url: "endpoint_url",
                 endpoint_headers: { key: "value" },
@@ -1036,6 +1200,7 @@ describe("ToolsClient", () => {
                 speech_before_tool_call: "required",
                 wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
+                forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: false,
                 context: "context",
@@ -1066,6 +1231,9 @@ describe("ToolsClient", () => {
                         is_required: true,
                     },
                 ],
+                parameter_locations: {
+                    key: "request_body",
+                },
                 endpoint_method: "GET",
                 endpoint_url: "endpoint_url",
                 endpoint_headers: {
@@ -1083,6 +1251,7 @@ describe("ToolsClient", () => {
                 speech_before_tool_call: "required",
                 wait_for_speech_before_tool_call: false,
                 forbid_speech_after_tool_call: false,
+                forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: false,
                 context: "context",
@@ -1107,6 +1276,7 @@ describe("ToolsClient", () => {
                 type: "built_in_transfer_to_phone_number",
                 execution_mode: "sync",
                 parameters: [{ type: "string", name: "name", description: "description", is_required: true }],
+                parameter_locations: { key: "request_body" },
                 endpoint_method: "GET",
                 endpoint_url: "endpoint_url",
                 endpoint_headers: { key: "value" },
@@ -1122,6 +1292,7 @@ describe("ToolsClient", () => {
                 speech_before_tool_call: "required",
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
+                forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
                 context: "context",
@@ -1152,6 +1323,9 @@ describe("ToolsClient", () => {
                         is_required: true,
                     },
                 ],
+                parameter_locations: {
+                    key: "request_body",
+                },
                 endpoint_method: "GET",
                 endpoint_url: "endpoint_url",
                 endpoint_headers: {
@@ -1169,6 +1343,7 @@ describe("ToolsClient", () => {
                 speech_before_tool_call: "required",
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
+                forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
                 context: "context",
@@ -1193,6 +1368,7 @@ describe("ToolsClient", () => {
                 type: "built_in_transfer_to_agent",
                 execution_mode: "sync",
                 parameters: [{ type: "string", name: "name", description: "description", is_required: true }],
+                parameter_locations: { key: "request_body" },
                 endpoint_method: "GET",
                 endpoint_url: "endpoint_url",
                 endpoint_headers: { key: "value" },
@@ -1208,6 +1384,7 @@ describe("ToolsClient", () => {
                 speech_before_tool_call: "required",
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
+                forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
                 context: "context",
@@ -1238,6 +1415,9 @@ describe("ToolsClient", () => {
                         is_required: true,
                     },
                 ],
+                parameter_locations: {
+                    key: "request_body",
+                },
                 endpoint_method: "GET",
                 endpoint_url: "endpoint_url",
                 endpoint_headers: {
@@ -1255,6 +1435,7 @@ describe("ToolsClient", () => {
                 speech_before_tool_call: "required",
                 wait_for_speech_before_tool_call: true,
                 forbid_speech_after_tool_call: true,
+                forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
                 context: "context",

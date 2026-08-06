@@ -18,6 +18,8 @@ export interface InlineWebSocketTool {
     wait_for_speech_before_tool_call?: boolean | undefined;
     /** When true, prevents the assistant from speaking after executing the tool. */
     forbid_speech_after_tool_call?: boolean | undefined;
+    /** When true, prevents the assistant from calling the tool right after it has spoken. */
+    forbid_tool_call_after_speech?: boolean | undefined;
     /** When true, allows the assistant to call another tool after this tool. */
     allow_tool_chaining?: boolean | undefined;
     /** For async tools, when true, the assistant waits for the response and speaks when it arrives. */

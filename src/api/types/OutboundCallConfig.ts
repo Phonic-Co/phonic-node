@@ -50,7 +50,7 @@ export interface OutboundCallConfig {
     min_words_to_interrupt?: number | undefined;
     /** Array of built-in or custom tool names to use. */
     tools?: OutboundCallConfig.Tools.Item[] | undefined;
-    /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends. */
+    /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean | undefined;
     /** The speech-to-speech model to use. */
     model?: "merritt" | undefined;

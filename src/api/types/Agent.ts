@@ -87,7 +87,7 @@ export interface Agent {
     vad_min_silence_duration_ms?: number | undefined;
     /** Voice activity detection threshold. */
     vad_threshold?: number | undefined;
-    /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends. */
+    /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean | undefined;
     /** The URL-friendly slug of the agent. */
     slug?: string | undefined;

@@ -14,8 +14,17 @@ export interface Tool {
     type: Tool.Type;
     /** Mode of operation - sync waits for response, async continues without waiting. */
     execution_mode?: Tool.ExecutionMode | undefined;
-    /** Array of parameter definitions for the tool. */
-    parameters: Phonic.ToolParameter[];
+    /**
+     * The tool's parameters, returned in the same form they were defined in.
+     * Tools defined with a flat list of parameters return an array of parameter definitions (with `location` included inline for `custom_webhook` tools).
+     * Tools defined with a raw JSON Schema object return that object; for `custom_webhook` tools the parameter placement is then returned separately in `parameter_locations`.
+     */
+    parameters: Tool.Parameters;
+    /**
+     * Where each top-level parameter is sent in the webhook request, as a map from parameter name to location.
+     * Only returned for `custom_webhook` tools whose `parameters` are a raw JSON Schema object. Tools defined with a flat list of parameters carry `location` inline on each parameter instead.
+     */
+    parameter_locations?: Record<string, Tool.ParameterLocations.Value> | undefined;
     /** HTTP method for webhook tools. */
     endpoint_method?: Tool.EndpointMethod | undefined;
     /** URL for webhook tools. */
@@ -46,6 +55,8 @@ export interface Tool {
     wait_for_speech_before_tool_call?: boolean | undefined;
     /** When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
     forbid_speech_after_tool_call?: boolean | undefined;
+    /** When true, forbids the agent from calling the tool right after it has spoken. Available for custom_webhook and custom_websocket tools. */
+    forbid_tool_call_after_speech?: boolean | undefined;
     /** When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
     allow_tool_chaining?: boolean | undefined;
     /** The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools. */
@@ -78,6 +89,21 @@ export namespace Tool {
         Async: "async",
     } as const;
     export type ExecutionMode = (typeof ExecutionMode)[keyof typeof ExecutionMode];
+    /**
+     * The tool's parameters, returned in the same form they were defined in.
+     * Tools defined with a flat list of parameters return an array of parameter definitions (with `location` included inline for `custom_webhook` tools).
+     * Tools defined with a raw JSON Schema object return that object; for `custom_webhook` tools the parameter placement is then returned separately in `parameter_locations`.
+     */
+    export type Parameters = Phonic.ToolParameter[] | Phonic.ToolParametersJsonSchema;
+
+    export namespace ParameterLocations {
+        export const Value = {
+            RequestBody: "request_body",
+            QueryString: "query_string",
+        } as const;
+        export type Value = (typeof Value)[keyof typeof Value];
+    }
+
     /** HTTP method for webhook tools. */
     export const EndpointMethod = {
         Get: "GET",

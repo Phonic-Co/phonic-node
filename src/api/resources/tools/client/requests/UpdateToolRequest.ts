@@ -25,13 +25,18 @@ export interface UpdateToolRequest {
     /** The static context returned to the agent. Only applicable to custom_context tools. */
     context?: string;
     /**
-     * Array of parameter definitions.
-     * When updating `endpoint_method`, all parameters must include explicit `location` values.
-     * For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
+     * The tool's parameters, either as a flat array of parameter definitions or as a raw JSON Schema object (use the object form for nested parameters). Replaces the tool's existing parameters, including the form they are stored in.
+     * For `custom_webhook` tools: when sending an array, `location` is required for POST and defaults to `"query_string"` for GET, and `parameter_locations` must not be sent; when sending a JSON Schema object, placement is supplied in `parameter_locations`.
      * For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools: `location` must not be specified.
      */
-    parameters?: Phonic.ToolParameter[];
-    /** HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values. */
+    parameters?: UpdateToolRequest.Parameters;
+    /**
+     * Where each top-level parameter is sent in the webhook request, as a map from parameter name to location. Only for `custom_webhook` tools whose `parameters` are a raw JSON Schema object.
+     * Can be sent on its own to move existing parameters without resending `parameters`; entries are merged over the tool's current placement, so parameters left out keep where they were.
+     * Every key must name a top-level parameter. For POST webhooks, every parameter needs a placement. For GET webhooks, unplaced parameters default to `"query_string"` and `"request_body"` is not allowed.
+     */
+    parameter_locations?: Record<string, UpdateToolRequest.ParameterLocations.Value>;
+    /** HTTP method for webhook tools. When switching from POST to GET, a tool with request body parameters must also send new `parameters` (or `parameter_locations`) placing them in the query string. */
     endpoint_method?: UpdateToolRequest.EndpointMethod;
     /** URL for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials. */
     endpoint_url?: string;
@@ -59,6 +64,8 @@ export interface UpdateToolRequest {
     wait_for_speech_before_tool_call?: boolean;
     /** When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
     forbid_speech_after_tool_call?: boolean;
+    /** When true, forbids the agent from calling the tool right after it has spoken. Available for custom_webhook and custom_websocket tools. */
+    forbid_tool_call_after_speech?: boolean;
     /** When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
     allow_tool_chaining?: boolean;
     /** The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools. */
@@ -72,7 +79,22 @@ export namespace UpdateToolRequest {
         Async: "async",
     } as const;
     export type ExecutionMode = (typeof ExecutionMode)[keyof typeof ExecutionMode];
-    /** HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values. */
+    /**
+     * The tool's parameters, either as a flat array of parameter definitions or as a raw JSON Schema object (use the object form for nested parameters). Replaces the tool's existing parameters, including the form they are stored in.
+     * For `custom_webhook` tools: when sending an array, `location` is required for POST and defaults to `"query_string"` for GET, and `parameter_locations` must not be sent; when sending a JSON Schema object, placement is supplied in `parameter_locations`.
+     * For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools: `location` must not be specified.
+     */
+    export type Parameters = Phonic.ToolParameter[] | Phonic.ToolParametersJsonSchema;
+
+    export namespace ParameterLocations {
+        export const Value = {
+            RequestBody: "request_body",
+            QueryString: "query_string",
+        } as const;
+        export type Value = (typeof Value)[keyof typeof Value];
+    }
+
+    /** HTTP method for webhook tools. When switching from POST to GET, a tool with request body parameters must also send new `parameters` (or `parameter_locations`) placing them in the query string. */
     export const EndpointMethod = {
         Get: "GET",
         Post: "POST",
