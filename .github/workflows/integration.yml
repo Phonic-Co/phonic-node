@@ -1,0 +1,46 @@
+# Maintained manually (listed in .fernignore). Fern does not overwrite this file.
+#
+# Runs the live SDK integration tests (REST CRUD + conversation WebSocket)
+# against a real Phonic API. The point is to catch cases where a Fern
+# regeneration or a change to a `.fernignore`-protected file breaks the SDK
+# against the actual API contract.
+
+name: integration
+
+on:
+  # Run on PRs (including the automated Fern SDK-regeneration PRs) and on pushes
+  # to main, plus a daily schedule and manual dispatch.
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 7 * * *" # daily at 07:00 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      - name: Set up node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run integration tests
+        env:
+          PHONIC_API_KEY: ${{ secrets.PHONIC_API_KEY }}
+          # Host root of the API to test against, e.g. https://api.test.phonic.co
+          # (no /v1 suffix). Falls back to production when unset.
+          PHONIC_API_BASE_URL: ${{ vars.PHONIC_API_BASE_URL }}
+        run: yarn jest --config jest.integration.config.mjs
