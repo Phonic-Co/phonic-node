@@ -57,6 +57,15 @@ type EventHandlers = {
  * with a terminal close code (4800 session expired, 4801 invalid state),
  * the safety cap is reached, or the user calls close().
  *
+ * A reconnectable close is NOT surfaced to the user's "close" handler while
+ * the reconnect is in flight — the drop is handled transparently, matching
+ * the Python SDK's ReconnectableConversationsSocketClient. The close is
+ * emitted only once reconnection has definitively failed, so callers that
+ * treat a close as end-of-session (e.g. the LiveKit agents plugin, which
+ * tears down the AgentSession on any non-1000 close) do not kill the session
+ * out from under an in-progress reconnect. Closes that were never
+ * reconnectable (1000, 4000, 4800, bare 1001, ...) pass through immediately.
+ *
  * Uses composition rather than inheritance to avoid coupling to the parent's
  * private event handler registration or ReconnectingWebSocket internals.
  */
@@ -73,6 +82,13 @@ export class ReconnectableConversationsSocket {
     private _cleanupWireListeners: (() => void) | null = null;
     private _pendingReconnect: ReturnType<typeof setTimeout> | null = null;
     private _pendingReplacement = false;
+    /** The last close we swallowed because a reconnect was starting. Re-emitted
+     *  verbatim if reconnection ultimately fails, so the user sees the real
+     *  close code rather than a synthesized one. */
+    private _suppressedClose: core.CloseEvent | null = null;
+    /** Set once we have given up and emitted the terminal close, so a late
+     *  close on an abandoned socket cannot emit it a second time. */
+    private _gaveUp = false;
 
     constructor(args: ReconnectableConversationsSocketArgs) {
         this._createReconnectSocket = args.createReconnectSocket;
@@ -162,13 +178,41 @@ export class ReconnectableConversationsSocket {
             clearTimeout(this._pendingReconnect);
             this._pendingReconnect = null;
         }
+        // Close before detaching: ConversationsSocket.close() synthesizes a
+        // 1000 close event, and a user-initiated close should still surface one.
+        this._inner.close();
         this._cleanupWireListeners?.();
         this._cleanupWireListeners = null;
-        this._inner.close();
     }
 
     public async waitForOpen(): Promise<core.ReconnectingWebSocket> {
         return this._inner.waitForOpen();
+    }
+
+    /** Whether this close will be recovered transparently, so it must not reach
+     *  the user's close handler. Mirrors the conditions under which the
+     *  raw-socket close listener schedules a reconnect. */
+    private _willReconnectAfter(event: core.CloseEvent): boolean {
+        return (
+            !this._isClosed
+            && !this._gaveUp
+            && this._conversationId !== null
+            && isReconnectableClose(event.code, event.reason)
+        );
+    }
+
+    /** Reconnection has definitively failed: surface the close we swallowed. */
+    private _giveUp(): void {
+        this._pendingReplacement = false;
+        if (this._gaveUp) {
+            return;
+        }
+        this._gaveUp = true;
+        const suppressed = this._suppressedClose;
+        this._suppressedClose = null;
+        if (suppressed !== null) {
+            this._handlers.close?.(suppressed);
+        }
     }
 
     private _getReconnectDelay(): number {
@@ -179,12 +223,18 @@ export class ReconnectableConversationsSocket {
 
     /** Schedule a reconnection attempt after backoff delay. */
     private _scheduleReconnect(): void {
-        if (this._isClosed || this._conversationId === null || this._abortSignal?.aborted) {
+        if (this._isClosed || this._conversationId === null) {
+            // User-initiated close, or no conversation to resume — in the latter
+            // case the close was never suppressed, so there is nothing to emit.
+            return;
+        }
+        if (this._abortSignal?.aborted) {
+            this._giveUp();
             return;
         }
         if (this._reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
-            this._pendingReplacement = false;
             this._handlers.error?.(new Error("Max reconnect attempts reached"));
+            this._giveUp();
             return;
         }
 
@@ -203,6 +253,12 @@ export class ReconnectableConversationsSocket {
                 this._pendingReplacement = false;
                 return;
             }
+            if (this._abortSignal?.aborted) {
+                // Aborted during the backoff — don't open a socket just to
+                // close it; surface the drop we swallowed instead.
+                this._giveUp();
+                return;
+            }
             void this._doReconnect();
         }, delay);
     }
@@ -216,6 +272,9 @@ export class ReconnectableConversationsSocket {
             if (this._isClosed || this._abortSignal?.aborted) {
                 this._pendingReplacement = false;
                 newRawSocket.close();
+                if (!this._isClosed) {
+                    this._giveUp();
+                }
                 return;
             }
 
@@ -238,16 +297,43 @@ export class ReconnectableConversationsSocket {
     }
 
     private _wireInner(inner: ConversationsSocket, rawSocket: core.ReconnectingWebSocket): void {
+        // Set once this inner is superseded. ConversationsSocket.close()
+        // synthesizes a 1000 close event, so without this every reconnect would
+        // report a spurious normal closure from the socket being discarded.
+        let detached = false;
+
         // Forward events from the inner ConversationsSocket to user handlers.
         // Clear _pendingReplacement before calling the user's open handler
         // so that sends inside the handler are not silently dropped.
         inner.on("open", () => {
+            if (detached) return;
             this._pendingReplacement = false;
+            // Reconnect succeeded — the drop is healed, so the close we
+            // swallowed must never be replayed.
+            this._suppressedClose = null;
             this._handlers.open?.();
         });
-        inner.on("message", (msg) => this._handlers.message?.(msg));
-        inner.on("close", (ev) => this._handlers.close?.(ev));
-        inner.on("error", (err) => this._handlers.error?.(err));
+        inner.on("message", (msg) => {
+            if (detached) return;
+            this._handlers.message?.(msg);
+        });
+        // Swallow closes we are about to recover from. The user hears about the
+        // drop only if reconnection gives up (_giveUp re-emits this event).
+        // Note this handler runs BEFORE the raw-socket onClose below, since
+        // ConversationsSocket registers its listener in its constructor — so the
+        // decision must be made here rather than read off reconnect state.
+        inner.on("close", (ev) => {
+            if (detached) return;
+            if (this._willReconnectAfter(ev)) {
+                this._suppressedClose = ev;
+                return;
+            }
+            this._handlers.close?.(ev);
+        });
+        inner.on("error", (err) => {
+            if (detached) return;
+            this._handlers.error?.(err);
+        });
 
         // Intercept raw messages to capture conversation_id and reset reconnect counter
         const onMessage = (event: { data: string }) => {
@@ -268,7 +354,10 @@ export class ReconnectableConversationsSocket {
         };
 
         const onClose = (event: core.CloseEvent) => {
-            if (this._isClosed) {
+            if (this._isClosed || this._gaveUp) {
+                // Once we've given up, we're a plain pass-through: the close was
+                // already forwarded above, and retrying would re-emit the
+                // "Max reconnect attempts reached" error.
                 return;
             }
 
@@ -290,6 +379,7 @@ export class ReconnectableConversationsSocket {
         rawSocket.addEventListener("close", onClose);
 
         this._cleanupWireListeners = () => {
+            detached = true;
             rawSocket.removeEventListener("message", onMessage);
             rawSocket.removeEventListener("close", onClose as any);
         };
