@@ -536,10 +536,25 @@ describe("ReconnectableConversationsSocket", () => {
                 jest.advanceTimersByTime(MAX_RECONNECT_DELAY_MS);
             }
 
-            // close() already reported a 1000; replaying the suppressed 1006
+            // The user's close is still reported; replaying the suppressed 1006
             // afterwards would contradict it.
             const codes = onClose.mock.calls.map((c: any[]) => c[0].code);
-            expect(codes).not.toContain(1006);
+            expect(codes).toEqual([1000]);
+        });
+
+        it("reports the user's close made while a replacement is still connecting", () => {
+            const { mockSocket, createReconnectSocket, reconnectable, onClose } = withHandlers();
+
+            mockSocket._fire("close", { code: 1006, reason: "" });
+            jest.advanceTimersByTime(MAX_RECONNECT_DELAY_MS);
+            expect(createReconnectSocket).toHaveBeenCalledTimes(1);
+
+            // Replacement has not opened yet, so its synthesized 1000 must not
+            // be mistaken for a failed attempt and swallowed.
+            reconnectable.close();
+
+            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onClose.mock.calls[0][0]).toMatchObject({ code: 1000 });
         });
 
         it("gives up and surfaces the close when the abort signal fires mid-backoff", () => {

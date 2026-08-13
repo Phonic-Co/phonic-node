@@ -290,8 +290,10 @@ export class ReconnectableConversationsSocket {
         // level, and its code says nothing about why: ReconnectingWebSocket
         // synthesizes 1000 for connect errors and timeouts (_handleError ->
         // _disconnect). Read it as a failed attempt rather than as a close.
+        // _isClosed excluded: close() also reaches this via the synthesized
+        // 1000, and a user-initiated close is a close, not a failed attempt.
         let opened = false;
-        const isFailedAttempt = () => isReplacement && !opened;
+        const isFailedAttempt = () => isReplacement && !opened && !this._isClosed;
 
         // Clearing _pendingReplacement before the user's open handler keeps
         // sends made inside that handler from being dropped.
