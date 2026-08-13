@@ -207,8 +207,10 @@ describe("ReconnectableConversationsSocket", () => {
             jest.advanceTimersByTime(1000);
             expect(createReconnectSocket).toHaveBeenCalledTimes(1);
 
-            // The reconnect socket gets a terminal close code
+            // The reconnect socket connects, then gets a terminal close code.
+            // The open matters: a server-sent code can only follow a handshake.
             const reconnectSocket = createReconnectSocket.mock.results[0].value;
+            reconnectSocket._fire("open", {});
             reconnectSocket._fire("close", { code });
             jest.advanceTimersByTime(10000);
 
@@ -410,8 +412,9 @@ describe("ReconnectableConversationsSocket", () => {
             jest.advanceTimersByTime(1000);
             expect(onClose).not.toHaveBeenCalled();
 
-            // Server refuses the resume: session expired.
+            // Server accepts the connection, then refuses the resume.
             const newSocket = createReconnectSocket.mock.results[0].value;
+            newSocket._fire("open", {});
             newSocket._fire("close", { code: 4800, reason: "session expired" });
 
             expect(onClose).toHaveBeenCalledTimes(1);
@@ -429,7 +432,9 @@ describe("ReconnectableConversationsSocket", () => {
                 jest.advanceTimersByTime(MAX_RECONNECT_DELAY_MS);
                 expect(createReconnectSocket).toHaveBeenCalledTimes(i + 1);
                 expect(onClose).not.toHaveBeenCalled();
+                // Each replacement connects, then drops again.
                 current = createReconnectSocket.mock.results[i].value;
+                current._fire("open", {});
             }
 
             current._fire("close", { code: 1006, reason: "" });
@@ -451,6 +456,7 @@ describe("ReconnectableConversationsSocket", () => {
                 current._fire("close", { code: 1006, reason: "" });
                 jest.advanceTimersByTime(MAX_RECONNECT_DELAY_MS);
                 current = createReconnectSocket.mock.results[i].value;
+                current._fire("open", {});
             }
             current._fire("close", { code: 1006, reason: "" });
             expect(onClose).toHaveBeenCalledTimes(1);
@@ -464,6 +470,76 @@ describe("ReconnectableConversationsSocket", () => {
             expect(createReconnectSocket).toHaveBeenCalledTimes(MAX_RECONNECT_ATTEMPTS);
             expect(onError).toHaveBeenCalledTimes(1);
             expect(onClose).toHaveBeenCalledTimes(2);
+        });
+
+        // Replacement sockets are created with maxRetries: 0, and RWS reports a
+        // connect error or timeout as a *synthesized* {code: 1000} rather than
+        // the underlying 1006 (_handleError -> _disconnect defaults to 1000).
+        // A failed attempt must therefore not be mistaken for a normal closure.
+        it("retries when a replacement never opens and reports 1000", () => {
+            const { mockSocket, createReconnectSocket, onClose } = withHandlers();
+
+            mockSocket._fire("close", { code: 1006, reason: "" });
+            jest.advanceTimersByTime(MAX_RECONNECT_DELAY_MS);
+            expect(createReconnectSocket).toHaveBeenCalledTimes(1);
+
+            // Server unreachable: RWS synthesizes a normal closure without ever
+            // having opened the socket.
+            createReconnectSocket.mock.results[0].value._fire("close", { code: 1000, reason: "" });
+
+            expect(onClose).not.toHaveBeenCalled();
+            jest.advanceTimersByTime(MAX_RECONNECT_DELAY_MS);
+            expect(createReconnectSocket).toHaveBeenCalledTimes(2);
+        });
+
+        it("reports the original drop, not the synthesized 1000, after exhausting retries", () => {
+            const { mockSocket, createReconnectSocket, onClose, onError } = withHandlers();
+
+            mockSocket._fire("close", { code: 1006, reason: "" });
+            jest.advanceTimersByTime(MAX_RECONNECT_DELAY_MS);
+
+            for (let i = 0; i < MAX_RECONNECT_ATTEMPTS; i++) {
+                createReconnectSocket.mock.results[i].value._fire("close", { code: 1000, reason: "" });
+                jest.advanceTimersByTime(MAX_RECONNECT_DELAY_MS);
+            }
+
+            expect(createReconnectSocket).toHaveBeenCalledTimes(MAX_RECONNECT_ATTEMPTS);
+            expect(onError).toHaveBeenCalledWith(new Error("Max reconnect attempts reached"));
+            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onClose.mock.calls[0][0]).toMatchObject({ code: 1006 });
+        });
+
+        it("still surfaces a terminal code from a replacement that opened", () => {
+            const { mockSocket, createReconnectSocket, onClose } = withHandlers();
+
+            mockSocket._fire("close", { code: 1006, reason: "" });
+            jest.advanceTimersByTime(MAX_RECONNECT_DELAY_MS);
+
+            // Handshake succeeded, then the server refused the resume.
+            const replacement = createReconnectSocket.mock.results[0].value;
+            replacement._fire("open", {});
+            replacement._fire("close", { code: 4800, reason: "session expired" });
+
+            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onClose.mock.calls[0][0]).toMatchObject({ code: 4800 });
+            expect(createReconnectSocket).toHaveBeenCalledTimes(1);
+        });
+
+        it("does not emit a close after the user closes from their error handler", () => {
+            const { mockSocket, createReconnectSocket, reconnectable, onClose } = withHandlers();
+            reconnectable.on("error", () => reconnectable.close());
+
+            mockSocket._fire("close", { code: 1006, reason: "" });
+            jest.advanceTimersByTime(MAX_RECONNECT_DELAY_MS);
+            for (let i = 0; i < MAX_RECONNECT_ATTEMPTS; i++) {
+                createReconnectSocket.mock.results[i].value._fire("close", { code: 1000, reason: "" });
+                jest.advanceTimersByTime(MAX_RECONNECT_DELAY_MS);
+            }
+
+            // close() already reported a 1000; replaying the suppressed 1006
+            // afterwards would contradict it.
+            const codes = onClose.mock.calls.map((c: any[]) => c[0].code);
+            expect(codes).not.toContain(1006);
         });
 
         it("gives up and surfaces the close when the abort signal fires mid-backoff", () => {

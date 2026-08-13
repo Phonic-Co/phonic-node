@@ -191,7 +191,7 @@ export class ReconnectableConversationsSocket {
 
     private _giveUp(): void {
         this._pendingReplacement = false;
-        if (this._gaveUp) {
+        if (this._gaveUp || this._isClosed) {
             return;
         }
         this._gaveUp = true;
@@ -271,7 +271,7 @@ export class ReconnectableConversationsSocket {
 
             const newInner = new ConversationsSocket({ socket: newRawSocket });
             this._inner = newInner;
-            this._wireInner(newInner, newRawSocket);
+            this._wireInner(newInner, newRawSocket, true);
         } catch {
             this._pendingReplacement = false;
             // Connection failed — schedule another attempt.
@@ -281,10 +281,22 @@ export class ReconnectableConversationsSocket {
         }
     }
 
-    private _wireInner(inner: ConversationsSocket, rawSocket: core.ReconnectingWebSocket): void {
+    private _wireInner(
+        inner: ConversationsSocket,
+        rawSocket: core.ReconnectingWebSocket,
+        isReplacement = false,
+    ): void {
+        // A replacement that closes before ever opening failed at the transport
+        // level, and its code says nothing about why: ReconnectingWebSocket
+        // synthesizes 1000 for connect errors and timeouts (_handleError ->
+        // _disconnect). Read it as a failed attempt rather than as a close.
+        let opened = false;
+        const isFailedAttempt = () => isReplacement && !opened;
+
         // Clearing _pendingReplacement before the user's open handler keeps
         // sends made inside that handler from being dropped.
         inner.on("open", () => {
+            opened = true;
             this._pendingReplacement = false;
             this._lastSuppressedClose = null;
             this._handlers.open?.();
@@ -294,6 +306,11 @@ export class ReconnectableConversationsSocket {
         // before the rawSocket close listener below that schedules the
         // reconnect — the decision cannot be read off reconnect state here.
         inner.on("close", (ev) => {
+            // Leave _lastSuppressedClose holding the original drop, so _giveUp
+            // reports what went wrong rather than this attempt's code.
+            if (isFailedAttempt()) {
+                return;
+            }
             if (this._willReconnectAfter(ev)) {
                 this._lastSuppressedClose = ev;
                 return;
@@ -324,6 +341,12 @@ export class ReconnectableConversationsSocket {
         // forwarded above, and retrying would repeat the give-up error.
         const onClose = (event: core.CloseEvent) => {
             if (this._isClosed || this._gaveUp) {
+                return;
+            }
+
+            if (isFailedAttempt()) {
+                rawSocket.close();
+                this._scheduleReconnect();
                 return;
             }
 
