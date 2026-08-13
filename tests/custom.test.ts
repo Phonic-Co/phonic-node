@@ -584,6 +584,48 @@ describe("ReconnectableConversationsSocket", () => {
             expect(onClose).toHaveBeenCalledTimes(1);
             expect(onClose.mock.calls[0][0]).toMatchObject({ code: 1006 });
         });
+
+        // The factory awaits caller-supplied auth, so its promise may settle
+        // late or never. Aborting must not wait on it.
+        it("gives up when the abort signal fires while the replacement is being created", async () => {
+            const controller = new AbortController();
+            const mockSocket = createMockSocket();
+            let resolveFactory: (socket: ReconnectingWebSocket) => void = () => undefined;
+            const pending = new Promise<ReconnectingWebSocket>((resolve) => {
+                resolveFactory = resolve;
+            });
+            const createReconnectSocket = jest.fn(() => pending);
+            const reconnectable = new ReconnectableConversationsSocket({
+                socket: mockSocket as unknown as ReconnectingWebSocket,
+                createReconnectSocket,
+                abortSignal: controller.signal,
+            });
+            const onClose = jest.fn();
+            reconnectable.on("close", onClose);
+            mockSocket._fire("message", {
+                data: JSON.stringify({ type: "conversation_created", conversation_id: "conv_123" }),
+            });
+
+            mockSocket._fire("close", { code: 1006, reason: "" });
+            jest.advanceTimersByTime(MAX_RECONNECT_DELAY_MS);
+            await Promise.resolve();
+            expect(createReconnectSocket).toHaveBeenCalledTimes(1);
+            expect(onClose).not.toHaveBeenCalled();
+
+            controller.abort();
+            await Promise.resolve();
+            await Promise.resolve();
+
+            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onClose.mock.calls[0][0]).toMatchObject({ code: 1006 });
+
+            // A socket that arrives after the abort is closed, not left dangling.
+            const late = createMockSocket();
+            resolveFactory(late as unknown as ReconnectingWebSocket);
+            await Promise.resolve();
+            await Promise.resolve();
+            expect(late.close).toHaveBeenCalled();
+        });
     });
 
     it("close() cancels pending reconnect timer", () => {

@@ -248,11 +248,56 @@ export class ReconnectableConversationsSocket {
         }, delay);
     }
 
+    /** Settle as soon as the abort signal fires rather than waiting on the
+     *  factory, whose promise is caller-supplied (it awaits fresh auth) and
+     *  may never settle — the suppressed close would stay hidden forever.
+     *  Resolves null when aborted; a socket arriving afterwards is closed
+     *  rather than leaked. The listener is removed once the factory settles,
+     *  so a long-lived conversation does not accumulate them on the signal. */
+    private _createSocketOrAbort(
+        created: Promise<core.ReconnectingWebSocket>,
+    ): Promise<core.ReconnectingWebSocket | null> {
+        const signal = this._abortSignal;
+        if (signal === null) {
+            return created;
+        }
+        const discardLate = () => {
+            void created.then((socket) => socket.close()).catch(() => undefined);
+        };
+        if (signal.aborted) {
+            discardLate();
+            return Promise.resolve(null);
+        }
+        return new Promise((resolve, reject) => {
+            const onAbort = () => {
+                discardLate();
+                resolve(null);
+            };
+            signal.addEventListener("abort", onAbort, { once: true });
+            created.then(
+                (socket) => {
+                    signal.removeEventListener("abort", onAbort);
+                    resolve(socket);
+                },
+                (error) => {
+                    signal.removeEventListener("abort", onAbort);
+                    reject(error);
+                },
+            );
+        });
+    }
+
     /** Perform the actual reconnection attempt. */
     private async _doReconnect(): Promise<void> {
         try {
             const created = this._createReconnectSocket(this._conversationId!);
-            const newRawSocket = created instanceof Promise ? await created : created;
+            const newRawSocket = created instanceof Promise ? await this._createSocketOrAbort(created) : created;
+
+            if (newRawSocket === null) {
+                // Aborted while the factory was still in flight.
+                this._giveUp();
+                return;
+            }
 
             if (this._isClosed || this._abortSignal?.aborted) {
                 this._pendingReplacement = false;
