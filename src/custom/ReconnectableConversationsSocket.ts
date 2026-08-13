@@ -57,6 +57,11 @@ type EventHandlers = {
  * with a terminal close code (4800 session expired, 4801 invalid state),
  * the safety cap is reached, or the user calls close().
  *
+ * A reconnectable close is not surfaced to the user's close handler while the
+ * reconnect is in flight. The close is emitted only when reconnection has
+ * failed, meaning the conversation is closing. Closes that are not
+ * reconnectable (1000, 4000, etc) are not affected and will pass through.
+ *
  * Uses composition rather than inheritance to avoid coupling to the parent's
  * private event handler registration or ReconnectingWebSocket internals.
  */
@@ -73,6 +78,8 @@ export class ReconnectableConversationsSocket {
     private _cleanupWireListeners: (() => void) | null = null;
     private _pendingReconnect: ReturnType<typeof setTimeout> | null = null;
     private _pendingReplacement = false;
+    private _lastSuppressedClose: core.CloseEvent | null = null;
+    private _gaveUp = false;
 
     constructor(args: ReconnectableConversationsSocketArgs) {
         this._createReconnectSocket = args.createReconnectSocket;
@@ -162,13 +169,37 @@ export class ReconnectableConversationsSocket {
             clearTimeout(this._pendingReconnect);
             this._pendingReconnect = null;
         }
+        // Close before detaching: ConversationsSocket.close() synthesizes a
+        // 1000 close event, and a user-initiated close should still surface one.
+        this._inner.close();
         this._cleanupWireListeners?.();
         this._cleanupWireListeners = null;
-        this._inner.close();
     }
 
     public async waitForOpen(): Promise<core.ReconnectingWebSocket> {
         return this._inner.waitForOpen();
+    }
+
+    private _willReconnectAfter(event: core.CloseEvent): boolean {
+        return (
+            !this._isClosed
+            && !this._gaveUp
+            && this._conversationId !== null
+            && isReconnectableClose(event.code, event.reason)
+        );
+    }
+
+    private _giveUp(): void {
+        this._pendingReplacement = false;
+        if (this._gaveUp || this._isClosed) {
+            return;
+        }
+        this._gaveUp = true;
+        const suppressed = this._lastSuppressedClose;
+        this._lastSuppressedClose = null;
+        if (suppressed !== null) {
+            this._handlers.close?.(suppressed);
+        }
     }
 
     private _getReconnectDelay(): number {
@@ -179,12 +210,18 @@ export class ReconnectableConversationsSocket {
 
     /** Schedule a reconnection attempt after backoff delay. */
     private _scheduleReconnect(): void {
-        if (this._isClosed || this._conversationId === null || this._abortSignal?.aborted) {
+        // With no conversation the close was never suppressed, so unlike the
+        // branches below there is nothing to emit.
+        if (this._isClosed || this._conversationId === null) {
+            return;
+        }
+        if (this._abortSignal?.aborted) {
+            this._giveUp();
             return;
         }
         if (this._reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
-            this._pendingReplacement = false;
             this._handlers.error?.(new Error("Max reconnect attempts reached"));
+            this._giveUp();
             return;
         }
 
@@ -203,19 +240,71 @@ export class ReconnectableConversationsSocket {
                 this._pendingReplacement = false;
                 return;
             }
+            if (this._abortSignal?.aborted) {
+                this._giveUp();
+                return;
+            }
             void this._doReconnect();
         }, delay);
+    }
+
+    /** Settle as soon as the abort signal fires rather than waiting on the
+     *  factory, whose promise is caller-supplied (it awaits fresh auth) and
+     *  may never settle — the suppressed close would stay hidden forever.
+     *  Resolves null when aborted; a socket arriving afterwards is closed
+     *  rather than leaked. The listener is removed once the factory settles,
+     *  so a long-lived conversation does not accumulate them on the signal. */
+    private _createSocketOrAbort(
+        created: Promise<core.ReconnectingWebSocket>,
+    ): Promise<core.ReconnectingWebSocket | null> {
+        const signal = this._abortSignal;
+        if (signal === null) {
+            return created;
+        }
+        const discardLate = () => {
+            void created.then((socket) => socket.close()).catch(() => undefined);
+        };
+        if (signal.aborted) {
+            discardLate();
+            return Promise.resolve(null);
+        }
+        return new Promise((resolve, reject) => {
+            const onAbort = () => {
+                discardLate();
+                resolve(null);
+            };
+            signal.addEventListener("abort", onAbort, { once: true });
+            created.then(
+                (socket) => {
+                    signal.removeEventListener("abort", onAbort);
+                    resolve(socket);
+                },
+                (error) => {
+                    signal.removeEventListener("abort", onAbort);
+                    reject(error);
+                },
+            );
+        });
     }
 
     /** Perform the actual reconnection attempt. */
     private async _doReconnect(): Promise<void> {
         try {
             const created = this._createReconnectSocket(this._conversationId!);
-            const newRawSocket = created instanceof Promise ? await created : created;
+            const newRawSocket = created instanceof Promise ? await this._createSocketOrAbort(created) : created;
+
+            if (newRawSocket === null) {
+                // Aborted while the factory was still in flight.
+                this._giveUp();
+                return;
+            }
 
             if (this._isClosed || this._abortSignal?.aborted) {
                 this._pendingReplacement = false;
                 newRawSocket.close();
+                if (!this._isClosed) {
+                    this._giveUp();
+                }
                 return;
             }
 
@@ -227,7 +316,7 @@ export class ReconnectableConversationsSocket {
 
             const newInner = new ConversationsSocket({ socket: newRawSocket });
             this._inner = newInner;
-            this._wireInner(newInner, newRawSocket);
+            this._wireInner(newInner, newRawSocket, true);
         } catch {
             this._pendingReplacement = false;
             // Connection failed — schedule another attempt.
@@ -237,16 +326,44 @@ export class ReconnectableConversationsSocket {
         }
     }
 
-    private _wireInner(inner: ConversationsSocket, rawSocket: core.ReconnectingWebSocket): void {
-        // Forward events from the inner ConversationsSocket to user handlers.
-        // Clear _pendingReplacement before calling the user's open handler
-        // so that sends inside the handler are not silently dropped.
+    private _wireInner(
+        inner: ConversationsSocket,
+        rawSocket: core.ReconnectingWebSocket,
+        isReplacement = false,
+    ): void {
+        // A replacement that closes before ever opening failed at the transport
+        // level, and its code says nothing about why: ReconnectingWebSocket
+        // synthesizes 1000 for connect errors and timeouts (_handleError ->
+        // _disconnect). Read it as a failed attempt rather than as a close.
+        // _isClosed excluded: close() also reaches this via the synthesized
+        // 1000, and a user-initiated close is a close, not a failed attempt.
+        let opened = false;
+        const isFailedAttempt = () => isReplacement && !opened && !this._isClosed;
+
+        // Clearing _pendingReplacement before the user's open handler keeps
+        // sends made inside that handler from being dropped.
         inner.on("open", () => {
+            opened = true;
             this._pendingReplacement = false;
+            this._lastSuppressedClose = null;
             this._handlers.open?.();
         });
         inner.on("message", (msg) => this._handlers.message?.(msg));
-        inner.on("close", (ev) => this._handlers.close?.(ev));
+        // ConversationsSocket registers this in its constructor, so it runs
+        // before the rawSocket close listener below that schedules the
+        // reconnect — the decision cannot be read off reconnect state here.
+        inner.on("close", (ev) => {
+            // Leave _lastSuppressedClose holding the original drop, so _giveUp
+            // reports what went wrong rather than this attempt's code.
+            if (isFailedAttempt()) {
+                return;
+            }
+            if (this._willReconnectAfter(ev)) {
+                this._lastSuppressedClose = ev;
+                return;
+            }
+            this._handlers.close?.(ev);
+        });
         inner.on("error", (err) => this._handlers.error?.(err));
 
         // Intercept raw messages to capture conversation_id and reset reconnect counter
@@ -267,8 +384,16 @@ export class ReconnectableConversationsSocket {
             }
         };
 
+        // After giving up this is a plain pass-through: the close was already
+        // forwarded above, and retrying would repeat the give-up error.
         const onClose = (event: core.CloseEvent) => {
-            if (this._isClosed) {
+            if (this._isClosed || this._gaveUp) {
+                return;
+            }
+
+            if (isFailedAttempt()) {
+                rawSocket.close();
+                this._scheduleReconnect();
                 return;
             }
 
@@ -290,6 +415,11 @@ export class ReconnectableConversationsSocket {
         rawSocket.addEventListener("close", onClose);
 
         this._cleanupWireListeners = () => {
+            // ConversationsSocket.close() synthesizes a 1000 close event, so a
+            // discarded socket would otherwise report a spurious normal closure.
+            for (const event of ["open", "message", "close", "error"] as const) {
+                inner.on(event, undefined);
+            }
             rawSocket.removeEventListener("message", onMessage);
             rawSocket.removeEventListener("close", onClose as any);
         };
