@@ -3,6 +3,10 @@
 import type * as Phonic from "../index.js";
 
 /**
- * Per-tool configuration overrides for built-in tools, keyed by built-in tool ID (e.g. `tool_natural_conversation_ending`). A built-in tool referenced in `tools` but absent from this map uses its default configuration.
+ * Per-tool configuration overrides for built-in tools, keyed by built-in tool ID. The value's shape depends on the tool: `tool_keypad_input` and `tool_natural_conversation_ending` take a `speech_before_tool_call` config; `tool_choose_not_to_respond` takes a `respond_after_sec` config. A built-in tool referenced in `tools` but absent from this map uses its default configuration.
  */
-export type BuiltInToolConfigs = Record<string, Phonic.BuiltInToolConfig>;
+export type BuiltInToolConfigs = Record<string, BuiltInToolConfigs.Value>;
+
+export namespace BuiltInToolConfigs {
+    export type Value = Phonic.BuiltInToolConfig | Phonic.ChooseNotToRespondToolConfig;
+}
