@@ -26,8 +26,9 @@ export class ConversationItemsClient {
      * Returns the alternative response(s) the assistant would have
      * produced for this conversation turn given changes to the agent system prompt.
      *
-     * Only assistant items from ended conversations can be replayed. The
-     * conversation must have an associated agent.
+     * Only assistant items from ended conversations can be replayed. Omit the
+     * request body (or omit `system_prompt`) to replay the turn exactly as it
+     * originally ran.
      *
      * @param {string} id - The ID of the conversation item to replay.
      * @param {Phonic.ReplayConversationItemRequest} request
@@ -42,13 +43,11 @@ export class ConversationItemsClient {
      * @throws {@link Phonic.InternalServerError}
      *
      * @example
-     *     await client.conversationItems.replay("id", {
-     *         system_prompt: "system_prompt"
-     *     })
+     *     await client.conversationItems.replay("id")
      */
     public replay(
         id: string,
-        request: Phonic.ReplayConversationItemRequest,
+        request: Phonic.ReplayConversationItemRequest = {},
         requestOptions?: ConversationItemsClient.RequestOptions,
     ): core.HttpResponsePromise<Phonic.ReplayConversationItemResponse> {
         return core.HttpResponsePromise.fromPromise(this.__replay(id, request, requestOptions));
@@ -56,7 +55,7 @@ export class ConversationItemsClient {
 
     private async __replay(
         id: string,
-        request: Phonic.ReplayConversationItemRequest,
+        request: Phonic.ReplayConversationItemRequest = {},
         requestOptions?: ConversationItemsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.ReplayConversationItemResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();

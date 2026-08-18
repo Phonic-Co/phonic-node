@@ -2,13 +2,11 @@
 
 /**
  * @example
- *     {
- *         system_prompt: "system_prompt"
- *     }
+ *     {}
  */
 export interface ReplayConversationItemRequest {
-    /** The system prompt to use when generating replay responses. Use this to test prompt changes against this conversation turn. */
-    system_prompt: string;
+    /** The system prompt to use when generating replay responses. Use this to test prompt changes against this conversation turn. Omit it to replay the turn with the system prompt it originally ran with. */
+    system_prompt?: string;
     /** Number of alternative responses to generate. */
     num_responses?: number;
 }

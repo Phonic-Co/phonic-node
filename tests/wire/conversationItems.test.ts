@@ -12,7 +12,7 @@ describe("ConversationItemsClient", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { system_prompt: "system_prompt" };
+        const rawRequestBody = {};
         const rawResponseBody = {
             responses: [
                 {
@@ -31,9 +31,7 @@ describe("ConversationItemsClient", () => {
             .jsonBody(rawResponseBody)
             .build();
 
-        const response = await client.conversationItems.replay("id", {
-            system_prompt: "system_prompt",
-        });
+        const response = await client.conversationItems.replay("id");
         expect(response).toEqual({
             responses: [
                 {
@@ -59,7 +57,7 @@ describe("ConversationItemsClient", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { system_prompt: "system_prompt" };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
 
         server
@@ -72,9 +70,7 @@ describe("ConversationItemsClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.conversationItems.replay("id", {
-                system_prompt: "system_prompt",
-            });
+            return await client.conversationItems.replay("id");
         }).rejects.toThrow(Phonic.BadRequestError);
     });
 
@@ -85,7 +81,7 @@ describe("ConversationItemsClient", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { system_prompt: "system_prompt" };
+        const rawRequestBody = {};
         const rawResponseBody = {};
 
         server
@@ -98,9 +94,7 @@ describe("ConversationItemsClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.conversationItems.replay("id", {
-                system_prompt: "system_prompt",
-            });
+            return await client.conversationItems.replay("id");
         }).rejects.toThrow(Phonic.UnauthorizedError);
     });
 
@@ -111,7 +105,7 @@ describe("ConversationItemsClient", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { system_prompt: "system_prompt" };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
 
         server
@@ -124,9 +118,7 @@ describe("ConversationItemsClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.conversationItems.replay("id", {
-                system_prompt: "system_prompt",
-            });
+            return await client.conversationItems.replay("id");
         }).rejects.toThrow(Phonic.ForbiddenError);
     });
 
@@ -137,7 +129,7 @@ describe("ConversationItemsClient", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { system_prompt: "system_prompt" };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
 
         server
@@ -150,9 +142,7 @@ describe("ConversationItemsClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.conversationItems.replay("id", {
-                system_prompt: "system_prompt",
-            });
+            return await client.conversationItems.replay("id");
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
@@ -163,7 +153,7 @@ describe("ConversationItemsClient", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { system_prompt: "system_prompt" };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
 
         server
@@ -176,9 +166,7 @@ describe("ConversationItemsClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.conversationItems.replay("id", {
-                system_prompt: "system_prompt",
-            });
+            return await client.conversationItems.replay("id");
         }).rejects.toThrow(Phonic.ConflictError);
     });
 
@@ -189,7 +177,7 @@ describe("ConversationItemsClient", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { system_prompt: "system_prompt" };
+        const rawRequestBody = {};
         const rawResponseBody = {};
 
         server
@@ -202,9 +190,7 @@ describe("ConversationItemsClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.conversationItems.replay("id", {
-                system_prompt: "system_prompt",
-            });
+            return await client.conversationItems.replay("id");
         }).rejects.toThrow(Phonic.UnprocessableEntityError);
     });
 
@@ -215,7 +201,7 @@ describe("ConversationItemsClient", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { system_prompt: "system_prompt" };
+        const rawRequestBody = {};
         const rawResponseBody = {};
 
         server
@@ -228,9 +214,7 @@ describe("ConversationItemsClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.conversationItems.replay("id", {
-                system_prompt: "system_prompt",
-            });
+            return await client.conversationItems.replay("id");
         }).rejects.toThrow(Phonic.InternalServerError);
     });
 });
