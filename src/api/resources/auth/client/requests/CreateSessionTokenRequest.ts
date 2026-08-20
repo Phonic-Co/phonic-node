@@ -9,4 +9,6 @@
 export interface CreateSessionTokenRequest {
     /** Time-to-live for the session token in seconds. */
     ttl_seconds?: number;
+    /** Restricts the token to these conversations. A restricted token can read only their live audio and transcript, and cannot open the STS WebSocket or create an STS session. Omit it and the token can read any live conversation in the org. Pass it whenever the token will reach an end user's browser. */
+    conversation_ids?: string[];
 }
