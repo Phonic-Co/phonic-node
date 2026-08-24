@@ -1,4 +1,4 @@
-export type { AgentsAddCustomPhoneNumberRequest } from "./AgentsAddCustomPhoneNumberRequest.js";
+export { AgentsAddCustomPhoneNumberRequest } from "./AgentsAddCustomPhoneNumberRequest.js";
 export type { AgentsCreateRequest } from "./AgentsCreateRequest.js";
 export type { AgentsDeleteCustomPhoneNumberRequest } from "./AgentsDeleteCustomPhoneNumberRequest.js";
 export type { AgentsDeleteRequest } from "./AgentsDeleteRequest.js";

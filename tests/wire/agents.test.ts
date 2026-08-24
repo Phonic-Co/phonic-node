@@ -1366,6 +1366,7 @@ describe("AgentsClient", () => {
                 headers: { Authorization: "Bearer token123" },
                 timeout_ms: 7000,
             },
+            sip: { media_encryption: "required" },
         };
         const rawResponseBody = { success: true };
 
@@ -1393,6 +1394,9 @@ describe("AgentsClient", () => {
                     Authorization: "Bearer token123",
                 },
                 timeout_ms: 7000,
+            },
+            sip: {
+                media_encryption: "required",
             },
         });
         expect(response).toEqual({

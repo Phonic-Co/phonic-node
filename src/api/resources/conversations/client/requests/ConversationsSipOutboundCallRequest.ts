@@ -24,4 +24,26 @@ export interface ConversationsSipOutboundCallRequest {
     config?: Phonic.OutboundCallConfig;
     /** If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` and `twilio_call_sid` set to null. */
     dry_run?: boolean;
+    /** SIP trunk settings for the outbound trunk created for this call. */
+    sip?: ConversationsSipOutboundCallRequest.Sip;
+}
+
+export namespace ConversationsSipOutboundCallRequest {
+    /**
+     * SIP trunk settings for the outbound trunk created for this call.
+     */
+    export interface Sip {
+        /** Whether media (SRTP) encryption is used on this call. */
+        media_encryption?: Sip.MediaEncryption | undefined;
+    }
+
+    export namespace Sip {
+        /** Whether media (SRTP) encryption is used on this call. */
+        export const MediaEncryption = {
+            Disabled: "disabled",
+            Allowed: "allowed",
+            Required: "required",
+        } as const;
+        export type MediaEncryption = (typeof MediaEncryption)[keyof typeof MediaEncryption];
+    }
 }
