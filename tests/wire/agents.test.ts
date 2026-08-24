@@ -1366,7 +1366,7 @@ describe("AgentsClient", () => {
                 headers: { Authorization: "Bearer token123" },
                 timeout_ms: 7000,
             },
-            sip: { media_encryption: "required" },
+            sip: { transport: "tls", media_encryption: "required" },
         };
         const rawResponseBody = { success: true };
 
@@ -1396,6 +1396,7 @@ describe("AgentsClient", () => {
                 timeout_ms: 7000,
             },
             sip: {
+                transport: "tls",
                 media_encryption: "required",
             },
         });

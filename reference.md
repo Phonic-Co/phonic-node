@@ -570,6 +570,7 @@ await client.agents.addCustomPhoneNumber("nameOrId", {
         timeout_ms: 7000
     },
     sip: {
+        transport: "tls",
         media_encryption: "required"
     }
 });
