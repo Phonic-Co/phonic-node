@@ -16,6 +16,7 @@
  *             timeout_ms: 7000
  *         },
  *         sip: {
+ *             transport: "tls",
  *             media_encryption: "required"
  *         }
  *     }
@@ -54,11 +55,21 @@ export namespace AgentsAddCustomPhoneNumberRequest {
      * SIP trunk settings for this phone number, applied to both its inbound trunk and the trunk created for each outbound call. Set at creation; remove and re-add the number to change them.
      */
     export interface Sip {
+        /** SIP signaling transport used for calls on this phone number. The SIP address must not carry a `;transport=` parameter; set it here instead. */
+        transport?: Sip.Transport | undefined;
         /** Whether media (SRTP) encryption is used on calls on this phone number. */
         media_encryption?: Sip.MediaEncryption | undefined;
     }
 
     export namespace Sip {
+        /** SIP signaling transport used for calls on this phone number. The SIP address must not carry a `;transport=` parameter; set it here instead. */
+        export const Transport = {
+            Auto: "auto",
+            Udp: "udp",
+            Tcp: "tcp",
+            Tls: "tls",
+        } as const;
+        export type Transport = (typeof Transport)[keyof typeof Transport];
         /** Whether media (SRTP) encryption is used on calls on this phone number. */
         export const MediaEncryption = {
             Disabled: "disabled",

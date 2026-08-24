@@ -639,6 +639,7 @@ export class AgentsClient {
      *             timeout_ms: 7000
      *         },
      *         sip: {
+     *             transport: "tls",
      *             media_encryption: "required"
      *         }
      *     })

@@ -33,11 +33,21 @@ export namespace ConversationsSipOutboundCallRequest {
      * SIP trunk settings for the outbound trunk created for this call.
      */
     export interface Sip {
+        /** SIP signaling transport used for this call. The SIP address must not carry a `;transport=` parameter; set it here instead. */
+        transport?: Sip.Transport | undefined;
         /** Whether media (SRTP) encryption is used on this call. */
         media_encryption?: Sip.MediaEncryption | undefined;
     }
 
     export namespace Sip {
+        /** SIP signaling transport used for this call. The SIP address must not carry a `;transport=` parameter; set it here instead. */
+        export const Transport = {
+            Auto: "auto",
+            Udp: "udp",
+            Tcp: "tcp",
+            Tls: "tls",
+        } as const;
+        export type Transport = (typeof Transport)[keyof typeof Transport];
         /** Whether media (SRTP) encryption is used on this call. */
         export const MediaEncryption = {
             Disabled: "disabled",
