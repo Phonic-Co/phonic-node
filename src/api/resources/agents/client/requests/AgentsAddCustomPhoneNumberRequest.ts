@@ -14,6 +14,9 @@
  *                 "Authorization": "Bearer token123"
  *             },
  *             timeout_ms: 7000
+ *         },
+ *         sip: {
+ *             media_encryption: "required"
  *         }
  *     }
  */
@@ -30,6 +33,8 @@ export interface AgentsAddCustomPhoneNumberRequest {
     phone_number: string;
     /** When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number. */
     configuration_endpoint?: AgentsAddCustomPhoneNumberRequest.ConfigurationEndpoint | null;
+    /** SIP trunk settings for this phone number, applied to both its inbound trunk and the trunk created for each outbound call. Set at creation; remove and re-add the number to change them. */
+    sip?: AgentsAddCustomPhoneNumberRequest.Sip;
 }
 
 export namespace AgentsAddCustomPhoneNumberRequest {
@@ -43,5 +48,23 @@ export namespace AgentsAddCustomPhoneNumberRequest {
         headers?: Record<string, string> | undefined;
         /** Timeout in milliseconds for the endpoint call. */
         timeout_ms?: number | undefined;
+    }
+
+    /**
+     * SIP trunk settings for this phone number, applied to both its inbound trunk and the trunk created for each outbound call. Set at creation; remove and re-add the number to change them.
+     */
+    export interface Sip {
+        /** Whether media (SRTP) encryption is used on calls on this phone number. */
+        media_encryption?: Sip.MediaEncryption | undefined;
+    }
+
+    export namespace Sip {
+        /** Whether media (SRTP) encryption is used on calls on this phone number. */
+        export const MediaEncryption = {
+            Disabled: "disabled",
+            Allowed: "allowed",
+            Required: "required",
+        } as const;
+        export type MediaEncryption = (typeof MediaEncryption)[keyof typeof MediaEncryption];
     }
 }

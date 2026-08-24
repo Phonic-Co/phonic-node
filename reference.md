@@ -568,6 +568,9 @@ await client.agents.addCustomPhoneNumber("nameOrId", {
             "Authorization": "Bearer token123"
         },
         timeout_ms: 7000
+    },
+    sip: {
+        media_encryption: "required"
     }
 });
 
