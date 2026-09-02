@@ -45,6 +45,8 @@ export interface Tool {
     use_agent_phone_number?: boolean | undefined;
     /** When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true. */
     detect_voicemail?: boolean | undefined;
+    /** When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, so use_agent_phone_number, detect_voicemail and dynamic_dtmf are false and dtmf is null. Only returned for built_in_transfer_to_phone_number tools. */
+    keep_listening?: boolean | undefined;
     /** Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. */
     agents_to_transfer_to?: string[] | undefined;
     /** When true, forces the agent to speak before executing the tool. */
@@ -61,7 +63,7 @@ export interface Tool {
     forbid_tool_call_after_speech?: boolean | undefined;
     /** When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
     allow_tool_chaining?: boolean | undefined;
-    /** The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools. */
+    /** The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only returned for custom_webhook and custom_websocket tools. */
     wait_for_response?: boolean | undefined;
     /** The static context returned to the agent. Only present for custom_context tools. */
     context?: string | undefined;
