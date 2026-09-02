@@ -21,6 +21,8 @@ export interface ConversationsSipOutboundCallRequest {
     from_phone_number: string;
     /** Destination phone number in E.164 format. */
     to_phone_number: string;
+    /** Display name for the caller ID (the SIP `From` header) on this call. Sent only when non-empty. Whether it reaches the callee depends on your SIP carrier - carriers that forward the `From` display name (e.g. Telnyx) present it, while others (e.g. Twilio) drop it or override it with a CNAM lookup. */
+    from_display_name?: string;
     config?: Phonic.OutboundCallConfig;
     /** If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` and `twilio_call_sid` set to null. */
     dry_run?: boolean;
