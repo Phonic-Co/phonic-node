@@ -8,6 +8,7 @@ import { ConversationsClient } from "./api/resources/conversations/client/Client
 import { ExternalStoragePoliciesClient } from "./api/resources/externalStoragePolicies/client/Client.js";
 import { ExtractionSchemasClient } from "./api/resources/extractionSchemas/client/Client.js";
 import { ProjectsClient } from "./api/resources/projects/client/Client.js";
+import { ResponsesClient } from "./api/resources/responses/client/Client.js";
 import { ToolsClient } from "./api/resources/tools/client/Client.js";
 import { TtsClient } from "./api/resources/tts/client/Client.js";
 import { VoicesClient } from "./api/resources/voices/client/Client.js";
@@ -44,6 +45,7 @@ export class PhonicClient {
     protected _conversationItems: ConversationItemsClient | undefined;
     protected _auth: AuthClient | undefined;
     protected _projects: ProjectsClient | undefined;
+    protected _responses: ResponsesClient | undefined;
     protected _workspace: WorkspaceClient | undefined;
     protected _externalStoragePolicies: ExternalStoragePoliciesClient | undefined;
 
@@ -89,6 +91,10 @@ export class PhonicClient {
 
     public get projects(): ProjectsClient {
         return (this._projects ??= new ProjectsClient(this._options));
+    }
+
+    public get responses(): ResponsesClient {
+        return (this._responses ??= new ResponsesClient(this._options));
     }
 
     public get workspace(): WorkspaceClient {
