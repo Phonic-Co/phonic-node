@@ -2175,6 +2175,58 @@ describe("ConversationsClient", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { to_phone_number: "to_phone_number" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/conversations/outbound_call")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.outboundCall({
+                to_phone_number: "to_phone_number",
+            });
+        }).rejects.toThrow(Phonic.ConflictError);
+    });
+
+    test("outbound_call (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { to_phone_number: "to_phone_number" };
+        const rawResponseBody = {};
+
+        server
+            .mockEndpoint()
+            .post("/conversations/outbound_call")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(429)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.outboundCall({
+                to_phone_number: "to_phone_number",
+            });
+        }).rejects.toThrow(Phonic.TooManyRequestsError);
+    });
+
+    test("outbound_call (8)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { to_phone_number: "to_phone_number" };
         const rawResponseBody = {};
 
         server
@@ -2349,6 +2401,35 @@ describe("ConversationsClient", () => {
     });
 
     test("sip_outbound_call (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { from_phone_number: "from_phone_number", to_phone_number: "to_phone_number" };
+        const rawResponseBody = {};
+
+        server
+            .mockEndpoint()
+            .post("/conversations/sip/outbound_call")
+            .header("X-Sip-Address", "sipAddress")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(429)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.conversations.sipOutboundCall({
+                "X-Sip-Address": "sipAddress",
+                from_phone_number: "from_phone_number",
+                to_phone_number: "to_phone_number",
+            });
+        }).rejects.toThrow(Phonic.TooManyRequestsError);
+    });
+
+    test("sip_outbound_call (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,

@@ -4020,3 +4020,107 @@ await client.projects.listEvals("id");
 </dl>
 </details>
 
+## Responses
+<details><summary><code>client.responses.<a href="/src/api/resources/responses/client/Client.ts">create</a>({ ...params }) -> Phonic.GenerateResponsesResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Generates one or more alternative assistant responses for a conversation
+you supply inline to simulate Phonic agent behavior.
+
+This endpoint is stateless, so it does not create a new conversation or
+store anything. The request carries the system prompt, a conversation so
+far as `input`, and the tools the assistant may call as
+`tool_definitions`.
+
+Each item in `input` is a user message, an assistant message (with
+optional `tool_calls`), or a `tool_call_output`. Every assistant tool
+call must be followed immediately by the `tool_call_output` item that
+carries its result.
+
+This is an experimental feature and must be enabled for your workspace;
+otherwise, it returns `404`. Please contact our team if you would like
+access.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.responses.create({
+    system_prompt: "You help callers find a pizza shop. Be friendly and concise.",
+    voice_id: "sabrina",
+    default_language: "en",
+    additional_languages: ["es"],
+    input: [{
+            role: "user",
+            text: "Where should I get pizza near Union Square?"
+        }],
+    tool_definitions: [{
+            name: "search_pizza_shop_recs",
+            description: "Search for pizza shop recommendations.",
+            parameters: {
+                type: "object",
+                properties: {
+                    "location": {
+                        "type": "string",
+                        "description": "The neighborhood to search in."
+                    }
+                },
+                required: ["location"],
+                additionalProperties: false
+            }
+        }],
+    num_responses: 2
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Phonic.GenerateResponsesRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ResponsesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+

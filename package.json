@@ -1,6 +1,6 @@
 {
     "name": "phonic",
-    "version": "0.32.20",
+    "version": "0.32.21",
     "private": false,
     "repository": {
         "type": "git",
@@ -154,6 +154,17 @@
                 "default": "./dist/cjs/api/resources/projects/exports.js"
             },
             "default": "./dist/cjs/api/resources/projects/exports.js"
+        },
+        "./responses": {
+            "import": {
+                "types": "./dist/esm/api/resources/responses/exports.d.mts",
+                "default": "./dist/esm/api/resources/responses/exports.mjs"
+            },
+            "require": {
+                "types": "./dist/cjs/api/resources/responses/exports.d.ts",
+                "default": "./dist/cjs/api/resources/responses/exports.js"
+            },
+            "default": "./dist/cjs/api/resources/responses/exports.js"
         },
         "./package.json": "./package.json"
     },

@@ -21,6 +21,8 @@ export * from "./extractionSchemas/types/index.js";
 export * from "./projects/client/requests/index.js";
 export * as projects from "./projects/index.js";
 export * from "./projects/types/index.js";
+export * from "./responses/client/requests/index.js";
+export * as responses from "./responses/index.js";
 export * from "./tools/client/requests/index.js";
 export * as tools from "./tools/index.js";
 export * from "./tools/types/index.js";
