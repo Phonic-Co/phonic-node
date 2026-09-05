@@ -89,6 +89,8 @@ export interface Agent {
     vad_threshold?: number | undefined;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean | undefined;
+    /** When `true`, an inaudible watermark is embedded in the audio the agent generates. */
+    enable_watermarking?: boolean | undefined;
     /** The URL-friendly slug of the agent. */
     slug?: string | undefined;
     /** When `true`, the assistant emits backchannel cues (e.g. "mm-hmm") while the user is speaking. */

@@ -106,6 +106,7 @@ describe("ConversationsClient", () => {
                     is_redacted: true,
                     redacted_transcript: "redacted_transcript",
                     metadata: { key: "value" },
+                    enable_watermarking: true,
                     data_retention_policy: { zero_data_retention: true },
                     deletion_info: { transcripts_deleted_at: null, audio_recordings_deleted_at: null },
                     enable_assistant_backchannel: true,
@@ -244,6 +245,7 @@ describe("ConversationsClient", () => {
                     metadata: {
                         key: "value",
                     },
+                    enable_watermarking: true,
                     data_retention_policy: {
                         zero_data_retention: true,
                     },
@@ -357,6 +359,7 @@ describe("ConversationsClient", () => {
                 is_redacted: true,
                 redacted_transcript: "redacted_transcript",
                 metadata: { key: "value" },
+                enable_watermarking: true,
                 data_retention_policy: { zero_data_retention: true },
                 deletion_info: {
                     transcripts_deleted_at: "2024-01-15T09:30:00Z",
@@ -491,6 +494,7 @@ describe("ConversationsClient", () => {
                 metadata: {
                     key: "value",
                 },
+                enable_watermarking: true,
                 data_retention_policy: {
                     zero_data_retention: true,
                 },
@@ -688,6 +692,7 @@ describe("ConversationsClient", () => {
                 is_redacted: true,
                 redacted_transcript: "redacted_transcript",
                 metadata: { key: "value" },
+                enable_watermarking: true,
                 data_retention_policy: { zero_data_retention: true },
                 deletion_info: {
                     transcripts_deleted_at: "2024-01-15T09:30:00Z",
@@ -826,6 +831,7 @@ describe("ConversationsClient", () => {
                 metadata: {
                     key: "value",
                 },
+                enable_watermarking: true,
                 data_retention_policy: {
                     zero_data_retention: true,
                 },

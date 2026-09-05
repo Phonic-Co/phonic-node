@@ -91,6 +91,8 @@ export interface CreateAgentRequest {
     vad_threshold?: number | undefined;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean | undefined;
+    /** When `true`, an inaudible watermark is embedded in the audio the agent generates. */
+    enable_watermarking?: boolean | undefined;
     /** Array of MCP server IDs to make available to the agent. */
     mcp_server_ids?: string[] | undefined;
     /** Names of observability integrations to enable for the agent. Each must be one of the supported providers. */

@@ -97,6 +97,8 @@ export interface Conversation {
     redacted_transcript?: (string | null) | undefined;
     /** Arbitrary metadata associated with the conversation. */
     metadata?: (Record<string, unknown> | null) | undefined;
+    /** Whether an inaudible watermark was embedded in the audio the agent generated during the conversation. */
+    enable_watermarking?: boolean | undefined;
     /** Controls how long transcripts and audio recordings are retained before deletion. */
     data_retention_policy?: Phonic.DataRetentionPolicy | undefined;
     /** Information about when transcripts and audio recordings are or were scheduled to be deleted. */

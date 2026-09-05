@@ -74,6 +74,8 @@ export interface ConfigOptions {
     template_variables?: Record<string, string> | undefined;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean | undefined;
+    /** When `true`, an inaudible watermark is embedded in the audio the assistant generates. */
+    enable_watermarking?: boolean | undefined;
     /** Names of pre-configured MCP servers to make available to the assistant. Names must be unique. */
     mcp_servers?: string[] | undefined;
     /** Names of observability integrations to enable for the conversation. Each must be one of the supported providers. */

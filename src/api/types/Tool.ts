@@ -39,13 +39,15 @@ export interface Tool {
     phone_number?: (string | null) | undefined;
     /** DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. Ignored when dynamic_dtmf is true. */
     dtmf?: (string | null) | undefined;
+    /** Fixed line the agent speaks into the bridged call once the transfer connects. Defaults to null, meaning no announcement. Always null when keep_listening is false. Only returned for built_in_transfer_to_phone_number tools. */
+    post_transfer_message?: (string | null) | undefined;
     /** When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer). */
     dynamic_dtmf?: boolean | undefined;
     /** When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools. */
     use_agent_phone_number?: boolean | undefined;
     /** When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true. */
     detect_voicemail?: boolean | undefined;
-    /** When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, so use_agent_phone_number, detect_voicemail and dynamic_dtmf are false and dtmf is null. Only returned for built_in_transfer_to_phone_number tools. */
+    /** When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, so use_agent_phone_number, detect_voicemail and dynamic_dtmf are false and dtmf and post_transfer_message are null. Only returned for built_in_transfer_to_phone_number tools. */
     keep_listening?: boolean | undefined;
     /** Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. */
     agents_to_transfer_to?: string[] | undefined;
