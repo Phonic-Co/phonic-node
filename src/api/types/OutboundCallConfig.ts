@@ -52,6 +52,8 @@ export interface OutboundCallConfig {
     tools?: OutboundCallConfig.Tools.Item[] | undefined;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean | undefined;
+    /** When `true`, an inaudible watermark is embedded in the audio the agent generates. */
+    enable_watermarking?: boolean | undefined;
     /** The speech-to-speech model to use. */
     model?: "merritt" | undefined;
     /** The audio speed of the agent. */

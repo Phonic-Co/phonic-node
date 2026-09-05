@@ -34,10 +34,7 @@ describe("ResponsesClient", () => {
         };
         const rawResponseBody = {
             responses: [
-                {
-                    text: "Joe's Pizza is a couple of blocks away - want the address?",
-                    tool_calls: [{ tool_call_id: "tool_call_id", tool_name: "tool_name" }],
-                },
+                { text: "Joe's Pizza is a couple of blocks away - want the address?", tool_calls: [] },
                 {
                     text: "",
                     tool_calls: [
@@ -94,12 +91,7 @@ describe("ResponsesClient", () => {
             responses: [
                 {
                     text: "Joe's Pizza is a couple of blocks away - want the address?",
-                    tool_calls: [
-                        {
-                            tool_call_id: "tool_call_id",
-                            tool_name: "tool_name",
-                        },
-                    ],
+                    tool_calls: [],
                 },
                 {
                     text: "",
