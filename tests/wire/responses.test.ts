@@ -40,7 +40,7 @@ describe("ResponsesClient", () => {
                     tool_calls: [
                         {
                             tool_call_id: "call_9f2c4b1a",
-                            tool_name: "search_pizza_shop_recs",
+                            tool: { name: "search_pizza_shop_recs" },
                             request_body: { location: "Union Square" },
                         },
                     ],
@@ -98,7 +98,9 @@ describe("ResponsesClient", () => {
                     tool_calls: [
                         {
                             tool_call_id: "call_9f2c4b1a",
-                            tool_name: "search_pizza_shop_recs",
+                            tool: {
+                                name: "search_pizza_shop_recs",
+                            },
                             request_body: {
                                 location: "Union Square",
                             },
