@@ -24,6 +24,8 @@ export interface InlineWebSocketTool {
     allow_tool_chaining?: boolean | undefined;
     /** For async tools, when true, the assistant waits for the response and speaks when it arrives. */
     wait_for_response?: boolean | undefined;
+    /** For sync tools, when true, the user cannot interrupt the assistant while the tool call is in flight; the assistant's turn is held open until the tool returns. */
+    uninterruptible?: boolean | undefined;
 }
 
 export namespace InlineWebSocketTool {

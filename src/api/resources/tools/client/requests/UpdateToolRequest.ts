@@ -76,6 +76,8 @@ export interface UpdateToolRequest {
     allow_tool_chaining?: boolean;
     /** The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true. */
     wait_for_response?: boolean;
+    /** When true, the user cannot interrupt the agent while the tool call is in flight; the agent's turn is held open until the tool returns. Only available for sync custom_webhook and custom_websocket tools, so the resulting execution_mode must be sync. */
+    uninterruptible?: boolean;
 }
 
 export namespace UpdateToolRequest {
