@@ -190,7 +190,7 @@ export namespace Conversation {
      * Phone call metadata. `null` for non-phone call conversations.
      */
     export interface CallInfo {
-        /** Caller phone number in E.164 format. */
+        /** Caller phone number in E.164 format. `"anonymous"` for inbound calls whose caller withheld their number. */
         from_phone_number: string;
         /** Callee phone number in E.164 format. */
         to_phone_number: string;

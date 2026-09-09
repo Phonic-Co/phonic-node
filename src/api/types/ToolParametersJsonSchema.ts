@@ -3,7 +3,7 @@
 /**
  * A tool's parameters expressed as a raw JSON Schema object, for parameters that the flat `ToolParameter` list cannot express: nested objects, arrays of objects, `anyOf` variants, `null`, and non-string enums.
  * Each entry in `properties` is a JSON Schema value supporting `type` (`"string"`, `"integer"`, `"number"`, `"boolean"`, `"null"`, `"array"`, `"object"`), `description`, `enum` (string parameters only), `items` (for arrays), `properties`/`required`/`additionalProperties` (for objects) and `anyOf`. Values may be nested up to 5 levels deep.
- * Parameter names cannot be any of the reserved names that Phonic injects into every tool call: `call_info`, `conversation_id`, `from_phone_number`, `to_phone_number`, `twilio_call_sid`.
+ * Parameter names cannot be any of the reserved names that Phonic injects into every tool call: `call_info`, `conversation_id`, `from_phone_number`, `pre_tool_text`, `to_phone_number`, `twilio_call_sid`.
  * For `custom_webhook` tools, parameter placement is supplied separately in `parameter_locations` rather than inline on the schema.
  */
 export interface ToolParametersJsonSchema {
