@@ -30,6 +30,23 @@ import type * as Phonic from "../../../../index.js";
  *             }],
  *         num_responses: 2
  *     }
+ *
+ * @example
+ *     {
+ *         system_prompt: "You route callers to the right team. Be friendly and concise.",
+ *         project: "main",
+ *         input: [{
+ *                 role: "user",
+ *                 text: "I have a problem with my bill."
+ *             }],
+ *         tools: ["transfer_to_support", {
+ *                 type: "built_in",
+ *                 name: "natural_conversation_ending",
+ *                 tool_config: {
+ *                     speech_before_tool_call: "required"
+ *                 }
+ *             }]
+ *     }
  */
 export interface GenerateResponsesRequest {
     /** The system prompt the assistant should follow. */
@@ -42,8 +59,12 @@ export interface GenerateResponsesRequest {
     additional_languages?: Phonic.LanguageCode[];
     /** The conversation so far, in order. Must contain at least one item. */
     input: Phonic.ResponsesInputItem[];
-    /** The tools the assistant may call, defined inline. Names must be unique and cannot be one of the names Phonic reserves for its built-in tools. */
+    /** Tools defined inline for this request only. Typically if you use LiveKit, this is where you can pass in your tool definitions. Names must be unique, must not repeat a name in `tools`, and cannot be one of the names Phonic reserves for its built-in tools. */
     tool_definitions?: Phonic.ResponsesToolDefinition[];
+    /** Name of the project the tools referenced by name in `tools` belong to. Required whenever `tools` names a tool stored in your workspace; built-in tools can be referenced without it. */
+    project?: string;
+    /** Tools the assistant may call that already exist - a built-in tool, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced here yet; define them inline as `tool_definitions` instead. */
+    tools?: Phonic.ResponsesTool[];
     /** Number of alternative responses to generate. */
     num_responses?: number;
 }

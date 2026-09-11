@@ -29,6 +29,7 @@ describe("ConversationsClient", () => {
                     model: "merritt",
                     generate_welcome_message: false,
                     is_welcome_message_interruptible: true,
+                    listen_only: true,
                     welcome_message:
                         "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                     template_variables: { customer_name: "John", department: "Support" },
@@ -138,6 +139,7 @@ describe("ConversationsClient", () => {
                     model: "merritt",
                     generate_welcome_message: false,
                     is_welcome_message_interruptible: true,
+                    listen_only: true,
                     welcome_message:
                         "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                     template_variables: {
@@ -283,6 +285,7 @@ describe("ConversationsClient", () => {
                 model: "merritt",
                 generate_welcome_message: false,
                 is_welcome_message_interruptible: true,
+                listen_only: true,
                 welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                 template_variables: { customer_name: "John", department: "Support" },
                 system_prompt: "system_prompt",
@@ -391,6 +394,7 @@ describe("ConversationsClient", () => {
                 model: "merritt",
                 generate_welcome_message: false,
                 is_welcome_message_interruptible: true,
+                listen_only: true,
                 welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                 template_variables: {
                     customer_name: "John",
@@ -612,6 +616,7 @@ describe("ConversationsClient", () => {
                 model: "merritt",
                 generate_welcome_message: false,
                 is_welcome_message_interruptible: true,
+                listen_only: false,
                 welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                 template_variables: { customer_name: "John", department: "Support" },
                 system_prompt: "system_prompt",
@@ -724,6 +729,7 @@ describe("ConversationsClient", () => {
                 model: "merritt",
                 generate_welcome_message: false,
                 is_welcome_message_interruptible: true,
+                listen_only: false,
                 welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
                 template_variables: {
                     customer_name: "John",

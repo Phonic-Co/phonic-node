@@ -19,6 +19,7 @@ export declare namespace ConversationsSocket {
         | Phonic.UserFinishedSpeakingPayload
         | Phonic.AssistantStartedSpeakingPayload
         | Phonic.AssistantFinishedSpeakingPayload
+        | Phonic.InterruptedResponsePayload
         | Phonic.DtmfPayload
         | Phonic.ToolCallPayload
         | Phonic.ToolCallOutputProcessedPayload
