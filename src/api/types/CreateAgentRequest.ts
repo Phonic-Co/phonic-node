@@ -31,6 +31,10 @@ export interface CreateAgentRequest {
     is_welcome_message_interruptible?: boolean | undefined;
     /** Number of seconds of inactivity before the conversation WebSocket is closed. */
     websocket_timeout_sec?: number | undefined;
+    /** Play an uninterruptible welcome message on incoming calls, then transcribe the caller without responding. Silence timeout and call duration limits still apply. */
+    listen_only_inbound_enabled?: boolean | undefined;
+    /** Welcome message for listen-only incoming calls. Can contain template variables like `{{customer_name}}`. Must be nonempty when `listen_only_inbound_enabled` is `true`. Replaces `welcome_message` for these calls, regardless of `generate_welcome_message`. */
+    listen_only_inbound_message?: (string | null) | undefined;
     /** Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`. */
     welcome_message?: (string | null) | undefined;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */

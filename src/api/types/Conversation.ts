@@ -21,6 +21,8 @@ export interface Conversation {
     generate_welcome_message: boolean;
     /** When `false`, the welcome message will not be interruptible by the user. */
     is_welcome_message_interruptible: boolean;
+    /** Whether this conversation used listen-only mode. The resolved greeting is stored in `welcome_message`. */
+    listen_only: boolean;
     /** Welcome message played at start. Will be `null` when `generate_welcome_message` is `true`. */
     welcome_message: string | null;
     /** Template variables used in the conversation. */
