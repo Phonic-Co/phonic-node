@@ -119,6 +119,89 @@ describe("ResponsesClient", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = {
+            system_prompt: "You route callers to the right team. Be friendly and concise.",
+            project: "main",
+            input: [{ role: "user", text: "I have a problem with my bill." }],
+            tools: [
+                "transfer_to_support",
+                {
+                    type: "built_in",
+                    name: "natural_conversation_ending",
+                    tool_config: { speech_before_tool_call: "required" },
+                },
+            ],
+        };
+        const rawResponseBody = {
+            responses: [
+                {
+                    text: "Let me get you over to support.",
+                    tool_calls: [],
+                    action: {
+                        type: "transfer_to_phone_number",
+                        phone_number: "+15551234567",
+                        detect_voicemail: false,
+                        use_agent_phone_number: true,
+                        keep_listening: true,
+                        dtmf: null,
+                    },
+                },
+            ],
+        };
+
+        server
+            .mockEndpoint()
+            .post("/responses")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.responses.create({
+            system_prompt: "You route callers to the right team. Be friendly and concise.",
+            project: "main",
+            input: [
+                {
+                    role: "user",
+                    text: "I have a problem with my bill.",
+                },
+            ],
+            tools: [
+                "transfer_to_support",
+                {
+                    type: "built_in",
+                    name: "natural_conversation_ending",
+                    tool_config: {
+                        speech_before_tool_call: "required",
+                    },
+                },
+            ],
+        });
+        expect(response).toEqual({
+            responses: [
+                {
+                    text: "Let me get you over to support.",
+                    tool_calls: [],
+                    action: {
+                        type: "transfer_to_phone_number",
+                        phone_number: "+15551234567",
+                        detect_voicemail: false,
+                        use_agent_phone_number: true,
+                        keep_listening: true,
+                    },
+                },
+            ],
+        });
+    });
+
+    test("create (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
             system_prompt: "x",
             input: [
                 { role: "user", text: "x" },
@@ -153,7 +236,7 @@ describe("ResponsesClient", () => {
         }).rejects.toThrow(Phonic.BadRequestError);
     });
 
-    test("create (3)", async () => {
+    test("create (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -195,7 +278,7 @@ describe("ResponsesClient", () => {
         }).rejects.toThrow(Phonic.UnauthorizedError);
     });
 
-    test("create (4)", async () => {
+    test("create (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -237,7 +320,7 @@ describe("ResponsesClient", () => {
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
-    test("create (5)", async () => {
+    test("create (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -279,7 +362,7 @@ describe("ResponsesClient", () => {
         }).rejects.toThrow(Phonic.TooManyRequestsError);
     });
 
-    test("create (6)", async () => {
+    test("create (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -321,7 +404,7 @@ describe("ResponsesClient", () => {
         }).rejects.toThrow(Phonic.InternalServerError);
     });
 
-    test("create (7)", async () => {
+    test("create (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -363,7 +446,7 @@ describe("ResponsesClient", () => {
         }).rejects.toThrow(Phonic.BadGatewayError);
     });
 
-    test("create (8)", async () => {
+    test("create (9)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
