@@ -52,8 +52,8 @@ export function normalizeClientOptions<T extends BaseClientOptions = BaseClientO
         {
             "X-Fern-Language": "JavaScript",
             "X-Fern-SDK-Name": "phonic",
-            "X-Fern-SDK-Version": "0.32.25",
-            "User-Agent": "phonic/0.32.25",
+            "X-Fern-SDK-Version": "0.32.26",
+            "User-Agent": "phonic/0.32.26",
             "X-Fern-Runtime": core.RUNTIME.type,
             "X-Fern-Runtime-Version": core.RUNTIME.version,
         },

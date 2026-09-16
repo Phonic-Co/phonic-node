@@ -28,6 +28,7 @@ import type * as Phonic from "../../../../index.js";
  *                     additionalProperties: false
  *                 }
  *             }],
+ *         phonic_model: "phonic_v1",
  *         num_responses: 2
  *     }
  *
@@ -65,6 +66,17 @@ export interface GenerateResponsesRequest {
     project?: string;
     /** Tools the assistant may call that already exist - a built-in tool, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced here yet; define them inline as `tool_definitions` instead. */
     tools?: Phonic.ResponsesTool[];
+    /** The Phonic speech-to-speech model to generate with. Omit it to use the current default model. */
+    phonic_model?: GenerateResponsesRequest.PhonicModel;
     /** Number of alternative responses to generate. */
     num_responses?: number;
+}
+
+export namespace GenerateResponsesRequest {
+    /** The Phonic speech-to-speech model to generate with. Omit it to use the current default model. */
+    export const PhonicModel = {
+        PhonicV05: "phonic_v0_5",
+        PhonicV1: "phonic_v1",
+    } as const;
+    export type PhonicModel = (typeof PhonicModel)[keyof typeof PhonicModel];
 }
