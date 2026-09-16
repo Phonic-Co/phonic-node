@@ -89,6 +89,7 @@ export class ResponsesClient {
      *                     additionalProperties: false
      *                 }
      *             }],
+     *         phonic_model: "phonic_v1",
      *         num_responses: 2
      *     })
      *
