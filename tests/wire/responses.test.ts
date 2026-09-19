@@ -144,7 +144,6 @@ describe("ResponsesClient", () => {
                         detect_voicemail: false,
                         use_agent_phone_number: true,
                         keep_listening: true,
-                        dtmf: null,
                     },
                 },
             ],
