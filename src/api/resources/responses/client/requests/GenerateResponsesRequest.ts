@@ -77,6 +77,7 @@ export namespace GenerateResponsesRequest {
     export const PhonicModel = {
         PhonicV05: "phonic_v0_5",
         PhonicV1: "phonic_v1",
+        PhonicV11: "phonic_v1_1",
     } as const;
     export type PhonicModel = (typeof PhonicModel)[keyof typeof PhonicModel];
 }
