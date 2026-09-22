@@ -173,4 +173,90 @@ export class VoicesClient {
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/voices/{id}");
     }
+
+    /**
+     * Generates speech audio for the provided text and returns it as a single base64-encoded string.
+     *
+     * @param {Phonic.StreamTtsRequest} request
+     * @param {VoicesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.InternalServerError}
+     *
+     * @example
+     *     await client.voices.preview({
+     *         text: "Thanks for calling Phonic. How can I help?",
+     *         voice_id: "grant",
+     *         output_format: "pcm_16000"
+     *     })
+     */
+    public preview(
+        request: Phonic.StreamTtsRequest,
+        requestOptions?: VoicesClient.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.TtsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__preview(request, requestOptions));
+    }
+
+    private async __preview(
+        request: Phonic.StreamTtsRequest,
+        requestOptions?: VoicesClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.TtsResponse>> {
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                "tts",
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryParameters: requestOptions?.queryParams,
+            requestType: "json",
+            body: request,
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Phonic.TtsResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new Phonic.UnauthorizedError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/tts");
+    }
 }
