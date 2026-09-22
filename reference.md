@@ -2006,6 +2006,73 @@ await client.voices.get("id");
 </dl>
 </details>
 
+<details><summary><code>client.voices.<a href="/src/api/resources/voices/client/Client.ts">preview</a>({ ...params }) -> Phonic.TtsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Generates speech audio for the provided text and returns it as a single base64-encoded string.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.voices.preview({
+    text: "Thanks for calling Phonic. How can I help?",
+    voice_id: "grant",
+    output_format: "pcm_16000"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Phonic.StreamTtsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `VoicesClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Workspace
 <details><summary><code>client.workspace.<a href="/src/api/resources/workspace/client/Client.ts">get</a>() -> Phonic.WorkspaceGetResponse</code></summary>
 <dl>

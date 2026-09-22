@@ -161,4 +161,141 @@ describe("VoicesClient", () => {
             return await client.voices.get("id");
         }).rejects.toThrow(Phonic.NotFoundError);
     });
+
+    test("preview (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            text: "Thanks for calling Phonic. How can I help?",
+            voice_id: "grant",
+            output_format: "pcm_16000",
+        };
+        const rawResponseBody = { audio: "audio" };
+
+        server
+            .mockEndpoint()
+            .post("/tts")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.voices.preview({
+            text: "Thanks for calling Phonic. How can I help?",
+            voice_id: "grant",
+            output_format: "pcm_16000",
+        });
+        expect(response).toEqual({
+            audio: "audio",
+        });
+    });
+
+    test("preview (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { text: "x" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/tts")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(400)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.voices.preview({
+                text: "x",
+            });
+        }).rejects.toThrow(Phonic.BadRequestError);
+    });
+
+    test("preview (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { text: "x" };
+        const rawResponseBody = {};
+
+        server
+            .mockEndpoint()
+            .post("/tts")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(401)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.voices.preview({
+                text: "x",
+            });
+        }).rejects.toThrow(Phonic.UnauthorizedError);
+    });
+
+    test("preview (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { text: "x" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/tts")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.voices.preview({
+                text: "x",
+            });
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("preview (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { text: "x" };
+        const rawResponseBody = {};
+
+        server
+            .mockEndpoint()
+            .post("/tts")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(500)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.voices.preview({
+                text: "x",
+            });
+        }).rejects.toThrow(Phonic.InternalServerError);
+    });
 });
