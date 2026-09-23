@@ -12,6 +12,17 @@ export interface ResponsesTransferToPhoneNumberAction {
     use_agent_phone_number: boolean;
     /** Whether Phonic would keep transcribing the call after the transfer. */
     keep_listening: boolean;
+    /** What Phonic would do if the transfer target does not answer. `return_to_assistant` hands control back to the agent; `keep_retrying` re-dials the target. */
+    on_transfer_no_answer: ResponsesTransferToPhoneNumberAction.OnTransferNoAnswer;
     /** Digits to dial after the transfer connects, for navigating a phone menu. Null when there are none. */
     dtmf?: (string | null) | undefined;
+}
+
+export namespace ResponsesTransferToPhoneNumberAction {
+    /** What Phonic would do if the transfer target does not answer. `return_to_assistant` hands control back to the agent; `keep_retrying` re-dials the target. */
+    export const OnTransferNoAnswer = {
+        ReturnToAssistant: "return_to_assistant",
+        KeepRetrying: "keep_retrying",
+    } as const;
+    export type OnTransferNoAnswer = (typeof OnTransferNoAnswer)[keyof typeof OnTransferNoAnswer];
 }

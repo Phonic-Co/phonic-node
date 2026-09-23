@@ -49,6 +49,8 @@ export interface Tool {
     detect_voicemail?: boolean | undefined;
     /** When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, so use_agent_phone_number and detect_voicemail are false and post_transfer_message is null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only returned for built_in_transfer_to_phone_number tools. */
     keep_listening?: boolean | undefined;
+    /** What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only returned for built_in_transfer_to_phone_number tools. */
+    on_transfer_no_answer?: Tool.OnTransferNoAnswer | undefined;
     /** Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. */
     agents_to_transfer_to?: string[] | undefined;
     /** When true, forces the agent to speak before executing the tool. */
@@ -116,6 +118,12 @@ export namespace Tool {
         Post: "POST",
     } as const;
     export type EndpointMethod = (typeof EndpointMethod)[keyof typeof EndpointMethod];
+    /** What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only returned for built_in_transfer_to_phone_number tools. */
+    export const OnTransferNoAnswer = {
+        ReturnToAssistant: "return_to_assistant",
+        KeepRetrying: "keep_retrying",
+    } as const;
+    export type OnTransferNoAnswer = (typeof OnTransferNoAnswer)[keyof typeof OnTransferNoAnswer];
     /** For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types. */
     export const SpeechBeforeToolCall = {
         Required: "required",
