@@ -119,6 +119,7 @@ export class AuthClient {
      * @throws {@link Phonic.UnauthorizedError}
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
      * @throws {@link Phonic.InternalServerError}
      *
      * @example
@@ -183,6 +184,8 @@ export class AuthClient {
                     throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new Phonic.InternalServerError(
                         _response.error.body as Phonic.BasicError,

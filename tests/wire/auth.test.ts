@@ -273,6 +273,32 @@ describe("AuthClient", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { agent_id: "agent_id" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/auth/conversation_token")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.auth.createConversationToken({
+                agent_id: "agent_id",
+            });
+        }).rejects.toThrow(Phonic.ConflictError);
+    });
+
+    test("create_conversation_token (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { agent_id: "agent_id" };
         const rawResponseBody = {};
 
         server

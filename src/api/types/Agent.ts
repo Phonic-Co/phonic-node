@@ -106,6 +106,8 @@ export interface Agent {
     /** Third-party integrations enabled for the agent. */
     integrations?: Phonic.AgentIntegration[] | undefined;
     data_retention_policy?: Phonic.DataRetentionPolicy | undefined;
+    /** When `true`, the agent is disabled. A disabled agent cannot start conversations or be updated, except to release its phone numbers. */
+    is_disabled: boolean;
 }
 
 export namespace Agent {

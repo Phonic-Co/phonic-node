@@ -196,7 +196,7 @@ export interface CreateToolRequest {
     parameter_locations?: Record<string, CreateToolRequest.ParameterLocations.Value>;
     /** Required for webhook tools. HTTP method for the webhook endpoint. */
     endpoint_method?: CreateToolRequest.EndpointMethod;
-    /** Required for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials. */
+    /** Required for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials. May contain `{name}` placeholders in the path or query (not the scheme, host, port, or credentials), each filled by a required parameter with location `"url_path"`. */
     endpoint_url?: string;
     /** Optional headers for webhook tools. */
     endpoint_headers?: Record<string, string>;
@@ -218,7 +218,7 @@ export interface CreateToolRequest {
     detect_voicemail?: boolean;
     /** When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, which requires use_agent_phone_number and detect_voicemail to be false and post_transfer_message to be null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number. */
     keep_listening?: boolean;
-    /** What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only available for built_in_transfer_to_phone_number tools. */
+    /** What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. `keep_retrying` only applies to bridged transfers, so it cannot be used when keep_listening is false. Only available for built_in_transfer_to_phone_number tools. */
     on_transfer_no_answer?: CreateToolRequest.OnTransferNoAnswer;
     /** Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool. */
     agents_to_transfer_to?: string[];
@@ -279,6 +279,7 @@ export namespace CreateToolRequest {
         export const Value = {
             RequestBody: "request_body",
             QueryString: "query_string",
+            UrlPath: "url_path",
         } as const;
         export type Value = (typeof Value)[keyof typeof Value];
     }
@@ -289,7 +290,7 @@ export namespace CreateToolRequest {
         Post: "POST",
     } as const;
     export type EndpointMethod = (typeof EndpointMethod)[keyof typeof EndpointMethod];
-    /** What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only available for built_in_transfer_to_phone_number tools. */
+    /** What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. `keep_retrying` only applies to bridged transfers, so it cannot be used when keep_listening is false. Only available for built_in_transfer_to_phone_number tools. */
     export const OnTransferNoAnswer = {
         ReturnToAssistant: "return_to_assistant",
         KeepRetrying: "keep_retrying",

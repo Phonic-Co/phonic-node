@@ -45,7 +45,7 @@ export namespace ConversationItem {
             integration?: (string | null) | undefined;
             /** HTTP method for webhook tool calls. */
             endpoint_method?: (string | null) | undefined;
-            /** URL for webhook tool calls. */
+            /** URL for webhook tool calls, as called (with any `url_path` placeholders filled in). */
             endpoint_url?: (string | null) | undefined;
             /** Headers for webhook tool calls. */
             endpoint_headers?: (Record<string, string | null> | null) | undefined;
