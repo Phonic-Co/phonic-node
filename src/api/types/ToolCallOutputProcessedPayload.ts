@@ -9,7 +9,7 @@ export interface ToolCallOutputProcessedPayload {
     tool_config?: (Record<string, unknown> | null) | undefined;
     /** HTTP method used for webhook endpoint (null for WebSocket tools) */
     endpoint_method?: (string | null) | undefined;
-    /** Webhook endpoint URL (null for WebSocket tools) */
+    /** Webhook endpoint URL as called, with any `url_path` placeholders filled in (null for WebSocket tools) */
     endpoint_url?: (string | null) | undefined;
     /** Webhook timeout in milliseconds (null for WebSocket tools) */
     endpoint_timeout_ms?: (number | null) | undefined;

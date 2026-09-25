@@ -87,6 +87,7 @@ describe("AgentsClient", () => {
                         },
                     ],
                     data_retention_policy: { zero_data_retention: true },
+                    is_disabled: true,
                 },
             ],
         };
@@ -194,6 +195,7 @@ describe("AgentsClient", () => {
                     data_retention_policy: {
                         zero_data_retention: true,
                     },
+                    is_disabled: true,
                 },
             ],
         });
@@ -540,6 +542,7 @@ describe("AgentsClient", () => {
                     },
                 ],
                 data_retention_policy: { zero_data_retention: true },
+                is_disabled: true,
             },
             inserted: true,
             updated: false,
@@ -697,6 +700,7 @@ describe("AgentsClient", () => {
                 data_retention_policy: {
                     zero_data_retention: true,
                 },
+                is_disabled: true,
             },
             inserted: true,
             updated: false,
@@ -753,6 +757,32 @@ describe("AgentsClient", () => {
                 name: "name",
             });
         }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("upsert (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { name: "name" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .put("/agents/upsert")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.upsert({
+                name: "name",
+            });
+        }).rejects.toThrow(Phonic.ConflictError);
     });
 
     test("get (1)", async () => {
@@ -833,6 +863,7 @@ describe("AgentsClient", () => {
                     },
                 ],
                 data_retention_policy: { zero_data_retention: true },
+                is_disabled: true,
             },
         };
 
@@ -940,6 +971,7 @@ describe("AgentsClient", () => {
                 data_retention_policy: {
                     zero_data_retention: true,
                 },
+                is_disabled: true,
             },
         });
     });
@@ -1155,6 +1187,7 @@ describe("AgentsClient", () => {
                     },
                 ],
                 data_retention_policy: { zero_data_retention: true },
+                is_disabled: true,
             },
         };
 
@@ -1308,6 +1341,7 @@ describe("AgentsClient", () => {
                 data_retention_policy: {
                     zero_data_retention: true,
                 },
+                is_disabled: true,
             },
         });
     });
@@ -1382,6 +1416,30 @@ describe("AgentsClient", () => {
         await expect(async () => {
             return await client.agents.update("nameOrId");
         }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("update (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .patch("/agents/nameOrId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.update("nameOrId");
+        }).rejects.toThrow(Phonic.ConflictError);
     });
 
     test("add_custom_phone_number (1)", async () => {
