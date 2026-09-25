@@ -49,7 +49,7 @@ export interface Tool {
     detect_voicemail?: boolean | undefined;
     /** When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, so use_agent_phone_number and detect_voicemail are false and post_transfer_message is null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only returned for built_in_transfer_to_phone_number tools. */
     keep_listening?: boolean | undefined;
-    /** What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only returned for built_in_transfer_to_phone_number tools. */
+    /** What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. `keep_retrying` only applies to bridged transfers (keep_listening true). Only returned for built_in_transfer_to_phone_number tools. */
     on_transfer_no_answer?: Tool.OnTransferNoAnswer | undefined;
     /** Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. */
     agents_to_transfer_to?: string[] | undefined;
@@ -108,6 +108,7 @@ export namespace Tool {
         export const Value = {
             RequestBody: "request_body",
             QueryString: "query_string",
+            UrlPath: "url_path",
         } as const;
         export type Value = (typeof Value)[keyof typeof Value];
     }
@@ -118,7 +119,7 @@ export namespace Tool {
         Post: "POST",
     } as const;
     export type EndpointMethod = (typeof EndpointMethod)[keyof typeof EndpointMethod];
-    /** What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only returned for built_in_transfer_to_phone_number tools. */
+    /** What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. `keep_retrying` only applies to bridged transfers (keep_listening true). Only returned for built_in_transfer_to_phone_number tools. */
     export const OnTransferNoAnswer = {
         ReturnToAssistant: "return_to_assistant",
         KeepRetrying: "keep_retrying",

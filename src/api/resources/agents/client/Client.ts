@@ -231,6 +231,7 @@ export class AgentsClient {
      *
      * @throws {@link Phonic.BadRequestError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
      *
      * @example
      *     await client.agents.upsert({
@@ -326,6 +327,8 @@ export class AgentsClient {
                     throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,
@@ -500,6 +503,7 @@ export class AgentsClient {
      * @throws {@link Phonic.BadRequestError}
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
      *
      * @example
      *     await client.agents.update("nameOrId", {
@@ -599,6 +603,8 @@ export class AgentsClient {
                     throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.PhonicError({
                         statusCode: _response.error.statusCode,

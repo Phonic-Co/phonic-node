@@ -38,7 +38,7 @@ export interface UpdateToolRequest {
     parameter_locations?: Record<string, UpdateToolRequest.ParameterLocations.Value>;
     /** HTTP method for webhook tools. When switching from POST to GET, a tool with request body parameters must also send new `parameters` (or `parameter_locations`) placing them in the query string. */
     endpoint_method?: UpdateToolRequest.EndpointMethod;
-    /** URL for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials. */
+    /** URL for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials. May contain `{name}` placeholders in the path or query (not the scheme, host, port, or credentials), each filled by a required parameter with location `"url_path"`. */
     endpoint_url?: string;
     /** Headers for webhook tools. Set to null to clear existing headers. */
     endpoint_headers?: Record<string, string | null> | null;
@@ -58,7 +58,7 @@ export interface UpdateToolRequest {
     detect_voicemail?: boolean;
     /** When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, which requires the resulting use_agent_phone_number and detect_voicemail to be false and post_transfer_message to be null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only applicable to built_in_transfer_to_phone_number tools. */
     keep_listening?: boolean;
-    /** What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only applicable to built_in_transfer_to_phone_number tools. */
+    /** What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. `keep_retrying` only applies to bridged transfers, so it cannot be used when the resulting keep_listening is false. Only applicable to built_in_transfer_to_phone_number tools. */
     on_transfer_no_answer?: UpdateToolRequest.OnTransferNoAnswer;
     /** Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool. */
     agents_to_transfer_to?: string[];
@@ -100,6 +100,7 @@ export namespace UpdateToolRequest {
         export const Value = {
             RequestBody: "request_body",
             QueryString: "query_string",
+            UrlPath: "url_path",
         } as const;
         export type Value = (typeof Value)[keyof typeof Value];
     }
@@ -110,7 +111,7 @@ export namespace UpdateToolRequest {
         Post: "POST",
     } as const;
     export type EndpointMethod = (typeof EndpointMethod)[keyof typeof EndpointMethod];
-    /** What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only applicable to built_in_transfer_to_phone_number tools. */
+    /** What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. `keep_retrying` only applies to bridged transfers, so it cannot be used when the resulting keep_listening is false. Only applicable to built_in_transfer_to_phone_number tools. */
     export const OnTransferNoAnswer = {
         ReturnToAssistant: "return_to_assistant",
         KeepRetrying: "keep_retrying",
