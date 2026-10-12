@@ -23,6 +23,7 @@ describe("AgentsClient", () => {
                     project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                     timezone: "America/Los_Angeles",
                     voice_id: "sabrina",
+                    additional_voice_ids: ["grant", "virginia"],
                     audio_format: "pcm_44100",
                     audio_speed: 1,
                     background_noise_level: 0,
@@ -108,6 +109,7 @@ describe("AgentsClient", () => {
                     },
                     timezone: "America/Los_Angeles",
                     voice_id: "sabrina",
+                    additional_voice_ids: ["grant", "virginia"],
                     audio_format: "pcm_44100",
                     audio_speed: 1,
                     background_noise_level: 0,
@@ -481,6 +483,7 @@ describe("AgentsClient", () => {
                 project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 timezone: "America/Los_Angeles",
                 voice_id: "sabrina",
+                additional_voice_ids: ["grant", "virginia"],
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
@@ -613,6 +616,7 @@ describe("AgentsClient", () => {
                 },
                 timezone: "America/Los_Angeles",
                 voice_id: "sabrina",
+                additional_voice_ids: ["grant", "virginia"],
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
@@ -802,6 +806,7 @@ describe("AgentsClient", () => {
                 project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 timezone: "America/Los_Angeles",
                 voice_id: "sabrina",
+                additional_voice_ids: ["grant", "virginia"],
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
@@ -884,6 +889,7 @@ describe("AgentsClient", () => {
                 },
                 timezone: "America/Los_Angeles",
                 voice_id: "sabrina",
+                additional_voice_ids: ["grant", "virginia"],
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
@@ -1129,6 +1135,7 @@ describe("AgentsClient", () => {
                 project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 timezone: "America/Los_Angeles",
                 voice_id: "sabrina",
+                additional_voice_ids: ["grant", "virginia"],
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
@@ -1258,6 +1265,7 @@ describe("AgentsClient", () => {
                 },
                 timezone: "America/Los_Angeles",
                 voice_id: "sabrina",
+                additional_voice_ids: ["grant", "virginia"],
                 audio_format: "pcm_44100",
                 audio_speed: 1,
                 background_noise_level: 0,
@@ -1983,5 +1991,149 @@ describe("AgentsClient", () => {
                 phone_number: "phone_number",
             });
         }).rejects.toThrow(Phonic.ConflictError);
+    });
+
+    test("disable (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { success: true };
+
+        server
+            .mockEndpoint()
+            .post("/agents/nameOrId/disable")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.agents.disable("nameOrId", {
+            project: "main",
+        });
+        expect(response).toEqual({
+            success: true,
+        });
+    });
+
+    test("disable (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/agents/nameOrId/disable")
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.disable("nameOrId");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("disable (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/agents/nameOrId/disable")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.disable("nameOrId");
+        }).rejects.toThrow(Phonic.NotFoundError);
+    });
+
+    test("enable (1)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { success: true };
+
+        server
+            .mockEndpoint()
+            .post("/agents/nameOrId/enable")
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.agents.enable("nameOrId", {
+            project: "main",
+        });
+        expect(response).toEqual({
+            success: true,
+        });
+    });
+
+    test("enable (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/agents/nameOrId/enable")
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.enable("nameOrId");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("enable (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/agents/nameOrId/enable")
+            .respondWith()
+            .statusCode(404)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.enable("nameOrId");
+        }).rejects.toThrow(Phonic.NotFoundError);
     });
 });

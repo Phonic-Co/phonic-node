@@ -948,4 +948,156 @@ export class AgentsClient {
             "/agents/{nameOrId}/phone-numbers",
         );
     }
+
+    /**
+     * Disables an agent by name or ID. A disabled agent cannot start conversations or be updated, except to release its phone numbers.
+     *
+     * @param {string} nameOrId - The name or the ID of the agent.
+     * @param {Phonic.AgentsDisableRequest} request
+     * @param {AgentsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
+     *
+     * @example
+     *     await client.agents.disable("nameOrId", {
+     *         project: "main"
+     *     })
+     */
+    public disable(
+        nameOrId: string,
+        request: Phonic.AgentsDisableRequest = {},
+        requestOptions?: AgentsClient.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.AgentsDisableResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__disable(nameOrId, request, requestOptions));
+    }
+
+    private async __disable(
+        nameOrId: string,
+        request: Phonic.AgentsDisableRequest = {},
+        requestOptions?: AgentsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.AgentsDisableResponse>> {
+        const { project } = request;
+        const _queryParams: Record<string, unknown> = {
+            project,
+        };
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                `agents/${core.url.encodePathParam(nameOrId)}/disable`,
+            ),
+            method: "POST",
+            headers: _headers,
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Phonic.AgentsDisableResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/agents/{nameOrId}/disable");
+    }
+
+    /**
+     * Enables a previously disabled agent by name or ID.
+     *
+     * @param {string} nameOrId - The name or the ID of the agent.
+     * @param {Phonic.AgentsEnableRequest} request
+     * @param {AgentsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
+     *
+     * @example
+     *     await client.agents.enable("nameOrId", {
+     *         project: "main"
+     *     })
+     */
+    public enable(
+        nameOrId: string,
+        request: Phonic.AgentsEnableRequest = {},
+        requestOptions?: AgentsClient.RequestOptions,
+    ): core.HttpResponsePromise<Phonic.AgentsEnableResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__enable(nameOrId, request, requestOptions));
+    }
+
+    private async __enable(
+        nameOrId: string,
+        request: Phonic.AgentsEnableRequest = {},
+        requestOptions?: AgentsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Phonic.AgentsEnableResponse>> {
+        const { project } = request;
+        const _queryParams: Record<string, unknown> = {
+            project,
+        };
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
+                        .base,
+                `agents/${core.url.encodePathParam(nameOrId)}/enable`,
+            ),
+            method: "POST",
+            headers: _headers,
+            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Phonic.AgentsEnableResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.PhonicError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/agents/{nameOrId}/enable");
+    }
 }

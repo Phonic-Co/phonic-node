@@ -17,6 +17,8 @@ export interface Agent {
     timezone: string;
     /** The voice ID of the agent. */
     voice_id: string;
+    /** Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. */
+    additional_voice_ids: string[];
     /** The audio format of the agent. If the agent has a phone number, the audio format will be `mulaw_8000`. */
     audio_format: Agent.AudioFormat;
     /** The audio speed of the agent. Must be a multiple of 0.1. */

@@ -772,6 +772,152 @@ await client.agents.updatePhoneNumber("nameOrId", {
 </dl>
 </details>
 
+<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">disable</a>(nameOrId, { ...params }) -> Phonic.AgentsDisableResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Disables an agent by name or ID. A disabled agent cannot start conversations or be updated, except to release its phone numbers.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.agents.disable("nameOrId", {
+    project: "main"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**nameOrId:** `string` — The name or the ID of the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Phonic.AgentsDisableRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `AgentsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.agents.<a href="/src/api/resources/agents/client/Client.ts">enable</a>(nameOrId, { ...params }) -> Phonic.AgentsEnableResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Enables a previously disabled agent by name or ID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.agents.enable("nameOrId", {
+    project: "main"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**nameOrId:** `string` — The name or the ID of the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Phonic.AgentsEnableRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `AgentsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Tools
 <details><summary><code>client.tools.<a href="/src/api/resources/tools/client/Client.ts">list</a>({ ...params }) -> Phonic.ToolsListResponse</code></summary>
 <dl>
