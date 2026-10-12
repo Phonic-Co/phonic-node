@@ -46,6 +46,7 @@ describe("ToolsClient", () => {
                     forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    uninterruptible: true,
                     context: "Press the A button 5 times then gently shake the printer.",
                 },
                 {
@@ -94,6 +95,7 @@ describe("ToolsClient", () => {
                     forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    uninterruptible: true,
                     context: "context",
                 },
                 {
@@ -134,6 +136,7 @@ describe("ToolsClient", () => {
                     forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: false,
+                    uninterruptible: true,
                     context: "context",
                 },
                 {
@@ -167,6 +170,7 @@ describe("ToolsClient", () => {
                     forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    uninterruptible: true,
                     context: "context",
                 },
                 {
@@ -200,6 +204,7 @@ describe("ToolsClient", () => {
                     forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    uninterruptible: true,
                     context: "context",
                 },
             ],
@@ -257,6 +262,7 @@ describe("ToolsClient", () => {
                     forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    uninterruptible: true,
                     context: "Press the A button 5 times then gently shake the printer.",
                 },
                 {
@@ -313,6 +319,7 @@ describe("ToolsClient", () => {
                     forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    uninterruptible: true,
                     context: "context",
                 },
                 {
@@ -360,6 +367,7 @@ describe("ToolsClient", () => {
                     forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: false,
+                    uninterruptible: true,
                     context: "context",
                 },
                 {
@@ -407,6 +415,7 @@ describe("ToolsClient", () => {
                     forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    uninterruptible: true,
                     context: "context",
                 },
                 {
@@ -454,6 +463,7 @@ describe("ToolsClient", () => {
                     forbid_tool_call_after_speech: true,
                     allow_tool_chaining: true,
                     wait_for_response: true,
+                    uninterruptible: true,
                     context: "context",
                 },
             ],
@@ -1032,6 +1042,7 @@ describe("ToolsClient", () => {
                 forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                uninterruptible: true,
                 context: "Press the A button 5 times then gently shake the printer.",
             },
         };
@@ -1087,6 +1098,7 @@ describe("ToolsClient", () => {
                 forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                uninterruptible: true,
                 context: "Press the A button 5 times then gently shake the printer.",
             },
         });
@@ -1147,6 +1159,7 @@ describe("ToolsClient", () => {
                 forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                uninterruptible: true,
                 context: "context",
             },
         };
@@ -1211,6 +1224,7 @@ describe("ToolsClient", () => {
                 forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                uninterruptible: true,
                 context: "context",
             },
         });
@@ -1263,6 +1277,7 @@ describe("ToolsClient", () => {
                 forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: false,
+                uninterruptible: true,
                 context: "context",
             },
         };
@@ -1318,6 +1333,7 @@ describe("ToolsClient", () => {
                 forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: false,
+                uninterruptible: true,
                 context: "context",
             },
         });
@@ -1363,6 +1379,7 @@ describe("ToolsClient", () => {
                 forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                uninterruptible: true,
                 context: "context",
             },
         };
@@ -1418,6 +1435,7 @@ describe("ToolsClient", () => {
                 forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                uninterruptible: true,
                 context: "context",
             },
         });
@@ -1463,6 +1481,7 @@ describe("ToolsClient", () => {
                 forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                uninterruptible: true,
                 context: "context",
             },
         };
@@ -1518,6 +1537,7 @@ describe("ToolsClient", () => {
                 forbid_tool_call_after_speech: true,
                 allow_tool_chaining: true,
                 wait_for_response: true,
+                uninterruptible: true,
                 context: "context",
             },
         });

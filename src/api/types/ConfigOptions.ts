@@ -30,6 +30,8 @@ export interface ConfigOptions {
     welcome_message?: (string | null) | undefined;
     /** Voice ID to use for speech synthesis */
     voice_id?: string | undefined;
+    /** Additional voice IDs that, together with `voice_id`, form a voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates. */
+    additional_voice_ids?: string[] | undefined;
     /** Audio input format */
     input_format?: ConfigOptions.InputFormat | undefined;
     /** Audio output format */

@@ -17,6 +17,8 @@ export interface CreateAgentRequest {
     timezone?: string | undefined;
     /** The voice ID to use. */
     voice_id?: string | undefined;
+    /** Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates. */
+    additional_voice_ids?: string[] | undefined;
     /** The audio format of the agent. */
     audio_format?: CreateAgentRequest.AudioFormat | undefined;
     /** The audio speed of the agent. */
