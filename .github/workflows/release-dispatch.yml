@@ -1,0 +1,23 @@
+# Add as .github/workflows/release-dispatch.yml in BOTH
+# Phonic-Co/phonic-node and Phonic-Co/phonic-python.
+# Kept deliberately tiny: Fern manages these repos, so custom surface
+# should be minimal. Requires secret MONOPHONIC_DISPATCH_PAT
+# (fine-grained PAT, monophonic repo, contents:read + actions:write —
+# or classic repo scope).
+name: Notify monophonic on release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch sdk-release to monophonic
+        run: |
+          curl -sS -X POST \
+            -H "Authorization: Bearer ${{ secrets.MONOPHONIC_DISPATCH_PAT }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/Phonic-Co/monophonic/dispatches \
+            -d '{"event_type": "sdk-release", "client_payload": {"version": "${{ github.event.release.tag_name }}", "repo": "${{ github.repository }}"}}'
