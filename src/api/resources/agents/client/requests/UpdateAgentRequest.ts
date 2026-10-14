@@ -199,6 +199,7 @@ export namespace UpdateAgentRequest {
             | "keypad_input"
             | "natural_conversation_ending"
             | "choose_not_to_respond"
+            | "web_search"
             /**
              * Custom tool */
             | string;
