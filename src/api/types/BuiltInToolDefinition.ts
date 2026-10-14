@@ -3,13 +3,13 @@
 import type * as Phonic from "../index.js";
 
 /**
- * A built-in tool with an explicit configuration, as an alternative to referencing it by bare name (which uses the tool's default configuration). `keypad_input` and `natural_conversation_ending` take a `speech_before_tool_call` config; `choose_not_to_respond` takes a `respond_after_sec` config.
+ * A built-in tool with an explicit configuration, as an alternative to referencing it by bare name (which uses the tool's default configuration). `keypad_input`, `natural_conversation_ending`, and `web_search` take a `speech_before_tool_call` config; `choose_not_to_respond` takes a `respond_after_sec` config.
  */
 export interface BuiltInToolDefinition {
     type: "built_in";
     /** The name of the built-in tool. */
     name: BuiltInToolDefinition.Name;
-    /** The tool's configuration. Use `BuiltInToolConfig` for `keypad_input` and `natural_conversation_ending`, or `ChooseNotToRespondToolConfig` for `choose_not_to_respond`. */
+    /** The tool's configuration. Use `BuiltInToolConfig` for `keypad_input`, `natural_conversation_ending`, and `web_search`, or `ChooseNotToRespondToolConfig` for `choose_not_to_respond`. */
     tool_config: BuiltInToolDefinition.ToolConfig;
 }
 
@@ -19,10 +19,11 @@ export namespace BuiltInToolDefinition {
         KeypadInput: "keypad_input",
         NaturalConversationEnding: "natural_conversation_ending",
         ChooseNotToRespond: "choose_not_to_respond",
+        WebSearch: "web_search",
     } as const;
     export type Name = (typeof Name)[keyof typeof Name];
     /**
-     * The tool's configuration. Use `BuiltInToolConfig` for `keypad_input` and `natural_conversation_ending`, or `ChooseNotToRespondToolConfig` for `choose_not_to_respond`.
+     * The tool's configuration. Use `BuiltInToolConfig` for `keypad_input`, `natural_conversation_ending`, and `web_search`, or `ChooseNotToRespondToolConfig` for `choose_not_to_respond`.
      */
     export type ToolConfig = Phonic.BuiltInToolConfig | Phonic.ChooseNotToRespondToolConfig;
 }
