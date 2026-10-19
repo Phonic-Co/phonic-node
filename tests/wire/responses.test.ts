@@ -30,7 +30,7 @@ describe("ResponsesClient", () => {
                     },
                 },
             ],
-            phonic_model: "phonic_v1",
+            phonic_model: "phonic-1",
             num_responses: 2,
         };
         const rawResponseBody = {
@@ -86,7 +86,7 @@ describe("ResponsesClient", () => {
                     },
                 },
             ],
-            phonic_model: "phonic_v1",
+            phonic_model: "phonic-1",
             num_responses: 2,
         });
         expect(response).toEqual({

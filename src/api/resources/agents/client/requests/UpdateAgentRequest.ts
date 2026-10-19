@@ -220,9 +220,9 @@ export namespace UpdateAgentRequest {
     export type IntelligenceLevel = (typeof IntelligenceLevel)[keyof typeof IntelligenceLevel];
     /** The Phonic speech-to-speech model to generate with. Omit it to use the current default model. */
     export const PhonicModel = {
-        PhonicV05: "phonic_v0_5",
-        PhonicV1: "phonic_v1",
-        PhonicV11: "phonic_v1_1",
+        Phonic05: "phonic-0.5",
+        Phonic1: "phonic-1",
+        Phonic11: "phonic-1.1",
     } as const;
     export type PhonicModel = (typeof PhonicModel)[keyof typeof PhonicModel];
     export type PronunciationDictionary = PronunciationDictionary.Item[];

@@ -4313,7 +4313,7 @@ await client.responses.create({
                 additionalProperties: false
             }
         }],
-    phonic_model: "phonic_v1",
+    phonic_model: "phonic-1",
     num_responses: 2
 });
 
