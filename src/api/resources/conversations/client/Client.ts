@@ -33,9 +33,9 @@ export declare namespace ConversationsClient {
         headers?: Record<string, string>;
         /** Enable debug mode on the websocket. Defaults to false. */
         debug?: boolean;
-        /** Number of reconnect attempts. Defaults to 30. */
+        /** Number of times to retry a connect that fails before opening (timeout, network error, 5xx). Defaults to 2. */
         reconnectAttempts?: number;
-        /** The timeout for establishing the WebSocket connection in seconds. */
+        /** The timeout for establishing the WebSocket connection in seconds. Defaults to 3. */
         connectionTimeoutInSeconds?: number;
         /** A signal to abort the WebSocket connection. */
         abortSignal?: AbortSignal;
@@ -1231,7 +1231,7 @@ export class ConversationsClient {
                         debug: debug ?? false,
                         // Initial connection keeps transport retries; replacement sockets use 0 so only
                         // ReconnectableConversationsSocket performs session-level reconnect.
-                        maxRetries: isSessionReconnect ? 0 : reconnectAttempts ?? 30,
+                        maxRetries: isSessionReconnect ? 0 : reconnectAttempts ?? 2,
                         connectionTimeout: connectionTimeoutMs,
                     },
                     // Only pass abortSignal to the initial socket. Reconnect sockets
@@ -1261,7 +1261,7 @@ export class ConversationsClient {
             headers: _headers,
             options: {
                 debug: debug ?? false,
-                maxRetries: reconnectAttempts ?? 30,
+                maxRetries: reconnectAttempts ?? 2,
                 connectionTimeout: connectionTimeoutInSeconds != null ? connectionTimeoutInSeconds * 1000 : undefined,
             },
             abortSignal: abortSignal,
