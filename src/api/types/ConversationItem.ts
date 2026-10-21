@@ -23,8 +23,8 @@ export interface ConversationItem {
     audio_speed?: number | undefined;
     /** System prompt used for this assistant turn. */
     system_prompt?: string | undefined;
-    /** Tool calls made by the assistant. */
-    tool_calls?: ConversationItem.ToolCalls.Item[] | undefined;
+    /** Tool calls made during this turn. Tool calls made while the user is still speaking are attached to the user's turn. */
+    tool_calls: ConversationItem.ToolCalls.Item[];
 }
 
 export namespace ConversationItem {

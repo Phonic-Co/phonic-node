@@ -33,6 +33,8 @@ export interface ToolCallOutputProcessedPayload {
     timed_out?: (boolean | null) | undefined;
     /** Error message if tool call failed */
     error_message?: (string | null) | undefined;
+    /** The role of the conversation turn the tool call was attached to. A tool call made while the user is still speaking is attached to the user's turn. */
+    conversation_item_role: ToolCallOutputProcessedPayload.ConversationItemRole;
 }
 
 export namespace ToolCallOutputProcessedPayload {
@@ -42,4 +44,11 @@ export namespace ToolCallOutputProcessedPayload {
         /** Human-readable tool name */
         name: string;
     }
+
+    /** The role of the conversation turn the tool call was attached to. A tool call made while the user is still speaking is attached to the user's turn. */
+    export const ConversationItemRole = {
+        User: "user",
+        Assistant: "assistant",
+    } as const;
+    export type ConversationItemRole = (typeof ConversationItemRole)[keyof typeof ConversationItemRole];
 }

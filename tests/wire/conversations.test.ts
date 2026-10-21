@@ -77,6 +77,16 @@ describe("ConversationsClient", () => {
                             post_call_transcript: "Hi, I need help with booking an appointment.",
                             duration_ms: 2500,
                             started_at: "2025-07-30T23:45:00Z",
+                            tool_calls: [
+                                {
+                                    id: "id",
+                                    tool: { id: "id", name: "name" },
+                                    request_body: null,
+                                    response_body: null,
+                                    timed_out: null,
+                                    error_message: null,
+                                },
+                            ],
                         },
                         {
                             id: "id",
@@ -201,6 +211,19 @@ describe("ConversationsClient", () => {
                             post_call_transcript: "Hi, I need help with booking an appointment.",
                             duration_ms: 2500,
                             started_at: "2025-07-30T23:45:00Z",
+                            tool_calls: [
+                                {
+                                    id: "id",
+                                    tool: {
+                                        id: "id",
+                                        name: "name",
+                                    },
+                                    request_body: null,
+                                    response_body: null,
+                                    timed_out: null,
+                                    error_message: null,
+                                },
+                            ],
                         },
                         {
                             id: "id",
@@ -340,6 +363,16 @@ describe("ConversationsClient", () => {
                         post_call_transcript: "Hi, I need help with booking an appointment.",
                         duration_ms: 2500,
                         started_at: "2025-07-30T23:45:00Z",
+                        tool_calls: [
+                            {
+                                id: "id",
+                                tool: { id: "id", name: "name" },
+                                request_body: null,
+                                response_body: null,
+                                timed_out: null,
+                                error_message: null,
+                            },
+                        ],
                     },
                     {
                         id: "id",
@@ -463,6 +496,19 @@ describe("ConversationsClient", () => {
                         post_call_transcript: "Hi, I need help with booking an appointment.",
                         duration_ms: 2500,
                         started_at: "2025-07-30T23:45:00Z",
+                        tool_calls: [
+                            {
+                                id: "id",
+                                tool: {
+                                    id: "id",
+                                    name: "name",
+                                },
+                                request_body: null,
+                                response_body: null,
+                                timed_out: null,
+                                error_message: null,
+                            },
+                        ],
                     },
                     {
                         id: "id",
@@ -679,6 +725,16 @@ describe("ConversationsClient", () => {
                         post_call_transcript: "Hi, I need help with booking an appointment.",
                         duration_ms: 2500,
                         started_at: "2025-07-30T23:45:00Z",
+                        tool_calls: [
+                            {
+                                id: "id",
+                                tool: { id: "id", name: "name" },
+                                request_body: null,
+                                response_body: null,
+                                timed_out: null,
+                                error_message: null,
+                            },
+                        ],
                     },
                     {
                         id: "id",
@@ -806,6 +862,19 @@ describe("ConversationsClient", () => {
                         post_call_transcript: "Hi, I need help with booking an appointment.",
                         duration_ms: 2500,
                         started_at: "2025-07-30T23:45:00Z",
+                        tool_calls: [
+                            {
+                                id: "id",
+                                tool: {
+                                    id: "id",
+                                    name: "name",
+                                },
+                                request_body: null,
+                                response_body: null,
+                                timed_out: null,
+                                error_message: null,
+                            },
+                        ],
                     },
                     {
                         id: "id",
