@@ -71,6 +71,8 @@ export interface Tool {
     wait_for_response?: boolean | undefined;
     /** Whether caller speech is prevented from interrupting the assistant while the tool call is running. Returned for custom_webhook, custom_websocket, and built_in_transfer_to_phone_number tools. Phone transfers without a stored setting default to true. */
     uninterruptible?: boolean | undefined;
+    /** When true, the agent can call the tool while the user is still speaking. Only returned for custom_webhook and custom_context tools. */
+    can_run_during_user_speech?: boolean | undefined;
     /** The static context returned to the agent. Only present for custom_context tools. */
     context?: string | undefined;
 }

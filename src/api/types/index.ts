@@ -102,3 +102,4 @@ export * from "./UserStartedSpeakingPayload.js";
 export * from "./ValidationError.js";
 export * from "./Voice.js";
 export * from "./WarningPayload.js";
+export * from "./WebSearchToolConfig.js";
