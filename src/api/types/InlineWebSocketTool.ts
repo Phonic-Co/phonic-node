@@ -26,6 +26,8 @@ export interface InlineWebSocketTool {
     wait_for_response?: boolean | undefined;
     /** For sync tools, when true, the user cannot interrupt the assistant while the tool call is in flight; the assistant's turn is held open until the tool returns. */
     uninterruptible?: boolean | undefined;
+    /** When true, the assistant can call the tool while the user is still speaking. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access. */
+    can_run_during_user_speech?: boolean | undefined;
 }
 
 export namespace InlineWebSocketTool {
