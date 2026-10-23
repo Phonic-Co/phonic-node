@@ -1118,9 +1118,9 @@ balanced-match@^1.0.0:
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
 baseline-browser-mapping@^2.11.29:
-  version "2.11.30"
-  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.11.30.tgz#cfff2f5f3954e9c9d1488949321bb310eacf346e"
-  integrity sha512-YJs6Pz17RMNv8HoyKREtCY38E3BV1nPkWVmIb+XN1uHC1Vqt3KZCH/uJH9ZKRoiKb/icZ6tvehyee6RZNbFfRA==
+  version "2.11.31"
+  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.11.31.tgz#09d43ad2aafb3da96c82c8478e70e679ee1235a8"
+  integrity sha512-b0k7wXlWjpuL/Uxb/pYlpjY0ej5BjAmurtPUk3eRGuloI4yjK32m8TiKUQ81l1ptcLjKS/KH2+uqIolZti1x4Q==
 
 brace-expansion@^1.1.7:
   version "1.1.21"
@@ -1191,9 +1191,9 @@ camelcase@^6.2.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001816:
-  version "1.0.30001818"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001818.tgz#1dfaec65c9d407f6da4240b3e5ca4cb29ff44ca0"
-  integrity sha512-XJbgo4adscw7R4MZU4/qVFkoMyPaNUAWmdNY4o/k9x7fFwmv4frIlndI9lWuaxviW9ObiZel9LuncnQPn6hQ5A==
+  version "1.0.30001819"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001819.tgz#4a0f8d7552a15909ce8a0c1dc2ccad9c8c0fab9d"
+  integrity sha512-LFUqIIAwpzsIuevnKnsR9qnStBcgzPShTX61lBwN9uFkkf8o8zLiebEjbW8AYtZiF+1YKDWfdt/pWDtMuG8Xwg==
 
 chalk@^4.0.0, chalk@^4.1.0:
   version "4.1.2"
@@ -2480,9 +2480,9 @@ node-int64@^0.4.0:
   integrity sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==
 
 node-releases@^2.0.59:
-  version "2.0.59"
-  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.59.tgz#172a7e253e3cca1ae00e8015a82b54e7fcc68fd3"
-  integrity sha512-5qr2okC4ItAI0hG5SaV0HoYMpnM/Y6+Oqr7AmPYy/2uEoGvS+GbSKLeRxSS1uAdu59yz0ouzcuXievSgg///WA==
+  version "2.0.60"
+  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.60.tgz#e3104c3ceb4530578f546bcfda551a4a2de06939"
+  integrity sha512-OmO8+GM1JUZqXET720VrJCwkjUCXmCMQm0Z3UDDRbfNLHS4NEAvY60j5jiFv0tkKw2PNNlqOLhahVmwJIOLDIQ==
 
 normalize-path@^3.0.0:
   version "3.0.0"
@@ -2718,7 +2718,7 @@ saxes@^6.0.0:
   dependencies:
     xmlchars "^2.2.0"
 
-schema-utils@^4.5.0, schema-utils@^4.6.0:
+schema-utils@^4.6.0, schema-utils@^4.8.1:
   version "4.8.1"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-4.8.1.tgz#d005632a0ca18522d903d82e1dcccbddcd57e7bb"
   integrity sha512-x39pYlJPyH7Uge5QO64B9XGP9zLDc9WNmiQZc+CE3IzZPvMu3lHOuAMGpYNoPixEL7MSWlGhYTg5UlLSL8G6iw==
@@ -3056,7 +3056,7 @@ walker@^1.0.8:
   dependencies:
     makeerror "1.0.12"
 
-watchpack@^2.6.1:
+watchpack@^2.6.3:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-2.6.3.tgz#880d8c437c425104b2da58bee6bd8fbc33bf78d3"
   integrity sha512-s3NZy0QpTY9qGqzc0wtz4qI28z3+5qKbbAec4MV4G9N3CfgZ9wgvQRr0cl2jh/tqkWG1NWHkmVMHZpCamev5Wg==
@@ -3074,9 +3074,9 @@ webpack-sources@^3.6.0:
   integrity sha512-EIMmPVvNI0CYXyRPp34F2Qk7W37/BZVZIofS6LAUnrNjCVahS+hO4mxwFJDjQjODTGZDtVzLYoN2+1dYkhk9qA==
 
 webpack@^5.105.4:
-  version "5.112.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.112.0.tgz#e8710dcc0329ef076bd3b5c3bd6cf78e971c009a"
-  integrity sha512-NIBpsRuCll036haDDt/CfcTDfsWNR9Z782nMRMI9D377BsGcYzZDTNU5TyzhCJzPIcihAxMBaMAhq2WSaDrH8Q==
+  version "5.112.1"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.112.1.tgz#8838d62eef7a69e0e77617b22c6bf13ea58693ab"
+  integrity sha512-DsEgOfaY5XrvTTEU7QvktlOpYEipgNUyXQY4rQO4KtFmr71IwjMoRWyv9rJNo6qwqctRzh9sO9VIwMgnWmiBVg==
   dependencies:
     "@types/estree" "^1.0.8"
     "@types/json-schema" "^7.0.15"
@@ -3091,9 +3091,9 @@ webpack@^5.105.4:
     graceful-fs "^4.2.11"
     mime-db "^1.54.0"
     minimizer-webpack-plugin "^5.13.0"
-    schema-utils "^4.5.0"
+    schema-utils "^4.8.1"
     tapable "^2.3.0"
-    watchpack "^2.6.1"
+    watchpack "^2.6.3"
     webpack-sources "^3.6.0"
 
 whatwg-encoding@^2.0.0:
