@@ -642,3 +642,100 @@ describe("ReconnectableConversationsSocket", () => {
         expect(createReconnectSocket).not.toHaveBeenCalled();
     });
 });
+
+describe("ReconnectingWebSocket initial connect retry", () => {
+    // Real sockets: a local HTTP server decides per attempt whether to hang the
+    // upgrade, reject it with a status, or accept it.
+    type Behavior = "hang" | "accept" | number;
+
+    async function startServer(behaviors: Behavior[]) {
+        const { createServer } = await import("http");
+        const { WebSocketServer } = await import("ws");
+        const wss = new WebSocketServer({ noServer: true });
+        const sockets = new Set<import("net").Socket>();
+        let attempts = 0;
+        const server = createServer();
+        server.on("connection", (socket) => {
+            sockets.add(socket);
+            socket.on("close", () => sockets.delete(socket));
+        });
+        server.on("upgrade", (req, socket, head) => {
+            const behavior = behaviors[Math.min(attempts, behaviors.length - 1)];
+            attempts++;
+            if (behavior === "hang") {
+                return;
+            }
+            if (behavior === "accept") {
+                wss.handleUpgrade(req, socket, head, () => {});
+                return;
+            }
+            socket.end(`HTTP/1.1 ${behavior} Error\r\nConnection: close\r\n\r\n`);
+        });
+        await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+        const port = (server.address() as import("net").AddressInfo).port;
+        return {
+            url: `ws://127.0.0.1:${port}`,
+            attempts: () => attempts,
+            stop: async () => {
+                for (const client of wss.clients) client.terminate();
+                for (const socket of sockets) socket.destroy();
+                await new Promise<void>((resolve) => server.close(() => resolve()));
+            },
+        };
+    }
+
+    function connect(url: string, maxRetries: number) {
+        const ws = new ReconnectingWebSocket({
+            url,
+            options: { maxRetries, connectionTimeout: 200, minReconnectionDelay: 10, maxReconnectionDelay: 50 },
+        });
+        const events: string[] = [];
+        ws.addEventListener("open", () => events.push("open"));
+        ws.addEventListener("error", (e) => events.push(`error:${e.message}`));
+        ws.addEventListener("close", (e) => events.push(`close:${e.code}`));
+        return { ws, events };
+    }
+
+    const settle = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    it("retries a timed-out connect and gives up after maxRetries", async () => {
+        const server = await startServer(["hang"]);
+        const { ws, events } = connect(server.url, 2);
+        await settle(1200);
+        expect(server.attempts()).toBe(3);
+        // Only the final failure reaches listeners.
+        expect(events).toEqual(["close:1000", "error:TIMEOUT"]);
+        ws.close();
+        await server.stop();
+    });
+
+    it("opens on a later attempt without surfacing the failed ones", async () => {
+        const server = await startServer(["hang", 503, "accept"]);
+        const { ws, events } = connect(server.url, 2);
+        await settle(800);
+        expect(server.attempts()).toBe(3);
+        expect(events).toEqual(["open"]);
+        ws.close();
+        await server.stop();
+    });
+
+    it("does not retry a 4xx upgrade response", async () => {
+        const server = await startServer([401]);
+        const { ws, events } = connect(server.url, 2);
+        await settle(500);
+        expect(server.attempts()).toBe(1);
+        expect(events.some((e) => e.startsWith("error:"))).toBe(true);
+        ws.close();
+        await server.stop();
+    });
+
+    it("stops retrying once close() is called", async () => {
+        const server = await startServer(["hang"]);
+        const { ws } = connect(server.url, 5);
+        await settle(50);
+        ws.close();
+        await settle(800);
+        expect(server.attempts()).toBe(1);
+        await server.stop();
+    });
+});

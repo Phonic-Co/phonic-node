@@ -58,12 +58,14 @@ export declare namespace ReconnectingWebSocket {
     };
 }
 
+// Retry backoff: 500ms doubling to a 5s cap, +/-20% jitter per wait. Kept in
+// step with the Python SDK so both clients retry a failed connect the same way.
 const DEFAULT_OPTIONS = {
-    maxReconnectionDelay: 10000,
-    minReconnectionDelay: 1000 + Math.random() * 4000,
+    maxReconnectionDelay: 5000,
+    minReconnectionDelay: 500,
     minUptime: 5000,
-    reconnectionDelayGrowFactor: 1.3,
-    connectionTimeout: 4000,
+    reconnectionDelayGrowFactor: 2,
+    connectionTimeout: 3000,
     maxRetries: Infinity,
     maxEnqueuedMessages: Infinity,
     startClosed: false,
@@ -85,6 +87,7 @@ export class ReconnectingWebSocket {
     private _connectLock = false;
     private _binaryType: BinaryType = "blob";
     private _closeCalled = false;
+    private _attemptOpened = false;
     private _messageQueue: ReconnectingWebSocket.Message[] = [];
 
     private readonly _url: ReconnectingWebSocket.UrlProvider;
@@ -326,6 +329,8 @@ export class ReconnectingWebSocket {
             if (delay > maxReconnectionDelay) {
                 delay = maxReconnectionDelay;
             }
+            // Jitter so clients that failed together don't retry in lockstep.
+            delay *= 0.8 + Math.random() * 0.4;
         }
         this._debug("next delay", delay);
         return delay;
@@ -400,6 +405,7 @@ export class ReconnectingWebSocket {
                     }
                 }
                 this._ws = new WebSocket(url, this._protocols, options);
+                this._attemptOpened = false;
                 this._ws!.binaryType = this._binaryType;
                 this._connectLock = false;
                 this._addListeners();
@@ -450,6 +456,35 @@ export class ReconnectingWebSocket {
         }
     }
 
+    private _shouldRetryFailedConnect(event: Events.ErrorEvent): boolean {
+        const { maxRetries = DEFAULT_OPTIONS.maxRetries } = this._options;
+        if (this._attemptOpened || !this._shouldReconnect || this._closeCalled || this._abortSignal?.aborted) {
+            return false;
+        }
+        if (this._retryCount >= maxRetries) {
+            return false;
+        }
+        // A 4xx on the upgrade (bad credentials, rate limit) fails the same way
+        // on every attempt, so give up at once rather than retrying.
+        const status = /Unexpected server response: (\d{3})/.exec(event.message)?.[1];
+        return status == null || !status.startsWith("4");
+    }
+
+    private _abandonAttempt() {
+        this._clearTimeouts();
+        if (!this._ws) {
+            return;
+        }
+        this._removeListeners();
+        // Absorb async errors emitted by ws when closing during CONNECTING state
+        this._ws.addEventListener("error", () => {});
+        try {
+            this._ws.close();
+        } catch (_error) {
+            // ignore
+        }
+    }
+
     private _acceptOpen() {
         this._debug("accept open");
         this._retryCount = 0;
@@ -473,6 +508,7 @@ export class ReconnectingWebSocket {
         const { minUptime = DEFAULT_OPTIONS.minUptime } = this._options;
 
         clearTimeout(this._connectTimeout);
+        this._attemptOpened = true;
         this._uptimeTimeout = setTimeout(() => this._acceptOpen(), minUptime);
 
         this._ws!.binaryType = this._binaryType;
@@ -498,6 +534,15 @@ export class ReconnectingWebSocket {
 
     private _handleError = (event: Events.ErrorEvent) => {
         this._debug("error event", event.message);
+        if (this._shouldRetryFailedConnect(event)) {
+            // The attempt never opened, so there is no session to close: drop it
+            // quietly and try again. Surfacing an error or close here would end
+            // the caller's connect (e.g. reject waitForOpen) before the retry.
+            this._debug("connect attempt failed, retrying", event.message);
+            this._abandonAttempt();
+            this._connect();
+            return;
+        }
         this._disconnect(undefined, event.message === "TIMEOUT" ? "timeout" : undefined);
 
         if (this.onerror) {
