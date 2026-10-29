@@ -123,6 +123,8 @@ export interface AgentsCreateRequest {
     /** The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency. */
     intelligence_level?: Phonic.CreateAgentRequest.IntelligenceLevel;
     /** The Phonic speech-to-speech model to generate with. Omit it to use the current default model. */
+    model?: Phonic.CreateAgentRequest.Model;
+    /** The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead. */
     phonic_model?: Phonic.CreateAgentRequest.PhonicModel;
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords?: string[];

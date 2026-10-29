@@ -3,4 +3,6 @@
 /**
  * JSON Schema object describing the tool parameters. This follows OpenAI's function tool `parameters` field.
  */
-export type OpenAiFunctionParameters = Record<string, unknown>;
+export type OpenAiFunctionParameters = {
+    [key: string]: unknown;
+};

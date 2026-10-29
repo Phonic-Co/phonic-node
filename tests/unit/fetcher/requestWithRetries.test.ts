@@ -20,13 +20,13 @@ describe("requestWithRetries", () => {
         jest.clearAllTimers();
     });
 
-    it("should retry on retryable status codes", async () => {
+    it("should retry on retryable status codes (legacy mode)", async () => {
         setTimeoutSpy = jest.spyOn(global, "setTimeout").mockImplementation((callback: (args: void) => void) => {
             process.nextTick(callback);
             return null as any;
         });
 
-        const retryableStatuses = [408, 429, 500, 502];
+        const retryableStatuses = [408, 429, 500, 501, 502, 503, 504, 505];
         let callCount = 0;
 
         mockFetch.mockImplementation(async () => {
@@ -44,6 +44,24 @@ describe("requestWithRetries", () => {
         expect(response.status).toBe(200);
     });
 
+    it("should retry on 500 Internal Server Error in legacy mode", async () => {
+        setTimeoutSpy = jest.spyOn(global, "setTimeout").mockImplementation((callback: (args: void) => void) => {
+            process.nextTick(callback);
+            return null as any;
+        });
+
+        mockFetch
+            .mockResolvedValueOnce(new Response("", { status: 500 }))
+            .mockResolvedValueOnce(new Response("", { status: 200 }));
+
+        const responsePromise = requestWithRetries(() => mockFetch(), 3);
+        await jest.runAllTimersAsync();
+        const response = await responsePromise;
+
+        expect(mockFetch).toHaveBeenCalledTimes(2);
+        expect(response.status).toBe(200);
+    });
+
     it("should respect maxRetries limit", async () => {
         setTimeoutSpy = jest.spyOn(global, "setTimeout").mockImplementation((callback: (args: void) => void) => {
             process.nextTick(callback);
@@ -51,14 +69,48 @@ describe("requestWithRetries", () => {
         });
 
         const maxRetries = 2;
-        mockFetch.mockResolvedValue(new Response("", { status: 500 }));
+        mockFetch.mockResolvedValue(new Response("", { status: 503 }));
 
         const responsePromise = requestWithRetries(() => mockFetch(), maxRetries);
         await jest.runAllTimersAsync();
         const response = await responsePromise;
 
         expect(mockFetch).toHaveBeenCalledTimes(maxRetries + 1);
-        expect(response.status).toBe(500);
+        expect(response.status).toBe(503);
+    });
+
+    it("should retry on status 599 (upper boundary of retryable 5xx in legacy mode)", async () => {
+        setTimeoutSpy = jest.spyOn(global, "setTimeout").mockImplementation((callback: (args: void) => void) => {
+            process.nextTick(callback);
+            return null as any;
+        });
+
+        mockFetch
+            .mockResolvedValueOnce(new Response("", { status: 599 }))
+            .mockResolvedValueOnce(new Response("", { status: 200 }));
+
+        const responsePromise = requestWithRetries(() => mockFetch(), 3);
+        await jest.runAllTimersAsync();
+        const response = await responsePromise;
+
+        expect(mockFetch).toHaveBeenCalledTimes(2);
+        expect(response.status).toBe(200);
+    });
+
+    it("should not retry on non-retryable client error (400)", async () => {
+        setTimeoutSpy = jest.spyOn(global, "setTimeout").mockImplementation((callback: (args: void) => void) => {
+            process.nextTick(callback);
+            return null as any;
+        });
+
+        mockFetch.mockResolvedValueOnce(new Response("", { status: 400 }));
+
+        const responsePromise = requestWithRetries(() => mockFetch(), 3);
+        await jest.runAllTimersAsync();
+        const response = await responsePromise;
+
+        expect(mockFetch).toHaveBeenCalledTimes(1);
+        expect(response.status).toBe(400);
     });
 
     it("should not retry on success status codes", async () => {
@@ -150,7 +202,7 @@ describe("requestWithRetries", () => {
             return null as any;
         });
 
-        mockFetch.mockResolvedValue(new Response("", { status: 500 }));
+        mockFetch.mockResolvedValue(new Response("", { status: 502 }));
         const maxRetries = 3;
         const expectedDelays = [1000, 2000, 4000];
 
@@ -174,8 +226,8 @@ describe("requestWithRetries", () => {
         });
 
         mockFetch
-            .mockResolvedValueOnce(new Response("", { status: 500 }))
-            .mockResolvedValueOnce(new Response("", { status: 500 }))
+            .mockResolvedValueOnce(new Response("", { status: 502 }))
+            .mockResolvedValueOnce(new Response("", { status: 502 }))
             .mockResolvedValueOnce(new Response("", { status: 200 }))
             .mockResolvedValueOnce(new Response("", { status: 200 }));
 
@@ -210,5 +262,46 @@ describe("requestWithRetries", () => {
 
         expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 60000);
         expect(response.status).toBe(200);
+    });
+
+    it("should stop waiting and not retry when aborted during the backoff", async () => {
+        jest.restoreAllMocks();
+        const controller = new AbortController();
+        mockFetch.mockImplementation(async () => new Response("", { status: 429, headers: { "Retry-After": "1" } }));
+
+        const responsePromise = requestWithRetries(() => mockFetch(), 2, controller.signal);
+        const assertion = expect(responsePromise).rejects.toBe("cancelled");
+        await jest.advanceTimersByTimeAsync(30);
+        controller.abort("cancelled");
+        await assertion;
+
+        expect(mockFetch).toHaveBeenCalledTimes(1);
+        expect(jest.getTimerCount()).toBe(0);
+    });
+
+    it("should not wait when the signal is already aborted", async () => {
+        jest.restoreAllMocks();
+        const controller = new AbortController();
+        controller.abort("cancelled");
+        mockFetch.mockImplementation(async () => new Response("", { status: 503 }));
+
+        await expect(requestWithRetries(() => mockFetch(), 2, controller.signal)).rejects.toBe("cancelled");
+        expect(mockFetch).toHaveBeenCalledTimes(1);
+        expect(jest.getTimerCount()).toBe(0);
+    });
+
+    it("should still retry normally when a signal is passed but never aborted", async () => {
+        jest.restoreAllMocks();
+        const controller = new AbortController();
+        mockFetch
+            .mockImplementationOnce(async () => new Response("", { status: 503 }))
+            .mockImplementationOnce(async () => new Response("", { status: 200 }));
+
+        const responsePromise = requestWithRetries(() => mockFetch(), 2, controller.signal);
+        await jest.runAllTimersAsync();
+        const response = await responsePromise;
+
+        expect(response.status).toBe(200);
+        expect(mockFetch).toHaveBeenCalledTimes(2);
     });
 });

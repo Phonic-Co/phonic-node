@@ -1,7 +1,7 @@
 {
     "cliVersion": "5.45.0",
     "generatorName": "fernapi/fern-typescript-sdk",
-    "generatorVersion": "3.59.11",
+    "generatorVersion": "3.108.4",
     "generatorConfig": {
         "namespaceExport": "Phonic",
         "allowCustomFetcher": true,
@@ -18,6 +18,9 @@
         "packageManager": "yarn",
         "testFramework": "jest"
     },
-    "originGitCommit": "fd22c7f75b23421e4bc3016a089e9d8cc4d8f470",
-    "sdkVersion": "0.32.36"
+    "originGitCommit": "bedd47943dbc0963ee01186d96009e1d6fc6ba96",
+    "originGitCommitIsDirty": false,
+    "invokedBy": "ci",
+    "ciProvider": "github",
+    "sdkVersion": "0.32.37"
 }

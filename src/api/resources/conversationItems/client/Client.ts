@@ -4,6 +4,7 @@ import type { BaseClientOptions, BaseRequestOptions } from "../../../../BaseClie
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "../../../../BaseClient.js";
 import { mergeHeaders } from "../../../../core/headers.js";
 import * as core from "../../../../core/index.js";
+import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
@@ -41,6 +42,8 @@ export class ConversationItemsClient {
      * @throws {@link Phonic.ConflictError}
      * @throws {@link Phonic.UnprocessableEntityError}
      * @throws {@link Phonic.InternalServerError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.conversationItems.replay("id")
@@ -69,14 +72,14 @@ export class ConversationItemsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `conversation_items/${core.url.encodePathParam(id)}/replay`,
+                `conversation_items/${core.url.encodePathParam(id, errors.PhonicError)}/replay`,
             ),
             method: "POST",
             headers: _headers,
             contentType: "application/json",
-            queryParameters: requestOptions?.queryParams,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: request,
+            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

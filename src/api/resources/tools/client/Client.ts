@@ -4,6 +4,7 @@ import type { BaseClientOptions, BaseRequestOptions } from "../../../../BaseClie
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "../../../../BaseClient.js";
 import { mergeHeaders } from "../../../../core/headers.js";
 import * as core from "../../../../core/index.js";
+import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
@@ -29,6 +30,8 @@ export class ToolsClient {
      * @param {ToolsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.tools.list({
@@ -65,7 +68,11 @@ export class ToolsClient {
             ),
             method: "GET",
             headers: _headers,
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -101,6 +108,8 @@ export class ToolsClient {
      * @throws {@link Phonic.BadRequestError}
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.ConflictError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.tools.create({
@@ -297,9 +306,13 @@ export class ToolsClient {
             method: "POST",
             headers: _headers,
             contentType: "application/json",
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -339,6 +352,8 @@ export class ToolsClient {
      *
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.tools.get("nameOrId", {
@@ -373,11 +388,15 @@ export class ToolsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `tools/${core.url.encodePathParam(nameOrId)}`,
+                `tools/${core.url.encodePathParam(nameOrId, errors.PhonicError)}`,
             ),
             method: "GET",
             headers: _headers,
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -414,6 +433,8 @@ export class ToolsClient {
      * @param {ToolsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.tools.delete("nameOrId", {
@@ -448,11 +469,15 @@ export class ToolsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `tools/${core.url.encodePathParam(nameOrId)}`,
+                `tools/${core.url.encodePathParam(nameOrId, errors.PhonicError)}`,
             ),
             method: "DELETE",
             headers: _headers,
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -489,6 +514,8 @@ export class ToolsClient {
      * @throws {@link Phonic.BadRequestError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.ConflictError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.tools.update("nameOrId", {
@@ -528,14 +555,18 @@ export class ToolsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `tools/${core.url.encodePathParam(nameOrId)}`,
+                `tools/${core.url.encodePathParam(nameOrId, errors.PhonicError)}`,
             ),
             method: "PATCH",
             headers: _headers,
             contentType: "application/json",
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

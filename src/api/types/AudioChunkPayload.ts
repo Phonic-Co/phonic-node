@@ -4,6 +4,6 @@ export interface AudioChunkPayload {
     type: "audio_chunk";
     /** Base64-encoded audio data (Int16Array for PCM, Uint8Array for mulaw). Each chunk may contain at most 40 ms of audio — longer chunks are rejected with an error. Batch ~20 ms frames for headroom. */
     audio: string;
-    /** ISO 8601 timestamp (required for first chunk only) */
+    /** Optional ISO 8601 UTC timestamp for when the audio was captured, used to align the caller's audio in the call recording. Only useful if you buffer audio and send it later than it was captured. If omitted, the server uses the time it received the chunk. If set, it must be real wall-clock time, not a simulated clock. */
     iso_date_time?: string | undefined;
 }

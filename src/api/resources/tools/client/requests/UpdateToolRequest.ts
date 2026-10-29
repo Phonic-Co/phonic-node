@@ -46,6 +46,8 @@ export interface UpdateToolRequest {
     tool_call_output_timeout_ms?: number;
     /** The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number. */
     phone_number?: string | null;
+    /** A SIP destination to transfer calls to instead of a phone number. Setting sip clears phone_number, and setting phone_number clears sip; they cannot both be set in one update. Can be set to null to remove the SIP destination. Only applicable to built_in_transfer_to_phone_number tools. */
+    sip?: Phonic.TransferSip | null;
     /** DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF. Ignored when dynamic_dtmf is true. */
     dtmf?: string | null;
     /** Fixed line the agent speaks into the bridged call once the transfer connects. Can be set to null to remove the announcement. Must be null when the resulting keep_listening is false. Only applicable to built_in_transfer_to_phone_number tools. */

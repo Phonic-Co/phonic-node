@@ -4,6 +4,7 @@ import type { BaseClientOptions, BaseRequestOptions } from "../../../../BaseClie
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "../../../../BaseClient.js";
 import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../core/headers.js";
 import * as core from "../../../../core/index.js";
+import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
@@ -30,6 +31,8 @@ export class AgentsClient {
      *
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.InternalServerError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.agents.list()
@@ -64,7 +67,11 @@ export class AgentsClient {
             ),
             method: "GET",
             headers: _headers,
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -106,6 +113,8 @@ export class AgentsClient {
      * @throws {@link Phonic.UnauthorizedError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.InternalServerError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.agents.create({
@@ -182,9 +191,13 @@ export class AgentsClient {
             method: "POST",
             headers: _headers,
             contentType: "application/json",
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -232,6 +245,8 @@ export class AgentsClient {
      * @throws {@link Phonic.BadRequestError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.ConflictError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.agents.upsert({
@@ -308,9 +323,13 @@ export class AgentsClient {
             method: "PUT",
             headers: _headers,
             contentType: "application/json",
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -350,6 +369,8 @@ export class AgentsClient {
      *
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.agents.get("nameOrId", {
@@ -384,11 +405,15 @@ export class AgentsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `agents/${core.url.encodePathParam(nameOrId)}`,
+                `agents/${core.url.encodePathParam(nameOrId, errors.PhonicError)}`,
             ),
             method: "GET",
             headers: _headers,
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -426,6 +451,8 @@ export class AgentsClient {
      *
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.agents.delete("nameOrId", {
@@ -460,11 +487,15 @@ export class AgentsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `agents/${core.url.encodePathParam(nameOrId)}`,
+                `agents/${core.url.encodePathParam(nameOrId, errors.PhonicError)}`,
             ),
             method: "DELETE",
             headers: _headers,
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -504,6 +535,8 @@ export class AgentsClient {
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.ConflictError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.agents.update("nameOrId", {
@@ -577,14 +610,18 @@ export class AgentsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `agents/${core.url.encodePathParam(nameOrId)}`,
+                `agents/${core.url.encodePathParam(nameOrId, errors.PhonicError)}`,
             ),
             method: "PATCH",
             headers: _headers,
             contentType: "application/json",
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -629,6 +666,8 @@ export class AgentsClient {
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.ConflictError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.agents.addCustomPhoneNumber("nameOrId", {
@@ -689,14 +728,18 @@ export class AgentsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `agents/${core.url.encodePathParam(nameOrId)}/custom-phone-numbers`,
+                `agents/${core.url.encodePathParam(nameOrId, errors.PhonicError)}/custom-phone-numbers`,
             ),
             method: "POST",
             headers: _headers,
             contentType: "application/json",
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -754,6 +797,8 @@ export class AgentsClient {
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.ConflictError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.agents.deleteCustomPhoneNumber("nameOrId", {
@@ -789,14 +834,18 @@ export class AgentsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `agents/${core.url.encodePathParam(nameOrId)}/custom-phone-numbers`,
+                `agents/${core.url.encodePathParam(nameOrId, errors.PhonicError)}/custom-phone-numbers`,
             ),
             method: "DELETE",
             headers: _headers,
             contentType: "application/json",
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -854,6 +903,8 @@ export class AgentsClient {
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.ConflictError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.agents.updatePhoneNumber("nameOrId", {
@@ -896,14 +947,18 @@ export class AgentsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `agents/${core.url.encodePathParam(nameOrId)}/phone-numbers`,
+                `agents/${core.url.encodePathParam(nameOrId, errors.PhonicError)}/phone-numbers`,
             ),
             method: "PATCH",
             headers: _headers,
             contentType: "application/json",
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -958,6 +1013,8 @@ export class AgentsClient {
      *
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.agents.disable("nameOrId", {
@@ -992,11 +1049,15 @@ export class AgentsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `agents/${core.url.encodePathParam(nameOrId)}/disable`,
+                `agents/${core.url.encodePathParam(nameOrId, errors.PhonicError)}/disable`,
             ),
             method: "POST",
             headers: _headers,
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1034,6 +1095,8 @@ export class AgentsClient {
      *
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.agents.enable("nameOrId", {
@@ -1068,11 +1131,15 @@ export class AgentsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `agents/${core.url.encodePathParam(nameOrId)}/enable`,
+                `agents/${core.url.encodePathParam(nameOrId, errors.PhonicError)}/enable`,
             ),
             method: "POST",
             headers: _headers,
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

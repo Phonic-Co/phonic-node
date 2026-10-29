@@ -70,6 +70,8 @@ export interface Agent {
     /** The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency. */
     intelligence_level: Agent.IntelligenceLevel;
     /** The Phonic speech-to-speech model to generate with. Omit it to use the current default model. */
+    model: Agent.Model;
+    /** The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead. */
     phonic_model?: Agent.PhonicModel | undefined;
     /** These words, or short phrases, will be more accurately recognized by the agent. */
     boosted_keywords: string[];
@@ -170,13 +172,14 @@ export namespace Agent {
         High: "high",
     } as const;
     export type IntelligenceLevel = (typeof IntelligenceLevel)[keyof typeof IntelligenceLevel];
-    /** The Phonic speech-to-speech model to generate with. Omit it to use the current default model. */
-    export const PhonicModel = {
-        Phonic05: "phonic-0.5",
-        Phonic1: "phonic-1",
-        Phonic11: "phonic-1.1",
-    } as const;
-    export type PhonicModel = (typeof PhonicModel)[keyof typeof PhonicModel];
+    /**
+     * The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+     */
+    export type Model = "phonic-0.5" | "phonic-1" | string;
+    /**
+     * The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
+     */
+    export type PhonicModel = "phonic-0.5" | "phonic-1" | string;
     export type PronunciationDictionary = PronunciationDictionary.Item[];
 
     export namespace PronunciationDictionary {

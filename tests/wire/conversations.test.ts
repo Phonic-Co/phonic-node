@@ -26,7 +26,7 @@ describe("ConversationsClient", () => {
                     project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                     external_id: "call-123",
                     origin: "inbound",
-                    model: "merritt",
+                    model: "phonic-1",
                     generate_welcome_message: false,
                     is_welcome_message_interruptible: true,
                     listen_only: true,
@@ -56,7 +56,6 @@ describe("ConversationsClient", () => {
                     multilingual_mode: "request",
                     push_to_talk: false,
                     intelligence_level: "standard",
-                    phonic_model: "phonic-0.5",
                     heard_languages: ["ar"],
                     generate_no_input_poke_text: false,
                     no_input_poke_sec: 30,
@@ -134,167 +133,7 @@ describe("ConversationsClient", () => {
         server.mockEndpoint().get("/conversations").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.conversations.list();
-        expect(response).toEqual({
-            conversations: [
-                {
-                    id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-                    agent: {
-                        id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-                        name: "support-agent",
-                        is_deleted: false,
-                    },
-                    workspace: "example-workspace",
-                    project: {
-                        id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
-                        name: "customer-support",
-                    },
-                    external_id: "call-123",
-                    origin: "inbound",
-                    model: "merritt",
-                    generate_welcome_message: false,
-                    is_welcome_message_interruptible: true,
-                    listen_only: true,
-                    welcome_message:
-                        "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
-                    template_variables: {
-                        customer_name: "John",
-                        department: "Support",
-                    },
-                    system_prompt: "system_prompt",
-                    input_format: "mulaw_8000",
-                    output_format: "mulaw_8000",
-                    background_noise_level: 0.01,
-                    background_noise: "office",
-                    live_transcript:
-                        "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
-                    post_call_transcript:
-                        "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
-                    summary: "summary",
-                    duration_ms: 120500,
-                    audio_url: "https://example.com/audio/conv_12cf6e88.wav",
-                    started_at: "2025-07-30T23:45:00Z",
-                    ended_at: "2025-07-30T23:47:00Z",
-                    ended_by: "user",
-                    boosted_keywords: ["Load ID", "dispatch"],
-                    pronunciation_dictionary: [
-                        {
-                            word: "Phuket",
-                            pronunciation: "Poo-ket",
-                        },
-                    ],
-                    min_words_to_interrupt: 1,
-                    default_language: "en",
-                    additional_languages: ["es"],
-                    multilingual_mode: "request",
-                    push_to_talk: false,
-                    intelligence_level: "standard",
-                    phonic_model: "phonic-0.5",
-                    heard_languages: ["ar"],
-                    generate_no_input_poke_text: false,
-                    no_input_poke_sec: 30,
-                    no_input_poke_text: "Are you still there?",
-                    no_input_end_conversation_sec: 180,
-                    websocket_timeout_sec: 1.1,
-                    vad_prebuffer_duration_ms: 500,
-                    vad_min_speech_duration_ms: 50,
-                    vad_min_silence_duration_ms: 800,
-                    vad_threshold: 0.38,
-                    task_results: {
-                        key: "value",
-                    },
-                    items: [
-                        {
-                            id: "id",
-                            item_idx: 0,
-                            role: "user",
-                            live_transcript: "Hi, I need help with booking an appointment.",
-                            post_call_transcript: "Hi, I need help with booking an appointment.",
-                            duration_ms: 2500,
-                            started_at: "2025-07-30T23:45:00Z",
-                            tool_calls: [
-                                {
-                                    id: "id",
-                                    tool: {
-                                        id: "id",
-                                        name: "name",
-                                    },
-                                    request_body: null,
-                                    response_body: null,
-                                    timed_out: null,
-                                    error_message: null,
-                                },
-                            ],
-                        },
-                        {
-                            id: "id",
-                            item_idx: 1,
-                            role: "assistant",
-                            live_transcript: "Of course! I'd be happy to help you book an appointment.",
-                            post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
-                            duration_ms: 3000,
-                            started_at: "2025-07-30T23:45:02Z",
-                            voice_id: "sabrina",
-                            audio_speed: 1,
-                            tool_calls: [
-                                {
-                                    id: "tool_call_a3f8e4b2-7c91-4d63-9b2f-8e5a6c9d1f3a",
-                                    tool: {
-                                        id: "tool_check_availability",
-                                        name: "check_availability",
-                                    },
-                                    endpoint_method: "POST",
-                                    endpoint_url: "https://api.example.com/tools/check_availability",
-                                    endpoint_headers: {
-                                        Authorization: "Bearer token123",
-                                    },
-                                    endpoint_timeout_ms: 5000,
-                                    endpoint_called_at: "2025-07-30T23:45:03Z",
-                                    response_status_code: 200,
-                                    request_body: {
-                                        date: "tomorrow",
-                                        service: "consultation",
-                                    },
-                                    response_body: {
-                                        available: true,
-                                        slots: ["09:00", "10:00", "14:00"],
-                                    },
-                                    timed_out: false,
-                                    error_message: null,
-                                },
-                            ],
-                        },
-                    ],
-                    call_info: {
-                        from_phone_number: "+15551234567",
-                        to_phone_number: "+15559876543",
-                    },
-                    analysis: {
-                        id: "id",
-                        latencies_ms: [1064, 578, 797],
-                        interruptions_count: 0,
-                    },
-                    is_redacted: true,
-                    redacted_transcript: "redacted_transcript",
-                    metadata: {
-                        key: "value",
-                    },
-                    enable_watermarking: true,
-                    data_retention_policy: {
-                        zero_data_retention: true,
-                    },
-                    deletion_info: {
-                        transcripts_deleted_at: null,
-                        audio_recordings_deleted_at: null,
-                    },
-                    enable_assistant_backchannel: true,
-                    assistant_backchannel_aggressiveness: 1.1,
-                },
-            ],
-            pagination: {
-                prev_cursor: null,
-                next_cursor: "conv_98765432-abcd-1234-5678-abcdef123456",
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("list (2)", async () => {
@@ -313,7 +152,7 @@ describe("ConversationsClient", () => {
                 project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 external_id: "call-123",
                 origin: "web",
-                model: "merritt",
+                model: "phonic-1",
                 generate_welcome_message: false,
                 is_welcome_message_interruptible: true,
                 listen_only: true,
@@ -342,7 +181,6 @@ describe("ConversationsClient", () => {
                 multilingual_mode: "request",
                 push_to_talk: false,
                 intelligence_level: "standard",
-                phonic_model: "phonic-0.5",
                 heard_languages: ["ar"],
                 generate_no_input_poke_text: false,
                 no_input_poke_sec: 30,
@@ -421,157 +259,7 @@ describe("ConversationsClient", () => {
         server.mockEndpoint().get("/conversations").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.conversations.list();
-        expect(response).toEqual({
-            conversation: {
-                id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-                agent: {
-                    id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-                    name: "support-agent",
-                    is_deleted: false,
-                },
-                workspace: "example-workspace",
-                project: {
-                    id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
-                    name: "customer-support",
-                },
-                external_id: "call-123",
-                origin: "web",
-                model: "merritt",
-                generate_welcome_message: false,
-                is_welcome_message_interruptible: true,
-                listen_only: true,
-                welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
-                template_variables: {
-                    customer_name: "John",
-                    department: "Support",
-                },
-                system_prompt: "system_prompt",
-                input_format: "mulaw_8000",
-                output_format: "mulaw_8000",
-                background_noise_level: 0,
-                background_noise: null,
-                live_transcript:
-                    "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
-                post_call_transcript:
-                    "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
-                summary: "summary",
-                duration_ms: 120500,
-                audio_url: "https://example.com/audio/conv_12cf6e88.wav",
-                started_at: "2025-07-30T23:45:00Z",
-                ended_at: "2025-07-30T23:47:00Z",
-                ended_by: "user",
-                boosted_keywords: ["Load ID", "dispatch"],
-                pronunciation_dictionary: [
-                    {
-                        word: "Phuket",
-                        pronunciation: "Poo-ket",
-                    },
-                ],
-                min_words_to_interrupt: 1,
-                default_language: "en",
-                additional_languages: ["es"],
-                multilingual_mode: "request",
-                push_to_talk: false,
-                intelligence_level: "standard",
-                phonic_model: "phonic-0.5",
-                heard_languages: ["ar"],
-                generate_no_input_poke_text: false,
-                no_input_poke_sec: 30,
-                no_input_poke_text: "Are you still there?",
-                no_input_end_conversation_sec: 180,
-                websocket_timeout_sec: 1.1,
-                vad_prebuffer_duration_ms: 500,
-                vad_min_speech_duration_ms: 50,
-                vad_min_silence_duration_ms: 800,
-                vad_threshold: 0.38,
-                task_results: {
-                    key: "value",
-                },
-                items: [
-                    {
-                        id: "id",
-                        item_idx: 0,
-                        role: "user",
-                        live_transcript: "Hi, I need help with booking an appointment.",
-                        post_call_transcript: "Hi, I need help with booking an appointment.",
-                        duration_ms: 2500,
-                        started_at: "2025-07-30T23:45:00Z",
-                        tool_calls: [
-                            {
-                                id: "id",
-                                tool: {
-                                    id: "id",
-                                    name: "name",
-                                },
-                                request_body: null,
-                                response_body: null,
-                                timed_out: null,
-                                error_message: null,
-                            },
-                        ],
-                    },
-                    {
-                        id: "id",
-                        item_idx: 1,
-                        role: "assistant",
-                        live_transcript: "Of course! I'd be happy to help you book an appointment.",
-                        post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
-                        duration_ms: 3000,
-                        started_at: "2025-07-30T23:45:02Z",
-                        voice_id: "sabrina",
-                        audio_speed: 1,
-                        tool_calls: [
-                            {
-                                id: "tool_call_f2d5c8a1-9e4b-4a7c-b3d1-6f8e2a9c5b7d",
-                                tool: {
-                                    id: "tool_check_availability",
-                                    name: "check_availability",
-                                },
-                                endpoint_method: "POST",
-                                endpoint_url: "https://api.example.com/tools/check_availability",
-                                endpoint_headers: {
-                                    Authorization: "Bearer token123",
-                                },
-                                endpoint_timeout_ms: 5000,
-                                endpoint_called_at: "2025-07-30T23:45:03Z",
-                                response_status_code: 200,
-                                request_body: {
-                                    date: "tomorrow",
-                                    service: "consultation",
-                                },
-                                response_body: {
-                                    available: true,
-                                    slots: ["09:00", "10:00", "14:00"],
-                                },
-                                timed_out: false,
-                                error_message: null,
-                            },
-                        ],
-                    },
-                ],
-                call_info: null,
-                analysis: {
-                    id: "id",
-                    latencies_ms: [2024, 641],
-                    interruptions_count: 0,
-                },
-                is_redacted: true,
-                redacted_transcript: "redacted_transcript",
-                metadata: {
-                    key: "value",
-                },
-                enable_watermarking: true,
-                data_retention_policy: {
-                    zero_data_retention: true,
-                },
-                deletion_info: {
-                    transcripts_deleted_at: "2024-01-15T09:30:00Z",
-                    audio_recordings_deleted_at: "2024-01-15T09:30:00Z",
-                },
-                enable_assistant_backchannel: true,
-                assistant_backchannel_aggressiveness: 1.1,
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("list (3)", async () => {
@@ -675,7 +363,7 @@ describe("ConversationsClient", () => {
                 project: { id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad", name: "customer-support" },
                 external_id: "call-123",
                 origin: "inbound",
-                model: "merritt",
+                model: "phonic-1",
                 generate_welcome_message: false,
                 is_welcome_message_interruptible: true,
                 listen_only: false,
@@ -704,7 +392,6 @@ describe("ConversationsClient", () => {
                 multilingual_mode: "request",
                 push_to_talk: false,
                 intelligence_level: "standard",
-                phonic_model: "phonic-0.5",
                 heard_languages: ["ar"],
                 generate_no_input_poke_text: true,
                 no_input_poke_sec: 30,
@@ -787,161 +474,7 @@ describe("ConversationsClient", () => {
         server.mockEndpoint().get("/conversations/id").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.conversations.get("id");
-        expect(response).toEqual({
-            conversation: {
-                id: "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-                agent: {
-                    id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-                    name: "support-agent",
-                    is_deleted: false,
-                },
-                workspace: "example-workspace",
-                project: {
-                    id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
-                    name: "customer-support",
-                },
-                external_id: "call-123",
-                origin: "inbound",
-                model: "merritt",
-                generate_welcome_message: false,
-                is_welcome_message_interruptible: true,
-                listen_only: false,
-                welcome_message: "Hello {{customer_name}}, this is the {{department}} team. How can I help you today?",
-                template_variables: {
-                    customer_name: "John",
-                    department: "Support",
-                },
-                system_prompt: "system_prompt",
-                input_format: "mulaw_8000",
-                output_format: "mulaw_8000",
-                background_noise_level: 0,
-                background_noise: null,
-                live_transcript:
-                    "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
-                post_call_transcript:
-                    "User: Hi, I need help with booking an appointment.\nAssistant: Of course! I'd be happy to help you book an appointment.",
-                summary: "summary",
-                duration_ms: 120500,
-                audio_url: "https://example.com/audio/conv_12cf6e88.wav",
-                started_at: "2025-07-30T23:45:00Z",
-                ended_at: "2025-07-30T23:47:00Z",
-                ended_by: "user",
-                boosted_keywords: ["Load ID", "dispatch"],
-                pronunciation_dictionary: [
-                    {
-                        word: "Phuket",
-                        pronunciation: "Poo-ket",
-                    },
-                ],
-                min_words_to_interrupt: 1,
-                default_language: "en",
-                additional_languages: ["es"],
-                multilingual_mode: "request",
-                push_to_talk: false,
-                intelligence_level: "standard",
-                phonic_model: "phonic-0.5",
-                heard_languages: ["ar"],
-                generate_no_input_poke_text: true,
-                no_input_poke_sec: 30,
-                no_input_poke_text: "Are you still there?",
-                no_input_end_conversation_sec: 180,
-                websocket_timeout_sec: 1.1,
-                vad_prebuffer_duration_ms: 500,
-                vad_min_speech_duration_ms: 50,
-                vad_min_silence_duration_ms: 800,
-                vad_threshold: 0.38,
-                task_results: {
-                    key: "value",
-                },
-                items: [
-                    {
-                        id: "id",
-                        item_idx: 0,
-                        role: "user",
-                        live_transcript: "Hi, I need help with booking an appointment.",
-                        post_call_transcript: "Hi, I need help with booking an appointment.",
-                        duration_ms: 2500,
-                        started_at: "2025-07-30T23:45:00Z",
-                        tool_calls: [
-                            {
-                                id: "id",
-                                tool: {
-                                    id: "id",
-                                    name: "name",
-                                },
-                                request_body: null,
-                                response_body: null,
-                                timed_out: null,
-                                error_message: null,
-                            },
-                        ],
-                    },
-                    {
-                        id: "id",
-                        item_idx: 1,
-                        role: "assistant",
-                        live_transcript: "Of course! I'd be happy to help you book an appointment.",
-                        post_call_transcript: "Of course! I'd be happy to help you book an appointment.",
-                        duration_ms: 3000,
-                        started_at: "2025-07-30T23:45:02Z",
-                        voice_id: "sabrina",
-                        audio_speed: 1,
-                        tool_calls: [
-                            {
-                                id: "tool_call_f2d5c8a1-9e4b-4a7c-b3d1-6f8e2a9c5b7d",
-                                tool: {
-                                    id: "tool_check_availability",
-                                    name: "check_availability",
-                                },
-                                endpoint_method: "POST",
-                                endpoint_url: "https://api.example.com/tools/check_availability",
-                                endpoint_headers: {
-                                    Authorization: "Bearer token123",
-                                },
-                                endpoint_timeout_ms: 5000,
-                                endpoint_called_at: "2025-07-30T23:45:03Z",
-                                response_status_code: 200,
-                                request_body: {
-                                    date: "tomorrow",
-                                    service: "consultation",
-                                },
-                                response_body: {
-                                    available: true,
-                                    slots: ["09:00", "10:00", "14:00"],
-                                },
-                                timed_out: false,
-                                error_message: null,
-                            },
-                        ],
-                    },
-                ],
-                call_info: {
-                    from_phone_number: "+15551234567",
-                    to_phone_number: "+15559876543",
-                    twilio_call_sid: "twilio_call_sid",
-                },
-                analysis: {
-                    id: "id",
-                    latencies_ms: [1064, 578, 797],
-                    interruptions_count: 0,
-                },
-                is_redacted: true,
-                redacted_transcript: "redacted_transcript",
-                metadata: {
-                    key: "value",
-                },
-                enable_watermarking: true,
-                data_retention_policy: {
-                    zero_data_retention: true,
-                },
-                deletion_info: {
-                    transcripts_deleted_at: "2024-01-15T09:30:00Z",
-                    audio_recordings_deleted_at: "2024-01-15T09:30:00Z",
-                },
-                enable_assistant_backchannel: true,
-                assistant_backchannel_aggressiveness: 1.1,
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (2)", async () => {
@@ -1031,9 +564,7 @@ describe("ConversationsClient", () => {
             .build();
 
         const response = await client.conversations.delete("id");
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("delete (2)", async () => {
@@ -1170,9 +701,7 @@ describe("ConversationsClient", () => {
             .build();
 
         const response = await client.conversations.cancel("id");
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("cancel (2)", async () => {
@@ -1332,13 +861,7 @@ describe("ConversationsClient", () => {
             .build();
 
         const response = await client.conversations.getAnalysis("id");
-        expect(response).toEqual({
-            analysis: {
-                id: "id",
-                latencies_ms: [456, 654, 564],
-                interruptions_count: 2,
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get_analysis (2)", async () => {
@@ -1469,24 +992,7 @@ describe("ConversationsClient", () => {
             .build();
 
         const response = await client.conversations.listExtractions("id");
-        expect(response).toEqual({
-            extractions: [
-                {
-                    id: "conv_extract_f825-4d3e-a149-ddf1bdd2254c",
-                    schema: {
-                        id: "conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c",
-                        name: "appointment-details",
-                        isDeleted: false,
-                    },
-                    result: {
-                        customer_name: "John Smith",
-                        appointment_date: "2025-04-17",
-                        appointment_time: "2:30 PM",
-                    },
-                    created_at: "2025-07-30T23:49:18Z",
-                },
-            ],
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("list_extractions (2)", async () => {
@@ -1605,13 +1111,7 @@ describe("ConversationsClient", () => {
         const response = await client.conversations.extractData("id", {
             schema_id: "conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c",
         });
-        expect(response).toEqual({
-            result: {
-                customer_name: "John Smith",
-                appointment_duration: 45,
-                service_types: ["haircut", "beard trim"],
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("extract_data (2)", async () => {
@@ -1772,19 +1272,7 @@ describe("ConversationsClient", () => {
             .build();
 
         const response = await client.conversations.listEvaluations("id");
-        expect(response).toEqual({
-            evals: [
-                {
-                    id: "conv_eval_12345678-abcd-efgh-ijkl-mnopqrstuvwx",
-                    result: "successful",
-                    prompt: {
-                        id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
-                        name: "chocolate_usage",
-                    },
-                    created_at: "2025-07-30T23:49:18Z",
-                },
-            ],
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("list_evaluations (2)", async () => {
@@ -1901,11 +1389,7 @@ describe("ConversationsClient", () => {
         const response = await client.conversations.evaluate("id", {
             prompt_id: "conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
         });
-        expect(response).toEqual({
-            evaluation: {
-                result: "successful",
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("evaluate (2)", async () => {
@@ -2110,10 +1594,7 @@ describe("ConversationsClient", () => {
             },
             dry_run: false,
         });
-        expect(response).toEqual({
-            conversation_id: null,
-            dry_run: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("outbound_call (2)", async () => {
@@ -2188,10 +1669,7 @@ describe("ConversationsClient", () => {
             },
             dry_run: false,
         });
-        expect(response).toEqual({
-            conversation_id: "conv_12cf6e88-c254-233e-a149-b2f1bdd22783",
-            dry_run: false,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("outbound_call (3)", async () => {
@@ -2375,11 +1853,7 @@ describe("ConversationsClient", () => {
             from_phone_number: "from_phone_number",
             to_phone_number: "to_phone_number",
         });
-        expect(response).toEqual({
-            conversation_id: null,
-            twilio_call_sid: null,
-            dry_run: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("sip_outbound_call (2)", async () => {
@@ -2411,11 +1885,7 @@ describe("ConversationsClient", () => {
             from_phone_number: "from_phone_number",
             to_phone_number: "to_phone_number",
         });
-        expect(response).toEqual({
-            conversation_id: "conv_12cf6e88-c254-233e-a149-b2f1bdd22783",
-            twilio_call_sid: "CA1234567890",
-            dry_run: false,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("sip_outbound_call (3)", async () => {
@@ -2585,9 +2055,7 @@ describe("ConversationsClient", () => {
         const response = await client.conversations.replay("id", {
             agent: "support-agent",
         });
-        expect(response).toEqual({
-            message: "Replay started",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("replay (2)", async () => {

@@ -4,6 +4,7 @@ import type { BaseClientOptions, BaseRequestOptions } from "../../../../BaseClie
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "../../../../BaseClient.js";
 import { mergeHeaders } from "../../../../core/headers.js";
 import * as core from "../../../../core/index.js";
+import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
@@ -63,6 +64,8 @@ export class ResponsesClient {
      * @throws {@link Phonic.InternalServerError}
      * @throws {@link Phonic.BadGatewayError}
      * @throws {@link Phonic.ServiceUnavailableError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.responses.create({
@@ -89,7 +92,7 @@ export class ResponsesClient {
      *                     additionalProperties: false
      *                 }
      *             }],
-     *         phonic_model: "phonic-1",
+     *         model: "phonic-1",
      *         num_responses: 2
      *     })
      *
@@ -137,9 +140,9 @@ export class ResponsesClient {
             method: "POST",
             headers: _headers,
             contentType: "application/json",
-            queryParameters: requestOptions?.queryParams,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: request,
+            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

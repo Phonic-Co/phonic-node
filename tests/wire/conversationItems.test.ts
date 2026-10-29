@@ -32,22 +32,7 @@ describe("ConversationItemsClient", () => {
             .build();
 
         const response = await client.conversationItems.replay("id");
-        expect(response).toEqual({
-            responses: [
-                {
-                    text: "Sure \u2014 I can help with that. What time works best?",
-                    tool_calls: [
-                        {
-                            tool: {
-                                id: "id",
-                                name: "name",
-                            },
-                            request_body: null,
-                        },
-                    ],
-                },
-            ],
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("replay (2)", async () => {

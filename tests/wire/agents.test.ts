@@ -57,7 +57,7 @@ describe("AgentsClient", () => {
                     multilingual_mode: "request",
                     push_to_talk: false,
                     intelligence_level: "standard",
-                    phonic_model: "phonic-0.5",
+                    model: "phonic-0.5",
                     boosted_keywords: ["Load ID", "dispatch"],
                     observability_integrations: ["braintrust"],
                     external_storage_policy: "conversation_archive",
@@ -96,111 +96,7 @@ describe("AgentsClient", () => {
         server.mockEndpoint().get("/agents").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.agents.list();
-        expect(response).toEqual({
-            agents: [
-                {
-                    id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-                    name: "support-agent",
-                    phone_number: "+1234567890",
-                    phone_numbers: ["+1234567890"],
-                    project: {
-                        id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
-                        name: "customer-support",
-                    },
-                    timezone: "America/Los_Angeles",
-                    voice_id: "sabrina",
-                    additional_voice_ids: ["grant", "virginia"],
-                    audio_format: "pcm_44100",
-                    audio_speed: 1,
-                    background_noise_level: 0,
-                    background_noise: null,
-                    generate_welcome_message: false,
-                    is_welcome_message_interruptible: true,
-                    websocket_timeout_sec: 1,
-                    listen_only_inbound_enabled: false,
-                    listen_only_inbound_message: null,
-                    welcome_message: "Hi {{customer_name}}. How can I help you today?",
-                    system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-                    template_variables: {
-                        customer_name: {
-                            default_value: "Sean",
-                        },
-                        subject: {
-                            default_value: "Chess",
-                        },
-                    },
-                    tools: ["keypad_input"],
-                    built_in_tool_configs: {
-                        tool_natural_conversation_ending: {
-                            speech_before_tool_call: "suppressed",
-                        },
-                        tool_choose_not_to_respond: {
-                            respond_after_sec: 5,
-                        },
-                    },
-                    tasks: [
-                        {
-                            name: "Check Availability",
-                            description: "Check if the appointment is available",
-                        },
-                        {
-                            name: "Book Appointment",
-                            description: "Book the appointment",
-                        },
-                    ],
-                    generate_no_input_poke_text: false,
-                    no_input_poke_sec: 30,
-                    no_input_poke_text: "Are you still there?",
-                    no_input_end_conversation_sec: 180,
-                    default_language: "en",
-                    additional_languages: ["es"],
-                    multilingual_mode: "request",
-                    push_to_talk: false,
-                    intelligence_level: "standard",
-                    phonic_model: "phonic-0.5",
-                    boosted_keywords: ["Load ID", "dispatch"],
-                    observability_integrations: ["braintrust"],
-                    external_storage_policy: "conversation_archive",
-                    pronunciation_dictionary: [
-                        {
-                            word: "Phuket",
-                            pronunciation: "Poo-ket",
-                        },
-                    ],
-                    min_words_to_interrupt: 1,
-                    configuration_endpoint: {
-                        url: "https://api.example.com/config",
-                        headers: {
-                            Authorization: "Bearer token123",
-                        },
-                        timeout_ms: 7000,
-                    },
-                    inbound_rollout: 1,
-                    inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
-                    vad_prebuffer_duration_ms: 1,
-                    vad_min_speech_duration_ms: 1,
-                    vad_min_silence_duration_ms: 1,
-                    vad_threshold: 1.1,
-                    enable_redaction: true,
-                    enable_watermarking: true,
-                    slug: "slug",
-                    enable_assistant_backchannel: true,
-                    assistant_backchannel_aggressiveness: 1.1,
-                    integrations: [
-                        {
-                            account_id: "account_id",
-                            account_name: null,
-                            action_names: ["action_names"],
-                            app_slug: "app_slug",
-                        },
-                    ],
-                    data_retention_policy: {
-                        zero_data_retention: true,
-                    },
-                    is_disabled: true,
-                },
-            ],
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("list (2)", async () => {
@@ -328,10 +224,7 @@ describe("AgentsClient", () => {
                 timeout_ms: 7000,
             },
         });
-        expect(response).toEqual({
-            id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-            name: "support-agent",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create (2)", async () => {
@@ -514,7 +407,7 @@ describe("AgentsClient", () => {
                 multilingual_mode: "request",
                 push_to_talk: false,
                 intelligence_level: "standard",
-                phonic_model: "phonic-0.5",
+                model: "phonic-0.5",
                 boosted_keywords: ["Load ID", "dispatch"],
                 observability_integrations: ["braintrust"],
                 external_storage_policy: "conversation_archive",
@@ -604,111 +497,7 @@ describe("AgentsClient", () => {
                 timeout_ms: 7000,
             },
         });
-        expect(response).toEqual({
-            agent: {
-                id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-                name: "support-agent",
-                phone_number: "+1234567890",
-                phone_numbers: ["+1234567890"],
-                project: {
-                    id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
-                    name: "customer-support",
-                },
-                timezone: "America/Los_Angeles",
-                voice_id: "sabrina",
-                additional_voice_ids: ["grant", "virginia"],
-                audio_format: "pcm_44100",
-                audio_speed: 1,
-                background_noise_level: 0,
-                background_noise: null,
-                generate_welcome_message: false,
-                is_welcome_message_interruptible: true,
-                websocket_timeout_sec: 1,
-                listen_only_inbound_enabled: false,
-                listen_only_inbound_message: null,
-                welcome_message: "Hi {{customer_name}}. How can I help you today?",
-                system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-                template_variables: {
-                    customer_name: {
-                        default_value: "Sean",
-                    },
-                    subject: {
-                        default_value: "Chess",
-                    },
-                },
-                tools: ["keypad_input"],
-                built_in_tool_configs: {
-                    tool_natural_conversation_ending: {
-                        speech_before_tool_call: "suppressed",
-                    },
-                    tool_choose_not_to_respond: {
-                        respond_after_sec: 5,
-                    },
-                },
-                tasks: [
-                    {
-                        name: "Check Availability",
-                        description: "Check if the appointment is available",
-                    },
-                    {
-                        name: "Book Appointment",
-                        description: "Book the appointment",
-                    },
-                ],
-                generate_no_input_poke_text: false,
-                no_input_poke_sec: 30,
-                no_input_poke_text: "Are you still there?",
-                no_input_end_conversation_sec: 180,
-                default_language: "en",
-                additional_languages: ["es"],
-                multilingual_mode: "request",
-                push_to_talk: false,
-                intelligence_level: "standard",
-                phonic_model: "phonic-0.5",
-                boosted_keywords: ["Load ID", "dispatch"],
-                observability_integrations: ["braintrust"],
-                external_storage_policy: "conversation_archive",
-                pronunciation_dictionary: [
-                    {
-                        word: "Phuket",
-                        pronunciation: "Poo-ket",
-                    },
-                ],
-                min_words_to_interrupt: 1,
-                configuration_endpoint: {
-                    url: "https://api.example.com/config",
-                    headers: {
-                        Authorization: "Bearer token123",
-                    },
-                    timeout_ms: 7000,
-                },
-                inbound_rollout: 1,
-                inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
-                vad_prebuffer_duration_ms: 1,
-                vad_min_speech_duration_ms: 1,
-                vad_min_silence_duration_ms: 1,
-                vad_threshold: 1.1,
-                enable_redaction: true,
-                enable_watermarking: true,
-                slug: "slug",
-                enable_assistant_backchannel: true,
-                assistant_backchannel_aggressiveness: 1.1,
-                integrations: [
-                    {
-                        account_id: "account_id",
-                        account_name: null,
-                        action_names: ["action_names"],
-                        app_slug: "app_slug",
-                    },
-                ],
-                data_retention_policy: {
-                    zero_data_retention: true,
-                },
-                is_disabled: true,
-            },
-            inserted: true,
-            updated: false,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("upsert (2)", async () => {
@@ -837,7 +626,7 @@ describe("AgentsClient", () => {
                 multilingual_mode: "request",
                 push_to_talk: false,
                 intelligence_level: "standard",
-                phonic_model: "phonic-0.5",
+                model: "phonic-0.5",
                 boosted_keywords: ["Load ID", "dispatch"],
                 observability_integrations: ["braintrust"],
                 external_storage_policy: "conversation_archive",
@@ -877,109 +666,7 @@ describe("AgentsClient", () => {
         const response = await client.agents.get("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            agent: {
-                id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-                name: "support-agent",
-                phone_number: "+1234567890",
-                phone_numbers: ["+1234567890"],
-                project: {
-                    id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
-                    name: "customer-support",
-                },
-                timezone: "America/Los_Angeles",
-                voice_id: "sabrina",
-                additional_voice_ids: ["grant", "virginia"],
-                audio_format: "pcm_44100",
-                audio_speed: 1,
-                background_noise_level: 0,
-                background_noise: null,
-                generate_welcome_message: false,
-                is_welcome_message_interruptible: true,
-                websocket_timeout_sec: 1,
-                listen_only_inbound_enabled: false,
-                listen_only_inbound_message: null,
-                welcome_message: "Hi {{customer_name}}. How can I help you today?",
-                system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-                template_variables: {
-                    customer_name: {
-                        default_value: "Sean",
-                    },
-                    subject: {
-                        default_value: "Chess",
-                    },
-                },
-                tools: ["keypad_input"],
-                built_in_tool_configs: {
-                    tool_natural_conversation_ending: {
-                        speech_before_tool_call: "suppressed",
-                    },
-                    tool_choose_not_to_respond: {
-                        respond_after_sec: 5,
-                    },
-                },
-                tasks: [
-                    {
-                        name: "Check Availability",
-                        description: "Check if the appointment is available",
-                    },
-                    {
-                        name: "Book Appointment",
-                        description: "Book the appointment",
-                    },
-                ],
-                generate_no_input_poke_text: false,
-                no_input_poke_sec: 30,
-                no_input_poke_text: "Are you still there?",
-                no_input_end_conversation_sec: 180,
-                default_language: "en",
-                additional_languages: ["es"],
-                multilingual_mode: "request",
-                push_to_talk: false,
-                intelligence_level: "standard",
-                phonic_model: "phonic-0.5",
-                boosted_keywords: ["Load ID", "dispatch"],
-                observability_integrations: ["braintrust"],
-                external_storage_policy: "conversation_archive",
-                pronunciation_dictionary: [
-                    {
-                        word: "Phuket",
-                        pronunciation: "Poo-ket",
-                    },
-                ],
-                min_words_to_interrupt: 1,
-                configuration_endpoint: {
-                    url: "https://api.example.com/config",
-                    headers: {
-                        Authorization: "Bearer token123",
-                    },
-                    timeout_ms: 7000,
-                },
-                inbound_rollout: 1,
-                inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
-                vad_prebuffer_duration_ms: 1,
-                vad_min_speech_duration_ms: 1,
-                vad_min_silence_duration_ms: 1,
-                vad_threshold: 1.1,
-                enable_redaction: true,
-                enable_watermarking: true,
-                slug: "slug",
-                enable_assistant_backchannel: true,
-                assistant_backchannel_aggressiveness: 1.1,
-                integrations: [
-                    {
-                        account_id: "account_id",
-                        account_name: null,
-                        action_names: ["action_names"],
-                        app_slug: "app_slug",
-                    },
-                ],
-                data_retention_policy: {
-                    zero_data_retention: true,
-                },
-                is_disabled: true,
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (2)", async () => {
@@ -1037,9 +724,7 @@ describe("AgentsClient", () => {
         const response = await client.agents.delete("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("delete (2)", async () => {
@@ -1163,7 +848,7 @@ describe("AgentsClient", () => {
                 multilingual_mode: "request",
                 push_to_talk: false,
                 intelligence_level: "standard",
-                phonic_model: "phonic-0.5",
+                model: "phonic-0.5",
                 boosted_keywords: ["Load ID", "dispatch"],
                 observability_integrations: ["braintrust"],
                 external_storage_policy: "conversation_archive",
@@ -1251,107 +936,7 @@ describe("AgentsClient", () => {
                 timeout_ms: 7000,
             },
         });
-        expect(response).toEqual({
-            success: true,
-            version_number: 2,
-            agent: {
-                id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-                name: "updated-support-agent",
-                phone_number: "+1234567890",
-                phone_numbers: ["+1234567890"],
-                project: {
-                    id: "proj_ad0334f1-2487-4155-9df3-abd8129b29ad",
-                    name: "customer-support",
-                },
-                timezone: "America/Los_Angeles",
-                voice_id: "sabrina",
-                additional_voice_ids: ["grant", "virginia"],
-                audio_format: "pcm_44100",
-                audio_speed: 1,
-                background_noise_level: 0,
-                background_noise: null,
-                generate_welcome_message: false,
-                is_welcome_message_interruptible: true,
-                websocket_timeout_sec: 1,
-                listen_only_inbound_enabled: false,
-                listen_only_inbound_message: null,
-                welcome_message: "Hi {{customer_name}}. How can I help you today?",
-                system_prompt: "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-                template_variables: {
-                    customer_name: {
-                        default_value: "Sean",
-                    },
-                    subject: {
-                        default_value: "Chess",
-                    },
-                },
-                tools: ["keypad_input"],
-                built_in_tool_configs: {
-                    tool_natural_conversation_ending: {
-                        speech_before_tool_call: "suppressed",
-                    },
-                    tool_choose_not_to_respond: {
-                        respond_after_sec: 5,
-                    },
-                },
-                tasks: [
-                    {
-                        name: "Check Availability",
-                        description: "Check if the appointment is available",
-                    },
-                ],
-                generate_no_input_poke_text: false,
-                no_input_poke_sec: 30,
-                no_input_poke_text: "Are you still there?",
-                no_input_end_conversation_sec: 180,
-                default_language: "en",
-                additional_languages: ["es"],
-                multilingual_mode: "request",
-                push_to_talk: false,
-                intelligence_level: "standard",
-                phonic_model: "phonic-0.5",
-                boosted_keywords: ["Load ID", "dispatch"],
-                observability_integrations: ["braintrust"],
-                external_storage_policy: "conversation_archive",
-                pronunciation_dictionary: [
-                    {
-                        word: "Phuket",
-                        pronunciation: "Poo-ket",
-                    },
-                ],
-                min_words_to_interrupt: 1,
-                configuration_endpoint: {
-                    url: "https://api.example.com/config",
-                    headers: {
-                        Authorization: "Bearer token123",
-                    },
-                    timeout_ms: 7000,
-                },
-                inbound_rollout: 1,
-                inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
-                vad_prebuffer_duration_ms: 1,
-                vad_min_speech_duration_ms: 1,
-                vad_min_silence_duration_ms: 1,
-                vad_threshold: 1.1,
-                enable_redaction: true,
-                enable_watermarking: true,
-                slug: "slug",
-                enable_assistant_backchannel: true,
-                assistant_backchannel_aggressiveness: 1.1,
-                integrations: [
-                    {
-                        account_id: "account_id",
-                        account_name: null,
-                        action_names: ["action_names"],
-                        app_slug: "app_slug",
-                    },
-                ],
-                data_retention_policy: {
-                    zero_data_retention: true,
-                },
-                is_disabled: true,
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("update (2)", async () => {
@@ -1498,9 +1083,7 @@ describe("AgentsClient", () => {
                 media_encryption: "required",
             },
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("add_custom_phone_number (2)", async () => {
@@ -1686,9 +1269,7 @@ describe("AgentsClient", () => {
             project: "main",
             phone_number: "+15551234567",
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("delete_custom_phone_number (2)", async () => {
@@ -1858,9 +1439,7 @@ describe("AgentsClient", () => {
                 timeout_ms: 7000,
             },
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("update_phone_number (2)", async () => {
@@ -2014,9 +1593,7 @@ describe("AgentsClient", () => {
         const response = await client.agents.disable("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("disable (2)", async () => {
@@ -2086,9 +1663,7 @@ describe("AgentsClient", () => {
         const response = await client.agents.enable("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("enable (2)", async () => {
