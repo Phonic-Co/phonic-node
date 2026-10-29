@@ -5,6 +5,8 @@ import * as errors from "../../errors/index.js";
 import type * as Phonic from "../index.js";
 
 export class InternalServerError extends errors.PhonicError {
+    public declare readonly body: Phonic.BasicError;
+
     constructor(body: Phonic.BasicError, rawResponse?: core.RawResponse) {
         super({
             message: "InternalServerError",
@@ -17,6 +19,6 @@ export class InternalServerError extends errors.PhonicError {
             Error.captureStackTrace(this, this.constructor);
         }
 
-        this.name = this.constructor.name;
+        this.name = "InternalServerError";
     }
 }

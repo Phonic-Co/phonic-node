@@ -30,6 +30,7 @@ describe("ToolsClient", () => {
                     endpoint_timeout_ms: 1,
                     tool_call_output_timeout_ms: 1,
                     phone_number: "phone_number",
+                    sip: { uri: "sip:frontdesk@pbx.example.com:5061;transport=tls", headers: { "X-Ticket": "123" } },
                     dtmf: "dtmf",
                     post_transfer_message: "post_transfer_message",
                     dynamic_dtmf: true,
@@ -80,6 +81,7 @@ describe("ToolsClient", () => {
                     endpoint_timeout_ms: 5000,
                     tool_call_output_timeout_ms: 1,
                     phone_number: "phone_number",
+                    sip: { uri: "sip:frontdesk@pbx.example.com:5061;transport=tls", headers: { "X-Ticket": "123" } },
                     dtmf: "dtmf",
                     post_transfer_message: "post_transfer_message",
                     dynamic_dtmf: true,
@@ -122,6 +124,7 @@ describe("ToolsClient", () => {
                     endpoint_timeout_ms: 1,
                     tool_call_output_timeout_ms: 5000,
                     phone_number: "phone_number",
+                    sip: { uri: "sip:frontdesk@pbx.example.com:5061;transport=tls", headers: { "X-Ticket": "123" } },
                     dtmf: "dtmf",
                     post_transfer_message: "post_transfer_message",
                     dynamic_dtmf: true,
@@ -157,6 +160,7 @@ describe("ToolsClient", () => {
                     endpoint_timeout_ms: 1,
                     tool_call_output_timeout_ms: 1,
                     phone_number: "+15551234567",
+                    sip: { uri: "sip:frontdesk@pbx.example.com:5061;transport=tls", headers: { "X-Ticket": "123" } },
                     dtmf: "1234",
                     post_transfer_message: "post_transfer_message",
                     dynamic_dtmf: false,
@@ -192,6 +196,7 @@ describe("ToolsClient", () => {
                     endpoint_timeout_ms: 1,
                     tool_call_output_timeout_ms: 1,
                     phone_number: "phone_number",
+                    sip: { uri: "sip:frontdesk@pbx.example.com:5061;transport=tls", headers: { "X-Ticket": "123" } },
                     dtmf: "dtmf",
                     post_transfer_message: "post_transfer_message",
                     dynamic_dtmf: true,
@@ -220,264 +225,7 @@ describe("ToolsClient", () => {
         const response = await client.tools.list({
             project: "main",
         });
-        expect(response).toEqual({
-            tools: [
-                {
-                    id: "tool_29874283-c829-abf9-3028-309bc7aw3098",
-                    name: "context_printer",
-                    description: "Gets the specific context for fixing our printer",
-                    project: {
-                        id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
-                        name: "main",
-                    },
-                    type: "custom_context",
-                    execution_mode: "sync",
-                    parameters: [
-                        {
-                            type: "string",
-                            name: "name",
-                            description: "description",
-                            is_required: true,
-                        },
-                    ],
-                    parameter_locations: {
-                        key: "request_body",
-                    },
-                    endpoint_method: "GET",
-                    endpoint_url: "endpoint_url",
-                    endpoint_headers: {
-                        key: "value",
-                    },
-                    endpoint_timeout_ms: 1,
-                    tool_call_output_timeout_ms: 1,
-                    phone_number: "phone_number",
-                    dtmf: "dtmf",
-                    post_transfer_message: "post_transfer_message",
-                    dynamic_dtmf: true,
-                    use_agent_phone_number: true,
-                    detect_voicemail: true,
-                    keep_listening: true,
-                    on_transfer_no_answer: "return_to_assistant",
-                    agents_to_transfer_to: ["agents_to_transfer_to"],
-                    require_speech_before_tool_call: false,
-                    speech_before_tool_call: "required",
-                    respond_after_sec: 1.1,
-                    wait_for_speech_before_tool_call: true,
-                    forbid_speech_after_tool_call: false,
-                    forbid_tool_call_after_speech: true,
-                    allow_tool_chaining: true,
-                    wait_for_response: true,
-                    uninterruptible: true,
-                    can_run_during_user_speech: true,
-                    context: "Press the A button 5 times then gently shake the printer.",
-                },
-                {
-                    id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-                    name: "book_appointment",
-                    description: "Books an appointment in the calendar system",
-                    project: {
-                        id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
-                        name: "main",
-                    },
-                    type: "custom_webhook",
-                    execution_mode: "sync",
-                    parameters: [
-                        {
-                            type: "string",
-                            name: "date",
-                            description: "The date for the appointment in YYYY-MM-DD format",
-                            is_required: true,
-                            location: "request_body",
-                        },
-                        {
-                            type: "string",
-                            name: "time",
-                            description: "The time for the appointment in HH:MM format",
-                            is_required: true,
-                            location: "request_body",
-                        },
-                    ],
-                    parameter_locations: {
-                        key: "request_body",
-                    },
-                    endpoint_method: "POST",
-                    endpoint_url: "https://api.example.com/book-appointment",
-                    endpoint_headers: {
-                        Authorization: "Bearer token123",
-                        "Content-Type": "application/json",
-                    },
-                    endpoint_timeout_ms: 5000,
-                    tool_call_output_timeout_ms: 1,
-                    phone_number: "phone_number",
-                    dtmf: "dtmf",
-                    post_transfer_message: "post_transfer_message",
-                    dynamic_dtmf: true,
-                    use_agent_phone_number: true,
-                    detect_voicemail: true,
-                    keep_listening: true,
-                    on_transfer_no_answer: "return_to_assistant",
-                    agents_to_transfer_to: ["agents_to_transfer_to"],
-                    require_speech_before_tool_call: false,
-                    speech_before_tool_call: "required",
-                    respond_after_sec: 1.1,
-                    wait_for_speech_before_tool_call: false,
-                    forbid_speech_after_tool_call: false,
-                    forbid_tool_call_after_speech: true,
-                    allow_tool_chaining: true,
-                    wait_for_response: true,
-                    uninterruptible: true,
-                    can_run_during_user_speech: true,
-                    context: "context",
-                },
-                {
-                    id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
-                    name: "get_product_recommendations",
-                    description: "Gets personalized product recommendations",
-                    project: {
-                        id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
-                        name: "main",
-                    },
-                    type: "custom_websocket",
-                    execution_mode: "async",
-                    parameters: [
-                        {
-                            type: "string",
-                            name: "category",
-                            description: "Product category (e.g., 'handbags', 'shoes', 'electronics')",
-                            is_required: true,
-                        },
-                    ],
-                    parameter_locations: {
-                        key: "request_body",
-                    },
-                    endpoint_method: "GET",
-                    endpoint_url: "endpoint_url",
-                    endpoint_headers: {
-                        key: "value",
-                    },
-                    endpoint_timeout_ms: 1,
-                    tool_call_output_timeout_ms: 5000,
-                    phone_number: "phone_number",
-                    dtmf: "dtmf",
-                    post_transfer_message: "post_transfer_message",
-                    dynamic_dtmf: true,
-                    use_agent_phone_number: true,
-                    detect_voicemail: true,
-                    keep_listening: true,
-                    on_transfer_no_answer: "return_to_assistant",
-                    agents_to_transfer_to: ["agents_to_transfer_to"],
-                    require_speech_before_tool_call: false,
-                    speech_before_tool_call: "required",
-                    respond_after_sec: 1.1,
-                    wait_for_speech_before_tool_call: false,
-                    forbid_speech_after_tool_call: false,
-                    forbid_tool_call_after_speech: true,
-                    allow_tool_chaining: true,
-                    wait_for_response: false,
-                    uninterruptible: true,
-                    can_run_during_user_speech: true,
-                    context: "context",
-                },
-                {
-                    id: "tool_11111111-2222-3333-4444-555555555555",
-                    name: "transfer_to_support",
-                    description: "Transfers the caller to the support team",
-                    project: {
-                        id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
-                        name: "main",
-                    },
-                    type: "built_in_transfer_to_phone_number",
-                    execution_mode: "sync",
-                    parameters: [
-                        {
-                            type: "string",
-                            name: "name",
-                            description: "description",
-                            is_required: true,
-                        },
-                    ],
-                    parameter_locations: {
-                        key: "request_body",
-                    },
-                    endpoint_method: "GET",
-                    endpoint_url: "endpoint_url",
-                    endpoint_headers: {
-                        key: "value",
-                    },
-                    endpoint_timeout_ms: 1,
-                    tool_call_output_timeout_ms: 1,
-                    phone_number: "+15551234567",
-                    dtmf: "1234",
-                    post_transfer_message: "post_transfer_message",
-                    dynamic_dtmf: false,
-                    use_agent_phone_number: true,
-                    detect_voicemail: false,
-                    keep_listening: true,
-                    on_transfer_no_answer: "return_to_assistant",
-                    agents_to_transfer_to: ["agents_to_transfer_to"],
-                    require_speech_before_tool_call: false,
-                    speech_before_tool_call: "required",
-                    respond_after_sec: 1.1,
-                    wait_for_speech_before_tool_call: true,
-                    forbid_speech_after_tool_call: true,
-                    forbid_tool_call_after_speech: true,
-                    allow_tool_chaining: true,
-                    wait_for_response: true,
-                    uninterruptible: true,
-                    can_run_during_user_speech: true,
-                    context: "context",
-                },
-                {
-                    id: "tool_22222222-3333-4444-5555-666666666666",
-                    name: "transfer_to_specialist",
-                    description: "Transfers the caller to a specialist agent",
-                    project: {
-                        id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
-                        name: "main",
-                    },
-                    type: "built_in_transfer_to_agent",
-                    execution_mode: "sync",
-                    parameters: [
-                        {
-                            type: "string",
-                            name: "name",
-                            description: "description",
-                            is_required: true,
-                        },
-                    ],
-                    parameter_locations: {
-                        key: "request_body",
-                    },
-                    endpoint_method: "GET",
-                    endpoint_url: "endpoint_url",
-                    endpoint_headers: {
-                        key: "value",
-                    },
-                    endpoint_timeout_ms: 1,
-                    tool_call_output_timeout_ms: 1,
-                    phone_number: "phone_number",
-                    dtmf: "dtmf",
-                    post_transfer_message: "post_transfer_message",
-                    dynamic_dtmf: true,
-                    use_agent_phone_number: true,
-                    detect_voicemail: true,
-                    keep_listening: true,
-                    on_transfer_no_answer: "return_to_assistant",
-                    agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
-                    require_speech_before_tool_call: false,
-                    speech_before_tool_call: "required",
-                    respond_after_sec: 1.1,
-                    wait_for_speech_before_tool_call: true,
-                    forbid_speech_after_tool_call: true,
-                    forbid_tool_call_after_speech: true,
-                    allow_tool_chaining: true,
-                    wait_for_response: true,
-                    uninterruptible: true,
-                    can_run_during_user_speech: true,
-                    context: "context",
-                },
-            ],
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("list (2)", async () => {
@@ -545,10 +293,7 @@ describe("ToolsClient", () => {
             allow_tool_chaining: true,
             context: "Press the A button 5 times then gently shake the printer.",
         });
-        expect(response).toEqual({
-            id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-            name: "book_appointment",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create (2)", async () => {
@@ -633,10 +378,7 @@ describe("ToolsClient", () => {
             forbid_speech_after_tool_call: false,
             allow_tool_chaining: true,
         });
-        expect(response).toEqual({
-            id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-            name: "book_appointment",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create (3)", async () => {
@@ -754,10 +496,7 @@ describe("ToolsClient", () => {
             endpoint_url: "https://api.example.com/orders",
             endpoint_timeout_ms: 5000,
         });
-        expect(response).toEqual({
-            id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-            name: "book_appointment",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create (4)", async () => {
@@ -814,10 +553,7 @@ describe("ToolsClient", () => {
             allow_tool_chaining: true,
             wait_for_response: false,
         });
-        expect(response).toEqual({
-            id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-            name: "book_appointment",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create (5)", async () => {
@@ -863,10 +599,7 @@ describe("ToolsClient", () => {
             detect_voicemail: false,
             require_speech_before_tool_call: false,
         });
-        expect(response).toEqual({
-            id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-            name: "book_appointment",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create (6)", async () => {
@@ -904,10 +637,7 @@ describe("ToolsClient", () => {
             agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
             require_speech_before_tool_call: false,
         });
-        expect(response).toEqual({
-            id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-            name: "book_appointment",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create (7)", async () => {
@@ -1036,6 +766,7 @@ describe("ToolsClient", () => {
                 endpoint_timeout_ms: 1,
                 tool_call_output_timeout_ms: 1,
                 phone_number: "phone_number",
+                sip: { uri: "sip:frontdesk@pbx.example.com:5061;transport=tls", headers: { "X-Ticket": "123" } },
                 dtmf: "dtmf",
                 post_transfer_message: "post_transfer_message",
                 dynamic_dtmf: true,
@@ -1063,57 +794,7 @@ describe("ToolsClient", () => {
         const response = await client.tools.get("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            tool: {
-                id: "tool_29874283-c829-abf9-3028-309bc7aw3098",
-                name: "context_printer",
-                description: "Gets the specific context for fixing our printer",
-                project: {
-                    id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
-                    name: "main",
-                },
-                type: "custom_context",
-                execution_mode: "sync",
-                parameters: [
-                    {
-                        type: "string",
-                        name: "name",
-                        description: "description",
-                        is_required: true,
-                    },
-                ],
-                parameter_locations: {
-                    key: "request_body",
-                },
-                endpoint_method: "GET",
-                endpoint_url: "endpoint_url",
-                endpoint_headers: {
-                    key: "value",
-                },
-                endpoint_timeout_ms: 1,
-                tool_call_output_timeout_ms: 1,
-                phone_number: "phone_number",
-                dtmf: "dtmf",
-                post_transfer_message: "post_transfer_message",
-                dynamic_dtmf: true,
-                use_agent_phone_number: true,
-                detect_voicemail: true,
-                keep_listening: true,
-                on_transfer_no_answer: "return_to_assistant",
-                agents_to_transfer_to: ["agents_to_transfer_to"],
-                require_speech_before_tool_call: false,
-                speech_before_tool_call: "required",
-                respond_after_sec: 1.1,
-                wait_for_speech_before_tool_call: true,
-                forbid_speech_after_tool_call: false,
-                forbid_tool_call_after_speech: true,
-                allow_tool_chaining: true,
-                wait_for_response: true,
-                uninterruptible: true,
-                can_run_during_user_speech: true,
-                context: "Press the A button 5 times then gently shake the printer.",
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (2)", async () => {
@@ -1155,6 +836,7 @@ describe("ToolsClient", () => {
                 endpoint_timeout_ms: 5000,
                 tool_call_output_timeout_ms: 1,
                 phone_number: "phone_number",
+                sip: { uri: "sip:frontdesk@pbx.example.com:5061;transport=tls", headers: { "X-Ticket": "123" } },
                 dtmf: "dtmf",
                 post_transfer_message: "post_transfer_message",
                 dynamic_dtmf: true,
@@ -1182,66 +864,7 @@ describe("ToolsClient", () => {
         const response = await client.tools.get("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            tool: {
-                id: "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-                name: "book_appointment",
-                description: "Books an appointment in the calendar system",
-                project: {
-                    id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
-                    name: "main",
-                },
-                type: "custom_webhook",
-                execution_mode: "sync",
-                parameters: [
-                    {
-                        type: "string",
-                        name: "date",
-                        description: "The date for the appointment in YYYY-MM-DD format",
-                        is_required: true,
-                        location: "request_body",
-                    },
-                    {
-                        type: "string",
-                        name: "time",
-                        description: "The time for the appointment in HH:MM format",
-                        is_required: true,
-                        location: "request_body",
-                    },
-                ],
-                parameter_locations: {
-                    key: "request_body",
-                },
-                endpoint_method: "POST",
-                endpoint_url: "https://api.example.com/book-appointment",
-                endpoint_headers: {
-                    Authorization: "Bearer token123",
-                    "Content-Type": "application/json",
-                },
-                endpoint_timeout_ms: 5000,
-                tool_call_output_timeout_ms: 1,
-                phone_number: "phone_number",
-                dtmf: "dtmf",
-                post_transfer_message: "post_transfer_message",
-                dynamic_dtmf: true,
-                use_agent_phone_number: true,
-                detect_voicemail: true,
-                keep_listening: true,
-                on_transfer_no_answer: "return_to_assistant",
-                agents_to_transfer_to: ["agents_to_transfer_to"],
-                require_speech_before_tool_call: false,
-                speech_before_tool_call: "required",
-                respond_after_sec: 1.1,
-                wait_for_speech_before_tool_call: false,
-                forbid_speech_after_tool_call: false,
-                forbid_tool_call_after_speech: true,
-                allow_tool_chaining: true,
-                wait_for_response: true,
-                uninterruptible: true,
-                can_run_during_user_speech: true,
-                context: "context",
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (3)", async () => {
@@ -1275,6 +898,7 @@ describe("ToolsClient", () => {
                 endpoint_timeout_ms: 1,
                 tool_call_output_timeout_ms: 5000,
                 phone_number: "phone_number",
+                sip: { uri: "sip:frontdesk@pbx.example.com:5061;transport=tls", headers: { "X-Ticket": "123" } },
                 dtmf: "dtmf",
                 post_transfer_message: "post_transfer_message",
                 dynamic_dtmf: true,
@@ -1302,57 +926,7 @@ describe("ToolsClient", () => {
         const response = await client.tools.get("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            tool: {
-                id: "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
-                name: "get_product_recommendations",
-                description: "Gets personalized product recommendations",
-                project: {
-                    id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
-                    name: "main",
-                },
-                type: "custom_websocket",
-                execution_mode: "async",
-                parameters: [
-                    {
-                        type: "string",
-                        name: "category",
-                        description: "Product category (e.g., 'handbags', 'shoes', 'electronics')",
-                        is_required: true,
-                    },
-                ],
-                parameter_locations: {
-                    key: "request_body",
-                },
-                endpoint_method: "GET",
-                endpoint_url: "endpoint_url",
-                endpoint_headers: {
-                    key: "value",
-                },
-                endpoint_timeout_ms: 1,
-                tool_call_output_timeout_ms: 5000,
-                phone_number: "phone_number",
-                dtmf: "dtmf",
-                post_transfer_message: "post_transfer_message",
-                dynamic_dtmf: true,
-                use_agent_phone_number: true,
-                detect_voicemail: true,
-                keep_listening: true,
-                on_transfer_no_answer: "return_to_assistant",
-                agents_to_transfer_to: ["agents_to_transfer_to"],
-                require_speech_before_tool_call: false,
-                speech_before_tool_call: "required",
-                respond_after_sec: 1.1,
-                wait_for_speech_before_tool_call: false,
-                forbid_speech_after_tool_call: false,
-                forbid_tool_call_after_speech: true,
-                allow_tool_chaining: true,
-                wait_for_response: false,
-                uninterruptible: true,
-                can_run_during_user_speech: true,
-                context: "context",
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (4)", async () => {
@@ -1379,6 +953,7 @@ describe("ToolsClient", () => {
                 endpoint_timeout_ms: 1,
                 tool_call_output_timeout_ms: 1,
                 phone_number: "+15551234567",
+                sip: { uri: "sip:frontdesk@pbx.example.com:5061;transport=tls", headers: { "X-Ticket": "123" } },
                 dtmf: "1234",
                 post_transfer_message: "post_transfer_message",
                 dynamic_dtmf: false,
@@ -1406,57 +981,7 @@ describe("ToolsClient", () => {
         const response = await client.tools.get("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            tool: {
-                id: "tool_11111111-2222-3333-4444-555555555555",
-                name: "transfer_to_support",
-                description: "Transfers the caller to the support team",
-                project: {
-                    id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
-                    name: "main",
-                },
-                type: "built_in_transfer_to_phone_number",
-                execution_mode: "sync",
-                parameters: [
-                    {
-                        type: "string",
-                        name: "name",
-                        description: "description",
-                        is_required: true,
-                    },
-                ],
-                parameter_locations: {
-                    key: "request_body",
-                },
-                endpoint_method: "GET",
-                endpoint_url: "endpoint_url",
-                endpoint_headers: {
-                    key: "value",
-                },
-                endpoint_timeout_ms: 1,
-                tool_call_output_timeout_ms: 1,
-                phone_number: "+15551234567",
-                dtmf: "1234",
-                post_transfer_message: "post_transfer_message",
-                dynamic_dtmf: false,
-                use_agent_phone_number: true,
-                detect_voicemail: false,
-                keep_listening: true,
-                on_transfer_no_answer: "return_to_assistant",
-                agents_to_transfer_to: ["agents_to_transfer_to"],
-                require_speech_before_tool_call: false,
-                speech_before_tool_call: "required",
-                respond_after_sec: 1.1,
-                wait_for_speech_before_tool_call: true,
-                forbid_speech_after_tool_call: true,
-                forbid_tool_call_after_speech: true,
-                allow_tool_chaining: true,
-                wait_for_response: true,
-                uninterruptible: true,
-                can_run_during_user_speech: true,
-                context: "context",
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (5)", async () => {
@@ -1483,6 +1008,7 @@ describe("ToolsClient", () => {
                 endpoint_timeout_ms: 1,
                 tool_call_output_timeout_ms: 1,
                 phone_number: "phone_number",
+                sip: { uri: "sip:frontdesk@pbx.example.com:5061;transport=tls", headers: { "X-Ticket": "123" } },
                 dtmf: "dtmf",
                 post_transfer_message: "post_transfer_message",
                 dynamic_dtmf: true,
@@ -1510,57 +1036,7 @@ describe("ToolsClient", () => {
         const response = await client.tools.get("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            tool: {
-                id: "tool_22222222-3333-4444-5555-666666666666",
-                name: "transfer_to_specialist",
-                description: "Transfers the caller to a specialist agent",
-                project: {
-                    id: "proj_8e5bdac5-868d-46fa-b300-439e777f7bfd",
-                    name: "main",
-                },
-                type: "built_in_transfer_to_agent",
-                execution_mode: "sync",
-                parameters: [
-                    {
-                        type: "string",
-                        name: "name",
-                        description: "description",
-                        is_required: true,
-                    },
-                ],
-                parameter_locations: {
-                    key: "request_body",
-                },
-                endpoint_method: "GET",
-                endpoint_url: "endpoint_url",
-                endpoint_headers: {
-                    key: "value",
-                },
-                endpoint_timeout_ms: 1,
-                tool_call_output_timeout_ms: 1,
-                phone_number: "phone_number",
-                dtmf: "dtmf",
-                post_transfer_message: "post_transfer_message",
-                dynamic_dtmf: true,
-                use_agent_phone_number: true,
-                detect_voicemail: true,
-                keep_listening: true,
-                on_transfer_no_answer: "return_to_assistant",
-                agents_to_transfer_to: ["sales-agent", "support-agent", "technical-agent"],
-                require_speech_before_tool_call: false,
-                speech_before_tool_call: "required",
-                respond_after_sec: 1.1,
-                wait_for_speech_before_tool_call: true,
-                forbid_speech_after_tool_call: true,
-                forbid_tool_call_after_speech: true,
-                allow_tool_chaining: true,
-                wait_for_response: true,
-                uninterruptible: true,
-                can_run_during_user_speech: true,
-                context: "context",
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (6)", async () => {
@@ -1612,9 +1088,7 @@ describe("ToolsClient", () => {
         const response = await client.tools.delete("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("delete (2)", async () => {
@@ -1665,9 +1139,7 @@ describe("ToolsClient", () => {
             },
             endpoint_timeout_ms: 7000,
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("update (2)", async () => {

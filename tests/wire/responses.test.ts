@@ -30,7 +30,7 @@ describe("ResponsesClient", () => {
                     },
                 },
             ],
-            phonic_model: "phonic-1",
+            model: "phonic-1",
             num_responses: 2,
         };
         const rawResponseBody = {
@@ -86,31 +86,10 @@ describe("ResponsesClient", () => {
                     },
                 },
             ],
-            phonic_model: "phonic-1",
+            model: "phonic-1",
             num_responses: 2,
         });
-        expect(response).toEqual({
-            responses: [
-                {
-                    text: "Joe's Pizza is a couple of blocks away - want the address?",
-                    tool_calls: [],
-                },
-                {
-                    text: "",
-                    tool_calls: [
-                        {
-                            tool_call_id: "call_9f2c4b1a",
-                            tool: {
-                                name: "search_pizza_shop_recs",
-                            },
-                            request_body: {
-                                location: "Union Square",
-                            },
-                        },
-                    ],
-                },
-            ],
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create (2)", async () => {
@@ -179,22 +158,7 @@ describe("ResponsesClient", () => {
                 },
             ],
         });
-        expect(response).toEqual({
-            responses: [
-                {
-                    text: "Let me get you over to support.",
-                    tool_calls: [],
-                    action: {
-                        type: "transfer_to_phone_number",
-                        phone_number: "+15551234567",
-                        detect_voicemail: false,
-                        use_agent_phone_number: true,
-                        keep_listening: true,
-                        on_transfer_no_answer: "return_to_assistant",
-                    },
-                },
-            ],
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create (3)", async () => {

@@ -37,6 +37,8 @@ export interface Tool {
     tool_call_output_timeout_ms?: number | undefined;
     /** The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number. */
     phone_number?: (string | null) | undefined;
+    /** The SIP destination to transfer calls to. Mutually exclusive with phone_number; null when transferring to a phone number. Only returned for built_in_transfer_to_phone_number tools. */
+    sip?: (Phonic.TransferSip | null) | undefined;
     /** DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. Ignored when dynamic_dtmf is true. */
     dtmf?: (string | null) | undefined;
     /** Fixed line the agent speaks into the bridged call once the transfer connects. Defaults to null, meaning no announcement. Always null when keep_listening is false. Only returned for built_in_transfer_to_phone_number tools. */

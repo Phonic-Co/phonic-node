@@ -39,20 +39,7 @@ describe("ExternalStoragePoliciesClient", () => {
         const response = await client.externalStoragePolicies.list({
             project: "main",
         });
-        expect(response).toEqual({
-            external_storage_policies: [
-                {
-                    id: "external_storage_policy_9c5f7d2a-4b18-4d0e-8a2e-7a2f1c6d3b90",
-                    name: "conversation_archive",
-                    endpoint_url: "https://storage.example.com",
-                    bucket: "conversation-audio",
-                    region: "us-east-1",
-                    key_prefix: "phonic/conversations",
-                    addressing_style: "auto",
-                    agent_count: 2,
-                },
-            ],
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("list (2)", async () => {
@@ -143,10 +130,7 @@ describe("ExternalStoragePoliciesClient", () => {
             access_key_id: "AKIAIOSFODNN7EXAMPLE",
             secret_access_key: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
         });
-        expect(response).toEqual({
-            id: "external_storage_policy_9c5f7d2a-4b18-4d0e-8a2e-7a2f1c6d3b90",
-            name: "conversation_archive",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create (2)", async () => {
@@ -361,18 +345,7 @@ describe("ExternalStoragePoliciesClient", () => {
         const response = await client.externalStoragePolicies.get("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            external_storage_policy: {
-                id: "external_storage_policy_9c5f7d2a-4b18-4d0e-8a2e-7a2f1c6d3b90",
-                name: "conversation_archive",
-                endpoint_url: "https://storage.example.com",
-                bucket: "conversation-audio",
-                region: "us-east-1",
-                key_prefix: "phonic/conversations",
-                addressing_style: "auto",
-                agent_count: 2,
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (2)", async () => {
@@ -465,9 +438,7 @@ describe("ExternalStoragePoliciesClient", () => {
         const response = await client.externalStoragePolicies.delete("nameOrId", {
             project: "main",
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("delete (2)", async () => {
@@ -609,9 +580,7 @@ describe("ExternalStoragePoliciesClient", () => {
             bucket: "conversation-audio-archive",
             key_prefix: "phonic/archive",
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("update (2)", async () => {

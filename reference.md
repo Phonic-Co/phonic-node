@@ -2036,7 +2036,7 @@ await client.extractionSchemas.update("nameOrId", {
 <dl>
 <dd>
 
-Returns all available voices for a model.
+Returns all available voices.
 </dd>
 </dl>
 </dd>
@@ -2051,9 +2051,7 @@ Returns all available voices for a model.
 <dd>
 
 ```typescript
-await client.voices.list({
-    model: "merritt"
-});
+await client.voices.list();
 
 ```
 </dd>
@@ -4313,7 +4311,7 @@ await client.responses.create({
                 additionalProperties: false
             }
         }],
-    phonic_model: "phonic-1",
+    model: "phonic-1",
     num_responses: 2
 });
 

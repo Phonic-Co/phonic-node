@@ -10,8 +10,8 @@ export interface ConfigOptions {
     agent?: string | undefined;
     /** Project name */
     project?: string | undefined;
-    /** STS model to use */
-    model?: "merritt" | undefined;
+    /** The Phonic speech-to-speech model to generate with. Omit it to use the current default model. */
+    model?: ConfigOptions.Model | undefined;
     /** System prompt for AI assistant */
     system_prompt?: string | undefined;
     /** Audio playback speed */
@@ -66,7 +66,7 @@ export interface ConfigOptions {
     stream_ahead_of_real_time?: boolean | undefined;
     /** The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency. */
     intelligence_level?: ConfigOptions.IntelligenceLevel | undefined;
-    /** The Phonic speech-to-speech model to generate with. Omit it to use the current default model. */
+    /** The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead. */
     phonic_model?: ConfigOptions.PhonicModel | undefined;
     /** Keywords to boost in speech recognition */
     boosted_keywords?: string[] | undefined;
@@ -108,6 +108,10 @@ export interface ConfigOptions {
 }
 
 export namespace ConfigOptions {
+    /**
+     * The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+     */
+    export type Model = "phonic-0.5" | "phonic-1" | string;
     /** Background noise type for the conversation */
     export const BackgroundNoise = {
         Office: "office",
@@ -146,13 +150,10 @@ export namespace ConfigOptions {
         High: "high",
     } as const;
     export type IntelligenceLevel = (typeof IntelligenceLevel)[keyof typeof IntelligenceLevel];
-    /** The Phonic speech-to-speech model to generate with. Omit it to use the current default model. */
-    export const PhonicModel = {
-        Phonic05: "phonic-0.5",
-        Phonic1: "phonic-1",
-        Phonic11: "phonic-1.1",
-    } as const;
-    export type PhonicModel = (typeof PhonicModel)[keyof typeof PhonicModel];
+    /**
+     * The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
+     */
+    export type PhonicModel = "phonic-0.5" | "phonic-1" | string;
     export type PronunciationDictionary = PronunciationDictionary.Item[];
 
     export namespace PronunciationDictionary {

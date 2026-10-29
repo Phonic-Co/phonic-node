@@ -1,1 +1,1 @@
-export { GenerateResponsesRequest } from "./GenerateResponsesRequest.js";
+export type { GenerateResponsesRequest } from "./GenerateResponsesRequest.js";

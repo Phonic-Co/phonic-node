@@ -2,11 +2,9 @@
 
 /**
  * @example
- *     {
- *         model: "merritt"
- *     }
+ *     {}
  */
 export interface VoicesListRequest {
-    /** The model to get voices for. */
-    model: "merritt";
+    /** Ignored. This parameter is deprecated and can be omitted. */
+    model?: "merritt";
 }

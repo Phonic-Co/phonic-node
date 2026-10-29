@@ -4,6 +4,7 @@ import type { BaseClientOptions, BaseRequestOptions } from "../../../../BaseClie
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "../../../../BaseClient.js";
 import { mergeHeaders } from "../../../../core/headers.js";
 import * as core from "../../../../core/index.js";
+import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
@@ -23,7 +24,7 @@ export class VoicesClient {
     }
 
     /**
-     * Returns all available voices for a model.
+     * Returns all available voices.
      *
      * @param {Phonic.VoicesListRequest} request
      * @param {VoicesClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -31,26 +32,26 @@ export class VoicesClient {
      * @throws {@link Phonic.BadRequestError}
      * @throws {@link Phonic.UnauthorizedError}
      * @throws {@link Phonic.InternalServerError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
-     *     await client.voices.list({
-     *         model: "merritt"
-     *     })
+     *     await client.voices.list()
      */
     public list(
-        request: Phonic.VoicesListRequest,
+        request: Phonic.VoicesListRequest = {},
         requestOptions?: VoicesClient.RequestOptions,
     ): core.HttpResponsePromise<Phonic.VoicesListResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
-        request: Phonic.VoicesListRequest,
+        request: Phonic.VoicesListRequest = {},
         requestOptions?: VoicesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.VoicesListResponse>> {
         const { model } = request;
         const _queryParams: Record<string, unknown> = {
-            model,
+            model: model != null ? model : undefined,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -67,7 +68,11 @@ export class VoicesClient {
             ),
             method: "GET",
             headers: _headers,
-            queryParameters: { ..._queryParams, ...requestOptions?.queryParams },
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -112,6 +117,8 @@ export class VoicesClient {
      *
      * @throws {@link Phonic.UnauthorizedError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.voices.get("id")
@@ -138,11 +145,11 @@ export class VoicesClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     ((await core.Supplier.get(this._options.environment)) ?? environments.PhonicEnvironment.Default)
                         .base,
-                `voices/${core.url.encodePathParam(id)}`,
+                `voices/${core.url.encodePathParam(id, errors.PhonicError)}`,
             ),
             method: "GET",
             headers: _headers,
-            queryParameters: requestOptions?.queryParams,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -184,6 +191,8 @@ export class VoicesClient {
      * @throws {@link Phonic.UnauthorizedError}
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.InternalServerError}
+     * @throws {@link errors.PhonicError}
+     * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.voices.preview({
@@ -219,9 +228,9 @@ export class VoicesClient {
             method: "POST",
             headers: _headers,
             contentType: "application/json",
-            queryParameters: requestOptions?.queryParams,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             requestType: "json",
-            body: request,
+            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

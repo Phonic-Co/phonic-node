@@ -15,8 +15,8 @@ export interface Conversation {
     external_id: string | null;
     /** The origin of the conversation. */
     origin: Conversation.Origin;
-    /** The STS model used. */
-    model: string;
+    /** The Phonic speech-to-speech model used for the conversation. */
+    model: Conversation.Model;
     /** Will be `true` if welcome message was automatically generated. */
     generate_welcome_message: boolean;
     /** When `false`, the welcome message will not be interruptible by the user. */
@@ -69,7 +69,7 @@ export interface Conversation {
     push_to_talk: boolean;
     /** The intelligence level used for the conversation. */
     intelligence_level?: Conversation.IntelligenceLevel | undefined;
-    /** The Phonic speech-to-speech model used for the conversation. */
+    /** The Phonic speech-to-speech model used for the conversation. This field is deprecated. Use `model` instead. */
     phonic_model?: Conversation.PhonicModel | undefined;
     /** Array of ISO 639-1 language codes recognized by the model. This field is deprecated. Use `default_language` and `additional_languages` instead. */
     languages?: string[] | undefined;
@@ -159,6 +159,10 @@ export namespace Conversation {
         Replay: "replay",
     } as const;
     export type Origin = (typeof Origin)[keyof typeof Origin];
+    /**
+     * The Phonic speech-to-speech model used for the conversation.
+     */
+    export type Model = "phonic-0.5" | "phonic-1" | string;
     /** The background noise type used in the conversation. */
     export const BackgroundNoise = {
         Office: "office",
@@ -201,13 +205,10 @@ export namespace Conversation {
         High: "high",
     } as const;
     export type IntelligenceLevel = (typeof IntelligenceLevel)[keyof typeof IntelligenceLevel];
-    /** The Phonic speech-to-speech model used for the conversation. */
-    export const PhonicModel = {
-        Phonic05: "phonic-0.5",
-        Phonic1: "phonic-1",
-        Phonic11: "phonic-1.1",
-    } as const;
-    export type PhonicModel = (typeof PhonicModel)[keyof typeof PhonicModel];
+    /**
+     * The Phonic speech-to-speech model used for the conversation. This field is deprecated. Use `model` instead.
+     */
+    export type PhonicModel = "phonic-0.5" | "phonic-1" | string;
 
     /**
      * Phone call metadata. `null` for non-phone call conversations.

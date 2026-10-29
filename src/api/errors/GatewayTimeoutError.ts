@@ -5,6 +5,8 @@ import * as errors from "../../errors/index.js";
 import type * as Phonic from "../index.js";
 
 export class GatewayTimeoutError extends errors.PhonicError {
+    public declare readonly body: Phonic.Error_;
+
     constructor(body: Phonic.Error_, rawResponse?: core.RawResponse) {
         super({
             message: "GatewayTimeoutError",
@@ -17,6 +19,6 @@ export class GatewayTimeoutError extends errors.PhonicError {
             Error.captureStackTrace(this, this.constructor);
         }
 
-        this.name = this.constructor.name;
+        this.name = "GatewayTimeoutError";
     }
 }

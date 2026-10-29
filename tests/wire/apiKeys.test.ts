@@ -31,11 +31,7 @@ describe("ApiKeysClient", () => {
         const response = await client.apiKeys.create({
             name: "production-key",
         });
-        expect(response).toEqual({
-            id: "api_key_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-            name: "production-key",
-            api_key: "phk_abc123def456...",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create (2)", async () => {
@@ -129,9 +125,7 @@ describe("ApiKeysClient", () => {
         server.mockEndpoint().delete("/api_keys/id").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.apiKeys.delete("id");
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("delete (2)", async () => {
@@ -207,9 +201,7 @@ describe("ApiKeysClient", () => {
         const response = await client.apiKeys.update("id", {
             name: "renamed-key",
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("update (2)", async () => {
@@ -339,11 +331,7 @@ describe("ApiKeysClient", () => {
             .build();
 
         const response = await client.apiKeys.rotate("id");
-        expect(response).toEqual({
-            id: "api_key_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-            name: "production-key",
-            api_key: "phk_new789xyz...",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("rotate (2)", async () => {

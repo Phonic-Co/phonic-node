@@ -93,6 +93,7 @@ export * from "./ToolDefinition.js";
 export * from "./ToolName.js";
 export * from "./ToolParameter.js";
 export * from "./ToolParametersJsonSchema.js";
+export * from "./TransferSip.js";
 export * from "./TtsResponse.js";
 export * from "./UnmutePayload.js";
 export * from "./UpdateSystemPromptPayload.js";

@@ -24,13 +24,7 @@ describe("WorkspaceClient", () => {
         server.mockEndpoint().get("/workspace").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.workspace.get();
-        expect(response).toEqual({
-            active_conversations: 3,
-            max_active_conversations: 10,
-            logo_url: "https://example.com/logo.png",
-            invite_link_allowed_domains: ["example.com"],
-            ip_allowlist: ["203.0.113.0/24"],
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (2)", async () => {
@@ -95,9 +89,7 @@ describe("WorkspaceClient", () => {
             invite_link_allowed_domains: ["example.com"],
             ip_allowlist: ["203.0.113.0/24"],
         });
-        expect(response).toEqual({
-            success: true,
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("update (2)", async () => {

@@ -16,6 +16,6 @@ export class ForbiddenError extends errors.PhonicError {
             Error.captureStackTrace(this, this.constructor);
         }
 
-        this.name = this.constructor.name;
+        this.name = "ForbiddenError";
     }
 }

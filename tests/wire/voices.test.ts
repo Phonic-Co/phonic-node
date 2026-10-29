@@ -26,19 +26,8 @@ describe("VoicesClient", () => {
 
         server.mockEndpoint().get("/voices").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
-        const response = await client.voices.list({
-            model: "merritt",
-        });
-        expect(response).toEqual({
-            voices: [
-                {
-                    id: "sabrina",
-                    name: "Sabrina",
-                    description: null,
-                    audio_url: "https://example.com/audio/sabrina.wav",
-                },
-            ],
-        });
+        const response = await client.voices.list();
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("list (2)", async () => {
@@ -54,9 +43,7 @@ describe("VoicesClient", () => {
         server.mockEndpoint().get("/voices").respondWith().statusCode(400).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
-            return await client.voices.list({
-                model: "merritt",
-            });
+            return await client.voices.list();
         }).rejects.toThrow(Phonic.BadRequestError);
     });
 
@@ -73,9 +60,7 @@ describe("VoicesClient", () => {
         server.mockEndpoint().get("/voices").respondWith().statusCode(401).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
-            return await client.voices.list({
-                model: "merritt",
-            });
+            return await client.voices.list();
         }).rejects.toThrow(Phonic.UnauthorizedError);
     });
 
@@ -92,9 +77,7 @@ describe("VoicesClient", () => {
         server.mockEndpoint().get("/voices").respondWith().statusCode(500).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
-            return await client.voices.list({
-                model: "merritt",
-            });
+            return await client.voices.list();
         }).rejects.toThrow(Phonic.InternalServerError);
     });
 
@@ -118,14 +101,7 @@ describe("VoicesClient", () => {
         server.mockEndpoint().get("/voices/id").respondWith().statusCode(200).jsonBody(rawResponseBody).build();
 
         const response = await client.voices.get("id");
-        expect(response).toEqual({
-            voice: {
-                id: "sabrina",
-                name: "Sabrina",
-                description: null,
-                audio_url: "https://example.com/audio/sabrina.wav",
-            },
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("get (2)", async () => {
@@ -190,9 +166,7 @@ describe("VoicesClient", () => {
             voice_id: "grant",
             output_format: "pcm_16000",
         });
-        expect(response).toEqual({
-            audio: "audio",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("preview (2)", async () => {

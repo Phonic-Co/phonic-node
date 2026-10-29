@@ -7,17 +7,20 @@ export class PhonicError extends Error {
     public readonly statusCode?: number;
     public readonly body?: unknown;
     public readonly rawResponse?: core.RawResponse;
+    public readonly cause?: unknown;
 
     constructor({
         message,
         statusCode,
         body,
         rawResponse,
+        cause,
     }: {
         message?: string;
         statusCode?: number;
         body?: unknown;
         rawResponse?: core.RawResponse;
+        cause?: unknown;
     }) {
         super(buildMessage({ message, statusCode, body }));
         Object.setPrototypeOf(this, new.target.prototype);
@@ -25,10 +28,31 @@ export class PhonicError extends Error {
             Error.captureStackTrace(this, this.constructor);
         }
 
-        this.name = this.constructor.name;
+        this.name = "PhonicError";
         this.statusCode = statusCode;
         this.body = body;
         this.rawResponse = rawResponse;
+        if (cause != null) {
+            this.cause = cause;
+        }
+    }
+
+    public get requestId(): string | undefined {
+        const headers = this.rawResponse?.headers;
+        if (headers == null) {
+            return undefined;
+        }
+        const requestId = headers.get("X-Request-Id");
+        if (requestId != null) {
+            return requestId;
+        }
+        let fallback: string | undefined;
+        headers.forEach((value, name) => {
+            if (fallback === undefined && /request[-_]?id$/i.test(name)) {
+                fallback = value;
+            }
+        });
+        return fallback;
     }
 }
 

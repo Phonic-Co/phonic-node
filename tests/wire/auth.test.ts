@@ -27,10 +27,7 @@ describe("AuthClient", () => {
         const response = await client.auth.createSessionToken({
             ttl_seconds: 300,
         });
-        expect(response).toEqual({
-            session_token: "ph_session_abc123def456...",
-            expires_at: "2025-07-30T23:50:00Z",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create_session_token (2)", async () => {
@@ -155,10 +152,7 @@ describe("AuthClient", () => {
             agent_id: "agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
             ttl_seconds: 30,
         });
-        expect(response).toEqual({
-            conversation_token: "ph_conversation_abc123def456...",
-            expires_at: "2025-07-30T23:50:00Z",
-        });
+        expect(response).toEqual(rawResponseBody);
     });
 
     test("create_conversation_token (2)", async () => {
