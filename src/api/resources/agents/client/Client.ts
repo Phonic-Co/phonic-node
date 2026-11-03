@@ -151,6 +151,7 @@ export class AgentsClient {
      *                 pronunciation: "Poo-ket"
      *             }],
      *         min_words_to_interrupt: 1,
+     *         turn_taking: "standard",
      *         configuration_endpoint: {
      *             url: "https://api.example.com/config",
      *             headers: {
@@ -283,6 +284,7 @@ export class AgentsClient {
      *                 pronunciation: "Poo-ket"
      *             }],
      *         min_words_to_interrupt: 1,
+     *         turn_taking: "standard",
      *         configuration_endpoint: {
      *             url: "https://api.example.com/config",
      *             headers: {
@@ -573,6 +575,7 @@ export class AgentsClient {
      *                 pronunciation: "Poo-ket"
      *             }],
      *         min_words_to_interrupt: 1,
+     *         turn_taking: "standard",
      *         configuration_endpoint: {
      *             url: "https://api.example.com/config",
      *             headers: {
@@ -655,7 +658,7 @@ export class AgentsClient {
     }
 
     /**
-     * Adds a custom phone number to an agent. The user must configure their SIP trunk to point to Phonic's SIP server.
+     * Adds a bring-your-own phone number to an agent in the authenticated workspace and project. Use this to connect a phone number and SIP trunk the user is authorized to manage; it does not purchase a number or place a call. Stores the supplied SIP address and credentials for calls and transfers, and saves any configuration endpoint for calls on this number. The user must configure their SIP trunk to route inbound calls to Phonic. A configured endpoint receives requests during call setup; use only an endpoint the user intends Phonic to contact.
      *
      * @param {string} nameOrId - The name or the ID of the agent.
      * @param {Phonic.AgentsAddCustomPhoneNumberRequest} request

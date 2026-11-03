@@ -124,6 +124,7 @@ await client.agents.create({
             pronunciation: "Poo-ket"
         }],
     min_words_to_interrupt: 1,
+    turn_taking: "standard",
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
@@ -228,6 +229,7 @@ await client.agents.upsert({
             pronunciation: "Poo-ket"
         }],
     min_words_to_interrupt: 1,
+    turn_taking: "standard",
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
@@ -478,6 +480,7 @@ await client.agents.update("nameOrId", {
             pronunciation: "Poo-ket"
         }],
     min_words_to_interrupt: 1,
+    turn_taking: "standard",
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
@@ -541,7 +544,7 @@ await client.agents.update("nameOrId", {
 <dl>
 <dd>
 
-Adds a custom phone number to an agent. The user must configure their SIP trunk to point to Phonic's SIP server.
+Adds a bring-your-own phone number to an agent in the authenticated workspace and project. Use this to connect a phone number and SIP trunk the user is authorized to manage; it does not purchase a number or place a call. Stores the supplied SIP address and credentials for calls and transfers, and saves any configuration endpoint for calls on this number. The user must configure their SIP trunk to route inbound calls to Phonic. A configured endpoint receives requests during call setup; use only an endpoint the user intends Phonic to contact.
 </dd>
 </dl>
 </dd>
@@ -1287,6 +1290,364 @@ await client.tools.update("nameOrId", {
 </dl>
 </details>
 
+## McpServers
+<details><summary><code>client.mcpServers.<a href="/src/api/resources/mcpServers/client/Client.ts">list</a>({ ...params }) -> Phonic.McpServersListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns all MCP servers in a project.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.mcpServers.list({
+    project: "main"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Phonic.McpServersListRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `McpServersClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.mcpServers.<a href="/src/api/resources/mcpServers/client/Client.ts">create</a>({ ...params }) -> Phonic.McpServersCreateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates an MCP server in the authenticated workspace and project. Phonic connects to the server, lists its tools and saves them alongside the server, so the server must be reachable from Phonic's network. The supplied headers are sent on every request Phonic makes to the server; their values are stored encrypted and never returned. Creating the server does not attach it to an agent; add its ID to an agent's `mcp_server_ids` to make its tools available.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.mcpServers.create({
+    project: "main",
+    name: "crm_server",
+    url: "https://mcp.example.com/mcp",
+    headers: {
+        "Authorization": "Bearer token123"
+    }
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Phonic.CreateMcpServerRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `McpServersClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.mcpServers.<a href="/src/api/resources/mcpServers/client/Client.ts">get</a>(nameOrId, { ...params }) -> Phonic.McpServersGetResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns an MCP server by name or ID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.mcpServers.get("nameOrId", {
+    project: "main"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**nameOrId:** `string` — The name or the ID of the MCP server to get.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Phonic.McpServersGetRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `McpServersClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.mcpServers.<a href="/src/api/resources/mcpServers/client/Client.ts">delete</a>(nameOrId, { ...params }) -> Phonic.McpServersDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes an MCP server by name or ID and removes it from every agent's `mcp_server_ids`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.mcpServers.delete("nameOrId", {
+    project: "main"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**nameOrId:** `string` — The name or the ID of the MCP server to delete.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Phonic.McpServersDeleteRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `McpServersClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.mcpServers.<a href="/src/api/resources/mcpServers/client/Client.ts">update</a>(nameOrId, { ...params }) -> Phonic.McpServersUpdateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the name and/or headers of an existing MCP server by name or ID. Providing `headers` replaces all existing headers. The URL cannot be changed; delete and re-create the server instead.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.mcpServers.update("nameOrId", {
+    project: "main",
+    headers: {
+        "Authorization": "Bearer new_token456"
+    }
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**nameOrId:** `string` — The name or the ID of the MCP server to update.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Phonic.UpdateMcpServerRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `McpServersClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## ExternalStoragePolicies
 <details><summary><code>client.externalStoragePolicies.<a href="/src/api/resources/externalStoragePolicies/client/Client.ts">list</a>({ ...params }) -> Phonic.ExternalStoragePoliciesListResponse</code></summary>
 <dl>
@@ -1365,7 +1726,7 @@ await client.externalStoragePolicies.list({
 <dl>
 <dd>
 
-Creates a new external storage policy in a project. Agents referencing the policy deliver their conversation artifacts to the configured S3-compatible bucket.
+Creates a named external storage policy in the authenticated workspace and project, storing the supplied S3-compatible destination and credentials for later artifact delivery. Use this when the user wants agents to export conversation artifacts to a bucket they are authorized to use. Agents referencing this policy send conversation artifacts, which may contain personal data, to that external destination. Creating the policy does not attach it to an agent or export existing conversations.
 </dd>
 </dl>
 </dd>
@@ -1584,7 +1945,7 @@ await client.externalStoragePolicies.delete("nameOrId", {
 <dl>
 <dd>
 
-Updates an external storage policy by name or ID. Credentials can only be rotated by providing both `access_key_id` and `secret_access_key`.
+Updates the supplied fields of an existing external storage policy by name or ID in the authenticated workspace and project. Use this to change the artifact destination or rotate its credentials. Changes affect subsequent artifact delivery for agents referencing the policy; changing the endpoint or bucket can send conversation artifacts, which may contain personal data, to a different external destination. Confirm the intended destination before updating. Rotate credentials by providing both `access_key_id` and `secret_access_key`. This operation does not move or delete artifacts already delivered.
 </dd>
 </dl>
 </dd>
@@ -3330,6 +3691,7 @@ await client.conversations.outboundCall({
                 pronunciation: "Poo-ket"
             }],
         min_words_to_interrupt: 1,
+        turn_taking: "standard",
         tools: ["keypad_input"]
     },
     dry_run: false
@@ -3381,7 +3743,7 @@ await client.conversations.outboundCall({
 <dl>
 <dd>
 
-Initiates a SIP outbound call using user-supplied SIP credentials in headers.
+Places an outbound voice-agent phone call through the user's SIP trunk using the supplied SIP credentials, caller ID, destination phone number, and conversation configuration. Use only when the user requests a call to that recipient and is authorized to use the trunk and caller ID. With `dry_run` omitted or false, this contacts the recipient and may incur telephony charges; repeating a successful request may place another call. Set `dry_run` to true to validate setup without placing a call. A dry run does not verify that the recipient can be reached or test call audio.
 </dd>
 </dl>
 </dd>

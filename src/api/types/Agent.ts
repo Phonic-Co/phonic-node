@@ -83,20 +83,14 @@ export interface Agent {
     pronunciation_dictionary: Agent.PronunciationDictionary.Item[];
     /** Minimum number of words required to interrupt the assistant. */
     min_words_to_interrupt: number;
+    /** How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. */
+    turn_taking: Agent.TurnTaking;
     /** When not `null`, the agent will call this endpoint to get configuration options. */
     configuration_endpoint: Agent.ConfigurationEndpoint | null;
     /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Requires `phone_number` to be set when less than 1.0. */
     inbound_rollout?: number | undefined;
     /** E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. */
     inbound_rollout_forward_phone_number?: (string | null) | undefined;
-    /** Voice activity detection prebuffer duration in milliseconds. */
-    vad_prebuffer_duration_ms?: number | undefined;
-    /** Minimum speech duration for voice activity detection in milliseconds. */
-    vad_min_speech_duration_ms?: number | undefined;
-    /** Minimum silence duration for voice activity detection in milliseconds. */
-    vad_min_silence_duration_ms?: number | undefined;
-    /** Voice activity detection threshold. */
-    vad_threshold?: number | undefined;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean | undefined;
     /** When `true`, an inaudible watermark is embedded in the audio the agent generates. */
@@ -188,6 +182,16 @@ export namespace Agent {
             pronunciation: string;
         }
     }
+
+    /** How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. */
+    export const TurnTaking = {
+        Eager: "eager",
+        Standard: "standard",
+        Relaxed: "relaxed",
+        Patient: "patient",
+        VeryPatient: "very_patient",
+    } as const;
+    export type TurnTaking = (typeof TurnTaking)[keyof typeof TurnTaking];
 
     /**
      * When not `null`, the agent will call this endpoint to get configuration options.

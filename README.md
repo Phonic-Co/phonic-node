@@ -80,6 +80,7 @@ await client.agents.create({
             pronunciation: "Poo-ket"
         }],
     min_words_to_interrupt: 1,
+    turn_taking: "standard",
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {

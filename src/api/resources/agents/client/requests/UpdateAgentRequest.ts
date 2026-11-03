@@ -38,6 +38,7 @@ import type * as Phonic from "../../../../index.js";
  *                 pronunciation: "Poo-ket"
  *             }],
  *         min_words_to_interrupt: 1,
+ *         turn_taking: "standard",
  *         configuration_endpoint: {
  *             url: "https://api.example.com/config",
  *             headers: {
@@ -138,19 +139,21 @@ export interface UpdateAgentRequest {
     pronunciation_dictionary?: UpdateAgentRequest.PronunciationDictionary.Item[];
     /** Minimum number of words required to interrupt the assistant. */
     min_words_to_interrupt?: number;
+    /** How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. */
+    turn_taking?: UpdateAgentRequest.TurnTaking;
     /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options. */
     configuration_endpoint?: UpdateAgentRequest.ConfigurationEndpoint | null;
     /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Requires `phone_number` to be set when less than 1.0. */
     inbound_rollout?: number;
     /** E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. */
     inbound_rollout_forward_phone_number?: string | null;
-    /** Voice activity detection prebuffer duration in milliseconds. */
+    /** Voice activity detection prebuffer duration in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead. */
     vad_prebuffer_duration_ms?: number;
-    /** Minimum speech duration for voice activity detection in milliseconds. */
+    /** Minimum speech duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead. */
     vad_min_speech_duration_ms?: number;
-    /** Minimum silence duration for voice activity detection in milliseconds. */
+    /** Minimum silence duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead. */
     vad_min_silence_duration_ms?: number;
-    /** Voice activity detection threshold. */
+    /** Voice activity detection threshold. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead. */
     vad_threshold?: number;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean;
@@ -236,6 +239,16 @@ export namespace UpdateAgentRequest {
             pronunciation: string;
         }
     }
+
+    /** How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. */
+    export const TurnTaking = {
+        Eager: "eager",
+        Standard: "standard",
+        Relaxed: "relaxed",
+        Patient: "patient",
+        VeryPatient: "very_patient",
+    } as const;
+    export type TurnTaking = (typeof TurnTaking)[keyof typeof TurnTaking];
 
     /**
      * When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.

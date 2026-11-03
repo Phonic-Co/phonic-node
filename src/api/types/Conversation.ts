@@ -93,6 +93,8 @@ export interface Conversation {
     vad_min_silence_duration_ms?: (number | null) | undefined;
     /** Voice activity detection threshold. `null` when not applicable or unknown. */
     vad_threshold?: (number | null) | undefined;
+    /** How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. */
+    turn_taking: Conversation.TurnTaking;
     /** Results from conversation evaluations and extractions. */
     task_results: Record<string, unknown>;
     /** Array of conversation items (turns). */
@@ -209,6 +211,15 @@ export namespace Conversation {
      * The Phonic speech-to-speech model used for the conversation. This field is deprecated. Use `model` instead.
      */
     export type PhonicModel = "phonic-0.5" | "phonic-1" | string;
+    /** How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. */
+    export const TurnTaking = {
+        Eager: "eager",
+        Standard: "standard",
+        Relaxed: "relaxed",
+        Patient: "patient",
+        VeryPatient: "very_patient",
+    } as const;
+    export type TurnTaking = (typeof TurnTaking)[keyof typeof TurnTaking];
 
     /**
      * Phone call metadata. `null` for non-phone call conversations.

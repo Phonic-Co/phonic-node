@@ -63,6 +63,7 @@ describe("AgentsClient", () => {
                     external_storage_policy: "conversation_archive",
                     pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                     min_words_to_interrupt: 1,
+                    turn_taking: "standard",
                     configuration_endpoint: {
                         url: "https://api.example.com/config",
                         headers: { Authorization: "Bearer token123" },
@@ -70,10 +71,6 @@ describe("AgentsClient", () => {
                     },
                     inbound_rollout: 1,
                     inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
-                    vad_prebuffer_duration_ms: 1,
-                    vad_min_speech_duration_ms: 1,
-                    vad_min_silence_duration_ms: 1,
-                    vad_threshold: 1.1,
                     enable_redaction: true,
                     enable_watermarking: true,
                     slug: "slug",
@@ -163,6 +160,7 @@ describe("AgentsClient", () => {
             boosted_keywords: ["Load ID", "dispatch"],
             pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
             min_words_to_interrupt: 1,
+            turn_taking: "standard",
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: { Authorization: "Bearer token123" },
@@ -216,6 +214,7 @@ describe("AgentsClient", () => {
                 },
             ],
             min_words_to_interrupt: 1,
+            turn_taking: "standard",
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: {
@@ -361,6 +360,7 @@ describe("AgentsClient", () => {
             boosted_keywords: ["Load ID", "dispatch"],
             pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
             min_words_to_interrupt: 1,
+            turn_taking: "standard",
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: { Authorization: "Bearer token123" },
@@ -413,6 +413,7 @@ describe("AgentsClient", () => {
                 external_storage_policy: "conversation_archive",
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                 min_words_to_interrupt: 1,
+                turn_taking: "standard",
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
                     headers: { Authorization: "Bearer token123" },
@@ -420,10 +421,6 @@ describe("AgentsClient", () => {
                 },
                 inbound_rollout: 1,
                 inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
-                vad_prebuffer_duration_ms: 1,
-                vad_min_speech_duration_ms: 1,
-                vad_min_silence_duration_ms: 1,
-                vad_threshold: 1.1,
                 enable_redaction: true,
                 enable_watermarking: true,
                 slug: "slug",
@@ -489,6 +486,7 @@ describe("AgentsClient", () => {
                 },
             ],
             min_words_to_interrupt: 1,
+            turn_taking: "standard",
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: {
@@ -632,6 +630,7 @@ describe("AgentsClient", () => {
                 external_storage_policy: "conversation_archive",
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                 min_words_to_interrupt: 1,
+                turn_taking: "standard",
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
                     headers: { Authorization: "Bearer token123" },
@@ -639,10 +638,6 @@ describe("AgentsClient", () => {
                 },
                 inbound_rollout: 1,
                 inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
-                vad_prebuffer_duration_ms: 1,
-                vad_min_speech_duration_ms: 1,
-                vad_min_silence_duration_ms: 1,
-                vad_threshold: 1.1,
                 enable_redaction: true,
                 enable_watermarking: true,
                 slug: "slug",
@@ -803,6 +798,7 @@ describe("AgentsClient", () => {
             boosted_keywords: ["Load ID", "dispatch"],
             pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
             min_words_to_interrupt: 1,
+            turn_taking: "standard",
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: { Authorization: "Bearer token123" },
@@ -854,6 +850,7 @@ describe("AgentsClient", () => {
                 external_storage_policy: "conversation_archive",
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                 min_words_to_interrupt: 1,
+                turn_taking: "standard",
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
                     headers: { Authorization: "Bearer token123" },
@@ -861,10 +858,6 @@ describe("AgentsClient", () => {
                 },
                 inbound_rollout: 1,
                 inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
-                vad_prebuffer_duration_ms: 1,
-                vad_min_speech_duration_ms: 1,
-                vad_min_silence_duration_ms: 1,
-                vad_threshold: 1.1,
                 enable_redaction: true,
                 enable_watermarking: true,
                 slug: "slug",
@@ -928,6 +921,7 @@ describe("AgentsClient", () => {
                 },
             ],
             min_words_to_interrupt: 1,
+            turn_taking: "standard",
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: {
