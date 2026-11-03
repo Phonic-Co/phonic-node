@@ -109,7 +109,7 @@ export class ExternalStoragePoliciesClient {
     }
 
     /**
-     * Creates a new external storage policy in a project. Agents referencing the policy deliver their conversation artifacts to the configured S3-compatible bucket.
+     * Creates a named external storage policy in the authenticated workspace and project, storing the supplied S3-compatible destination and credentials for later artifact delivery. Use this when the user wants agents to export conversation artifacts to a bucket they are authorized to use. Agents referencing this policy send conversation artifacts, which may contain personal data, to that external destination. Creating the policy does not attach it to an agent or export existing conversations.
      *
      * @param {Phonic.CreateExternalStoragePolicyRequest} request
      * @param {ExternalStoragePoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -418,7 +418,7 @@ export class ExternalStoragePoliciesClient {
     }
 
     /**
-     * Updates an external storage policy by name or ID. Credentials can only be rotated by providing both `access_key_id` and `secret_access_key`.
+     * Updates the supplied fields of an existing external storage policy by name or ID in the authenticated workspace and project. Use this to change the artifact destination or rotate its credentials. Changes affect subsequent artifact delivery for agents referencing the policy; changing the endpoint or bucket can send conversation artifacts, which may contain personal data, to a different external destination. Confirm the intended destination before updating. Rotate credentials by providing both `access_key_id` and `secret_access_key`. This operation does not move or delete artifacts already delivered.
      *
      * @param {string} nameOrId - The name or the ID of the external storage policy to update.
      * @param {Phonic.UpdateExternalStoragePolicyRequest} request

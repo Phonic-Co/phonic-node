@@ -29,6 +29,7 @@ import type * as Phonic from "../../../../index.js";
  *                     pronunciation: "Poo-ket"
  *                 }],
  *             min_words_to_interrupt: 1,
+ *             turn_taking: "standard",
  *             tools: ["keypad_input"]
  *         },
  *         dry_run: false

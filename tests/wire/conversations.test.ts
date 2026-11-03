@@ -66,6 +66,7 @@ describe("ConversationsClient", () => {
                     vad_min_speech_duration_ms: 50,
                     vad_min_silence_duration_ms: 800,
                     vad_threshold: 0.38,
+                    turn_taking: "standard",
                     task_results: { key: "value" },
                     items: [
                         {
@@ -191,6 +192,7 @@ describe("ConversationsClient", () => {
                 vad_min_speech_duration_ms: 50,
                 vad_min_silence_duration_ms: 800,
                 vad_threshold: 0.38,
+                turn_taking: "standard",
                 task_results: { key: "value" },
                 items: [
                     {
@@ -402,6 +404,7 @@ describe("ConversationsClient", () => {
                 vad_min_speech_duration_ms: 50,
                 vad_min_silence_duration_ms: 800,
                 vad_threshold: 0.38,
+                turn_taking: "standard",
                 task_results: { key: "value" },
                 items: [
                     {
@@ -1548,6 +1551,7 @@ describe("ConversationsClient", () => {
                 boosted_keywords: ["Load ID", "dispatch"],
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                 min_words_to_interrupt: 1,
+                turn_taking: "standard",
                 tools: ["keypad_input"],
             },
             dry_run: false,
@@ -1590,6 +1594,7 @@ describe("ConversationsClient", () => {
                     },
                 ],
                 min_words_to_interrupt: 1,
+                turn_taking: "standard",
                 tools: ["keypad_input"],
             },
             dry_run: false,
@@ -1623,6 +1628,7 @@ describe("ConversationsClient", () => {
                 boosted_keywords: ["Load ID", "dispatch"],
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                 min_words_to_interrupt: 1,
+                turn_taking: "standard",
                 tools: ["keypad_input"],
             },
             dry_run: false,
@@ -1665,6 +1671,7 @@ describe("ConversationsClient", () => {
                     },
                 ],
                 min_words_to_interrupt: 1,
+                turn_taking: "standard",
                 tools: ["keypad_input"],
             },
             dry_run: false,

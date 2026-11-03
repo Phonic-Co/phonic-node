@@ -48,6 +48,8 @@ export * from "./InputCancelledPayload.js";
 export * from "./InputTextPayload.js";
 export * from "./InterruptedResponsePayload.js";
 export * from "./LanguageCode.js";
+export * from "./McpServer.js";
+export * from "./McpServerTool.js";
 export * from "./MutePayload.js";
 export * from "./OpenAiFunction.js";
 export * from "./OpenAiFunctionParameters.js";
