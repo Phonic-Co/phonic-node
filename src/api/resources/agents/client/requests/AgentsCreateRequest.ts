@@ -39,6 +39,7 @@ import type * as Phonic from "../../../../index.js";
  *             }],
  *         min_words_to_interrupt: 1,
  *         turn_taking: "standard",
+ *         max_conversation_duration_sec: 7200,
  *         configuration_endpoint: {
  *             url: "https://api.example.com/config",
  *             headers: {
@@ -135,6 +136,8 @@ export interface AgentsCreateRequest {
     min_words_to_interrupt?: number;
     /** How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. */
     turn_taking?: Phonic.CreateAgentRequest.TurnTaking;
+    /** Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended. */
+    max_conversation_duration_sec?: number;
     /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options. */
     configuration_endpoint?: Phonic.CreateAgentRequest.ConfigurationEndpoint | null;
     /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0. */
@@ -157,6 +160,6 @@ export interface AgentsCreateRequest {
     mcp_server_ids?: string[];
     /** Names of observability integrations to enable for the agent. Each must be one of the supported providers. */
     observability_integrations?: "braintrust"[];
-    /** Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`. */
+    /** Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention. */
     external_storage_policy?: string | null;
 }

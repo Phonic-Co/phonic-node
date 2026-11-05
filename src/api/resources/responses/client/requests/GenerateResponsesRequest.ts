@@ -70,6 +70,8 @@ export interface GenerateResponsesRequest {
     model?: GenerateResponsesRequest.Model;
     /** The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead. */
     phonic_model?: GenerateResponsesRequest.PhonicModel;
+    /** The intelligence level of the assistant. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency. */
+    intelligence_level?: GenerateResponsesRequest.IntelligenceLevel;
     /** Number of alternative responses to generate. */
     num_responses?: number;
 }
@@ -83,4 +85,10 @@ export namespace GenerateResponsesRequest {
      * The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
      */
     export type PhonicModel = "phonic-0.5" | "phonic-1" | string;
+    /** The intelligence level of the assistant. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency. */
+    export const IntelligenceLevel = {
+        Standard: "standard",
+        High: "high",
+    } as const;
+    export type IntelligenceLevel = (typeof IntelligenceLevel)[keyof typeof IntelligenceLevel];
 }

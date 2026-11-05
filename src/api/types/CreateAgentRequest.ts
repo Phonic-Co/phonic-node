@@ -87,6 +87,8 @@ export interface CreateAgentRequest {
     min_words_to_interrupt?: number | undefined;
     /** How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. */
     turn_taking?: CreateAgentRequest.TurnTaking | undefined;
+    /** Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended. */
+    max_conversation_duration_sec?: number | undefined;
     /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options. */
     configuration_endpoint?: (CreateAgentRequest.ConfigurationEndpoint | null) | undefined;
     /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0. */
@@ -109,7 +111,7 @@ export interface CreateAgentRequest {
     mcp_server_ids?: string[] | undefined;
     /** Names of observability integrations to enable for the agent. Each must be one of the supported providers. */
     observability_integrations?: "braintrust"[] | undefined;
-    /** Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`. */
+    /** Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention. */
     external_storage_policy?: (string | null) | undefined;
 }
 
@@ -191,6 +193,7 @@ export namespace CreateAgentRequest {
         Eager: "eager",
         Standard: "standard",
         Relaxed: "relaxed",
+        Measured: "measured",
         Patient: "patient",
         VeryPatient: "very_patient",
     } as const;

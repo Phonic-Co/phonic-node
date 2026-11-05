@@ -54,6 +54,8 @@ export interface OutboundCallConfig {
     min_words_to_interrupt?: number | undefined;
     /** How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. Defaults to the agent's `turn_taking`, or `"standard"`. */
     turn_taking?: OutboundCallConfig.TurnTaking | undefined;
+    /** Maximum duration of the conversation in seconds. When the limit is reached, the conversation is ended. Defaults to the agent's `max_conversation_duration_sec`, or `7200`. */
+    max_conversation_duration_sec?: number | undefined;
     /** Array of built-in or custom tool names to use. */
     tools?: OutboundCallConfig.Tools.Item[] | undefined;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends. */
@@ -118,6 +120,7 @@ export namespace OutboundCallConfig {
         Eager: "eager",
         Standard: "standard",
         Relaxed: "relaxed",
+        Measured: "measured",
         Patient: "patient",
         VeryPatient: "very_patient",
     } as const;

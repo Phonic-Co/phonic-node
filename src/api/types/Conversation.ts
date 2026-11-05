@@ -95,6 +95,8 @@ export interface Conversation {
     vad_threshold?: (number | null) | undefined;
     /** How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. */
     turn_taking: Conversation.TurnTaking;
+    /** Maximum duration of the conversation in seconds. */
+    max_conversation_duration_sec: number;
     /** Results from conversation evaluations and extractions. */
     task_results: Record<string, unknown>;
     /** Array of conversation items (turns). */
@@ -152,6 +154,7 @@ export namespace Conversation {
         Direct: "direct",
         LivekitAgentsPy: "livekit-agents-py",
         LivekitAgentsJs: "livekit-agents-js",
+        PipecatPy: "pipecat-py",
         SdkPy: "sdk-py",
         SdkJs: "sdk-js",
         Inbound: "inbound",
@@ -179,6 +182,7 @@ export namespace Conversation {
         UserValidationFailed: "user_validation_failed",
         Assistant: "assistant",
         AssistantSilenceLimitReached: "assistant_silence_limit_reached",
+        AssistantTimeLimitReached: "assistant_time_limit_reached",
         ConfigurationEndpointTimedOut: "configuration_endpoint_timed_out",
         ConfigurationEndpointError: "configuration_endpoint_error",
         ConfigurationEndpointInvalidResponse: "configuration_endpoint_invalid_response",
@@ -216,6 +220,7 @@ export namespace Conversation {
         Eager: "eager",
         Standard: "standard",
         Relaxed: "relaxed",
+        Measured: "measured",
         Patient: "patient",
         VeryPatient: "very_patient",
     } as const;

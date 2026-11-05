@@ -64,6 +64,7 @@ describe("AgentsClient", () => {
                     pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                     min_words_to_interrupt: 1,
                     turn_taking: "standard",
+                    max_conversation_duration_sec: 7200,
                     configuration_endpoint: {
                         url: "https://api.example.com/config",
                         headers: { Authorization: "Bearer token123" },
@@ -161,6 +162,7 @@ describe("AgentsClient", () => {
             pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
             min_words_to_interrupt: 1,
             turn_taking: "standard",
+            max_conversation_duration_sec: 7200,
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: { Authorization: "Bearer token123" },
@@ -215,6 +217,7 @@ describe("AgentsClient", () => {
             ],
             min_words_to_interrupt: 1,
             turn_taking: "standard",
+            max_conversation_duration_sec: 7200,
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: {
@@ -361,6 +364,7 @@ describe("AgentsClient", () => {
             pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
             min_words_to_interrupt: 1,
             turn_taking: "standard",
+            max_conversation_duration_sec: 7200,
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: { Authorization: "Bearer token123" },
@@ -414,6 +418,7 @@ describe("AgentsClient", () => {
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                 min_words_to_interrupt: 1,
                 turn_taking: "standard",
+                max_conversation_duration_sec: 7200,
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
                     headers: { Authorization: "Bearer token123" },
@@ -487,6 +492,7 @@ describe("AgentsClient", () => {
             ],
             min_words_to_interrupt: 1,
             turn_taking: "standard",
+            max_conversation_duration_sec: 7200,
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: {
@@ -631,6 +637,7 @@ describe("AgentsClient", () => {
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                 min_words_to_interrupt: 1,
                 turn_taking: "standard",
+                max_conversation_duration_sec: 7200,
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
                     headers: { Authorization: "Bearer token123" },
@@ -799,6 +806,7 @@ describe("AgentsClient", () => {
             pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
             min_words_to_interrupt: 1,
             turn_taking: "standard",
+            max_conversation_duration_sec: 7200,
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: { Authorization: "Bearer token123" },
@@ -851,6 +859,7 @@ describe("AgentsClient", () => {
                 pronunciation_dictionary: [{ word: "Phuket", pronunciation: "Poo-ket" }],
                 min_words_to_interrupt: 1,
                 turn_taking: "standard",
+                max_conversation_duration_sec: 7200,
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
                     headers: { Authorization: "Bearer token123" },
@@ -922,6 +931,7 @@ describe("AgentsClient", () => {
             ],
             min_words_to_interrupt: 1,
             turn_taking: "standard",
+            max_conversation_duration_sec: 7200,
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: {
