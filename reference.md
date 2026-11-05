@@ -125,6 +125,7 @@ await client.agents.create({
         }],
     min_words_to_interrupt: 1,
     turn_taking: "standard",
+    max_conversation_duration_sec: 7200,
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
@@ -230,6 +231,7 @@ await client.agents.upsert({
         }],
     min_words_to_interrupt: 1,
     turn_taking: "standard",
+    max_conversation_duration_sec: 7200,
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
@@ -481,6 +483,7 @@ await client.agents.update("nameOrId", {
         }],
     min_words_to_interrupt: 1,
     turn_taking: "standard",
+    max_conversation_duration_sec: 7200,
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
@@ -3692,6 +3695,7 @@ await client.conversations.outboundCall({
             }],
         min_words_to_interrupt: 1,
         turn_taking: "standard",
+        max_conversation_duration_sec: 7200,
         tools: ["keypad_input"]
     },
     dry_run: false
@@ -4631,10 +4635,6 @@ assistant tool call must be followed immediately by the
 A tool referenced in `tools` resolves to an `action` on the generated
 response rather than a tool call - the event a live conversation would
 have emitted, without the effect actually being carried out.
-
-This is an experimental feature and must be enabled for your workspace;
-otherwise, it returns `404`. Please contact our team if you would like
-access.
 </dd>
 </dl>
 </dd>

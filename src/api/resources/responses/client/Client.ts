@@ -50,10 +50,6 @@ export class ResponsesClient {
      * response rather than a tool call - the event a live conversation would
      * have emitted, without the effect actually being carried out.
      *
-     * This is an experimental feature and must be enabled for your workspace;
-     * otherwise, it returns `404`. Please contact our team if you would like
-     * access.
-     *
      * @param {Phonic.GenerateResponsesRequest} request
      * @param {ResponsesClient.RequestOptions} requestOptions - Request-specific configuration.
      *

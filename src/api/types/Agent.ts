@@ -85,6 +85,8 @@ export interface Agent {
     min_words_to_interrupt: number;
     /** How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. */
     turn_taking: Agent.TurnTaking;
+    /** Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended. */
+    max_conversation_duration_sec: number;
     /** When not `null`, the agent will call this endpoint to get configuration options. */
     configuration_endpoint: Agent.ConfigurationEndpoint | null;
     /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Requires `phone_number` to be set when less than 1.0. */
@@ -188,6 +190,7 @@ export namespace Agent {
         Eager: "eager",
         Standard: "standard",
         Relaxed: "relaxed",
+        Measured: "measured",
         Patient: "patient",
         VeryPatient: "very_patient",
     } as const;

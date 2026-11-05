@@ -30,6 +30,7 @@ import type * as Phonic from "../../../../index.js";
  *                 }],
  *             min_words_to_interrupt: 1,
  *             turn_taking: "standard",
+ *             max_conversation_duration_sec: 7200,
  *             tools: ["keypad_input"]
  *         },
  *         dry_run: false
