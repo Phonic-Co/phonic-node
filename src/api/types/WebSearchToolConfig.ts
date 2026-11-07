@@ -6,7 +6,7 @@
 export interface WebSearchToolConfig {
     /** Controls whether the agent speaks before the tool is called. `required`: the agent must speak first. `optional`: the model decides. `suppressed`: the agent is strongly instructed to stay silent before the call (best effort). */
     speech_before_tool_call: WebSearchToolConfig.SpeechBeforeToolCall;
-    /** When true, the agent can call web search while the user is still speaking. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access. */
+    /** When true, the agent can call web search while the user is still speaking. */
     can_run_during_user_speech?: boolean | undefined;
 }
 
