@@ -858,6 +858,7 @@ export class ConversationsClient {
      *
      * @throws {@link Phonic.BadRequestError}
      * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.PaymentRequiredError}
      * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.ConflictError}
@@ -922,6 +923,11 @@ export class ConversationsClient {
                         _response.error.body as Phonic.BasicError,
                         _response.rawResponse,
                     );
+                case 402:
+                    throw new Phonic.PaymentRequiredError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 case 403:
                     throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
@@ -968,10 +974,14 @@ export class ConversationsClient {
      *
      * @throws {@link Phonic.BadRequestError}
      * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.PaymentRequiredError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.ConflictError}
+     * @throws {@link Phonic.UnprocessableEntityError}
      * @throws {@link Phonic.TooManyRequestsError}
      * @throws {@link Phonic.InternalServerError}
+     * @throws {@link Phonic.ServiceUnavailableError}
      *
      * @example
      *     await client.conversations.outboundCall({
@@ -1049,10 +1059,22 @@ export class ConversationsClient {
                         _response.error.body as Phonic.BasicError,
                         _response.rawResponse,
                     );
+                case 402:
+                    throw new Phonic.PaymentRequiredError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
                     throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                case 422:
+                    throw new Phonic.UnprocessableEntityError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 case 429:
                     throw new Phonic.TooManyRequestsError(
                         _response.error.body as Phonic.BasicError,
@@ -1060,6 +1082,11 @@ export class ConversationsClient {
                     );
                 case 500:
                     throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 503:
+                    throw new Phonic.ServiceUnavailableError(
                         _response.error.body as Phonic.BasicError,
                         _response.rawResponse,
                     );
@@ -1083,9 +1110,14 @@ export class ConversationsClient {
      *
      * @throws {@link Phonic.BadRequestError}
      * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.PaymentRequiredError}
+     * @throws {@link Phonic.ForbiddenError}
+     * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.ConflictError}
+     * @throws {@link Phonic.UnprocessableEntityError}
      * @throws {@link Phonic.TooManyRequestsError}
      * @throws {@link Phonic.InternalServerError}
+     * @throws {@link Phonic.ServiceUnavailableError}
      *
      * @example
      *     await client.conversations.sipOutboundCall({
@@ -1157,8 +1189,22 @@ export class ConversationsClient {
                         _response.error.body as Phonic.BasicError,
                         _response.rawResponse,
                     );
+                case 402:
+                    throw new Phonic.PaymentRequiredError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
                     throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                case 422:
+                    throw new Phonic.UnprocessableEntityError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
                 case 429:
                     throw new Phonic.TooManyRequestsError(
                         _response.error.body as Phonic.BasicError,
@@ -1166,6 +1212,11 @@ export class ConversationsClient {
                     );
                 case 500:
                     throw new Phonic.InternalServerError(
+                        _response.error.body as Phonic.BasicError,
+                        _response.rawResponse,
+                    );
+                case 503:
+                    throw new Phonic.ServiceUnavailableError(
                         _response.error.body as Phonic.BasicError,
                         _response.rawResponse,
                     );
