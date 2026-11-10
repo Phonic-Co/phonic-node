@@ -82,6 +82,8 @@ export interface ConfigOptions {
     template_variables?: Record<string, string> | undefined;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean | undefined;
+    /** The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`. */
+    redaction_entities?: (ConfigOptions.RedactionEntities.Item[] | null) | undefined;
     /** When `true`, an inaudible watermark is embedded in the audio the assistant generates. */
     enable_watermarking?: boolean | undefined;
     /** Names of pre-configured MCP servers to make available to the assistant. Names must be unique. */
@@ -175,6 +177,30 @@ export namespace ConfigOptions {
             word: string;
             pronunciation: string;
         }
+    }
+
+    export type RedactionEntities = RedactionEntities.Item[];
+
+    export namespace RedactionEntities {
+        export const Item = {
+            Payment: "payment",
+            Name: "name",
+            DateOfBirth: "date_of_birth",
+            Age: "age",
+            PhoneNumber: "phone_number",
+            Email: "email",
+            Address: "address",
+            Location: "location",
+            Date: "date",
+            Medical: "medical",
+            RecordId: "record_id",
+            InsuranceId: "insurance_id",
+            Ssn: "ssn",
+            Username: "username",
+            Password: "password",
+            OtherPii: "other_pii",
+        } as const;
+        export type Item = (typeof Item)[keyof typeof Item];
     }
 
     export type Tasks = Tasks.Item[];

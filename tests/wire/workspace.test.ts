@@ -52,6 +52,23 @@ describe("WorkspaceClient", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
 
+        const rawResponseBody = { key: "value" };
+
+        server.mockEndpoint().get("/workspace").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.workspace.get();
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("get (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
         const rawResponseBody = {};
 
         server.mockEndpoint().get("/workspace").respondWith().statusCode(500).jsonBody(rawResponseBody).build();

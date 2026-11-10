@@ -24,7 +24,8 @@ export class ProjectsClient {
     }
 
     /**
-     * Returns all projects in a workspace.
+     * Returns the projects in the workspace. An API key limited to selected
+     * projects receives only those projects.
      *
      * @param {ProjectsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
@@ -94,13 +95,14 @@ export class ProjectsClient {
     }
 
     /**
-     * Creates a new project in a workspace.
+     * Creates a new project in the workspace. An API key must have workspace access.
      *
      * @param {Phonic.CreateProjectRequest} request
      * @param {ProjectsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.BadRequestError}
      * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.InternalServerError}
      * @throws {@link errors.PhonicError}
      * @throws {@link errors.PhonicTimeoutError}
@@ -159,6 +161,8 @@ export class ProjectsClient {
                         _response.error.body as Phonic.BasicError,
                         _response.rawResponse,
                     );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new Phonic.InternalServerError(
                         _response.error.body as Phonic.BasicError,
@@ -177,7 +181,7 @@ export class ProjectsClient {
     }
 
     /**
-     * Returns a project by name or ID.
+     * Returns a project by name or ID. An API key can read a project only when that project is in its scope.
      *
      * @param {string} nameOrId - The name or the ID of the project to get.
      * @param {ProjectsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -258,7 +262,7 @@ export class ProjectsClient {
     }
 
     /**
-     * Deletes a project by name or ID.
+     * Deletes a project by name or ID. An API key can delete a project only when that project is in its scope.
      *
      * @param {string} nameOrId - The name or the ID of the project to delete.
      * @param {ProjectsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -342,7 +346,7 @@ export class ProjectsClient {
     }
 
     /**
-     * Updates a project by name or ID.
+     * Updates a project by name or ID. An API key can update a project only when that project is in its scope.
      *
      * @param {string} nameOrId - The name or the ID of the project to update.
      * @param {Phonic.UpdateProjectRequest} request

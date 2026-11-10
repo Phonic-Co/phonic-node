@@ -150,6 +150,32 @@ describe("ProjectsClient", () => {
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
         const rawRequestBody = { name: "name" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/projects")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.projects.create({
+                name: "name",
+            });
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("create (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { name: "name" };
         const rawResponseBody = {};
 
         server

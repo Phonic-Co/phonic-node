@@ -2594,7 +2594,7 @@ await client.voices.preview({
 <dl>
 <dd>
 
-Returns information about the workspace.
+Returns information about the workspace. An API key must have workspace access.
 </dd>
 </dl>
 </dd>
@@ -2649,7 +2649,7 @@ await client.workspace.get();
 <dl>
 <dd>
 
-Updates the workspace.
+Updates the workspace. An API key must have workspace access.
 </dd>
 </dl>
 </dd>
@@ -2705,7 +2705,7 @@ await client.workspace.update({
 </details>
 
 ## ApiKeys
-<details><summary><code>client.apiKeys.<a href="/src/api/resources/apiKeys/client/Client.ts">create</a>({ ...params }) -> Phonic.ApiKeyWithSecret</code></summary>
+<details><summary><code>client.apiKeys.<a href="/src/api/resources/apiKeys/client/Client.ts">create</a>({ ...params }) -> Phonic.CreateApiKeyResponse</code></summary>
 <dl>
 <dd>
 
@@ -2718,6 +2718,12 @@ await client.workspace.update({
 <dd>
 
 Creates a new API key in the workspace.
+
+Requires an API key with workspace access, or an access token. The new
+key's `scope` must be within the caller's scope. Omit `scope` and an
+API key copies its own scope onto the new key. An access token that
+omits `scope` creates a key with access to every project and to
+workspace management.
 </dd>
 </dl>
 </dd>
@@ -2733,7 +2739,12 @@ Creates a new API key in the workspace.
 
 ```typescript
 await client.apiKeys.create({
-    name: "production-key"
+    name: "billing-key",
+    scope: {
+        workspace_access: false,
+        project_access: "selected",
+        project_ids: ["proj_ad0334f1-2487-4155-9df3-abd8129b29ad"]
+    }
 });
 
 ```
@@ -2783,6 +2794,10 @@ await client.apiKeys.create({
 <dd>
 
 Deletes an API key.
+
+Requires an API key with workspace access, or an access token. The
+caller can delete a key only when that key's scope is within the
+caller's scope.
 </dd>
 </dl>
 </dd>
@@ -2845,7 +2860,13 @@ await client.apiKeys.delete("id");
 <dl>
 <dd>
 
-Updates an API key.
+Updates an API key's name, scope, or both. Send at least one of `name`
+and `scope`.
+
+Requires an API key with workspace access, or an access token. The
+caller can update a key only when that key's current scope is within
+the caller's scope, and a new `scope` must also be within the caller's
+scope.
 </dd>
 </dl>
 </dd>
@@ -2861,7 +2882,12 @@ Updates an API key.
 
 ```typescript
 await client.apiKeys.update("id", {
-    name: "renamed-key"
+    name: "billing-key",
+    scope: {
+        workspace_access: false,
+        project_access: "selected",
+        project_ids: ["proj_ad0334f1-2487-4155-9df3-abd8129b29ad"]
+    }
 });
 
 ```
@@ -2918,7 +2944,12 @@ await client.apiKeys.update("id", {
 <dl>
 <dd>
 
-Rotates an API key, generating a new secret and invalidating the old one.
+Rotates an API key, generating a new secret and invalidating the old
+one. The new key keeps the previous key's name and scope.
+
+Requires an API key with workspace access, or an access token. The
+caller can rotate a key only when that key's scope is within the
+caller's scope.
 </dd>
 </dl>
 </dd>
@@ -3059,7 +3090,7 @@ await client.conversationItems.replay("id");
 <dl>
 <dd>
 
-Returns conversations with optional filtering.
+Returns conversations with optional filtering. Each item is the full conversation object returned by [Get conversation](/api-reference/conversations/get), including transcripts, `system_prompt` and `items`.
 </dd>
 </dl>
 </dd>
@@ -4089,7 +4120,8 @@ await client.tts.stream({
 <dl>
 <dd>
 
-Returns all projects in a workspace.
+Returns the projects in the workspace. An API key limited to selected
+projects receives only those projects.
 </dd>
 </dl>
 </dd>
@@ -4144,7 +4176,7 @@ await client.projects.list();
 <dl>
 <dd>
 
-Creates a new project in a workspace.
+Creates a new project in the workspace. An API key must have workspace access.
 </dd>
 </dl>
 </dd>
@@ -4209,7 +4241,7 @@ await client.projects.create({
 <dl>
 <dd>
 
-Returns a project by name or ID.
+Returns a project by name or ID. An API key can read a project only when that project is in its scope.
 </dd>
 </dl>
 </dd>
@@ -4272,7 +4304,7 @@ await client.projects.get("nameOrId");
 <dl>
 <dd>
 
-Deletes a project by name or ID.
+Deletes a project by name or ID. An API key can delete a project only when that project is in its scope.
 </dd>
 </dl>
 </dd>
@@ -4335,7 +4367,7 @@ await client.projects.delete("nameOrId");
 <dl>
 <dd>
 
-Updates a project by name or ID.
+Updates a project by name or ID. An API key can update a project only when that project is in its scope.
 </dd>
 </dl>
 </dd>

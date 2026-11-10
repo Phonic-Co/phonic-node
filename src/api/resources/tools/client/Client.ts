@@ -29,6 +29,7 @@ export class ToolsClient {
      * @param {Phonic.ToolsListRequest} request
      * @param {ToolsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link errors.PhonicError}
      * @throws {@link errors.PhonicTimeoutError}
@@ -85,6 +86,8 @@ export class ToolsClient {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -432,6 +435,7 @@ export class ToolsClient {
      * @param {Phonic.ToolsDeleteRequest} request
      * @param {ToolsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link errors.PhonicError}
      * @throws {@link errors.PhonicTimeoutError}
@@ -490,6 +494,8 @@ export class ToolsClient {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -512,6 +518,7 @@ export class ToolsClient {
      * @param {ToolsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.ConflictError}
      * @throws {@link errors.PhonicError}
@@ -581,6 +588,8 @@ export class ToolsClient {
             switch (_response.error.statusCode) {
                 case 400:
                     throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:

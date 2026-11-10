@@ -29,6 +29,7 @@ export class AgentsClient {
      * @param {Phonic.AgentsListRequest} request
      * @param {AgentsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.InternalServerError}
      * @throws {@link errors.PhonicError}
@@ -84,6 +85,8 @@ export class AgentsClient {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
@@ -111,6 +114,7 @@ export class AgentsClient {
      *
      * @throws {@link Phonic.BadRequestError}
      * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.InternalServerError}
      * @throws {@link errors.PhonicError}
@@ -219,6 +223,8 @@ export class AgentsClient {
                         _response.error.body as Phonic.BasicError,
                         _response.rawResponse,
                     );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
@@ -245,6 +251,7 @@ export class AgentsClient {
      * @param {AgentsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.ConflictError}
      * @throws {@link errors.PhonicError}
@@ -348,6 +355,8 @@ export class AgentsClient {
             switch (_response.error.statusCode) {
                 case 400:
                     throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:

@@ -15,9 +15,9 @@ export interface ConversationsListRequest {
     duration_min?: number;
     /** Maximum duration in seconds. */
     duration_max?: number;
-    /** Minimum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z` */
+    /** Only return conversations that started at or after this time. Accepts a UTC date (`2025-04-17`) or a UTC date-time with milliseconds (`2025-04-17T02:48:52.708Z`). UTC offsets are not supported. */
     started_at_min?: string;
-    /** Maximum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z` */
+    /** Only return conversations that started at or before this time. Accepts a UTC date (`2025-04-17`, meaning midnight at the start of that day) or a UTC date-time with milliseconds (`2025-04-17T02:48:52.708Z`). UTC offsets are not supported. */
     started_at_max?: string;
     /** Cursor for backward pagination. Use a conversation ID from `pagination.prev_cursor` to fetch the previous page of conversations. Cannot be used with `after`. */
     before?: string;

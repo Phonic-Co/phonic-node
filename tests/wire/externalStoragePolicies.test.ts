@@ -56,6 +56,29 @@ describe("ExternalStoragePoliciesClient", () => {
             .mockEndpoint()
             .get("/external_storage_policies")
             .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.externalStoragePolicies.list();
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("list (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .get("/external_storage_policies")
+            .respondWith()
             .statusCode(404)
             .jsonBody(rawResponseBody)
             .build();
@@ -65,7 +88,7 @@ describe("ExternalStoragePoliciesClient", () => {
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
-    test("list (3)", async () => {
+    test("list (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -226,6 +249,42 @@ describe("ExternalStoragePoliciesClient", () => {
             .post("/external_storage_policies")
             .jsonBody(rawRequestBody)
             .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.externalStoragePolicies.create({
+                name: "name",
+                endpoint_url: "endpoint_url",
+                bucket: "bucket",
+                access_key_id: "access_key_id",
+                secret_access_key: "secret_access_key",
+            });
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("create (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            name: "name",
+            endpoint_url: "endpoint_url",
+            bucket: "bucket",
+            access_key_id: "access_key_id",
+            secret_access_key: "secret_access_key",
+        };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/external_storage_policies")
+            .jsonBody(rawRequestBody)
+            .respondWith()
             .statusCode(404)
             .jsonBody(rawResponseBody)
             .build();
@@ -241,7 +300,7 @@ describe("ExternalStoragePoliciesClient", () => {
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
-    test("create (5)", async () => {
+    test("create (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -277,7 +336,7 @@ describe("ExternalStoragePoliciesClient", () => {
         }).rejects.toThrow(Phonic.ConflictError);
     });
 
-    test("create (6)", async () => {
+    test("create (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,

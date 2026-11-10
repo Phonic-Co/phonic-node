@@ -2,6 +2,6 @@
 
 export interface AddSystemMessagePayload {
     type: "add_system_message";
-    /** New system message */
+    /** System message to add to the conversation context */
     system_message: string;
 }

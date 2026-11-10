@@ -57,6 +57,23 @@ describe("McpServersClient", () => {
 
         const rawResponseBody = { key: "value" };
 
+        server.mockEndpoint().get("/mcp_servers").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.mcpServers.list();
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("list (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+
         server.mockEndpoint().get("/mcp_servers").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -64,7 +81,7 @@ describe("McpServersClient", () => {
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
-    test("list (3)", async () => {
+    test("list (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -184,6 +201,33 @@ describe("McpServersClient", () => {
             .post("/mcp_servers")
             .jsonBody(rawRequestBody)
             .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.mcpServers.create({
+                name: "name",
+                url: "url",
+            });
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("create (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { name: "name", url: "url" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/mcp_servers")
+            .jsonBody(rawRequestBody)
+            .respondWith()
             .statusCode(404)
             .jsonBody(rawResponseBody)
             .build();
@@ -196,7 +240,7 @@ describe("McpServersClient", () => {
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
-    test("create (5)", async () => {
+    test("create (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -223,7 +267,7 @@ describe("McpServersClient", () => {
         }).rejects.toThrow(Phonic.ConflictError);
     });
 
-    test("create (6)", async () => {
+    test("create (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,

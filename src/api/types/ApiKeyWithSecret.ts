@@ -5,6 +5,6 @@ export interface ApiKeyWithSecret {
     id: string;
     /** The name of the API key. */
     name: string;
-    /** The API key secret. Only returned once, when the key is created or rotated. */
+    /** The API key secret. Returned only when the key is rotated. The rotated key keeps its previous scope. */
     api_key: string;
 }
