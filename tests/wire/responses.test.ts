@@ -23,10 +23,10 @@ describe("ResponsesClient", () => {
                     name: "search_pizza_shop_recs",
                     description: "Search for pizza shop recommendations.",
                     parameters: {
-                        type: "object",
-                        properties: { location: { type: "string", description: "The neighborhood to search in." } },
                         required: ["location"],
                         additionalProperties: false,
+                        type: "object",
+                        properties: { location: { type: "string", description: "The neighborhood to search in." } },
                     },
                 },
             ],

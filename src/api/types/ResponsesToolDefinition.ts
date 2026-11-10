@@ -10,9 +10,15 @@ export interface ResponsesToolDefinition {
     name: string;
     /** What the tool does. The model uses this to decide when to call it. */
     description: string;
-    parameters: Phonic.ToolParametersJsonSchema;
+    parameters: Phonic.ResponsesToolParameters;
     /** When true, forces the agent to speak before executing the tool. Note this defaults to true here, unlike on the tools API, so a simulated turn matches the default a custom tool runs with in a live call. */
     require_speech_before_tool_call?: boolean | undefined;
+    /** When true, waits for the agent's speech to finish before calling the tool. Accepted for parity with live tools; it has no effect on generated responses. */
+    wait_for_speech_before_tool_call?: boolean | undefined;
+    /** When true, prevents the agent from speaking after executing the tool. Applied on the request that resumes the turn, the one carrying the `tool_call_output`. */
+    forbid_speech_after_tool_call?: boolean | undefined;
     /** When true, forbids the agent from calling the tool right after it has spoken. The call is dropped and the speech is kept. */
     forbid_tool_call_after_speech?: boolean | undefined;
+    /** When true, allows the agent to call another tool after this tool. Applied on the request that resumes the turn, the one carrying the `tool_call_output`. */
+    allow_tool_chaining?: boolean | undefined;
 }

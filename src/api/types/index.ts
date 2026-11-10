@@ -77,6 +77,7 @@ export * from "./ResponsesToolCall.js";
 export * from "./ResponsesToolCallOutput.js";
 export * from "./ResponsesToolDefinition.js";
 export * from "./ResponsesToolName.js";
+export * from "./ResponsesToolParameters.js";
 export * from "./ResponsesToolReference.js";
 export * from "./ResponsesTransferToAgentAction.js";
 export * from "./ResponsesTransferToPhoneNumberAction.js";

@@ -18,7 +18,7 @@ export interface OutboundCallConfig {
     welcome_message?: (string | null) | undefined;
     /** Instructions for the conversation. Can contain template variables like `{{subject}}`. */
     system_prompt?: string | undefined;
-    /** Variables that can be used in the welcome message and the system prompt. */
+    /** Values for the agent's template variables in this conversation, keyed by variable name. Each value is a plain string, which overrides the variable's saved `default_value` on the agent. */
     template_variables?: Record<string, string> | undefined;
     /** The voice ID to use for the agent. */
     voice_id?: string | undefined;
