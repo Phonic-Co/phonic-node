@@ -85,7 +85,9 @@ export class ResponsesClient {
      *                             "description": "The neighborhood to search in."
      *                         }
      *                     },
-     *                     required: ["location"],
+     *                     required: [
+     *                         "location"
+     *                     ],
      *                     additionalProperties: false
      *                 }
      *             }],

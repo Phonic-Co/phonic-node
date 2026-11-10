@@ -78,7 +78,7 @@ export interface ConfigOptions {
     pronunciation_dictionary?: ConfigOptions.PronunciationDictionary.Item[] | undefined;
     /** Tools available to the assistant. Use a string to reference a pre-defined tool by name, provide a built-in tool object to override its default configuration, or define an inline WebSocket tool for this conversation. */
     tools?: Phonic.ToolDefinition[] | undefined;
-    /** Template variables for system prompt and welcome message */
+    /** Values for the agent's template variables in this conversation, keyed by variable name. Each value is a plain string, which overrides the variable's saved `default_value` on the agent. */
     template_variables?: Record<string, string> | undefined;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean | undefined;
