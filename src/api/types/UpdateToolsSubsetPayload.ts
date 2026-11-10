@@ -4,6 +4,6 @@ import type * as Phonic from "../index.js";
 
 export interface UpdateToolsSubsetPayload {
     type: "update_tools_subset";
-    /** Tools available to the assistant. Use a string to reference a pre-defined tool by name, or define an inline WebSocket tool for this conversation. Tool names must be unique. */
+    /** Tools available to the assistant. Use a string to reference a pre-defined tool by name, or define an inline WebSocket tool for this conversation. A string can also reference an inline WebSocket tool defined in the session's `config` message by its name. Tool names must be unique. */
     tools: Phonic.ToolDefinition[];
 }

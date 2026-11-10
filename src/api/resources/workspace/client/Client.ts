@@ -24,11 +24,12 @@ export class WorkspaceClient {
     }
 
     /**
-     * Returns information about the workspace.
+     * Returns information about the workspace. An API key must have workspace access.
      *
      * @param {WorkspaceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.InternalServerError}
      * @throws {@link errors.PhonicError}
      * @throws {@link errors.PhonicTimeoutError}
@@ -76,6 +77,8 @@ export class WorkspaceClient {
                         _response.error.body as Phonic.BasicError,
                         _response.rawResponse,
                     );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new Phonic.InternalServerError(
                         _response.error.body as Phonic.BasicError,
@@ -94,7 +97,7 @@ export class WorkspaceClient {
     }
 
     /**
-     * Updates the workspace.
+     * Updates the workspace. An API key must have workspace access.
      *
      * @param {Phonic.UpdateWorkspaceRequest} request
      * @param {WorkspaceClient.RequestOptions} requestOptions - Request-specific configuration.

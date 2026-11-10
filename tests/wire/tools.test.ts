@@ -238,6 +238,23 @@ describe("ToolsClient", () => {
 
         const rawResponseBody = { key: "value" };
 
+        server.mockEndpoint().get("/tools").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.tools.list();
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("list (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+
         server.mockEndpoint().get("/tools").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -1101,6 +1118,23 @@ describe("ToolsClient", () => {
 
         const rawResponseBody = { key: "value" };
 
+        server.mockEndpoint().delete("/tools/nameOrId").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.tools.delete("nameOrId");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("delete (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+
         server.mockEndpoint().delete("/tools/nameOrId").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -1181,6 +1215,30 @@ describe("ToolsClient", () => {
             .patch("/tools/nameOrId")
             .jsonBody(rawRequestBody)
             .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.tools.update("nameOrId");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("update (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .patch("/tools/nameOrId")
+            .jsonBody(rawRequestBody)
+            .respondWith()
             .statusCode(404)
             .jsonBody(rawResponseBody)
             .build();
@@ -1190,7 +1248,7 @@ describe("ToolsClient", () => {
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
-    test("update (4)", async () => {
+    test("update (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,

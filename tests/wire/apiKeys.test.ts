@@ -12,11 +12,62 @@ describe("ApiKeysClient", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
+        const rawRequestBody = {
+            name: "billing-key",
+            scope: {
+                workspace_access: false,
+                project_access: "selected",
+                project_ids: ["proj_ad0334f1-2487-4155-9df3-abd8129b29ad"],
+            },
+        };
+        const rawResponseBody = {
+            id: "api_key_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+            name: "billing-key",
+            api_key: "ph_abc123def456...",
+            scope: {
+                workspace_access: false,
+                project_access: "selected",
+                project_ids: ["proj_ad0334f1-2487-4155-9df3-abd8129b29ad"],
+            },
+        };
+
+        server
+            .mockEndpoint()
+            .post("/api_keys")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(200)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        const response = await client.apiKeys.create({
+            name: "billing-key",
+            scope: {
+                workspace_access: false,
+                project_access: "selected",
+                project_ids: ["proj_ad0334f1-2487-4155-9df3-abd8129b29ad"],
+            },
+        });
+        expect(response).toEqual(rawResponseBody);
+    });
+
+    test("create (2)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
         const rawRequestBody = { name: "production-key" };
         const rawResponseBody = {
             id: "api_key_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
-            name: "production-key",
-            api_key: "phk_abc123def456...",
+            name: "billing-key",
+            api_key: "ph_abc123def456...",
+            scope: {
+                workspace_access: false,
+                project_access: "selected",
+                project_ids: ["proj_ad0334f1-2487-4155-9df3-abd8129b29ad"],
+            },
         };
 
         server
@@ -34,7 +85,7 @@ describe("ApiKeysClient", () => {
         expect(response).toEqual(rawResponseBody);
     });
 
-    test("create (2)", async () => {
+    test("create (3)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -60,7 +111,7 @@ describe("ApiKeysClient", () => {
         }).rejects.toThrow(Phonic.BadRequestError);
     });
 
-    test("create (3)", async () => {
+    test("create (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -86,7 +137,33 @@ describe("ApiKeysClient", () => {
         }).rejects.toThrow(Phonic.UnauthorizedError);
     });
 
-    test("create (4)", async () => {
+    test("create (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { name: "name" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/api_keys")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.apiKeys.create({
+                name: "name",
+            });
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("create (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -155,6 +232,23 @@ describe("ApiKeysClient", () => {
 
         const rawResponseBody = { key: "value" };
 
+        server.mockEndpoint().delete("/api_keys/id").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.apiKeys.delete("id");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("delete (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+
         server.mockEndpoint().delete("/api_keys/id").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -162,7 +256,24 @@ describe("ApiKeysClient", () => {
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
-    test("delete (4)", async () => {
+    test("delete (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+
+        server.mockEndpoint().delete("/api_keys/id").respondWith().statusCode(409).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.apiKeys.delete("id");
+        }).rejects.toThrow(Phonic.ConflictError);
+    });
+
+    test("delete (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -186,7 +297,14 @@ describe("ApiKeysClient", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { name: "renamed-key" };
+        const rawRequestBody = {
+            name: "billing-key",
+            scope: {
+                workspace_access: false,
+                project_access: "selected",
+                project_ids: ["proj_ad0334f1-2487-4155-9df3-abd8129b29ad"],
+            },
+        };
         const rawResponseBody = { success: true };
 
         server
@@ -199,7 +317,12 @@ describe("ApiKeysClient", () => {
             .build();
 
         const response = await client.apiKeys.update("id", {
-            name: "renamed-key",
+            name: "billing-key",
+            scope: {
+                workspace_access: false,
+                project_access: "selected",
+                project_ids: ["proj_ad0334f1-2487-4155-9df3-abd8129b29ad"],
+            },
         });
         expect(response).toEqual(rawResponseBody);
     });
@@ -211,7 +334,7 @@ describe("ApiKeysClient", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { name: "name" };
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
 
         server
@@ -224,9 +347,7 @@ describe("ApiKeysClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.apiKeys.update("id", {
-                name: "name",
-            });
+            return await client.apiKeys.update("id");
         }).rejects.toThrow(Phonic.BadRequestError);
     });
 
@@ -237,7 +358,7 @@ describe("ApiKeysClient", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { name: "name" };
+        const rawRequestBody = {};
         const rawResponseBody = {};
 
         server
@@ -250,9 +371,7 @@ describe("ApiKeysClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.apiKeys.update("id", {
-                name: "name",
-            });
+            return await client.apiKeys.update("id");
         }).rejects.toThrow(Phonic.UnauthorizedError);
     });
 
@@ -263,7 +382,31 @@ describe("ApiKeysClient", () => {
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { name: "name" };
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .patch("/api_keys/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.apiKeys.update("id");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("update (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
         const rawResponseBody = { key: "value" };
 
         server
@@ -276,20 +419,42 @@ describe("ApiKeysClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.apiKeys.update("id", {
-                name: "name",
-            });
+            return await client.apiKeys.update("id");
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
-    test("update (5)", async () => {
+    test("update (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
             apiKey: "test",
             environment: { base: server.baseUrl, production: server.baseUrl },
         });
-        const rawRequestBody = { name: "name" };
+        const rawRequestBody = {};
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .patch("/api_keys/id")
+            .jsonBody(rawRequestBody)
+            .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.apiKeys.update("id");
+        }).rejects.toThrow(Phonic.ConflictError);
+    });
+
+    test("update (7)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {};
         const rawResponseBody = {};
 
         server
@@ -302,9 +467,7 @@ describe("ApiKeysClient", () => {
             .build();
 
         await expect(async () => {
-            return await client.apiKeys.update("id", {
-                name: "name",
-            });
+            return await client.apiKeys.update("id");
         }).rejects.toThrow(Phonic.InternalServerError);
     });
 
@@ -319,7 +482,7 @@ describe("ApiKeysClient", () => {
         const rawResponseBody = {
             id: "api_key_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
             name: "production-key",
-            api_key: "phk_new789xyz...",
+            api_key: "ph_new789xyz...",
         };
 
         server
@@ -371,6 +534,29 @@ describe("ApiKeysClient", () => {
             .mockEndpoint()
             .post("/api_keys/id/rotate")
             .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.apiKeys.rotate("id");
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("rotate (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/api_keys/id/rotate")
+            .respondWith()
             .statusCode(404)
             .jsonBody(rawResponseBody)
             .build();
@@ -380,7 +566,30 @@ describe("ApiKeysClient", () => {
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
-    test("rotate (4)", async () => {
+    test("rotate (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/api_keys/id/rotate")
+            .respondWith()
+            .statusCode(409)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.apiKeys.rotate("id");
+        }).rejects.toThrow(Phonic.ConflictError);
+    });
+
+    test("rotate (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,

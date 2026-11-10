@@ -26,14 +26,31 @@ export class ApiKeysClient {
     /**
      * Creates a new API key in the workspace.
      *
+     * Requires an API key with workspace access, or an access token. The new
+     * key's `scope` must be within the caller's scope. Omit `scope` and an
+     * API key copies its own scope onto the new key. An access token that
+     * omits `scope` creates a key with access to every project and to
+     * workspace management.
+     *
      * @param {Phonic.CreateApiKeyRequest} request
      * @param {ApiKeysClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.BadRequestError}
      * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.InternalServerError}
      * @throws {@link errors.PhonicError}
      * @throws {@link errors.PhonicTimeoutError}
+     *
+     * @example
+     *     await client.apiKeys.create({
+     *         name: "billing-key",
+     *         scope: {
+     *             workspace_access: false,
+     *             project_access: "selected",
+     *             project_ids: ["proj_ad0334f1-2487-4155-9df3-abd8129b29ad"]
+     *         }
+     *     })
      *
      * @example
      *     await client.apiKeys.create({
@@ -43,14 +60,14 @@ export class ApiKeysClient {
     public create(
         request: Phonic.CreateApiKeyRequest,
         requestOptions?: ApiKeysClient.RequestOptions,
-    ): core.HttpResponsePromise<Phonic.ApiKeyWithSecret> {
+    ): core.HttpResponsePromise<Phonic.CreateApiKeyResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: Phonic.CreateApiKeyRequest,
         requestOptions?: ApiKeysClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Phonic.ApiKeyWithSecret>> {
+    ): Promise<core.WithRawResponse<Phonic.CreateApiKeyResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -77,7 +94,7 @@ export class ApiKeysClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Phonic.ApiKeyWithSecret, rawResponse: _response.rawResponse };
+            return { data: _response.body as Phonic.CreateApiKeyResponse, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -89,6 +106,8 @@ export class ApiKeysClient {
                         _response.error.body as Phonic.BasicError,
                         _response.rawResponse,
                     );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new Phonic.InternalServerError(
                         _response.error.body as Phonic.BasicError,
@@ -109,11 +128,17 @@ export class ApiKeysClient {
     /**
      * Deletes an API key.
      *
+     * Requires an API key with workspace access, or an access token. The
+     * caller can delete a key only when that key's scope is within the
+     * caller's scope.
+     *
      * @param {string} id - The ID of the API key to delete.
      * @param {ApiKeysClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
      * @throws {@link Phonic.InternalServerError}
      * @throws {@link errors.PhonicError}
      * @throws {@link errors.PhonicTimeoutError}
@@ -165,8 +190,12 @@ export class ApiKeysClient {
                         _response.error.body as Phonic.BasicError,
                         _response.rawResponse,
                     );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new Phonic.InternalServerError(
                         _response.error.body as Phonic.BasicError,
@@ -185,7 +214,13 @@ export class ApiKeysClient {
     }
 
     /**
-     * Updates an API key.
+     * Updates an API key's name, scope, or both. Send at least one of `name`
+     * and `scope`.
+     *
+     * Requires an API key with workspace access, or an access token. The
+     * caller can update a key only when that key's current scope is within
+     * the caller's scope, and a new `scope` must also be within the caller's
+     * scope.
      *
      * @param {string} id - The ID of the API key to update.
      * @param {Phonic.UpdateApiKeyRequest} request
@@ -193,19 +228,26 @@ export class ApiKeysClient {
      *
      * @throws {@link Phonic.BadRequestError}
      * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
      * @throws {@link Phonic.InternalServerError}
      * @throws {@link errors.PhonicError}
      * @throws {@link errors.PhonicTimeoutError}
      *
      * @example
      *     await client.apiKeys.update("id", {
-     *         name: "renamed-key"
+     *         name: "billing-key",
+     *         scope: {
+     *             workspace_access: false,
+     *             project_access: "selected",
+     *             project_ids: ["proj_ad0334f1-2487-4155-9df3-abd8129b29ad"]
+     *         }
      *     })
      */
     public update(
         id: string,
-        request: Phonic.UpdateApiKeyRequest,
+        request: Phonic.UpdateApiKeyRequest = {},
         requestOptions?: ApiKeysClient.RequestOptions,
     ): core.HttpResponsePromise<Phonic.ApiKeysUpdateResponse> {
         return core.HttpResponsePromise.fromPromise(this.__update(id, request, requestOptions));
@@ -213,7 +255,7 @@ export class ApiKeysClient {
 
     private async __update(
         id: string,
-        request: Phonic.UpdateApiKeyRequest,
+        request: Phonic.UpdateApiKeyRequest = {},
         requestOptions?: ApiKeysClient.RequestOptions,
     ): Promise<core.WithRawResponse<Phonic.ApiKeysUpdateResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
@@ -254,8 +296,12 @@ export class ApiKeysClient {
                         _response.error.body as Phonic.BasicError,
                         _response.rawResponse,
                     );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new Phonic.InternalServerError(
                         _response.error.body as Phonic.BasicError,
@@ -274,13 +320,20 @@ export class ApiKeysClient {
     }
 
     /**
-     * Rotates an API key, generating a new secret and invalidating the old one.
+     * Rotates an API key, generating a new secret and invalidating the old
+     * one. The new key keeps the previous key's name and scope.
+     *
+     * Requires an API key with workspace access, or an access token. The
+     * caller can rotate a key only when that key's scope is within the
+     * caller's scope.
      *
      * @param {string} id - The ID of the API key to rotate.
      * @param {ApiKeysClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
+     * @throws {@link Phonic.ConflictError}
      * @throws {@link Phonic.InternalServerError}
      * @throws {@link errors.PhonicError}
      * @throws {@link errors.PhonicTimeoutError}
@@ -332,8 +385,12 @@ export class ApiKeysClient {
                         _response.error.body as Phonic.BasicError,
                         _response.rawResponse,
                     );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new Phonic.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new Phonic.InternalServerError(
                         _response.error.body as Phonic.BasicError,

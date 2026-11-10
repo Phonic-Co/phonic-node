@@ -55,6 +55,7 @@ export class ResponsesClient {
      *
      * @throws {@link Phonic.BadRequestError}
      * @throws {@link Phonic.UnauthorizedError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.TooManyRequestsError}
      * @throws {@link Phonic.InternalServerError}
@@ -158,6 +159,8 @@ export class ResponsesClient {
                         _response.error.body as Phonic.BasicError,
                         _response.rawResponse,
                     );
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 429:

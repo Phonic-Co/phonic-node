@@ -266,6 +266,48 @@ describe("ResponsesClient", () => {
             .post("/responses")
             .jsonBody(rawRequestBody)
             .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.responses.create({
+                system_prompt: "x",
+                input: [
+                    {
+                        role: "user",
+                        text: "x",
+                    },
+                    {
+                        role: "user",
+                        text: "x",
+                    },
+                ],
+            });
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("create (6)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = {
+            system_prompt: "x",
+            input: [
+                { role: "user", text: "x" },
+                { role: "user", text: "x" },
+            ],
+        };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/responses")
+            .jsonBody(rawRequestBody)
+            .respondWith()
             .statusCode(404)
             .jsonBody(rawResponseBody)
             .build();
@@ -287,7 +329,7 @@ describe("ResponsesClient", () => {
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
-    test("create (6)", async () => {
+    test("create (7)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -329,7 +371,7 @@ describe("ResponsesClient", () => {
         }).rejects.toThrow(Phonic.TooManyRequestsError);
     });
 
-    test("create (7)", async () => {
+    test("create (8)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -371,7 +413,7 @@ describe("ResponsesClient", () => {
         }).rejects.toThrow(Phonic.InternalServerError);
     });
 
-    test("create (8)", async () => {
+    test("create (9)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -413,7 +455,7 @@ describe("ResponsesClient", () => {
         }).rejects.toThrow(Phonic.BadGatewayError);
     });
 
-    test("create (9)", async () => {
+    test("create (10)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,

@@ -45,7 +45,7 @@ export interface Agent {
     template_variables: Record<string, Agent.TemplateVariables.Value>;
     /** List of tools available to the agent. */
     tools: Agent.Tools.Item[];
-    /** Configuration overrides for built-in tools, keyed by built-in tool ID. */
+    /** Configuration overrides for built-in tools, keyed by built-in tool ID: `tool_natural_conversation_ending`, `tool_keypad_input`, `tool_web_search`, or `tool_choose_not_to_respond` (the tool name prefixed with `tool_`; bare tool names such as `natural_conversation_ending` are rejected). */
     built_in_tool_configs: Phonic.BuiltInToolConfigs;
     /** Tasks for the agent to complete during the conversation. */
     tasks: Phonic.Task[];
@@ -95,6 +95,8 @@ export interface Agent {
     inbound_rollout_forward_phone_number?: (string | null) | undefined;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends. */
     enable_redaction?: boolean | undefined;
+    /** The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`. */
+    redaction_entities?: (Agent.RedactionEntities.Item[] | null) | undefined;
     /** When `true`, an inaudible watermark is embedded in the audio the agent generates. */
     enable_watermarking?: boolean | undefined;
     /** The URL-friendly slug of the agent. */
@@ -204,5 +206,29 @@ export namespace Agent {
         headers: Record<string, string>;
         /** The timeout for the configuration endpoint in milliseconds. */
         timeout_ms: number;
+    }
+
+    export type RedactionEntities = RedactionEntities.Item[];
+
+    export namespace RedactionEntities {
+        export const Item = {
+            Payment: "payment",
+            Name: "name",
+            DateOfBirth: "date_of_birth",
+            Age: "age",
+            PhoneNumber: "phone_number",
+            Email: "email",
+            Address: "address",
+            Location: "location",
+            Date: "date",
+            Medical: "medical",
+            RecordId: "record_id",
+            InsuranceId: "insurance_id",
+            Ssn: "ssn",
+            Username: "username",
+            Password: "password",
+            OtherPii: "other_pii",
+        } as const;
+        export type Item = (typeof Item)[keyof typeof Item];
     }
 }

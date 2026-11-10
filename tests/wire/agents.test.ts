@@ -73,6 +73,7 @@ describe("AgentsClient", () => {
                     inbound_rollout: 1,
                     inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
                     enable_redaction: true,
+                    redaction_entities: ["phone_number", "email", "ssn"],
                     enable_watermarking: true,
                     slug: "slug",
                     enable_assistant_backchannel: true,
@@ -107,6 +108,23 @@ describe("AgentsClient", () => {
 
         const rawResponseBody = { key: "value" };
 
+        server.mockEndpoint().get("/agents").respondWith().statusCode(403).jsonBody(rawResponseBody).build();
+
+        await expect(async () => {
+            return await client.agents.list();
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("list (3)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+
+        const rawResponseBody = { key: "value" };
+
         server.mockEndpoint().get("/agents").respondWith().statusCode(404).jsonBody(rawResponseBody).build();
 
         await expect(async () => {
@@ -114,7 +132,7 @@ describe("AgentsClient", () => {
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
-    test("list (3)", async () => {
+    test("list (4)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -296,6 +314,32 @@ describe("AgentsClient", () => {
             .post("/agents")
             .jsonBody(rawRequestBody)
             .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.create({
+                name: "name",
+            });
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("create (5)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { name: "name" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .post("/agents")
+            .jsonBody(rawRequestBody)
+            .respondWith()
             .statusCode(404)
             .jsonBody(rawResponseBody)
             .build();
@@ -307,7 +351,7 @@ describe("AgentsClient", () => {
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
-    test("create (5)", async () => {
+    test("create (6)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -427,6 +471,7 @@ describe("AgentsClient", () => {
                 inbound_rollout: 1,
                 inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
                 enable_redaction: true,
+                redaction_entities: ["phone_number", "email", "ssn"],
                 enable_watermarking: true,
                 slug: "slug",
                 enable_assistant_backchannel: true,
@@ -545,6 +590,32 @@ describe("AgentsClient", () => {
             .put("/agents/upsert")
             .jsonBody(rawRequestBody)
             .respondWith()
+            .statusCode(403)
+            .jsonBody(rawResponseBody)
+            .build();
+
+        await expect(async () => {
+            return await client.agents.upsert({
+                name: "name",
+            });
+        }).rejects.toThrow(Phonic.ForbiddenError);
+    });
+
+    test("upsert (4)", async () => {
+        const server = mockServerPool.createServer();
+        const client = new PhonicClient({
+            maxRetries: 0,
+            apiKey: "test",
+            environment: { base: server.baseUrl, production: server.baseUrl },
+        });
+        const rawRequestBody = { name: "name" };
+        const rawResponseBody = { key: "value" };
+
+        server
+            .mockEndpoint()
+            .put("/agents/upsert")
+            .jsonBody(rawRequestBody)
+            .respondWith()
             .statusCode(404)
             .jsonBody(rawResponseBody)
             .build();
@@ -556,7 +627,7 @@ describe("AgentsClient", () => {
         }).rejects.toThrow(Phonic.NotFoundError);
     });
 
-    test("upsert (4)", async () => {
+    test("upsert (5)", async () => {
         const server = mockServerPool.createServer();
         const client = new PhonicClient({
             maxRetries: 0,
@@ -646,6 +717,7 @@ describe("AgentsClient", () => {
                 inbound_rollout: 1,
                 inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
                 enable_redaction: true,
+                redaction_entities: ["phone_number", "email", "ssn"],
                 enable_watermarking: true,
                 slug: "slug",
                 enable_assistant_backchannel: true,
@@ -868,6 +940,7 @@ describe("AgentsClient", () => {
                 inbound_rollout: 1,
                 inbound_rollout_forward_phone_number: "inbound_rollout_forward_phone_number",
                 enable_redaction: true,
+                redaction_entities: ["phone_number", "email", "ssn"],
                 enable_watermarking: true,
                 slug: "slug",
                 enable_assistant_backchannel: true,

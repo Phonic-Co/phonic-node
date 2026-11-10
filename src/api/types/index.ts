@@ -1,6 +1,7 @@
 export * from "./AddSystemMessagePayload.js";
 export * from "./Agent.js";
 export * from "./AgentIntegration.js";
+export * from "./ApiKeyScope.js";
 export * from "./ApiKeyWithSecret.js";
 export * from "./AssistantChoseNotToRespondPayload.js";
 export * from "./AssistantEndedConversationPayload.js";
@@ -31,6 +32,7 @@ export * from "./ConversationsListResponseConversation.js";
 export * from "./ConversationsListResponseConversations.js";
 export * from "./ConversationsListResponseConversationsPagination.js";
 export * from "./CreateAgentRequest.js";
+export * from "./CreateApiKeyResponse.js";
 export * from "./DataRetentionPolicy.js";
 export * from "./DtmfPayload.js";
 export * from "./Error_.js";

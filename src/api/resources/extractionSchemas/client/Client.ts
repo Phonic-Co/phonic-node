@@ -29,6 +29,7 @@ export class ExtractionSchemasClient {
      * @param {Phonic.ExtractionSchemasListRequest} request
      * @param {ExtractionSchemasClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link errors.PhonicError}
      * @throws {@link errors.PhonicTimeoutError}
@@ -85,6 +86,8 @@ export class ExtractionSchemasClient {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -106,6 +109,7 @@ export class ExtractionSchemasClient {
      * @param {ExtractionSchemasClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.ConflictError}
      * @throws {@link errors.PhonicError}
@@ -186,6 +190,8 @@ export class ExtractionSchemasClient {
             switch (_response.error.statusCode) {
                 case 400:
                     throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
@@ -209,6 +215,7 @@ export class ExtractionSchemasClient {
      * @param {Phonic.ExtractionSchemasGetRequest} request
      * @param {ExtractionSchemasClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link errors.PhonicError}
      * @throws {@link errors.PhonicTimeoutError}
@@ -267,6 +274,8 @@ export class ExtractionSchemasClient {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -293,6 +302,7 @@ export class ExtractionSchemasClient {
      * @param {Phonic.ExtractionSchemasDeleteRequest} request
      * @param {ExtractionSchemasClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link errors.PhonicError}
      * @throws {@link errors.PhonicTimeoutError}
@@ -354,6 +364,8 @@ export class ExtractionSchemasClient {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -381,6 +393,7 @@ export class ExtractionSchemasClient {
      * @param {ExtractionSchemasClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link Phonic.BadRequestError}
+     * @throws {@link Phonic.ForbiddenError}
      * @throws {@link Phonic.NotFoundError}
      * @throws {@link Phonic.ConflictError}
      * @throws {@link errors.PhonicError}
@@ -459,6 +472,8 @@ export class ExtractionSchemasClient {
             switch (_response.error.statusCode) {
                 case 400:
                     throw new Phonic.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new Phonic.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new Phonic.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
