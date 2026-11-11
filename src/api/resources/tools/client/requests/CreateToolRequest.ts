@@ -174,9 +174,9 @@ export interface CreateToolRequest {
     name: string;
     /** A description of what the tool does. */
     description: string;
-    /** The type of tool. */
+    /** The type of tool. Each type accepts only its own fields, and a field from another type is rejected with a 400 error. Most execution flags are for custom_webhook and custom_websocket tools only. built_in_transfer_to_agent accepts only require_speech_before_tool_call, built_in_transfer_to_phone_number accepts require_speech_before_tool_call and uninterruptible, and the built_in_natural_conversation_ending, built_in_keypad_input, and built_in_choose_not_to_respond types accept none of them. Leave out any field your type doesn't accept; the field's presence is rejected, so sending it as false or null also fails. See [which tool types accept each flag](https://docs.phonic.ai/docs/build/tools/how_tools_execute#which-tool-types-accept-each-flag). */
     type: CreateToolRequest.Type;
-    /** Mode of operation. */
+    /** Mode of operation. Only custom_webhook and custom_websocket tools can be async; every other type must be sync. Optional for built_in_natural_conversation_ending, built_in_keypad_input, and built_in_choose_not_to_respond tools, where it defaults to sync. */
     execution_mode: CreateToolRequest.ExecutionMode;
     /**
      * The tool's parameters, either as a flat array of parameter definitions or as a raw JSON Schema object (use the object form for nested parameters).
@@ -224,32 +224,32 @@ export interface CreateToolRequest {
     on_transfer_no_answer?: CreateToolRequest.OnTransferNoAnswer;
     /** Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool. */
     agents_to_transfer_to?: string[];
-    /** When true, forces the agent to speak before executing the tool. */
+    /** When true, forces the agent to speak before executing the tool. Available for custom_webhook, custom_websocket, custom_context, built_in_transfer_to_phone_number, and built_in_transfer_to_agent tools. The built_in_natural_conversation_ending and built_in_keypad_input types use speech_before_tool_call instead, and built_in_choose_not_to_respond takes neither. Omit it for those three types; sending it, even as false, returns a 400 error. */
     require_speech_before_tool_call?: boolean;
     /** For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types. */
     speech_before_tool_call?: CreateToolRequest.SpeechBeforeToolCall;
     /** For built_in_choose_not_to_respond tools. Number of seconds to wait after the tool fires before the agent speaks a follow-up if the user stays silent. When null, the agent stays silent (default). Not used by other tool types. */
     respond_after_sec?: number | null;
-    /** If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools. */
+    /** If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools. Omit it for every other tool type, including built_in_transfer_to_agent and built_in_transfer_to_phone_number; sending it, even as false, returns a 400 error. */
     wait_for_speech_before_tool_call?: boolean;
-    /** When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
+    /** When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. Omit it for every other tool type, including built_in_transfer_to_agent and built_in_transfer_to_phone_number; sending it, even as false, returns a 400 error. */
     forbid_speech_after_tool_call?: boolean;
-    /** When true, forbids the agent from calling the tool right after it has spoken. Available for custom_webhook and custom_websocket tools. */
+    /** When true, forbids the agent from calling the tool right after it has spoken. Available for custom_webhook and custom_websocket tools. Omit it for every other tool type, including built_in_transfer_to_agent and built_in_transfer_to_phone_number; sending it, even as false, returns a 400 error. */
     forbid_tool_call_after_speech?: boolean;
-    /** When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. */
+    /** When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. Omit it for every other tool type, including built_in_transfer_to_agent and built_in_transfer_to_phone_number; sending it, even as false, returns a 400 error. */
     allow_tool_chaining?: boolean;
-    /** The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true. */
+    /** The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true. Omit it for every other tool type, including built_in_transfer_to_agent and built_in_transfer_to_phone_number; sending it, even as false, returns a 400 error. */
     wait_for_response?: boolean;
-    /** When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Defaults to true for phone transfers and false for custom tools. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active. */
+    /** When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Defaults to true for phone transfers and false for custom tools. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active. Omit it for every other tool type, including built_in_transfer_to_agent; sending it, even as false, returns a 400 error. */
     uninterruptible?: boolean;
-    /** When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools. */
+    /** When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools. Omit it for every other tool type, including built_in_transfer_to_agent and built_in_transfer_to_phone_number; sending it, even as false, returns a 400 error. */
     can_run_during_user_speech?: boolean;
     /** The static context returned to the agent. Required for custom_context tools. */
     context?: string;
 }
 
 export namespace CreateToolRequest {
-    /** The type of tool. */
+    /** The type of tool. Each type accepts only its own fields, and a field from another type is rejected with a 400 error. Most execution flags are for custom_webhook and custom_websocket tools only. built_in_transfer_to_agent accepts only require_speech_before_tool_call, built_in_transfer_to_phone_number accepts require_speech_before_tool_call and uninterruptible, and the built_in_natural_conversation_ending, built_in_keypad_input, and built_in_choose_not_to_respond types accept none of them. Leave out any field your type doesn't accept; the field's presence is rejected, so sending it as false or null also fails. See [which tool types accept each flag](https://docs.phonic.ai/docs/build/tools/how_tools_execute#which-tool-types-accept-each-flag). */
     export const Type = {
         CustomContext: "custom_context",
         CustomWebhook: "custom_webhook",
@@ -261,7 +261,7 @@ export namespace CreateToolRequest {
         BuiltInChooseNotToRespond: "built_in_choose_not_to_respond",
     } as const;
     export type Type = (typeof Type)[keyof typeof Type];
-    /** Mode of operation. */
+    /** Mode of operation. Only custom_webhook and custom_websocket tools can be async; every other type must be sync. Optional for built_in_natural_conversation_ending, built_in_keypad_input, and built_in_choose_not_to_respond tools, where it defaults to sync. */
     export const ExecutionMode = {
         Sync: "sync",
         Async: "async",

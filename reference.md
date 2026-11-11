@@ -3000,6 +3000,415 @@ await client.apiKeys.rotate("id");
 </dl>
 </details>
 
+## Webhooks
+<details><summary><code>client.webhooks.<a href="/src/api/resources/webhooks/client/Client.ts">list</a>() -> Phonic.WebhooksListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns the workspace's webhooks, newest first.
+
+Requires workspace access. An API key restricted to selected projects
+only sees webhooks whose projects are all within its scope.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhooks.list();
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhooksClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhooks.<a href="/src/api/resources/webhooks/client/Client.ts">create</a>({ ...params }) -> Phonic.CreateWebhookResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a webhook that sends the chosen events for the chosen projects
+to `endpoint_url`. The response includes the webhook's signing secret.
+
+Requires an API key with workspace access, or an access token. An API
+key restricted to selected projects can only use projects within its
+scope.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhooks.create({
+    endpoint_url: "https://example.com/phonic/webhooks",
+    events: ["conversation.ended", "conversation.analysis"],
+    project_ids: ["proj_ad0334f1-2487-4155-9df3-abd8129b29ad"]
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Phonic.CreateWebhookRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhooksClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhooks.<a href="/src/api/resources/webhooks/client/Client.ts">get</a>(id) -> Phonic.WebhooksGetResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns a webhook.
+
+Requires workspace access. An API key restricted to selected projects
+can only get a webhook whose projects are all within its scope.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhooks.get("id");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` — The ID of the webhook.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhooksClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhooks.<a href="/src/api/resources/webhooks/client/Client.ts">delete</a>(id) -> Phonic.WebhooksDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a webhook.
+
+Requires an API key with workspace access, or an access token. An API
+key restricted to selected projects can only delete a webhook whose
+projects are all within its scope.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhooks.delete("id");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` — The ID of the webhook to delete.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhooksClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhooks.<a href="/src/api/resources/webhooks/client/Client.ts">update</a>(id, { ...params }) -> Phonic.WebhooksUpdateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates a webhook's events, projects, or both. The endpoint URL cannot
+be changed; create a new webhook instead.
+
+Requires an API key with workspace access, or an access token. An API
+key restricted to selected projects can only update a webhook whose
+current and new projects are all within its scope.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhooks.update("id", {
+    events: ["conversation.ended", "conversation.transferred"]
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` — The ID of the webhook to update.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Phonic.UpdateWebhookRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhooksClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhooks.<a href="/src/api/resources/webhooks/client/Client.ts">getSecret</a>(id) -> Phonic.WebhooksGetSecretResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns the secret used to sign the webhook's requests.
+
+Requires an API key with workspace access, or an access token. An API
+key restricted to selected projects can only get the secret of a
+webhook whose projects are all within its scope.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.webhooks.getSecret("id");
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` — The ID of the webhook.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `WebhooksClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## ConversationItems
 <details><summary><code>client.conversationItems.<a href="/src/api/resources/conversationItems/client/Client.ts">replay</a>(id, { ...params }) -> Phonic.ReplayConversationItemResponse</code></summary>
 <dl>
@@ -4653,11 +5062,16 @@ There are two different types of tool configurations:
 
 - `tool_definitions`: defined inline. Typically if you use LiveKit, this
   is where you can pass in your tool definitions.
-- `tools`: predefined tools configured in Phonic, referenced by name, in
-  the same shape as the STS WebSocket `config` message. Today this covers
-  built-in tools such as `choose_not_to_respond` and transfer tools stored
-  in `project`. Your context, webhook, MCP and WebSocket tools cannot be
-  referenced here yet; define those inline as `tool_definitions`.
+- `tools`: tools that already exist in Phonic, in the same shape as the
+  STS WebSocket `config` message. Built-in tools such as
+  `choose_not_to_respond` are passed by their built-in name or as a
+  `{type: "built_in", name, tool_config}` object. The only tools stored in
+  `project` that can be referenced by name are transfer tools (transfer to
+  phone number and transfer to agent). Stored built-in tool instances
+  (such as a saved choose not to respond, natural conversation ending or
+  keypad input tool) cannot be referenced by their saved name; pass the
+  built-in itself instead. Your context, webhook, MCP and WebSocket tools
+  cannot be referenced here yet; define those inline as `tool_definitions`.
 
 Each item in `input` is a user message, an assistant message (with
 optional `tool_calls` or an `action`), or a `tool_call_output`. Every

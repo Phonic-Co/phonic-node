@@ -13,6 +13,7 @@ import { ResponsesClient } from "./api/resources/responses/client/Client.js";
 import { ToolsClient } from "./api/resources/tools/client/Client.js";
 import { TtsClient } from "./api/resources/tts/client/Client.js";
 import { VoicesClient } from "./api/resources/voices/client/Client.js";
+import { WebhooksClient } from "./api/resources/webhooks/client/Client.js";
 import { WorkspaceClient } from "./api/resources/workspace/client/Client.js";
 import type { BaseClientOptions, BaseRequestOptions } from "./BaseClient.js";
 import { type NormalizedClientOptionsWithAuth, normalizeClientOptionsWithAuth } from "./BaseClient.js";
@@ -50,6 +51,7 @@ export class PhonicClient {
     protected _workspace: WorkspaceClient | undefined;
     protected _externalStoragePolicies: ExternalStoragePoliciesClient | undefined;
     protected _mcpServers: McpServersClient | undefined;
+    protected _webhooks: WebhooksClient | undefined;
 
     constructor(options: PhonicClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -109,6 +111,10 @@ export class PhonicClient {
 
     public get mcpServers(): McpServersClient {
         return (this._mcpServers ??= new McpServersClient(this._options));
+    }
+
+    public get webhooks(): WebhooksClient {
+        return (this._webhooks ??= new WebhooksClient(this._options));
     }
 
     /**

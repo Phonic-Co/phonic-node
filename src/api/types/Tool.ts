@@ -55,7 +55,7 @@ export interface Tool {
     on_transfer_no_answer?: Tool.OnTransferNoAnswer | undefined;
     /** Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. */
     agents_to_transfer_to?: string[] | undefined;
-    /** When true, forces the agent to speak before executing the tool. */
+    /** When true, forces the agent to speak before executing the tool. Available for custom_webhook, custom_websocket, custom_context, built_in_transfer_to_phone_number, and built_in_transfer_to_agent tools. The built_in_natural_conversation_ending and built_in_keypad_input types use speech_before_tool_call instead, and built_in_choose_not_to_respond takes neither. */
     require_speech_before_tool_call?: boolean | undefined;
     /** For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types. */
     speech_before_tool_call?: Tool.SpeechBeforeToolCall | undefined;

@@ -1,6 +1,6 @@
 {
     "name": "phonic",
-    "version": "0.33.3",
+    "version": "0.33.4",
     "private": false,
     "repository": {
         "type": "git",
@@ -110,6 +110,17 @@
                 "default": "./dist/cjs/api/resources/apiKeys/exports.js"
             },
             "default": "./dist/cjs/api/resources/apiKeys/exports.js"
+        },
+        "./webhooks": {
+            "import": {
+                "types": "./dist/esm/api/resources/webhooks/exports.d.mts",
+                "default": "./dist/esm/api/resources/webhooks/exports.mjs"
+            },
+            "require": {
+                "types": "./dist/cjs/api/resources/webhooks/exports.d.ts",
+                "default": "./dist/cjs/api/resources/webhooks/exports.js"
+            },
+            "default": "./dist/cjs/api/resources/webhooks/exports.js"
         },
         "./conversationItems": {
             "import": {

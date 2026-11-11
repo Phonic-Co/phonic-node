@@ -3,6 +3,6 @@
 import type * as Phonic from "../index.js";
 
 /**
- * A tool that already exists, referenced by name - either a built-in tool or a transfer tool stored in `project`. Use the object form to configure a built-in tool explicitly; a bare name uses the tool's default configuration.
+ * A tool that already exists - either a built-in tool or a transfer tool stored in `project`, referenced by name. Stored built-in tool instances cannot be referenced by their saved name. Use the object form to configure a built-in tool explicitly; a bare name uses the tool's default configuration.
  */
 export type ResponsesTool = Phonic.ResponsesToolName | Phonic.ResponsesBuiltInTool;

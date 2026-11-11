@@ -5,7 +5,7 @@ import type * as Phonic from "../index.js";
 export interface Agent {
     /** The ID of the agent. */
     id: string;
-    /** The name of the agent. */
+    /** The name of the agent. Always equal to `slug`; agents have no separate display name. */
     name: string;
     /** The phone number that the agent uses to accept calls. `null` if the agent is not associated with a phone number, in which can the agent can be used via WebSockets. This field is deprecated. Use `phone_numbers` instead. */
     phone_number: string | null;
