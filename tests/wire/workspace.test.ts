@@ -16,6 +16,8 @@ describe("WorkspaceClient", () => {
         const rawResponseBody = {
             active_conversations: 3,
             max_active_conversations: 10,
+            active_agents: 3,
+            max_agents: 10,
             logo_url: "https://example.com/logo.png",
             invite_link_allowed_domains: ["example.com"],
             ip_allowlist: ["203.0.113.0/24"],

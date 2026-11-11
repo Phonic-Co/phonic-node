@@ -3,9 +3,9 @@
 import type * as Phonic from "../index.js";
 
 export interface CreateAgentRequest {
-    /** The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
+    /** Deprecated alias of `slug`; agents have no separate display name. If both `name` and `slug` are provided, `slug` takes precedence and `name` is set to the same value. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
     name: string;
-    /** URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
+    /** URL-friendly agent slug, which also serves as the agent's `name`. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project. */
     slug?: string | undefined;
     /** When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`. */
     phone_number?: (CreateAgentRequest.PhoneNumber | null) | undefined;

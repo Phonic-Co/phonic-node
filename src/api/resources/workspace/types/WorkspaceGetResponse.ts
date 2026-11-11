@@ -5,6 +5,10 @@ export interface WorkspaceGetResponse {
     active_conversations: number;
     /** Maximum number of concurrent conversations allowed for this workspace. */
     max_active_conversations: number;
+    /** Number of enabled agents in this workspace. Disabled and deleted agents, and agents in deleted projects, are not counted. */
+    active_agents: number;
+    /** Maximum number of enabled agents allowed for this workspace. */
+    max_agents: number;
     /** URL of the workspace logo (PNG or SVG), or null if not set. */
     logo_url: string | null;
     /** Email domains allowed to join the workspace via invite link. */

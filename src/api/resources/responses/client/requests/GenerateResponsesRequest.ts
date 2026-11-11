@@ -66,7 +66,7 @@ export interface GenerateResponsesRequest {
     tool_definitions?: Phonic.ResponsesToolDefinition[];
     /** Name of the project the tools referenced by name in `tools` belong to. Required whenever `tools` names a tool stored in your workspace; built-in tools can be referenced without it. */
     project?: string;
-    /** Tools the assistant may call that already exist - a built-in tool, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced here yet; define them inline as `tool_definitions` instead. */
+    /** Tools the assistant may call that already exist - a built-in tool, passed by its built-in name or as a `built_in` object, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced by name here yet. For a stored built-in tool instance, pass the built-in itself (for example `choose_not_to_respond`, or a `built_in` object with its `tool_config`); define other stored tools inline as `tool_definitions` instead. */
     tools?: Phonic.ResponsesTool[];
     /** The Phonic speech-to-speech model to generate with. Omit it to use the current default model. */
     model?: GenerateResponsesRequest.Model;
