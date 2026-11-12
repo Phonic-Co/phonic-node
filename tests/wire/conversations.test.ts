@@ -68,6 +68,7 @@ describe("ConversationsClient", () => {
                     vad_threshold: 0.38,
                     turn_taking: "standard",
                     max_conversation_duration_sec: 7200,
+                    detect_voicemail_tone: true,
                     task_results: { key: "value" },
                     items: [
                         {
@@ -195,6 +196,7 @@ describe("ConversationsClient", () => {
                 vad_threshold: 0.38,
                 turn_taking: "standard",
                 max_conversation_duration_sec: 7200,
+                detect_voicemail_tone: true,
                 task_results: { key: "value" },
                 items: [
                     {
@@ -408,6 +410,7 @@ describe("ConversationsClient", () => {
                 vad_threshold: 0.38,
                 turn_taking: "standard",
                 max_conversation_duration_sec: 7200,
+                detect_voicemail_tone: true,
                 task_results: { key: "value" },
                 items: [
                     {
@@ -1556,6 +1559,7 @@ describe("ConversationsClient", () => {
                 min_words_to_interrupt: 1,
                 turn_taking: "standard",
                 max_conversation_duration_sec: 7200,
+                detect_voicemail_tone: true,
                 tools: ["keypad_input"],
             },
             dry_run: false,
@@ -1600,6 +1604,7 @@ describe("ConversationsClient", () => {
                 min_words_to_interrupt: 1,
                 turn_taking: "standard",
                 max_conversation_duration_sec: 7200,
+                detect_voicemail_tone: true,
                 tools: ["keypad_input"],
             },
             dry_run: false,
@@ -1635,6 +1640,7 @@ describe("ConversationsClient", () => {
                 min_words_to_interrupt: 1,
                 turn_taking: "standard",
                 max_conversation_duration_sec: 7200,
+                detect_voicemail_tone: true,
                 tools: ["keypad_input"],
             },
             dry_run: false,
@@ -1679,6 +1685,7 @@ describe("ConversationsClient", () => {
                 min_words_to_interrupt: 1,
                 turn_taking: "standard",
                 max_conversation_duration_sec: 7200,
+                detect_voicemail_tone: true,
                 tools: ["keypad_input"],
             },
             dry_run: false,

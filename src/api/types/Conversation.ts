@@ -97,6 +97,8 @@ export interface Conversation {
     turn_taking: Conversation.TurnTaking;
     /** Maximum duration of the conversation in seconds. */
     max_conversation_duration_sec: number;
+    /** Whether voicemail tone detection was enabled for the conversation. */
+    detect_voicemail_tone: boolean;
     /** Results from conversation evaluations and extractions. */
     task_results: Record<string, unknown>;
     /** Array of conversation items (turns). */

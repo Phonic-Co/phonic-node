@@ -21,6 +21,7 @@ describe("WorkspaceClient", () => {
             logo_url: "https://example.com/logo.png",
             invite_link_allowed_domains: ["example.com"],
             ip_allowlist: ["203.0.113.0/24"],
+            alerts: { configuration_endpoint_error: { emails: ["oncall@example.com"] } },
         };
 
         server.mockEndpoint().get("/workspace").respondWith().statusCode(200).jsonBody(rawResponseBody).build();

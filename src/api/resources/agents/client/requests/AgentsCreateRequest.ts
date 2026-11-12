@@ -40,6 +40,7 @@ import type * as Phonic from "../../../../index.js";
  *         min_words_to_interrupt: 1,
  *         turn_taking: "standard",
  *         max_conversation_duration_sec: 7200,
+ *         detect_voicemail_tone: true,
  *         configuration_endpoint: {
  *             url: "https://api.example.com/config",
  *             headers: {
@@ -138,6 +139,8 @@ export interface AgentsCreateRequest {
     turn_taking?: Phonic.CreateAgentRequest.TurnTaking;
     /** Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended. */
     max_conversation_duration_sec?: number;
+    /** Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls. */
+    detect_voicemail_tone?: boolean;
     /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options. */
     configuration_endpoint?: Phonic.CreateAgentRequest.ConfigurationEndpoint | null;
     /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0. */

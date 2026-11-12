@@ -56,6 +56,8 @@ export interface OutboundCallConfig {
     turn_taking?: OutboundCallConfig.TurnTaking | undefined;
     /** Maximum duration of the conversation in seconds. When the limit is reached, the conversation is ended. Defaults to the agent's `max_conversation_duration_sec`, or `7200`. */
     max_conversation_duration_sec?: number | undefined;
+    /** Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls. Defaults to the agent's `detect_voicemail_tone`, or `true`. */
+    detect_voicemail_tone?: boolean | undefined;
     /** Array of built-in or custom tool names to use. A built-in tool can also be passed as an object to set its configuration, e.g. `{ "type": "built_in", "name": "choose_not_to_respond", "tool_config": { "respond_after_sec": 5 } }`. A bare name uses the tool's default configuration. */
     tools?: OutboundCallConfig.Tools.Item[] | undefined;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends. */
