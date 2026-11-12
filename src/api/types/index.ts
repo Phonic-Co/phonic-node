@@ -112,3 +112,4 @@ export * from "./WarningPayload.js";
 export * from "./Webhook.js";
 export * from "./WebhookEvent.js";
 export * from "./WebSearchToolConfig.js";
+export * from "./WorkspaceAlert.js";

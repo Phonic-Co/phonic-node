@@ -157,6 +157,7 @@ export class AgentsClient {
      *         min_words_to_interrupt: 1,
      *         turn_taking: "standard",
      *         max_conversation_duration_sec: 7200,
+     *         detect_voicemail_tone: true,
      *         configuration_endpoint: {
      *             url: "https://api.example.com/config",
      *             headers: {
@@ -294,6 +295,7 @@ export class AgentsClient {
      *         min_words_to_interrupt: 1,
      *         turn_taking: "standard",
      *         max_conversation_duration_sec: 7200,
+     *         detect_voicemail_tone: true,
      *         configuration_endpoint: {
      *             url: "https://api.example.com/config",
      *             headers: {
@@ -588,6 +590,7 @@ export class AgentsClient {
      *         min_words_to_interrupt: 1,
      *         turn_taking: "standard",
      *         max_conversation_duration_sec: 7200,
+     *         detect_voicemail_tone: true,
      *         configuration_endpoint: {
      *             url: "https://api.example.com/config",
      *             headers: {
