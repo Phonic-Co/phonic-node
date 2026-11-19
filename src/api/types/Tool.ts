@@ -17,6 +17,7 @@ export interface Tool {
     /**
      * The tool's parameters, returned in the same form they were defined in.
      * Tools defined with a flat list of parameters return an array of parameter definitions (with `location` included inline for `custom_webhook` tools).
+     * The order of this array is not guaranteed to match the order you sent when creating or updating the tool, so match parameters by `name` rather than by position.
      * Tools defined with a raw JSON Schema object return that object; for `custom_webhook` tools the parameter placement is then returned separately in `parameter_locations`.
      */
     parameters: Tool.Parameters;
@@ -106,6 +107,7 @@ export namespace Tool {
     /**
      * The tool's parameters, returned in the same form they were defined in.
      * Tools defined with a flat list of parameters return an array of parameter definitions (with `location` included inline for `custom_webhook` tools).
+     * The order of this array is not guaranteed to match the order you sent when creating or updating the tool, so match parameters by `name` rather than by position.
      * Tools defined with a raw JSON Schema object return that object; for `custom_webhook` tools the parameter placement is then returned separately in `parameter_locations`.
      */
     export type Parameters = Phonic.ToolParameter[] | Phonic.ToolParametersJsonSchema;

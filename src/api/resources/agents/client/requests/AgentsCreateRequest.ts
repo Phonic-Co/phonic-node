@@ -41,6 +41,8 @@ import type * as Phonic from "../../../../index.js";
  *         turn_taking: "standard",
  *         max_conversation_duration_sec: 7200,
  *         detect_voicemail_tone: true,
+ *         input_modality: "speech",
+ *         output_modality: "speech",
  *         configuration_endpoint: {
  *             url: "https://api.example.com/config",
  *             headers: {
@@ -141,6 +143,10 @@ export interface AgentsCreateRequest {
     max_conversation_duration_sec?: number;
     /** Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls. */
     detect_voicemail_tone?: boolean;
+    /** How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Agents with `"text"` modality cannot have phone numbers. */
+    input_modality?: Phonic.CreateAgentRequest.InputModality;
+    /** How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`. */
+    output_modality?: Phonic.CreateAgentRequest.OutputModality;
     /** When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options. */
     configuration_endpoint?: Phonic.CreateAgentRequest.ConfigurationEndpoint | null;
     /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0. */

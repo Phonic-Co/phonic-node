@@ -69,6 +69,8 @@ describe("ConversationsClient", () => {
                     turn_taking: "standard",
                     max_conversation_duration_sec: 7200,
                     detect_voicemail_tone: true,
+                    input_modality: "speech",
+                    output_modality: "speech",
                     task_results: { key: "value" },
                     items: [
                         {
@@ -197,6 +199,8 @@ describe("ConversationsClient", () => {
                 turn_taking: "standard",
                 max_conversation_duration_sec: 7200,
                 detect_voicemail_tone: true,
+                input_modality: "speech",
+                output_modality: "speech",
                 task_results: { key: "value" },
                 items: [
                     {
@@ -411,6 +415,8 @@ describe("ConversationsClient", () => {
                 turn_taking: "standard",
                 max_conversation_duration_sec: 7200,
                 detect_voicemail_tone: true,
+                input_modality: "speech",
+                output_modality: "speech",
                 task_results: { key: "value" },
                 items: [
                     {
@@ -1560,6 +1566,8 @@ describe("ConversationsClient", () => {
                 turn_taking: "standard",
                 max_conversation_duration_sec: 7200,
                 detect_voicemail_tone: true,
+                input_modality: "speech",
+                output_modality: "speech",
                 tools: ["keypad_input"],
             },
             dry_run: false,
@@ -1605,6 +1613,8 @@ describe("ConversationsClient", () => {
                 turn_taking: "standard",
                 max_conversation_duration_sec: 7200,
                 detect_voicemail_tone: true,
+                input_modality: "speech",
+                output_modality: "speech",
                 tools: ["keypad_input"],
             },
             dry_run: false,
@@ -1641,6 +1651,8 @@ describe("ConversationsClient", () => {
                 turn_taking: "standard",
                 max_conversation_duration_sec: 7200,
                 detect_voicemail_tone: true,
+                input_modality: "speech",
+                output_modality: "speech",
                 tools: ["keypad_input"],
             },
             dry_run: false,
@@ -1686,6 +1698,8 @@ describe("ConversationsClient", () => {
                 turn_taking: "standard",
                 max_conversation_duration_sec: 7200,
                 detect_voicemail_tone: true,
+                input_modality: "speech",
+                output_modality: "speech",
                 tools: ["keypad_input"],
             },
             dry_run: false,

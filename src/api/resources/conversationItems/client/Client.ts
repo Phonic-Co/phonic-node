@@ -25,11 +25,11 @@ export class ConversationItemsClient {
 
     /**
      * Returns the alternative response(s) the assistant would have
-     * produced for this conversation turn given changes to the agent system prompt.
+     * produced for this conversation turn given changes to the system prompt or model.
      *
      * Only assistant items from ended conversations can be replayed. Omit the
-     * request body (or omit `system_prompt`) to replay the turn exactly as it
-     * originally ran.
+     * request body to use the original prompt and model. Set `model` to compare
+     * the same turn on another model available to your workspace.
      *
      * @param {string} id - The ID of the conversation item to replay.
      * @param {Phonic.ReplayConversationItemRequest} request

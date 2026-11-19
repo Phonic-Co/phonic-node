@@ -66,6 +66,8 @@ describe("AgentsClient", () => {
                     turn_taking: "standard",
                     max_conversation_duration_sec: 7200,
                     detect_voicemail_tone: true,
+                    input_modality: "speech",
+                    output_modality: "speech",
                     configuration_endpoint: {
                         url: "https://api.example.com/config",
                         headers: { Authorization: "Bearer token123" },
@@ -183,6 +185,8 @@ describe("AgentsClient", () => {
             turn_taking: "standard",
             max_conversation_duration_sec: 7200,
             detect_voicemail_tone: true,
+            input_modality: "speech",
+            output_modality: "speech",
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: { Authorization: "Bearer token123" },
@@ -239,6 +243,8 @@ describe("AgentsClient", () => {
             turn_taking: "standard",
             max_conversation_duration_sec: 7200,
             detect_voicemail_tone: true,
+            input_modality: "speech",
+            output_modality: "speech",
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: {
@@ -413,6 +419,8 @@ describe("AgentsClient", () => {
             turn_taking: "standard",
             max_conversation_duration_sec: 7200,
             detect_voicemail_tone: true,
+            input_modality: "speech",
+            output_modality: "speech",
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: { Authorization: "Bearer token123" },
@@ -468,6 +476,8 @@ describe("AgentsClient", () => {
                 turn_taking: "standard",
                 max_conversation_duration_sec: 7200,
                 detect_voicemail_tone: true,
+                input_modality: "speech",
+                output_modality: "speech",
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
                     headers: { Authorization: "Bearer token123" },
@@ -544,6 +554,8 @@ describe("AgentsClient", () => {
             turn_taking: "standard",
             max_conversation_duration_sec: 7200,
             detect_voicemail_tone: true,
+            input_modality: "speech",
+            output_modality: "speech",
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: {
@@ -716,6 +728,8 @@ describe("AgentsClient", () => {
                 turn_taking: "standard",
                 max_conversation_duration_sec: 7200,
                 detect_voicemail_tone: true,
+                input_modality: "speech",
+                output_modality: "speech",
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
                     headers: { Authorization: "Bearer token123" },
@@ -887,6 +901,8 @@ describe("AgentsClient", () => {
             turn_taking: "standard",
             max_conversation_duration_sec: 7200,
             detect_voicemail_tone: true,
+            input_modality: "speech",
+            output_modality: "speech",
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: { Authorization: "Bearer token123" },
@@ -941,6 +957,8 @@ describe("AgentsClient", () => {
                 turn_taking: "standard",
                 max_conversation_duration_sec: 7200,
                 detect_voicemail_tone: true,
+                input_modality: "speech",
+                output_modality: "speech",
                 configuration_endpoint: {
                     url: "https://api.example.com/config",
                     headers: { Authorization: "Bearer token123" },
@@ -1015,6 +1033,8 @@ describe("AgentsClient", () => {
             turn_taking: "standard",
             max_conversation_duration_sec: 7200,
             detect_voicemail_tone: true,
+            input_modality: "speech",
+            output_modality: "speech",
             configuration_endpoint: {
                 url: "https://api.example.com/config",
                 headers: {

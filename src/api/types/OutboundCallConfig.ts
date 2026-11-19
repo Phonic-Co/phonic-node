@@ -58,6 +58,10 @@ export interface OutboundCallConfig {
     max_conversation_duration_sec?: number | undefined;
     /** Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls. Defaults to the agent's `detect_voicemail_tone`, or `true`. */
     detect_voicemail_tone?: boolean | undefined;
+    /** How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Phone calls only support `"speech"`. Defaults to the agent's `input_modality`, or `"speech"`. */
+    input_modality?: OutboundCallConfig.InputModality | undefined;
+    /** How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`. Defaults to the agent's `output_modality`, or `"speech"`. */
+    output_modality?: OutboundCallConfig.OutputModality | undefined;
     /** Array of built-in or custom tool names to use. A built-in tool can also be passed as an object to set its configuration, e.g. `{ "type": "built_in", "name": "choose_not_to_respond", "tool_config": { "respond_after_sec": 5 } }`. A bare name uses the tool's default configuration. */
     tools?: OutboundCallConfig.Tools.Item[] | undefined;
     /** When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends. */
@@ -129,6 +133,18 @@ export namespace OutboundCallConfig {
         VeryPatient: "very_patient",
     } as const;
     export type TurnTaking = (typeof TurnTaking)[keyof typeof TurnTaking];
+    /** How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Phone calls only support `"speech"`. Defaults to the agent's `input_modality`, or `"speech"`. */
+    export const InputModality = {
+        Speech: "speech",
+        Text: "text",
+    } as const;
+    export type InputModality = (typeof InputModality)[keyof typeof InputModality];
+    /** How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`. Defaults to the agent's `output_modality`, or `"speech"`. */
+    export const OutputModality = {
+        Speech: "speech",
+        Text: "text",
+    } as const;
+    export type OutputModality = (typeof OutputModality)[keyof typeof OutputModality];
     export type Tools = Tools.Item[];
 
     export namespace Tools {
