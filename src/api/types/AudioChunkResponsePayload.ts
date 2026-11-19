@@ -2,7 +2,7 @@
 
 export interface AudioChunkResponsePayload {
     type: "audio_chunk";
-    /** Base64-encoded AI audio data */
+    /** Base64-encoded AI audio data. Empty when the conversation's `output_modality` is `"text"`. */
     audio: string;
     /** Text corresponding to audio chunk */
     text: string;

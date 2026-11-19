@@ -89,6 +89,10 @@ export interface Agent {
     max_conversation_duration_sec: number;
     /** Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls. */
     detect_voicemail_tone: boolean;
+    /** How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Agents with `"text"` modality cannot have phone numbers. */
+    input_modality: Agent.InputModality;
+    /** How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`. */
+    output_modality: Agent.OutputModality;
     /** When not `null`, the agent will call this endpoint to get configuration options. */
     configuration_endpoint: Agent.ConfigurationEndpoint | null;
     /** Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Requires `phone_number` to be set when less than 1.0. */
@@ -199,6 +203,18 @@ export namespace Agent {
         VeryPatient: "very_patient",
     } as const;
     export type TurnTaking = (typeof TurnTaking)[keyof typeof TurnTaking];
+    /** How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Agents with `"text"` modality cannot have phone numbers. */
+    export const InputModality = {
+        Speech: "speech",
+        Text: "text",
+    } as const;
+    export type InputModality = (typeof InputModality)[keyof typeof InputModality];
+    /** How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`. */
+    export const OutputModality = {
+        Speech: "speech",
+        Text: "text",
+    } as const;
+    export type OutputModality = (typeof OutputModality)[keyof typeof OutputModality];
 
     /**
      * When not `null`, the agent will call this endpoint to get configuration options.

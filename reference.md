@@ -127,6 +127,8 @@ await client.agents.create({
     turn_taking: "standard",
     max_conversation_duration_sec: 7200,
     detect_voicemail_tone: true,
+    input_modality: "speech",
+    output_modality: "speech",
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
@@ -234,6 +236,8 @@ await client.agents.upsert({
     turn_taking: "standard",
     max_conversation_duration_sec: 7200,
     detect_voicemail_tone: true,
+    input_modality: "speech",
+    output_modality: "speech",
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
@@ -487,6 +491,8 @@ await client.agents.update("nameOrId", {
     turn_taking: "standard",
     max_conversation_duration_sec: 7200,
     detect_voicemail_tone: true,
+    input_modality: "speech",
+    output_modality: "speech",
     configuration_endpoint: {
         url: "https://api.example.com/config",
         headers: {
@@ -3426,11 +3432,11 @@ await client.webhooks.getSecret("id");
 <dd>
 
 Returns the alternative response(s) the assistant would have
-produced for this conversation turn given changes to the agent system prompt.
+produced for this conversation turn given changes to the system prompt or model.
 
 Only assistant items from ended conversations can be replayed. Omit the
-request body (or omit `system_prompt`) to replay the turn exactly as it
-originally ran.
+request body to use the original prompt and model. Set `model` to compare
+the same turn on another model available to your workspace.
 </dd>
 </dl>
 </dd>
@@ -4140,6 +4146,8 @@ await client.conversations.outboundCall({
         turn_taking: "standard",
         max_conversation_duration_sec: 7200,
         detect_voicemail_tone: true,
+        input_modality: "speech",
+        output_modality: "speech",
         tools: ["keypad_input"]
     },
     dry_run: false

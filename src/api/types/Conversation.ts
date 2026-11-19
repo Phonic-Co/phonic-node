@@ -99,6 +99,10 @@ export interface Conversation {
     max_conversation_duration_sec: number;
     /** Whether voicemail tone detection was enabled for the conversation. */
     detect_voicemail_tone: boolean;
+    /** Whether the user talked to the agent with `"speech"` or `"text"` in the conversation. */
+    input_modality: Conversation.InputModality;
+    /** Whether the agent replied with `"speech"` or `"text"` in the conversation. */
+    output_modality: Conversation.OutputModality;
     /** Results from conversation evaluations and extractions. */
     task_results: Record<string, unknown>;
     /** Array of conversation items (turns). */
@@ -227,6 +231,18 @@ export namespace Conversation {
         VeryPatient: "very_patient",
     } as const;
     export type TurnTaking = (typeof TurnTaking)[keyof typeof TurnTaking];
+    /** Whether the user talked to the agent with `"speech"` or `"text"` in the conversation. */
+    export const InputModality = {
+        Speech: "speech",
+        Text: "text",
+    } as const;
+    export type InputModality = (typeof InputModality)[keyof typeof InputModality];
+    /** Whether the agent replied with `"speech"` or `"text"` in the conversation. */
+    export const OutputModality = {
+        Speech: "speech",
+        Text: "text",
+    } as const;
+    export type OutputModality = (typeof OutputModality)[keyof typeof OutputModality];
 
     /**
      * Phone call metadata. `null` for non-phone call conversations.
