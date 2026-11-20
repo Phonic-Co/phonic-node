@@ -27,7 +27,7 @@ export interface CreateAgentRequest {
     background_noise_level?: number | undefined;
     /** The background noise type. Can be "office", "call-center", "coffee-shop", or null. */
     background_noise?: (CreateAgentRequest.BackgroundNoise | null) | undefined;
-    /** When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. */
+    /** When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. When omitted, defaults to `false` if a non-empty `welcome_message` is provided, and `true` otherwise. */
     generate_welcome_message?: boolean | undefined;
     /** When `false`, the welcome message will not be interruptible by the user. */
     is_welcome_message_interruptible?: boolean | undefined;
