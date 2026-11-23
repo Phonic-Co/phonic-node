@@ -123,7 +123,7 @@ export namespace ConfigOptions {
     /**
      * The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
      */
-    export type Model = "phonic-0.5" | "phonic-1" | string;
+    export type Model = "phonic-0.5" | "phonic-1" | "phonic-1.1" | string;
     /** Background noise type for the conversation */
     export const BackgroundNoise = {
         Office: "office",
@@ -187,7 +187,7 @@ export namespace ConfigOptions {
     /**
      * The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
      */
-    export type PhonicModel = "phonic-0.5" | "phonic-1" | string;
+    export type PhonicModel = "phonic-0.5" | "phonic-1" | "phonic-1.1" | string;
     export type PronunciationDictionary = PronunciationDictionary.Item[];
 
     export namespace PronunciationDictionary {

@@ -82,11 +82,11 @@ export namespace GenerateResponsesRequest {
     /**
      * The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
      */
-    export type Model = "phonic-0.5" | "phonic-1" | string;
+    export type Model = "phonic-0.5" | "phonic-1" | "phonic-1.1" | string;
     /**
      * The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
      */
-    export type PhonicModel = "phonic-0.5" | "phonic-1" | string;
+    export type PhonicModel = "phonic-0.5" | "phonic-1" | "phonic-1.1" | string;
     /** The intelligence level of the assistant. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency. */
     export const IntelligenceLevel = {
         Standard: "standard",
