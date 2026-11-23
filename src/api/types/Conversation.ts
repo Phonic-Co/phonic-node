@@ -173,7 +173,7 @@ export namespace Conversation {
     /**
      * The Phonic speech-to-speech model used for the conversation.
      */
-    export type Model = "phonic-0.5" | "phonic-1" | string;
+    export type Model = "phonic-0.5" | "phonic-1" | "phonic-1.1" | string;
     /** The background noise type used in the conversation. */
     export const BackgroundNoise = {
         Office: "office",
@@ -220,7 +220,7 @@ export namespace Conversation {
     /**
      * The Phonic speech-to-speech model used for the conversation. This field is deprecated. Use `model` instead.
      */
-    export type PhonicModel = "phonic-0.5" | "phonic-1" | string;
+    export type PhonicModel = "phonic-0.5" | "phonic-1" | "phonic-1.1" | string;
     /** How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. */
     export const TurnTaking = {
         Eager: "eager",

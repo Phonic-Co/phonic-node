@@ -17,5 +17,5 @@ export namespace ReplayConversationItemRequest {
     /**
      * Optional model override for this replay. Omit it to use the original model. Select a model available to your workspace. Phonic 0.5 (phonic-0.5) is deprecated and remains available only to customers who used it before Phonic 1 launched. The conversation's saved intelligence level is retained.
      */
-    export type Model = "phonic-0.5" | "phonic-1" | string;
+    export type Model = "phonic-0.5" | "phonic-1" | "phonic-1.1" | string;
 }
