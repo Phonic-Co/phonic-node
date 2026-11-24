@@ -15,9 +15,8 @@ import type * as Phonic from "../../../../index.js";
  *                 "subject": "Chess"
  *             },
  *             voice_id: "sabrina",
- *             generate_no_input_poke_text: false,
+ *             generate_no_input_poke_text: true,
  *             no_input_poke_sec: 30,
- *             no_input_poke_text: "Are you still there?",
  *             no_input_end_conversation_sec: 180,
  *             default_language: "en",
  *             additional_languages: ["es"],
